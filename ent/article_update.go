@@ -27,43 +27,143 @@ func (au *ArticleUpdate) Where(ps ...predicate.Article) *ArticleUpdate {
 	return au
 }
 
-// SetTitleChinese sets the "title_chinese" field.
-func (au *ArticleUpdate) SetTitleChinese(s string) *ArticleUpdate {
-	au.mutation.SetTitleChinese(s)
+// SetTitleEn sets the "title_en" field.
+func (au *ArticleUpdate) SetTitleEn(s string) *ArticleUpdate {
+	au.mutation.SetTitleEn(s)
 	return au
 }
 
-// SetNillableTitleChinese sets the "title_chinese" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableTitleChinese(s *string) *ArticleUpdate {
+// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableTitleEn(s *string) *ArticleUpdate {
 	if s != nil {
-		au.SetTitleChinese(*s)
+		au.SetTitleEn(*s)
 	}
 	return au
 }
 
-// ClearTitleChinese clears the value of the "title_chinese" field.
-func (au *ArticleUpdate) ClearTitleChinese() *ArticleUpdate {
-	au.mutation.ClearTitleChinese()
+// ClearTitleEn clears the value of the "title_en" field.
+func (au *ArticleUpdate) ClearTitleEn() *ArticleUpdate {
+	au.mutation.ClearTitleEn()
 	return au
 }
 
-// SetSummaryChinese sets the "summary_chinese" field.
-func (au *ArticleUpdate) SetSummaryChinese(s string) *ArticleUpdate {
-	au.mutation.SetSummaryChinese(s)
+// SetTitleCn sets the "title_cn" field.
+func (au *ArticleUpdate) SetTitleCn(s string) *ArticleUpdate {
+	au.mutation.SetTitleCn(s)
 	return au
 }
 
-// SetNillableSummaryChinese sets the "summary_chinese" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableSummaryChinese(s *string) *ArticleUpdate {
+// SetNillableTitleCn sets the "title_cn" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableTitleCn(s *string) *ArticleUpdate {
 	if s != nil {
-		au.SetSummaryChinese(*s)
+		au.SetTitleCn(*s)
 	}
 	return au
 }
 
-// ClearSummaryChinese clears the value of the "summary_chinese" field.
-func (au *ArticleUpdate) ClearSummaryChinese() *ArticleUpdate {
-	au.mutation.ClearSummaryChinese()
+// ClearTitleCn clears the value of the "title_cn" field.
+func (au *ArticleUpdate) ClearTitleCn() *ArticleUpdate {
+	au.mutation.ClearTitleCn()
+	return au
+}
+
+// SetRawEn sets the "raw_en" field.
+func (au *ArticleUpdate) SetRawEn(s string) *ArticleUpdate {
+	au.mutation.SetRawEn(s)
+	return au
+}
+
+// SetNillableRawEn sets the "raw_en" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableRawEn(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetRawEn(*s)
+	}
+	return au
+}
+
+// ClearRawEn clears the value of the "raw_en" field.
+func (au *ArticleUpdate) ClearRawEn() *ArticleUpdate {
+	au.mutation.ClearRawEn()
+	return au
+}
+
+// SetRawCn sets the "raw_cn" field.
+func (au *ArticleUpdate) SetRawCn(s string) *ArticleUpdate {
+	au.mutation.SetRawCn(s)
+	return au
+}
+
+// SetNillableRawCn sets the "raw_cn" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableRawCn(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetRawCn(*s)
+	}
+	return au
+}
+
+// ClearRawCn clears the value of the "raw_cn" field.
+func (au *ArticleUpdate) ClearRawCn() *ArticleUpdate {
+	au.mutation.ClearRawCn()
+	return au
+}
+
+// SetPreviewEn sets the "preview_en" field.
+func (au *ArticleUpdate) SetPreviewEn(s string) *ArticleUpdate {
+	au.mutation.SetPreviewEn(s)
+	return au
+}
+
+// SetNillablePreviewEn sets the "preview_en" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillablePreviewEn(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetPreviewEn(*s)
+	}
+	return au
+}
+
+// ClearPreviewEn clears the value of the "preview_en" field.
+func (au *ArticleUpdate) ClearPreviewEn() *ArticleUpdate {
+	au.mutation.ClearPreviewEn()
+	return au
+}
+
+// SetPreviewCn sets the "preview_cn" field.
+func (au *ArticleUpdate) SetPreviewCn(s string) *ArticleUpdate {
+	au.mutation.SetPreviewCn(s)
+	return au
+}
+
+// SetNillablePreviewCn sets the "preview_cn" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillablePreviewCn(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetPreviewCn(*s)
+	}
+	return au
+}
+
+// ClearPreviewCn clears the value of the "preview_cn" field.
+func (au *ArticleUpdate) ClearPreviewCn() *ArticleUpdate {
+	au.mutation.ClearPreviewCn()
+	return au
+}
+
+// SetSummaryCn sets the "summary_cn" field.
+func (au *ArticleUpdate) SetSummaryCn(s string) *ArticleUpdate {
+	au.mutation.SetSummaryCn(s)
+	return au
+}
+
+// SetNillableSummaryCn sets the "summary_cn" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableSummaryCn(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetSummaryCn(*s)
+	}
+	return au
+}
+
+// ClearSummaryCn clears the value of the "summary_cn" field.
+func (au *ArticleUpdate) ClearSummaryCn() *ArticleUpdate {
+	au.mutation.ClearSummaryCn()
 	return au
 }
 
@@ -108,20 +208,53 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := au.mutation.TitleChinese(); ok {
-		_spec.SetField(article.FieldTitleChinese, field.TypeString, value)
+	if value, ok := au.mutation.TitleEn(); ok {
+		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
 	}
-	if au.mutation.TitleChineseCleared() {
-		_spec.ClearField(article.FieldTitleChinese, field.TypeString)
+	if au.mutation.TitleEnCleared() {
+		_spec.ClearField(article.FieldTitleEn, field.TypeString)
+	}
+	if value, ok := au.mutation.TitleCn(); ok {
+		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
+	}
+	if au.mutation.TitleCnCleared() {
+		_spec.ClearField(article.FieldTitleCn, field.TypeString)
 	}
 	if au.mutation.AuthorCleared() {
 		_spec.ClearField(article.FieldAuthor, field.TypeString)
 	}
-	if value, ok := au.mutation.SummaryChinese(); ok {
-		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	if au.mutation.TagsCleared() {
+		_spec.ClearField(article.FieldTags, field.TypeJSON)
 	}
-	if au.mutation.SummaryChineseCleared() {
-		_spec.ClearField(article.FieldSummaryChinese, field.TypeString)
+	if value, ok := au.mutation.RawEn(); ok {
+		_spec.SetField(article.FieldRawEn, field.TypeString, value)
+	}
+	if au.mutation.RawEnCleared() {
+		_spec.ClearField(article.FieldRawEn, field.TypeString)
+	}
+	if value, ok := au.mutation.RawCn(); ok {
+		_spec.SetField(article.FieldRawCn, field.TypeString, value)
+	}
+	if au.mutation.RawCnCleared() {
+		_spec.ClearField(article.FieldRawCn, field.TypeString)
+	}
+	if value, ok := au.mutation.PreviewEn(); ok {
+		_spec.SetField(article.FieldPreviewEn, field.TypeString, value)
+	}
+	if au.mutation.PreviewEnCleared() {
+		_spec.ClearField(article.FieldPreviewEn, field.TypeString)
+	}
+	if value, ok := au.mutation.PreviewCn(); ok {
+		_spec.SetField(article.FieldPreviewCn, field.TypeString, value)
+	}
+	if au.mutation.PreviewCnCleared() {
+		_spec.ClearField(article.FieldPreviewCn, field.TypeString)
+	}
+	if value, ok := au.mutation.SummaryCn(); ok {
+		_spec.SetField(article.FieldSummaryCn, field.TypeString, value)
+	}
+	if au.mutation.SummaryCnCleared() {
+		_spec.ClearField(article.FieldSummaryCn, field.TypeString)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -143,43 +276,143 @@ type ArticleUpdateOne struct {
 	mutation *ArticleMutation
 }
 
-// SetTitleChinese sets the "title_chinese" field.
-func (auo *ArticleUpdateOne) SetTitleChinese(s string) *ArticleUpdateOne {
-	auo.mutation.SetTitleChinese(s)
+// SetTitleEn sets the "title_en" field.
+func (auo *ArticleUpdateOne) SetTitleEn(s string) *ArticleUpdateOne {
+	auo.mutation.SetTitleEn(s)
 	return auo
 }
 
-// SetNillableTitleChinese sets the "title_chinese" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableTitleChinese(s *string) *ArticleUpdateOne {
+// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableTitleEn(s *string) *ArticleUpdateOne {
 	if s != nil {
-		auo.SetTitleChinese(*s)
+		auo.SetTitleEn(*s)
 	}
 	return auo
 }
 
-// ClearTitleChinese clears the value of the "title_chinese" field.
-func (auo *ArticleUpdateOne) ClearTitleChinese() *ArticleUpdateOne {
-	auo.mutation.ClearTitleChinese()
+// ClearTitleEn clears the value of the "title_en" field.
+func (auo *ArticleUpdateOne) ClearTitleEn() *ArticleUpdateOne {
+	auo.mutation.ClearTitleEn()
 	return auo
 }
 
-// SetSummaryChinese sets the "summary_chinese" field.
-func (auo *ArticleUpdateOne) SetSummaryChinese(s string) *ArticleUpdateOne {
-	auo.mutation.SetSummaryChinese(s)
+// SetTitleCn sets the "title_cn" field.
+func (auo *ArticleUpdateOne) SetTitleCn(s string) *ArticleUpdateOne {
+	auo.mutation.SetTitleCn(s)
 	return auo
 }
 
-// SetNillableSummaryChinese sets the "summary_chinese" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableSummaryChinese(s *string) *ArticleUpdateOne {
+// SetNillableTitleCn sets the "title_cn" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableTitleCn(s *string) *ArticleUpdateOne {
 	if s != nil {
-		auo.SetSummaryChinese(*s)
+		auo.SetTitleCn(*s)
 	}
 	return auo
 }
 
-// ClearSummaryChinese clears the value of the "summary_chinese" field.
-func (auo *ArticleUpdateOne) ClearSummaryChinese() *ArticleUpdateOne {
-	auo.mutation.ClearSummaryChinese()
+// ClearTitleCn clears the value of the "title_cn" field.
+func (auo *ArticleUpdateOne) ClearTitleCn() *ArticleUpdateOne {
+	auo.mutation.ClearTitleCn()
+	return auo
+}
+
+// SetRawEn sets the "raw_en" field.
+func (auo *ArticleUpdateOne) SetRawEn(s string) *ArticleUpdateOne {
+	auo.mutation.SetRawEn(s)
+	return auo
+}
+
+// SetNillableRawEn sets the "raw_en" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableRawEn(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetRawEn(*s)
+	}
+	return auo
+}
+
+// ClearRawEn clears the value of the "raw_en" field.
+func (auo *ArticleUpdateOne) ClearRawEn() *ArticleUpdateOne {
+	auo.mutation.ClearRawEn()
+	return auo
+}
+
+// SetRawCn sets the "raw_cn" field.
+func (auo *ArticleUpdateOne) SetRawCn(s string) *ArticleUpdateOne {
+	auo.mutation.SetRawCn(s)
+	return auo
+}
+
+// SetNillableRawCn sets the "raw_cn" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableRawCn(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetRawCn(*s)
+	}
+	return auo
+}
+
+// ClearRawCn clears the value of the "raw_cn" field.
+func (auo *ArticleUpdateOne) ClearRawCn() *ArticleUpdateOne {
+	auo.mutation.ClearRawCn()
+	return auo
+}
+
+// SetPreviewEn sets the "preview_en" field.
+func (auo *ArticleUpdateOne) SetPreviewEn(s string) *ArticleUpdateOne {
+	auo.mutation.SetPreviewEn(s)
+	return auo
+}
+
+// SetNillablePreviewEn sets the "preview_en" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillablePreviewEn(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetPreviewEn(*s)
+	}
+	return auo
+}
+
+// ClearPreviewEn clears the value of the "preview_en" field.
+func (auo *ArticleUpdateOne) ClearPreviewEn() *ArticleUpdateOne {
+	auo.mutation.ClearPreviewEn()
+	return auo
+}
+
+// SetPreviewCn sets the "preview_cn" field.
+func (auo *ArticleUpdateOne) SetPreviewCn(s string) *ArticleUpdateOne {
+	auo.mutation.SetPreviewCn(s)
+	return auo
+}
+
+// SetNillablePreviewCn sets the "preview_cn" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillablePreviewCn(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetPreviewCn(*s)
+	}
+	return auo
+}
+
+// ClearPreviewCn clears the value of the "preview_cn" field.
+func (auo *ArticleUpdateOne) ClearPreviewCn() *ArticleUpdateOne {
+	auo.mutation.ClearPreviewCn()
+	return auo
+}
+
+// SetSummaryCn sets the "summary_cn" field.
+func (auo *ArticleUpdateOne) SetSummaryCn(s string) *ArticleUpdateOne {
+	auo.mutation.SetSummaryCn(s)
+	return auo
+}
+
+// SetNillableSummaryCn sets the "summary_cn" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableSummaryCn(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetSummaryCn(*s)
+	}
+	return auo
+}
+
+// ClearSummaryCn clears the value of the "summary_cn" field.
+func (auo *ArticleUpdateOne) ClearSummaryCn() *ArticleUpdateOne {
+	auo.mutation.ClearSummaryCn()
 	return auo
 }
 
@@ -254,20 +487,53 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			}
 		}
 	}
-	if value, ok := auo.mutation.TitleChinese(); ok {
-		_spec.SetField(article.FieldTitleChinese, field.TypeString, value)
+	if value, ok := auo.mutation.TitleEn(); ok {
+		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
 	}
-	if auo.mutation.TitleChineseCleared() {
-		_spec.ClearField(article.FieldTitleChinese, field.TypeString)
+	if auo.mutation.TitleEnCleared() {
+		_spec.ClearField(article.FieldTitleEn, field.TypeString)
+	}
+	if value, ok := auo.mutation.TitleCn(); ok {
+		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
+	}
+	if auo.mutation.TitleCnCleared() {
+		_spec.ClearField(article.FieldTitleCn, field.TypeString)
 	}
 	if auo.mutation.AuthorCleared() {
 		_spec.ClearField(article.FieldAuthor, field.TypeString)
 	}
-	if value, ok := auo.mutation.SummaryChinese(); ok {
-		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	if auo.mutation.TagsCleared() {
+		_spec.ClearField(article.FieldTags, field.TypeJSON)
 	}
-	if auo.mutation.SummaryChineseCleared() {
-		_spec.ClearField(article.FieldSummaryChinese, field.TypeString)
+	if value, ok := auo.mutation.RawEn(); ok {
+		_spec.SetField(article.FieldRawEn, field.TypeString, value)
+	}
+	if auo.mutation.RawEnCleared() {
+		_spec.ClearField(article.FieldRawEn, field.TypeString)
+	}
+	if value, ok := auo.mutation.RawCn(); ok {
+		_spec.SetField(article.FieldRawCn, field.TypeString, value)
+	}
+	if auo.mutation.RawCnCleared() {
+		_spec.ClearField(article.FieldRawCn, field.TypeString)
+	}
+	if value, ok := auo.mutation.PreviewEn(); ok {
+		_spec.SetField(article.FieldPreviewEn, field.TypeString, value)
+	}
+	if auo.mutation.PreviewEnCleared() {
+		_spec.ClearField(article.FieldPreviewEn, field.TypeString)
+	}
+	if value, ok := auo.mutation.PreviewCn(); ok {
+		_spec.SetField(article.FieldPreviewCn, field.TypeString, value)
+	}
+	if auo.mutation.PreviewCnCleared() {
+		_spec.ClearField(article.FieldPreviewCn, field.TypeString)
+	}
+	if value, ok := auo.mutation.SummaryCn(); ok {
+		_spec.SetField(article.FieldSummaryCn, field.TypeString, value)
+	}
+	if auo.mutation.SummaryCnCleared() {
+		_spec.ClearField(article.FieldSummaryCn, field.TypeString)
 	}
 	_node = &Article{config: auo.config}
 	_spec.Assign = _node.assignValues

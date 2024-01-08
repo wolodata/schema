@@ -14,14 +14,18 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "origin_name", Type: field.TypeString},
 		{Name: "origin_type", Type: field.TypeString},
-		{Name: "url", Type: field.TypeString, Unique: true},
-		{Name: "title", Type: field.TypeString},
-		{Name: "title_chinese", Type: field.TypeString, Nullable: true},
+		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
+		{Name: "title_en", Type: field.TypeString, Nullable: true},
+		{Name: "title_cn", Type: field.TypeString, Nullable: true},
 		{Name: "author", Type: field.TypeString, Nullable: true},
+		{Name: "tags", Type: field.TypeJSON, Nullable: true},
 		{Name: "published_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "raw", Type: field.TypeString, Size: 2147483647},
+		{Name: "raw_en", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "raw_cn", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "preview_en", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "preview_cn", Type: field.TypeString, Nullable: true, Size: 2147483647},
 		{Name: "crawled_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "summary_chinese", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "summary_cn", Type: field.TypeString, Nullable: true, Size: 2147483647},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
 	TArticleTable = &schema.Table{
@@ -30,12 +34,12 @@ var (
 		PrimaryKey: []*schema.Column{TArticleColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "article_title",
+				Name:    "article_title_en",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[4]},
 			},
 			{
-				Name:    "article_title_chinese",
+				Name:    "article_title_cn",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[5]},
 			},
@@ -51,15 +55,40 @@ var (
 			},
 		},
 	}
+	// TUserColumns holds the columns for the "t_user" table.
+	TUserColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "username", Type: field.TypeString, Unique: true},
+		{Name: "password", Type: field.TypeString},
+	}
+	// TUserTable holds the schema information for the "t_user" table.
+	TUserTable = &schema.Table{
+		Name:       "t_user",
+		Columns:    TUserColumns,
+		PrimaryKey: []*schema.Column{TUserColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "user_username",
+				Unique:  false,
+				Columns: []*schema.Column{TUserColumns[1]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		TArticleTable,
+		TUserTable,
 	}
 )
 
 func init() {
 	TArticleTable.Annotation = &entsql.Annotation{
 		Table:     "t_article",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TUserTable.Annotation = &entsql.Annotation{
+		Table:     "t_user",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

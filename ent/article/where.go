@@ -69,14 +69,14 @@ func URL(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldURL, v))
 }
 
-// Title applies equality check predicate on the "title" field. It's identical to TitleEQ.
-func Title(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldTitle, v))
+// TitleEn applies equality check predicate on the "title_en" field. It's identical to TitleEnEQ.
+func TitleEn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldTitleEn, v))
 }
 
-// TitleChinese applies equality check predicate on the "title_chinese" field. It's identical to TitleChineseEQ.
-func TitleChinese(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldTitleChinese, v))
+// TitleCn applies equality check predicate on the "title_cn" field. It's identical to TitleCnEQ.
+func TitleCn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldTitleCn, v))
 }
 
 // Author applies equality check predicate on the "author" field. It's identical to AuthorEQ.
@@ -89,9 +89,24 @@ func PublishedAt(v time.Time) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldPublishedAt, v))
 }
 
-// Raw applies equality check predicate on the "raw" field. It's identical to RawEQ.
-func Raw(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldRaw, v))
+// RawEn applies equality check predicate on the "raw_en" field. It's identical to RawEnEQ.
+func RawEn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldRawEn, v))
+}
+
+// RawCn applies equality check predicate on the "raw_cn" field. It's identical to RawCnEQ.
+func RawCn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldRawCn, v))
+}
+
+// PreviewEn applies equality check predicate on the "preview_en" field. It's identical to PreviewEnEQ.
+func PreviewEn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldPreviewEn, v))
+}
+
+// PreviewCn applies equality check predicate on the "preview_cn" field. It's identical to PreviewCnEQ.
+func PreviewCn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldPreviewCn, v))
 }
 
 // CrawledAt applies equality check predicate on the "crawled_at" field. It's identical to CrawledAtEQ.
@@ -99,9 +114,9 @@ func CrawledAt(v time.Time) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldCrawledAt, v))
 }
 
-// SummaryChinese applies equality check predicate on the "summary_chinese" field. It's identical to SummaryChineseEQ.
-func SummaryChinese(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
+// SummaryCn applies equality check predicate on the "summary_cn" field. It's identical to SummaryCnEQ.
+func SummaryCn(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldSummaryCn, v))
 }
 
 // OriginNameEQ applies the EQ predicate on the "origin_name" field.
@@ -299,144 +314,154 @@ func URLContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldURL, v))
 }
 
-// TitleEQ applies the EQ predicate on the "title" field.
-func TitleEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldTitle, v))
+// TitleEnEQ applies the EQ predicate on the "title_en" field.
+func TitleEnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldTitleEn, v))
 }
 
-// TitleNEQ applies the NEQ predicate on the "title" field.
-func TitleNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldTitle, v))
+// TitleEnNEQ applies the NEQ predicate on the "title_en" field.
+func TitleEnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldTitleEn, v))
 }
 
-// TitleIn applies the In predicate on the "title" field.
-func TitleIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldTitle, vs...))
+// TitleEnIn applies the In predicate on the "title_en" field.
+func TitleEnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldTitleEn, vs...))
 }
 
-// TitleNotIn applies the NotIn predicate on the "title" field.
-func TitleNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldTitle, vs...))
+// TitleEnNotIn applies the NotIn predicate on the "title_en" field.
+func TitleEnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldTitleEn, vs...))
 }
 
-// TitleGT applies the GT predicate on the "title" field.
-func TitleGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldTitle, v))
+// TitleEnGT applies the GT predicate on the "title_en" field.
+func TitleEnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldTitleEn, v))
 }
 
-// TitleGTE applies the GTE predicate on the "title" field.
-func TitleGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldTitle, v))
+// TitleEnGTE applies the GTE predicate on the "title_en" field.
+func TitleEnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldTitleEn, v))
 }
 
-// TitleLT applies the LT predicate on the "title" field.
-func TitleLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldTitle, v))
+// TitleEnLT applies the LT predicate on the "title_en" field.
+func TitleEnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldTitleEn, v))
 }
 
-// TitleLTE applies the LTE predicate on the "title" field.
-func TitleLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldTitle, v))
+// TitleEnLTE applies the LTE predicate on the "title_en" field.
+func TitleEnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldTitleEn, v))
 }
 
-// TitleContains applies the Contains predicate on the "title" field.
-func TitleContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldTitle, v))
+// TitleEnContains applies the Contains predicate on the "title_en" field.
+func TitleEnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldTitleEn, v))
 }
 
-// TitleHasPrefix applies the HasPrefix predicate on the "title" field.
-func TitleHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldTitle, v))
+// TitleEnHasPrefix applies the HasPrefix predicate on the "title_en" field.
+func TitleEnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldTitleEn, v))
 }
 
-// TitleHasSuffix applies the HasSuffix predicate on the "title" field.
-func TitleHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldTitle, v))
+// TitleEnHasSuffix applies the HasSuffix predicate on the "title_en" field.
+func TitleEnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldTitleEn, v))
 }
 
-// TitleEqualFold applies the EqualFold predicate on the "title" field.
-func TitleEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldTitle, v))
+// TitleEnIsNil applies the IsNil predicate on the "title_en" field.
+func TitleEnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldTitleEn))
 }
 
-// TitleContainsFold applies the ContainsFold predicate on the "title" field.
-func TitleContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldTitle, v))
+// TitleEnNotNil applies the NotNil predicate on the "title_en" field.
+func TitleEnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldTitleEn))
 }
 
-// TitleChineseEQ applies the EQ predicate on the "title_chinese" field.
-func TitleChineseEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldTitleChinese, v))
+// TitleEnEqualFold applies the EqualFold predicate on the "title_en" field.
+func TitleEnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldTitleEn, v))
 }
 
-// TitleChineseNEQ applies the NEQ predicate on the "title_chinese" field.
-func TitleChineseNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldTitleChinese, v))
+// TitleEnContainsFold applies the ContainsFold predicate on the "title_en" field.
+func TitleEnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldTitleEn, v))
 }
 
-// TitleChineseIn applies the In predicate on the "title_chinese" field.
-func TitleChineseIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldTitleChinese, vs...))
+// TitleCnEQ applies the EQ predicate on the "title_cn" field.
+func TitleCnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldTitleCn, v))
 }
 
-// TitleChineseNotIn applies the NotIn predicate on the "title_chinese" field.
-func TitleChineseNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldTitleChinese, vs...))
+// TitleCnNEQ applies the NEQ predicate on the "title_cn" field.
+func TitleCnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldTitleCn, v))
 }
 
-// TitleChineseGT applies the GT predicate on the "title_chinese" field.
-func TitleChineseGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldTitleChinese, v))
+// TitleCnIn applies the In predicate on the "title_cn" field.
+func TitleCnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldTitleCn, vs...))
 }
 
-// TitleChineseGTE applies the GTE predicate on the "title_chinese" field.
-func TitleChineseGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldTitleChinese, v))
+// TitleCnNotIn applies the NotIn predicate on the "title_cn" field.
+func TitleCnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldTitleCn, vs...))
 }
 
-// TitleChineseLT applies the LT predicate on the "title_chinese" field.
-func TitleChineseLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldTitleChinese, v))
+// TitleCnGT applies the GT predicate on the "title_cn" field.
+func TitleCnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldTitleCn, v))
 }
 
-// TitleChineseLTE applies the LTE predicate on the "title_chinese" field.
-func TitleChineseLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldTitleChinese, v))
+// TitleCnGTE applies the GTE predicate on the "title_cn" field.
+func TitleCnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldTitleCn, v))
 }
 
-// TitleChineseContains applies the Contains predicate on the "title_chinese" field.
-func TitleChineseContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldTitleChinese, v))
+// TitleCnLT applies the LT predicate on the "title_cn" field.
+func TitleCnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldTitleCn, v))
 }
 
-// TitleChineseHasPrefix applies the HasPrefix predicate on the "title_chinese" field.
-func TitleChineseHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldTitleChinese, v))
+// TitleCnLTE applies the LTE predicate on the "title_cn" field.
+func TitleCnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldTitleCn, v))
 }
 
-// TitleChineseHasSuffix applies the HasSuffix predicate on the "title_chinese" field.
-func TitleChineseHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldTitleChinese, v))
+// TitleCnContains applies the Contains predicate on the "title_cn" field.
+func TitleCnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldTitleCn, v))
 }
 
-// TitleChineseIsNil applies the IsNil predicate on the "title_chinese" field.
-func TitleChineseIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldTitleChinese))
+// TitleCnHasPrefix applies the HasPrefix predicate on the "title_cn" field.
+func TitleCnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldTitleCn, v))
 }
 
-// TitleChineseNotNil applies the NotNil predicate on the "title_chinese" field.
-func TitleChineseNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldTitleChinese))
+// TitleCnHasSuffix applies the HasSuffix predicate on the "title_cn" field.
+func TitleCnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldTitleCn, v))
 }
 
-// TitleChineseEqualFold applies the EqualFold predicate on the "title_chinese" field.
-func TitleChineseEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldTitleChinese, v))
+// TitleCnIsNil applies the IsNil predicate on the "title_cn" field.
+func TitleCnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldTitleCn))
 }
 
-// TitleChineseContainsFold applies the ContainsFold predicate on the "title_chinese" field.
-func TitleChineseContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldTitleChinese, v))
+// TitleCnNotNil applies the NotNil predicate on the "title_cn" field.
+func TitleCnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldTitleCn))
+}
+
+// TitleCnEqualFold applies the EqualFold predicate on the "title_cn" field.
+func TitleCnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldTitleCn, v))
+}
+
+// TitleCnContainsFold applies the ContainsFold predicate on the "title_cn" field.
+func TitleCnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldTitleCn, v))
 }
 
 // AuthorEQ applies the EQ predicate on the "author" field.
@@ -514,6 +539,16 @@ func AuthorContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldAuthor, v))
 }
 
+// TagsIsNil applies the IsNil predicate on the "tags" field.
+func TagsIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldTags))
+}
+
+// TagsNotNil applies the NotNil predicate on the "tags" field.
+func TagsNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldTags))
+}
+
 // PublishedAtEQ applies the EQ predicate on the "published_at" field.
 func PublishedAtEQ(v time.Time) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldPublishedAt, v))
@@ -554,69 +589,304 @@ func PublishedAtLTE(v time.Time) predicate.Article {
 	return predicate.Article(sql.FieldLTE(FieldPublishedAt, v))
 }
 
-// RawEQ applies the EQ predicate on the "raw" field.
-func RawEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldRaw, v))
+// RawEnEQ applies the EQ predicate on the "raw_en" field.
+func RawEnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldRawEn, v))
 }
 
-// RawNEQ applies the NEQ predicate on the "raw" field.
-func RawNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldRaw, v))
+// RawEnNEQ applies the NEQ predicate on the "raw_en" field.
+func RawEnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldRawEn, v))
 }
 
-// RawIn applies the In predicate on the "raw" field.
-func RawIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldRaw, vs...))
+// RawEnIn applies the In predicate on the "raw_en" field.
+func RawEnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldRawEn, vs...))
 }
 
-// RawNotIn applies the NotIn predicate on the "raw" field.
-func RawNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldRaw, vs...))
+// RawEnNotIn applies the NotIn predicate on the "raw_en" field.
+func RawEnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldRawEn, vs...))
 }
 
-// RawGT applies the GT predicate on the "raw" field.
-func RawGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldRaw, v))
+// RawEnGT applies the GT predicate on the "raw_en" field.
+func RawEnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldRawEn, v))
 }
 
-// RawGTE applies the GTE predicate on the "raw" field.
-func RawGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldRaw, v))
+// RawEnGTE applies the GTE predicate on the "raw_en" field.
+func RawEnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldRawEn, v))
 }
 
-// RawLT applies the LT predicate on the "raw" field.
-func RawLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldRaw, v))
+// RawEnLT applies the LT predicate on the "raw_en" field.
+func RawEnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldRawEn, v))
 }
 
-// RawLTE applies the LTE predicate on the "raw" field.
-func RawLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldRaw, v))
+// RawEnLTE applies the LTE predicate on the "raw_en" field.
+func RawEnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldRawEn, v))
 }
 
-// RawContains applies the Contains predicate on the "raw" field.
-func RawContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldRaw, v))
+// RawEnContains applies the Contains predicate on the "raw_en" field.
+func RawEnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldRawEn, v))
 }
 
-// RawHasPrefix applies the HasPrefix predicate on the "raw" field.
-func RawHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldRaw, v))
+// RawEnHasPrefix applies the HasPrefix predicate on the "raw_en" field.
+func RawEnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldRawEn, v))
 }
 
-// RawHasSuffix applies the HasSuffix predicate on the "raw" field.
-func RawHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldRaw, v))
+// RawEnHasSuffix applies the HasSuffix predicate on the "raw_en" field.
+func RawEnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldRawEn, v))
 }
 
-// RawEqualFold applies the EqualFold predicate on the "raw" field.
-func RawEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldRaw, v))
+// RawEnIsNil applies the IsNil predicate on the "raw_en" field.
+func RawEnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldRawEn))
 }
 
-// RawContainsFold applies the ContainsFold predicate on the "raw" field.
-func RawContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldRaw, v))
+// RawEnNotNil applies the NotNil predicate on the "raw_en" field.
+func RawEnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldRawEn))
+}
+
+// RawEnEqualFold applies the EqualFold predicate on the "raw_en" field.
+func RawEnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldRawEn, v))
+}
+
+// RawEnContainsFold applies the ContainsFold predicate on the "raw_en" field.
+func RawEnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldRawEn, v))
+}
+
+// RawCnEQ applies the EQ predicate on the "raw_cn" field.
+func RawCnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldRawCn, v))
+}
+
+// RawCnNEQ applies the NEQ predicate on the "raw_cn" field.
+func RawCnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldRawCn, v))
+}
+
+// RawCnIn applies the In predicate on the "raw_cn" field.
+func RawCnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldRawCn, vs...))
+}
+
+// RawCnNotIn applies the NotIn predicate on the "raw_cn" field.
+func RawCnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldRawCn, vs...))
+}
+
+// RawCnGT applies the GT predicate on the "raw_cn" field.
+func RawCnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldRawCn, v))
+}
+
+// RawCnGTE applies the GTE predicate on the "raw_cn" field.
+func RawCnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldRawCn, v))
+}
+
+// RawCnLT applies the LT predicate on the "raw_cn" field.
+func RawCnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldRawCn, v))
+}
+
+// RawCnLTE applies the LTE predicate on the "raw_cn" field.
+func RawCnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldRawCn, v))
+}
+
+// RawCnContains applies the Contains predicate on the "raw_cn" field.
+func RawCnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldRawCn, v))
+}
+
+// RawCnHasPrefix applies the HasPrefix predicate on the "raw_cn" field.
+func RawCnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldRawCn, v))
+}
+
+// RawCnHasSuffix applies the HasSuffix predicate on the "raw_cn" field.
+func RawCnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldRawCn, v))
+}
+
+// RawCnIsNil applies the IsNil predicate on the "raw_cn" field.
+func RawCnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldRawCn))
+}
+
+// RawCnNotNil applies the NotNil predicate on the "raw_cn" field.
+func RawCnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldRawCn))
+}
+
+// RawCnEqualFold applies the EqualFold predicate on the "raw_cn" field.
+func RawCnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldRawCn, v))
+}
+
+// RawCnContainsFold applies the ContainsFold predicate on the "raw_cn" field.
+func RawCnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldRawCn, v))
+}
+
+// PreviewEnEQ applies the EQ predicate on the "preview_en" field.
+func PreviewEnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldPreviewEn, v))
+}
+
+// PreviewEnNEQ applies the NEQ predicate on the "preview_en" field.
+func PreviewEnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldPreviewEn, v))
+}
+
+// PreviewEnIn applies the In predicate on the "preview_en" field.
+func PreviewEnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldPreviewEn, vs...))
+}
+
+// PreviewEnNotIn applies the NotIn predicate on the "preview_en" field.
+func PreviewEnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldPreviewEn, vs...))
+}
+
+// PreviewEnGT applies the GT predicate on the "preview_en" field.
+func PreviewEnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldPreviewEn, v))
+}
+
+// PreviewEnGTE applies the GTE predicate on the "preview_en" field.
+func PreviewEnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldPreviewEn, v))
+}
+
+// PreviewEnLT applies the LT predicate on the "preview_en" field.
+func PreviewEnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldPreviewEn, v))
+}
+
+// PreviewEnLTE applies the LTE predicate on the "preview_en" field.
+func PreviewEnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldPreviewEn, v))
+}
+
+// PreviewEnContains applies the Contains predicate on the "preview_en" field.
+func PreviewEnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldPreviewEn, v))
+}
+
+// PreviewEnHasPrefix applies the HasPrefix predicate on the "preview_en" field.
+func PreviewEnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldPreviewEn, v))
+}
+
+// PreviewEnHasSuffix applies the HasSuffix predicate on the "preview_en" field.
+func PreviewEnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldPreviewEn, v))
+}
+
+// PreviewEnIsNil applies the IsNil predicate on the "preview_en" field.
+func PreviewEnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldPreviewEn))
+}
+
+// PreviewEnNotNil applies the NotNil predicate on the "preview_en" field.
+func PreviewEnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldPreviewEn))
+}
+
+// PreviewEnEqualFold applies the EqualFold predicate on the "preview_en" field.
+func PreviewEnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldPreviewEn, v))
+}
+
+// PreviewEnContainsFold applies the ContainsFold predicate on the "preview_en" field.
+func PreviewEnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldPreviewEn, v))
+}
+
+// PreviewCnEQ applies the EQ predicate on the "preview_cn" field.
+func PreviewCnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldPreviewCn, v))
+}
+
+// PreviewCnNEQ applies the NEQ predicate on the "preview_cn" field.
+func PreviewCnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldPreviewCn, v))
+}
+
+// PreviewCnIn applies the In predicate on the "preview_cn" field.
+func PreviewCnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldPreviewCn, vs...))
+}
+
+// PreviewCnNotIn applies the NotIn predicate on the "preview_cn" field.
+func PreviewCnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldPreviewCn, vs...))
+}
+
+// PreviewCnGT applies the GT predicate on the "preview_cn" field.
+func PreviewCnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldPreviewCn, v))
+}
+
+// PreviewCnGTE applies the GTE predicate on the "preview_cn" field.
+func PreviewCnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldPreviewCn, v))
+}
+
+// PreviewCnLT applies the LT predicate on the "preview_cn" field.
+func PreviewCnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldPreviewCn, v))
+}
+
+// PreviewCnLTE applies the LTE predicate on the "preview_cn" field.
+func PreviewCnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldPreviewCn, v))
+}
+
+// PreviewCnContains applies the Contains predicate on the "preview_cn" field.
+func PreviewCnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldPreviewCn, v))
+}
+
+// PreviewCnHasPrefix applies the HasPrefix predicate on the "preview_cn" field.
+func PreviewCnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldPreviewCn, v))
+}
+
+// PreviewCnHasSuffix applies the HasSuffix predicate on the "preview_cn" field.
+func PreviewCnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldPreviewCn, v))
+}
+
+// PreviewCnIsNil applies the IsNil predicate on the "preview_cn" field.
+func PreviewCnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldPreviewCn))
+}
+
+// PreviewCnNotNil applies the NotNil predicate on the "preview_cn" field.
+func PreviewCnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldPreviewCn))
+}
+
+// PreviewCnEqualFold applies the EqualFold predicate on the "preview_cn" field.
+func PreviewCnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldPreviewCn, v))
+}
+
+// PreviewCnContainsFold applies the ContainsFold predicate on the "preview_cn" field.
+func PreviewCnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldPreviewCn, v))
 }
 
 // CrawledAtEQ applies the EQ predicate on the "crawled_at" field.
@@ -659,79 +929,79 @@ func CrawledAtLTE(v time.Time) predicate.Article {
 	return predicate.Article(sql.FieldLTE(FieldCrawledAt, v))
 }
 
-// SummaryChineseEQ applies the EQ predicate on the "summary_chinese" field.
-func SummaryChineseEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
+// SummaryCnEQ applies the EQ predicate on the "summary_cn" field.
+func SummaryCnEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldSummaryCn, v))
 }
 
-// SummaryChineseNEQ applies the NEQ predicate on the "summary_chinese" field.
-func SummaryChineseNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldSummaryChinese, v))
+// SummaryCnNEQ applies the NEQ predicate on the "summary_cn" field.
+func SummaryCnNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldSummaryCn, v))
 }
 
-// SummaryChineseIn applies the In predicate on the "summary_chinese" field.
-func SummaryChineseIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldSummaryChinese, vs...))
+// SummaryCnIn applies the In predicate on the "summary_cn" field.
+func SummaryCnIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldSummaryCn, vs...))
 }
 
-// SummaryChineseNotIn applies the NotIn predicate on the "summary_chinese" field.
-func SummaryChineseNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldSummaryChinese, vs...))
+// SummaryCnNotIn applies the NotIn predicate on the "summary_cn" field.
+func SummaryCnNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldSummaryCn, vs...))
 }
 
-// SummaryChineseGT applies the GT predicate on the "summary_chinese" field.
-func SummaryChineseGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldSummaryChinese, v))
+// SummaryCnGT applies the GT predicate on the "summary_cn" field.
+func SummaryCnGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldSummaryCn, v))
 }
 
-// SummaryChineseGTE applies the GTE predicate on the "summary_chinese" field.
-func SummaryChineseGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldSummaryChinese, v))
+// SummaryCnGTE applies the GTE predicate on the "summary_cn" field.
+func SummaryCnGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldSummaryCn, v))
 }
 
-// SummaryChineseLT applies the LT predicate on the "summary_chinese" field.
-func SummaryChineseLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldSummaryChinese, v))
+// SummaryCnLT applies the LT predicate on the "summary_cn" field.
+func SummaryCnLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldSummaryCn, v))
 }
 
-// SummaryChineseLTE applies the LTE predicate on the "summary_chinese" field.
-func SummaryChineseLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldSummaryChinese, v))
+// SummaryCnLTE applies the LTE predicate on the "summary_cn" field.
+func SummaryCnLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldSummaryCn, v))
 }
 
-// SummaryChineseContains applies the Contains predicate on the "summary_chinese" field.
-func SummaryChineseContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldSummaryChinese, v))
+// SummaryCnContains applies the Contains predicate on the "summary_cn" field.
+func SummaryCnContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldSummaryCn, v))
 }
 
-// SummaryChineseHasPrefix applies the HasPrefix predicate on the "summary_chinese" field.
-func SummaryChineseHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldSummaryChinese, v))
+// SummaryCnHasPrefix applies the HasPrefix predicate on the "summary_cn" field.
+func SummaryCnHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldSummaryCn, v))
 }
 
-// SummaryChineseHasSuffix applies the HasSuffix predicate on the "summary_chinese" field.
-func SummaryChineseHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldSummaryChinese, v))
+// SummaryCnHasSuffix applies the HasSuffix predicate on the "summary_cn" field.
+func SummaryCnHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldSummaryCn, v))
 }
 
-// SummaryChineseIsNil applies the IsNil predicate on the "summary_chinese" field.
-func SummaryChineseIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldSummaryChinese))
+// SummaryCnIsNil applies the IsNil predicate on the "summary_cn" field.
+func SummaryCnIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldSummaryCn))
 }
 
-// SummaryChineseNotNil applies the NotNil predicate on the "summary_chinese" field.
-func SummaryChineseNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldSummaryChinese))
+// SummaryCnNotNil applies the NotNil predicate on the "summary_cn" field.
+func SummaryCnNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldSummaryCn))
 }
 
-// SummaryChineseEqualFold applies the EqualFold predicate on the "summary_chinese" field.
-func SummaryChineseEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldSummaryChinese, v))
+// SummaryCnEqualFold applies the EqualFold predicate on the "summary_cn" field.
+func SummaryCnEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldSummaryCn, v))
 }
 
-// SummaryChineseContainsFold applies the ContainsFold predicate on the "summary_chinese" field.
-func SummaryChineseContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldSummaryChinese, v))
+// SummaryCnContainsFold applies the ContainsFold predicate on the "summary_cn" field.
+func SummaryCnContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldSummaryCn, v))
 }
 
 // And groups predicates with the AND operator between them.

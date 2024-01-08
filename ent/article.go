@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -23,21 +24,29 @@ type Article struct {
 	OriginType string `json:"origin_type,omitempty"`
 	// URL holds the value of the "url" field.
 	URL string `json:"url,omitempty"`
-	// Title holds the value of the "title" field.
-	Title string `json:"title,omitempty"`
-	// TitleChinese holds the value of the "title_chinese" field.
-	TitleChinese string `json:"title_chinese,omitempty"`
+	// TitleEn holds the value of the "title_en" field.
+	TitleEn string `json:"title_en,omitempty"`
+	// TitleCn holds the value of the "title_cn" field.
+	TitleCn string `json:"title_cn,omitempty"`
 	// Author holds the value of the "author" field.
 	Author string `json:"author,omitempty"`
+	// Tags holds the value of the "tags" field.
+	Tags []string `json:"tags,omitempty"`
 	// PublishedAt holds the value of the "published_at" field.
 	PublishedAt time.Time `json:"published_at,omitempty"`
-	// Raw holds the value of the "raw" field.
-	Raw string `json:"raw,omitempty"`
+	// RawEn holds the value of the "raw_en" field.
+	RawEn string `json:"raw_en,omitempty"`
+	// RawCn holds the value of the "raw_cn" field.
+	RawCn string `json:"raw_cn,omitempty"`
+	// PreviewEn holds the value of the "preview_en" field.
+	PreviewEn string `json:"preview_en,omitempty"`
+	// PreviewCn holds the value of the "preview_cn" field.
+	PreviewCn string `json:"preview_cn,omitempty"`
 	// CrawledAt holds the value of the "crawled_at" field.
 	CrawledAt time.Time `json:"crawled_at,omitempty"`
-	// SummaryChinese holds the value of the "summary_chinese" field.
-	SummaryChinese string `json:"summary_chinese,omitempty"`
-	selectValues   sql.SelectValues
+	// SummaryCn holds the value of the "summary_cn" field.
+	SummaryCn    string `json:"summary_cn,omitempty"`
+	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -45,9 +54,11 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case article.FieldTags:
+			values[i] = new([]byte)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitle, article.FieldTitleChinese, article.FieldAuthor, article.FieldRaw, article.FieldSummaryChinese:
+		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitleEn, article.FieldTitleCn, article.FieldAuthor, article.FieldRawEn, article.FieldRawCn, article.FieldPreviewEn, article.FieldPreviewCn, article.FieldSummaryCn:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt, article.FieldCrawledAt:
 			values[i] = new(sql.NullTime)
@@ -90,17 +101,17 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.URL = value.String
 			}
-		case article.FieldTitle:
+		case article.FieldTitleEn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field title", values[i])
+				return fmt.Errorf("unexpected type %T for field title_en", values[i])
 			} else if value.Valid {
-				a.Title = value.String
+				a.TitleEn = value.String
 			}
-		case article.FieldTitleChinese:
+		case article.FieldTitleCn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field title_chinese", values[i])
+				return fmt.Errorf("unexpected type %T for field title_cn", values[i])
 			} else if value.Valid {
-				a.TitleChinese = value.String
+				a.TitleCn = value.String
 			}
 		case article.FieldAuthor:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -108,17 +119,43 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.Author = value.String
 			}
+		case article.FieldTags:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field tags", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &a.Tags); err != nil {
+					return fmt.Errorf("unmarshal field tags: %w", err)
+				}
+			}
 		case article.FieldPublishedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field published_at", values[i])
 			} else if value.Valid {
 				a.PublishedAt = value.Time
 			}
-		case article.FieldRaw:
+		case article.FieldRawEn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field raw", values[i])
+				return fmt.Errorf("unexpected type %T for field raw_en", values[i])
 			} else if value.Valid {
-				a.Raw = value.String
+				a.RawEn = value.String
+			}
+		case article.FieldRawCn:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field raw_cn", values[i])
+			} else if value.Valid {
+				a.RawCn = value.String
+			}
+		case article.FieldPreviewEn:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field preview_en", values[i])
+			} else if value.Valid {
+				a.PreviewEn = value.String
+			}
+		case article.FieldPreviewCn:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field preview_cn", values[i])
+			} else if value.Valid {
+				a.PreviewCn = value.String
 			}
 		case article.FieldCrawledAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -126,11 +163,11 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.CrawledAt = value.Time
 			}
-		case article.FieldSummaryChinese:
+		case article.FieldSummaryCn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field summary_chinese", values[i])
+				return fmt.Errorf("unexpected type %T for field summary_cn", values[i])
 			} else if value.Valid {
-				a.SummaryChinese = value.String
+				a.SummaryCn = value.String
 			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
@@ -177,26 +214,38 @@ func (a *Article) String() string {
 	builder.WriteString("url=")
 	builder.WriteString(a.URL)
 	builder.WriteString(", ")
-	builder.WriteString("title=")
-	builder.WriteString(a.Title)
+	builder.WriteString("title_en=")
+	builder.WriteString(a.TitleEn)
 	builder.WriteString(", ")
-	builder.WriteString("title_chinese=")
-	builder.WriteString(a.TitleChinese)
+	builder.WriteString("title_cn=")
+	builder.WriteString(a.TitleCn)
 	builder.WriteString(", ")
 	builder.WriteString("author=")
 	builder.WriteString(a.Author)
 	builder.WriteString(", ")
+	builder.WriteString("tags=")
+	builder.WriteString(fmt.Sprintf("%v", a.Tags))
+	builder.WriteString(", ")
 	builder.WriteString("published_at=")
 	builder.WriteString(a.PublishedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("raw=")
-	builder.WriteString(a.Raw)
+	builder.WriteString("raw_en=")
+	builder.WriteString(a.RawEn)
+	builder.WriteString(", ")
+	builder.WriteString("raw_cn=")
+	builder.WriteString(a.RawCn)
+	builder.WriteString(", ")
+	builder.WriteString("preview_en=")
+	builder.WriteString(a.PreviewEn)
+	builder.WriteString(", ")
+	builder.WriteString("preview_cn=")
+	builder.WriteString(a.PreviewCn)
 	builder.WriteString(", ")
 	builder.WriteString("crawled_at=")
 	builder.WriteString(a.CrawledAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("summary_chinese=")
-	builder.WriteString(a.SummaryChinese)
+	builder.WriteString("summary_cn=")
+	builder.WriteString(a.SummaryCn)
 	builder.WriteByte(')')
 	return builder.String()
 }

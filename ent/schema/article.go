@@ -20,21 +20,25 @@ func (Article) Fields() []ent.Field {
 		field.Int("id").Immutable(),
 		field.String("origin_name").Immutable(),
 		field.String("origin_type").Immutable(),
-		field.String("url").Unique().Immutable(),
-		field.String("title").Immutable(),
-		field.String("title_chinese").Optional(),
+		field.String("url").MaxLen(768).Unique().Immutable(),
+		field.String("title_en").Optional(),
+		field.String("title_cn").Optional(),
 		field.String("author").Immutable().Optional(),
+		field.Strings("tags").Immutable().Optional(),
 		field.Time("published_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
-		field.Text("raw").Immutable(),
+		field.Text("raw_en").Optional(),
+		field.Text("raw_cn").Optional(),
+		field.Text("preview_en").Optional(),
+		field.Text("preview_cn").Optional(),
 		field.Time("crawled_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
-		field.Text("summary_chinese").Optional(),
+		field.Text("summary_cn").Optional(),
 	}
 }
 
 func (Article) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("title"),
-		index.Fields("title_chinese"),
+		index.Fields("title_en"),
+		index.Fields("title_cn"),
 		index.Fields("origin_name"),
 		index.Fields("origin_type"),
 	}

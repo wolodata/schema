@@ -15,8 +15,12 @@ import (
 func init() {
 	articleFields := schema.Article{}.Fields()
 	_ = articleFields
+	// articleDescURL is the schema descriptor for url field.
+	articleDescURL := articleFields[3].Descriptor()
+	// article.URLValidator is a validator for the "url" field. It is called by the builders before save.
+	article.URLValidator = articleDescURL.Validators[0].(func(string) error)
 	// articleDescCrawledAt is the schema descriptor for crawled_at field.
-	articleDescCrawledAt := articleFields[9].Descriptor()
+	articleDescCrawledAt := articleFields[13].Descriptor()
 	// article.DefaultCrawledAt holds the default value on creation for the crawled_at field.
 	article.DefaultCrawledAt = articleDescCrawledAt.Default.(func() time.Time)
 }

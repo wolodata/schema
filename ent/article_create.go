@@ -38,22 +38,30 @@ func (ac *ArticleCreate) SetURL(s string) *ArticleCreate {
 	return ac
 }
 
-// SetTitle sets the "title" field.
-func (ac *ArticleCreate) SetTitle(s string) *ArticleCreate {
-	ac.mutation.SetTitle(s)
+// SetTitleEn sets the "title_en" field.
+func (ac *ArticleCreate) SetTitleEn(s string) *ArticleCreate {
+	ac.mutation.SetTitleEn(s)
 	return ac
 }
 
-// SetTitleChinese sets the "title_chinese" field.
-func (ac *ArticleCreate) SetTitleChinese(s string) *ArticleCreate {
-	ac.mutation.SetTitleChinese(s)
-	return ac
-}
-
-// SetNillableTitleChinese sets the "title_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTitleChinese(s *string) *ArticleCreate {
+// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleEn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetTitleChinese(*s)
+		ac.SetTitleEn(*s)
+	}
+	return ac
+}
+
+// SetTitleCn sets the "title_cn" field.
+func (ac *ArticleCreate) SetTitleCn(s string) *ArticleCreate {
+	ac.mutation.SetTitleCn(s)
+	return ac
+}
+
+// SetNillableTitleCn sets the "title_cn" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleCn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTitleCn(*s)
 	}
 	return ac
 }
@@ -72,15 +80,71 @@ func (ac *ArticleCreate) SetNillableAuthor(s *string) *ArticleCreate {
 	return ac
 }
 
+// SetTags sets the "tags" field.
+func (ac *ArticleCreate) SetTags(s []string) *ArticleCreate {
+	ac.mutation.SetTags(s)
+	return ac
+}
+
 // SetPublishedAt sets the "published_at" field.
 func (ac *ArticleCreate) SetPublishedAt(t time.Time) *ArticleCreate {
 	ac.mutation.SetPublishedAt(t)
 	return ac
 }
 
-// SetRaw sets the "raw" field.
-func (ac *ArticleCreate) SetRaw(s string) *ArticleCreate {
-	ac.mutation.SetRaw(s)
+// SetRawEn sets the "raw_en" field.
+func (ac *ArticleCreate) SetRawEn(s string) *ArticleCreate {
+	ac.mutation.SetRawEn(s)
+	return ac
+}
+
+// SetNillableRawEn sets the "raw_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableRawEn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetRawEn(*s)
+	}
+	return ac
+}
+
+// SetRawCn sets the "raw_cn" field.
+func (ac *ArticleCreate) SetRawCn(s string) *ArticleCreate {
+	ac.mutation.SetRawCn(s)
+	return ac
+}
+
+// SetNillableRawCn sets the "raw_cn" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableRawCn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetRawCn(*s)
+	}
+	return ac
+}
+
+// SetPreviewEn sets the "preview_en" field.
+func (ac *ArticleCreate) SetPreviewEn(s string) *ArticleCreate {
+	ac.mutation.SetPreviewEn(s)
+	return ac
+}
+
+// SetNillablePreviewEn sets the "preview_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillablePreviewEn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetPreviewEn(*s)
+	}
+	return ac
+}
+
+// SetPreviewCn sets the "preview_cn" field.
+func (ac *ArticleCreate) SetPreviewCn(s string) *ArticleCreate {
+	ac.mutation.SetPreviewCn(s)
+	return ac
+}
+
+// SetNillablePreviewCn sets the "preview_cn" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillablePreviewCn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetPreviewCn(*s)
+	}
 	return ac
 }
 
@@ -98,16 +162,16 @@ func (ac *ArticleCreate) SetNillableCrawledAt(t *time.Time) *ArticleCreate {
 	return ac
 }
 
-// SetSummaryChinese sets the "summary_chinese" field.
-func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
-	ac.mutation.SetSummaryChinese(s)
+// SetSummaryCn sets the "summary_cn" field.
+func (ac *ArticleCreate) SetSummaryCn(s string) *ArticleCreate {
+	ac.mutation.SetSummaryCn(s)
 	return ac
 }
 
-// SetNillableSummaryChinese sets the "summary_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
+// SetNillableSummaryCn sets the "summary_cn" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableSummaryCn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetSummaryChinese(*s)
+		ac.SetSummaryCn(*s)
 	}
 	return ac
 }
@@ -170,14 +234,13 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.URL(); !ok {
 		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "Article.url"`)}
 	}
-	if _, ok := ac.mutation.Title(); !ok {
-		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "Article.title"`)}
+	if v, ok := ac.mutation.URL(); ok {
+		if err := article.URLValidator(v); err != nil {
+			return &ValidationError{Name: "url", err: fmt.Errorf(`ent: validator failed for field "Article.url": %w`, err)}
+		}
 	}
 	if _, ok := ac.mutation.PublishedAt(); !ok {
 		return &ValidationError{Name: "published_at", err: errors.New(`ent: missing required field "Article.published_at"`)}
-	}
-	if _, ok := ac.mutation.Raw(); !ok {
-		return &ValidationError{Name: "raw", err: errors.New(`ent: missing required field "Article.raw"`)}
 	}
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		return &ValidationError{Name: "crawled_at", err: errors.New(`ent: missing required field "Article.crawled_at"`)}
@@ -226,33 +289,49 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldURL, field.TypeString, value)
 		_node.URL = value
 	}
-	if value, ok := ac.mutation.Title(); ok {
-		_spec.SetField(article.FieldTitle, field.TypeString, value)
-		_node.Title = value
+	if value, ok := ac.mutation.TitleEn(); ok {
+		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
+		_node.TitleEn = value
 	}
-	if value, ok := ac.mutation.TitleChinese(); ok {
-		_spec.SetField(article.FieldTitleChinese, field.TypeString, value)
-		_node.TitleChinese = value
+	if value, ok := ac.mutation.TitleCn(); ok {
+		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
+		_node.TitleCn = value
 	}
 	if value, ok := ac.mutation.Author(); ok {
 		_spec.SetField(article.FieldAuthor, field.TypeString, value)
 		_node.Author = value
 	}
+	if value, ok := ac.mutation.Tags(); ok {
+		_spec.SetField(article.FieldTags, field.TypeJSON, value)
+		_node.Tags = value
+	}
 	if value, ok := ac.mutation.PublishedAt(); ok {
 		_spec.SetField(article.FieldPublishedAt, field.TypeTime, value)
 		_node.PublishedAt = value
 	}
-	if value, ok := ac.mutation.Raw(); ok {
-		_spec.SetField(article.FieldRaw, field.TypeString, value)
-		_node.Raw = value
+	if value, ok := ac.mutation.RawEn(); ok {
+		_spec.SetField(article.FieldRawEn, field.TypeString, value)
+		_node.RawEn = value
+	}
+	if value, ok := ac.mutation.RawCn(); ok {
+		_spec.SetField(article.FieldRawCn, field.TypeString, value)
+		_node.RawCn = value
+	}
+	if value, ok := ac.mutation.PreviewEn(); ok {
+		_spec.SetField(article.FieldPreviewEn, field.TypeString, value)
+		_node.PreviewEn = value
+	}
+	if value, ok := ac.mutation.PreviewCn(); ok {
+		_spec.SetField(article.FieldPreviewCn, field.TypeString, value)
+		_node.PreviewCn = value
 	}
 	if value, ok := ac.mutation.CrawledAt(); ok {
 		_spec.SetField(article.FieldCrawledAt, field.TypeTime, value)
 		_node.CrawledAt = value
 	}
-	if value, ok := ac.mutation.SummaryChinese(); ok {
-		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
-		_node.SummaryChinese = value
+	if value, ok := ac.mutation.SummaryCn(); ok {
+		_spec.SetField(article.FieldSummaryCn, field.TypeString, value)
+		_node.SummaryCn = value
 	}
 	return _node, _spec
 }

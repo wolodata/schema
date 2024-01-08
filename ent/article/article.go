@@ -19,20 +19,28 @@ const (
 	FieldOriginType = "origin_type"
 	// FieldURL holds the string denoting the url field in the database.
 	FieldURL = "url"
-	// FieldTitle holds the string denoting the title field in the database.
-	FieldTitle = "title"
-	// FieldTitleChinese holds the string denoting the title_chinese field in the database.
-	FieldTitleChinese = "title_chinese"
+	// FieldTitleEn holds the string denoting the title_en field in the database.
+	FieldTitleEn = "title_en"
+	// FieldTitleCn holds the string denoting the title_cn field in the database.
+	FieldTitleCn = "title_cn"
 	// FieldAuthor holds the string denoting the author field in the database.
 	FieldAuthor = "author"
+	// FieldTags holds the string denoting the tags field in the database.
+	FieldTags = "tags"
 	// FieldPublishedAt holds the string denoting the published_at field in the database.
 	FieldPublishedAt = "published_at"
-	// FieldRaw holds the string denoting the raw field in the database.
-	FieldRaw = "raw"
+	// FieldRawEn holds the string denoting the raw_en field in the database.
+	FieldRawEn = "raw_en"
+	// FieldRawCn holds the string denoting the raw_cn field in the database.
+	FieldRawCn = "raw_cn"
+	// FieldPreviewEn holds the string denoting the preview_en field in the database.
+	FieldPreviewEn = "preview_en"
+	// FieldPreviewCn holds the string denoting the preview_cn field in the database.
+	FieldPreviewCn = "preview_cn"
 	// FieldCrawledAt holds the string denoting the crawled_at field in the database.
 	FieldCrawledAt = "crawled_at"
-	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
-	FieldSummaryChinese = "summary_chinese"
+	// FieldSummaryCn holds the string denoting the summary_cn field in the database.
+	FieldSummaryCn = "summary_cn"
 	// Table holds the table name of the article in the database.
 	Table = "t_article"
 )
@@ -43,13 +51,17 @@ var Columns = []string{
 	FieldOriginName,
 	FieldOriginType,
 	FieldURL,
-	FieldTitle,
-	FieldTitleChinese,
+	FieldTitleEn,
+	FieldTitleCn,
 	FieldAuthor,
+	FieldTags,
 	FieldPublishedAt,
-	FieldRaw,
+	FieldRawEn,
+	FieldRawCn,
+	FieldPreviewEn,
+	FieldPreviewCn,
 	FieldCrawledAt,
-	FieldSummaryChinese,
+	FieldSummaryCn,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -63,6 +75,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// URLValidator is a validator for the "url" field. It is called by the builders before save.
+	URLValidator func(string) error
 	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
 	DefaultCrawledAt func() time.Time
 )
@@ -90,14 +104,14 @@ func ByURL(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldURL, opts...).ToFunc()
 }
 
-// ByTitle orders the results by the title field.
-func ByTitle(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTitle, opts...).ToFunc()
+// ByTitleEn orders the results by the title_en field.
+func ByTitleEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTitleEn, opts...).ToFunc()
 }
 
-// ByTitleChinese orders the results by the title_chinese field.
-func ByTitleChinese(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTitleChinese, opts...).ToFunc()
+// ByTitleCn orders the results by the title_cn field.
+func ByTitleCn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTitleCn, opts...).ToFunc()
 }
 
 // ByAuthor orders the results by the author field.
@@ -110,9 +124,24 @@ func ByPublishedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPublishedAt, opts...).ToFunc()
 }
 
-// ByRaw orders the results by the raw field.
-func ByRaw(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRaw, opts...).ToFunc()
+// ByRawEn orders the results by the raw_en field.
+func ByRawEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRawEn, opts...).ToFunc()
+}
+
+// ByRawCn orders the results by the raw_cn field.
+func ByRawCn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRawCn, opts...).ToFunc()
+}
+
+// ByPreviewEn orders the results by the preview_en field.
+func ByPreviewEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPreviewEn, opts...).ToFunc()
+}
+
+// ByPreviewCn orders the results by the preview_cn field.
+func ByPreviewCn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPreviewCn, opts...).ToFunc()
 }
 
 // ByCrawledAt orders the results by the crawled_at field.
@@ -120,7 +149,7 @@ func ByCrawledAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCrawledAt, opts...).ToFunc()
 }
 
-// BySummaryChinese orders the results by the summary_chinese field.
-func BySummaryChinese(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSummaryChinese, opts...).ToFunc()
+// BySummaryCn orders the results by the summary_cn field.
+func BySummaryCn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSummaryCn, opts...).ToFunc()
 }

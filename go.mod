@@ -2,7 +2,7 @@ module github.com/wolodata/schema
 
 go 1.21.4
 
-require entgo.io/ent v0.12.4
+require entgo.io/ent v0.12.5
 
 require (
 	ariga.io/atlas v0.14.1-0.20230918065911-83ad451a4935 // indirect
