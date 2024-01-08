@@ -29,14 +29,14 @@ const (
 	FieldTags = "tags"
 	// FieldPublishedAt holds the string denoting the published_at field in the database.
 	FieldPublishedAt = "published_at"
-	// FieldRawEn holds the string denoting the raw_en field in the database.
-	FieldRawEn = "raw_en"
-	// FieldRawCn holds the string denoting the raw_cn field in the database.
-	FieldRawCn = "raw_cn"
-	// FieldPreviewEn holds the string denoting the preview_en field in the database.
-	FieldPreviewEn = "preview_en"
-	// FieldPreviewCn holds the string denoting the preview_cn field in the database.
-	FieldPreviewCn = "preview_cn"
+	// FieldHTMLEn holds the string denoting the html_en field in the database.
+	FieldHTMLEn = "html_en"
+	// FieldHTMLCn holds the string denoting the html_cn field in the database.
+	FieldHTMLCn = "html_cn"
+	// FieldTextEn holds the string denoting the text_en field in the database.
+	FieldTextEn = "text_en"
+	// FieldTextCn holds the string denoting the text_cn field in the database.
+	FieldTextCn = "text_cn"
 	// FieldCrawledAt holds the string denoting the crawled_at field in the database.
 	FieldCrawledAt = "crawled_at"
 	// FieldSummaryCn holds the string denoting the summary_cn field in the database.
@@ -56,10 +56,10 @@ var Columns = []string{
 	FieldAuthor,
 	FieldTags,
 	FieldPublishedAt,
-	FieldRawEn,
-	FieldRawCn,
-	FieldPreviewEn,
-	FieldPreviewCn,
+	FieldHTMLEn,
+	FieldHTMLCn,
+	FieldTextEn,
+	FieldTextCn,
 	FieldCrawledAt,
 	FieldSummaryCn,
 }
@@ -124,24 +124,24 @@ func ByPublishedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPublishedAt, opts...).ToFunc()
 }
 
-// ByRawEn orders the results by the raw_en field.
-func ByRawEn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRawEn, opts...).ToFunc()
+// ByHTMLEn orders the results by the html_en field.
+func ByHTMLEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldHTMLEn, opts...).ToFunc()
 }
 
-// ByRawCn orders the results by the raw_cn field.
-func ByRawCn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRawCn, opts...).ToFunc()
+// ByHTMLCn orders the results by the html_cn field.
+func ByHTMLCn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldHTMLCn, opts...).ToFunc()
 }
 
-// ByPreviewEn orders the results by the preview_en field.
-func ByPreviewEn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPreviewEn, opts...).ToFunc()
+// ByTextEn orders the results by the text_en field.
+func ByTextEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTextEn, opts...).ToFunc()
 }
 
-// ByPreviewCn orders the results by the preview_cn field.
-func ByPreviewCn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPreviewCn, opts...).ToFunc()
+// ByTextCn orders the results by the text_cn field.
+func ByTextCn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTextCn, opts...).ToFunc()
 }
 
 // ByCrawledAt orders the results by the crawled_at field.

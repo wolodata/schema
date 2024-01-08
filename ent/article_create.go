@@ -92,58 +92,58 @@ func (ac *ArticleCreate) SetPublishedAt(t time.Time) *ArticleCreate {
 	return ac
 }
 
-// SetRawEn sets the "raw_en" field.
-func (ac *ArticleCreate) SetRawEn(s string) *ArticleCreate {
-	ac.mutation.SetRawEn(s)
+// SetHTMLEn sets the "html_en" field.
+func (ac *ArticleCreate) SetHTMLEn(s string) *ArticleCreate {
+	ac.mutation.SetHTMLEn(s)
 	return ac
 }
 
-// SetNillableRawEn sets the "raw_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableRawEn(s *string) *ArticleCreate {
+// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLEn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetRawEn(*s)
+		ac.SetHTMLEn(*s)
 	}
 	return ac
 }
 
-// SetRawCn sets the "raw_cn" field.
-func (ac *ArticleCreate) SetRawCn(s string) *ArticleCreate {
-	ac.mutation.SetRawCn(s)
+// SetHTMLCn sets the "html_cn" field.
+func (ac *ArticleCreate) SetHTMLCn(s string) *ArticleCreate {
+	ac.mutation.SetHTMLCn(s)
 	return ac
 }
 
-// SetNillableRawCn sets the "raw_cn" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableRawCn(s *string) *ArticleCreate {
+// SetNillableHTMLCn sets the "html_cn" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLCn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetRawCn(*s)
+		ac.SetHTMLCn(*s)
 	}
 	return ac
 }
 
-// SetPreviewEn sets the "preview_en" field.
-func (ac *ArticleCreate) SetPreviewEn(s string) *ArticleCreate {
-	ac.mutation.SetPreviewEn(s)
+// SetTextEn sets the "text_en" field.
+func (ac *ArticleCreate) SetTextEn(s string) *ArticleCreate {
+	ac.mutation.SetTextEn(s)
 	return ac
 }
 
-// SetNillablePreviewEn sets the "preview_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillablePreviewEn(s *string) *ArticleCreate {
+// SetNillableTextEn sets the "text_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextEn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetPreviewEn(*s)
+		ac.SetTextEn(*s)
 	}
 	return ac
 }
 
-// SetPreviewCn sets the "preview_cn" field.
-func (ac *ArticleCreate) SetPreviewCn(s string) *ArticleCreate {
-	ac.mutation.SetPreviewCn(s)
+// SetTextCn sets the "text_cn" field.
+func (ac *ArticleCreate) SetTextCn(s string) *ArticleCreate {
+	ac.mutation.SetTextCn(s)
 	return ac
 }
 
-// SetNillablePreviewCn sets the "preview_cn" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillablePreviewCn(s *string) *ArticleCreate {
+// SetNillableTextCn sets the "text_cn" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextCn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetPreviewCn(*s)
+		ac.SetTextCn(*s)
 	}
 	return ac
 }
@@ -309,21 +309,21 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldPublishedAt, field.TypeTime, value)
 		_node.PublishedAt = value
 	}
-	if value, ok := ac.mutation.RawEn(); ok {
-		_spec.SetField(article.FieldRawEn, field.TypeString, value)
-		_node.RawEn = value
+	if value, ok := ac.mutation.HTMLEn(); ok {
+		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
+		_node.HTMLEn = value
 	}
-	if value, ok := ac.mutation.RawCn(); ok {
-		_spec.SetField(article.FieldRawCn, field.TypeString, value)
-		_node.RawCn = value
+	if value, ok := ac.mutation.HTMLCn(); ok {
+		_spec.SetField(article.FieldHTMLCn, field.TypeString, value)
+		_node.HTMLCn = value
 	}
-	if value, ok := ac.mutation.PreviewEn(); ok {
-		_spec.SetField(article.FieldPreviewEn, field.TypeString, value)
-		_node.PreviewEn = value
+	if value, ok := ac.mutation.TextEn(); ok {
+		_spec.SetField(article.FieldTextEn, field.TypeString, value)
+		_node.TextEn = value
 	}
-	if value, ok := ac.mutation.PreviewCn(); ok {
-		_spec.SetField(article.FieldPreviewCn, field.TypeString, value)
-		_node.PreviewCn = value
+	if value, ok := ac.mutation.TextCn(); ok {
+		_spec.SetField(article.FieldTextCn, field.TypeString, value)
+		_node.TextCn = value
 	}
 	if value, ok := ac.mutation.CrawledAt(); ok {
 		_spec.SetField(article.FieldCrawledAt, field.TypeTime, value)

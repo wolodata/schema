@@ -34,14 +34,14 @@ type Article struct {
 	Tags []string `json:"tags,omitempty"`
 	// PublishedAt holds the value of the "published_at" field.
 	PublishedAt time.Time `json:"published_at,omitempty"`
-	// RawEn holds the value of the "raw_en" field.
-	RawEn string `json:"raw_en,omitempty"`
-	// RawCn holds the value of the "raw_cn" field.
-	RawCn string `json:"raw_cn,omitempty"`
-	// PreviewEn holds the value of the "preview_en" field.
-	PreviewEn string `json:"preview_en,omitempty"`
-	// PreviewCn holds the value of the "preview_cn" field.
-	PreviewCn string `json:"preview_cn,omitempty"`
+	// HTMLEn holds the value of the "html_en" field.
+	HTMLEn string `json:"html_en,omitempty"`
+	// HTMLCn holds the value of the "html_cn" field.
+	HTMLCn string `json:"html_cn,omitempty"`
+	// TextEn holds the value of the "text_en" field.
+	TextEn string `json:"text_en,omitempty"`
+	// TextCn holds the value of the "text_cn" field.
+	TextCn string `json:"text_cn,omitempty"`
 	// CrawledAt holds the value of the "crawled_at" field.
 	CrawledAt time.Time `json:"crawled_at,omitempty"`
 	// SummaryCn holds the value of the "summary_cn" field.
@@ -58,7 +58,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitleEn, article.FieldTitleCn, article.FieldAuthor, article.FieldRawEn, article.FieldRawCn, article.FieldPreviewEn, article.FieldPreviewCn, article.FieldSummaryCn:
+		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitleEn, article.FieldTitleCn, article.FieldAuthor, article.FieldHTMLEn, article.FieldHTMLCn, article.FieldTextEn, article.FieldTextCn, article.FieldSummaryCn:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt, article.FieldCrawledAt:
 			values[i] = new(sql.NullTime)
@@ -133,29 +133,29 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.PublishedAt = value.Time
 			}
-		case article.FieldRawEn:
+		case article.FieldHTMLEn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field raw_en", values[i])
+				return fmt.Errorf("unexpected type %T for field html_en", values[i])
 			} else if value.Valid {
-				a.RawEn = value.String
+				a.HTMLEn = value.String
 			}
-		case article.FieldRawCn:
+		case article.FieldHTMLCn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field raw_cn", values[i])
+				return fmt.Errorf("unexpected type %T for field html_cn", values[i])
 			} else if value.Valid {
-				a.RawCn = value.String
+				a.HTMLCn = value.String
 			}
-		case article.FieldPreviewEn:
+		case article.FieldTextEn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field preview_en", values[i])
+				return fmt.Errorf("unexpected type %T for field text_en", values[i])
 			} else if value.Valid {
-				a.PreviewEn = value.String
+				a.TextEn = value.String
 			}
-		case article.FieldPreviewCn:
+		case article.FieldTextCn:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field preview_cn", values[i])
+				return fmt.Errorf("unexpected type %T for field text_cn", values[i])
 			} else if value.Valid {
-				a.PreviewCn = value.String
+				a.TextCn = value.String
 			}
 		case article.FieldCrawledAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -229,17 +229,17 @@ func (a *Article) String() string {
 	builder.WriteString("published_at=")
 	builder.WriteString(a.PublishedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("raw_en=")
-	builder.WriteString(a.RawEn)
+	builder.WriteString("html_en=")
+	builder.WriteString(a.HTMLEn)
 	builder.WriteString(", ")
-	builder.WriteString("raw_cn=")
-	builder.WriteString(a.RawCn)
+	builder.WriteString("html_cn=")
+	builder.WriteString(a.HTMLCn)
 	builder.WriteString(", ")
-	builder.WriteString("preview_en=")
-	builder.WriteString(a.PreviewEn)
+	builder.WriteString("text_en=")
+	builder.WriteString(a.TextEn)
 	builder.WriteString(", ")
-	builder.WriteString("preview_cn=")
-	builder.WriteString(a.PreviewCn)
+	builder.WriteString("text_cn=")
+	builder.WriteString(a.TextCn)
 	builder.WriteString(", ")
 	builder.WriteString("crawled_at=")
 	builder.WriteString(a.CrawledAt.Format(time.ANSIC))
