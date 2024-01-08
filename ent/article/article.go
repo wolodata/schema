@@ -19,24 +19,24 @@ const (
 	FieldOriginType = "origin_type"
 	// FieldURL holds the string denoting the url field in the database.
 	FieldURL = "url"
-	// FieldTitleEn holds the string denoting the title_en field in the database.
-	FieldTitleEn = "title_en"
 	// FieldTitleCn holds the string denoting the title_cn field in the database.
 	FieldTitleCn = "title_cn"
+	// FieldTitleEn holds the string denoting the title_en field in the database.
+	FieldTitleEn = "title_en"
 	// FieldAuthor holds the string denoting the author field in the database.
 	FieldAuthor = "author"
 	// FieldTags holds the string denoting the tags field in the database.
 	FieldTags = "tags"
 	// FieldPublishedAt holds the string denoting the published_at field in the database.
 	FieldPublishedAt = "published_at"
-	// FieldHTMLEn holds the string denoting the html_en field in the database.
-	FieldHTMLEn = "html_en"
 	// FieldHTMLCn holds the string denoting the html_cn field in the database.
 	FieldHTMLCn = "html_cn"
-	// FieldTextEn holds the string denoting the text_en field in the database.
-	FieldTextEn = "text_en"
+	// FieldHTMLEn holds the string denoting the html_en field in the database.
+	FieldHTMLEn = "html_en"
 	// FieldTextCn holds the string denoting the text_cn field in the database.
 	FieldTextCn = "text_cn"
+	// FieldTextEn holds the string denoting the text_en field in the database.
+	FieldTextEn = "text_en"
 	// FieldCrawledAt holds the string denoting the crawled_at field in the database.
 	FieldCrawledAt = "crawled_at"
 	// FieldSummaryCn holds the string denoting the summary_cn field in the database.
@@ -51,15 +51,15 @@ var Columns = []string{
 	FieldOriginName,
 	FieldOriginType,
 	FieldURL,
-	FieldTitleEn,
 	FieldTitleCn,
+	FieldTitleEn,
 	FieldAuthor,
 	FieldTags,
 	FieldPublishedAt,
-	FieldHTMLEn,
 	FieldHTMLCn,
-	FieldTextEn,
+	FieldHTMLEn,
 	FieldTextCn,
+	FieldTextEn,
 	FieldCrawledAt,
 	FieldSummaryCn,
 }
@@ -104,14 +104,14 @@ func ByURL(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldURL, opts...).ToFunc()
 }
 
-// ByTitleEn orders the results by the title_en field.
-func ByTitleEn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTitleEn, opts...).ToFunc()
-}
-
 // ByTitleCn orders the results by the title_cn field.
 func ByTitleCn(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTitleCn, opts...).ToFunc()
+}
+
+// ByTitleEn orders the results by the title_en field.
+func ByTitleEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTitleEn, opts...).ToFunc()
 }
 
 // ByAuthor orders the results by the author field.
@@ -124,24 +124,24 @@ func ByPublishedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPublishedAt, opts...).ToFunc()
 }
 
-// ByHTMLEn orders the results by the html_en field.
-func ByHTMLEn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHTMLEn, opts...).ToFunc()
-}
-
 // ByHTMLCn orders the results by the html_cn field.
 func ByHTMLCn(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldHTMLCn, opts...).ToFunc()
 }
 
-// ByTextEn orders the results by the text_en field.
-func ByTextEn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTextEn, opts...).ToFunc()
+// ByHTMLEn orders the results by the html_en field.
+func ByHTMLEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldHTMLEn, opts...).ToFunc()
 }
 
 // ByTextCn orders the results by the text_cn field.
 func ByTextCn(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextCn, opts...).ToFunc()
+}
+
+// ByTextEn orders the results by the text_en field.
+func ByTextEn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTextEn, opts...).ToFunc()
 }
 
 // ByCrawledAt orders the results by the crawled_at field.

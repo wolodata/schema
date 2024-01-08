@@ -27,26 +27,6 @@ func (au *ArticleUpdate) Where(ps ...predicate.Article) *ArticleUpdate {
 	return au
 }
 
-// SetTitleEn sets the "title_en" field.
-func (au *ArticleUpdate) SetTitleEn(s string) *ArticleUpdate {
-	au.mutation.SetTitleEn(s)
-	return au
-}
-
-// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableTitleEn(s *string) *ArticleUpdate {
-	if s != nil {
-		au.SetTitleEn(*s)
-	}
-	return au
-}
-
-// ClearTitleEn clears the value of the "title_en" field.
-func (au *ArticleUpdate) ClearTitleEn() *ArticleUpdate {
-	au.mutation.ClearTitleEn()
-	return au
-}
-
 // SetTitleCn sets the "title_cn" field.
 func (au *ArticleUpdate) SetTitleCn(s string) *ArticleUpdate {
 	au.mutation.SetTitleCn(s)
@@ -67,23 +47,23 @@ func (au *ArticleUpdate) ClearTitleCn() *ArticleUpdate {
 	return au
 }
 
-// SetHTMLEn sets the "html_en" field.
-func (au *ArticleUpdate) SetHTMLEn(s string) *ArticleUpdate {
-	au.mutation.SetHTMLEn(s)
+// SetTitleEn sets the "title_en" field.
+func (au *ArticleUpdate) SetTitleEn(s string) *ArticleUpdate {
+	au.mutation.SetTitleEn(s)
 	return au
 }
 
-// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableHTMLEn(s *string) *ArticleUpdate {
+// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableTitleEn(s *string) *ArticleUpdate {
 	if s != nil {
-		au.SetHTMLEn(*s)
+		au.SetTitleEn(*s)
 	}
 	return au
 }
 
-// ClearHTMLEn clears the value of the "html_en" field.
-func (au *ArticleUpdate) ClearHTMLEn() *ArticleUpdate {
-	au.mutation.ClearHTMLEn()
+// ClearTitleEn clears the value of the "title_en" field.
+func (au *ArticleUpdate) ClearTitleEn() *ArticleUpdate {
+	au.mutation.ClearTitleEn()
 	return au
 }
 
@@ -107,23 +87,23 @@ func (au *ArticleUpdate) ClearHTMLCn() *ArticleUpdate {
 	return au
 }
 
-// SetTextEn sets the "text_en" field.
-func (au *ArticleUpdate) SetTextEn(s string) *ArticleUpdate {
-	au.mutation.SetTextEn(s)
+// SetHTMLEn sets the "html_en" field.
+func (au *ArticleUpdate) SetHTMLEn(s string) *ArticleUpdate {
+	au.mutation.SetHTMLEn(s)
 	return au
 }
 
-// SetNillableTextEn sets the "text_en" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableTextEn(s *string) *ArticleUpdate {
+// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableHTMLEn(s *string) *ArticleUpdate {
 	if s != nil {
-		au.SetTextEn(*s)
+		au.SetHTMLEn(*s)
 	}
 	return au
 }
 
-// ClearTextEn clears the value of the "text_en" field.
-func (au *ArticleUpdate) ClearTextEn() *ArticleUpdate {
-	au.mutation.ClearTextEn()
+// ClearHTMLEn clears the value of the "html_en" field.
+func (au *ArticleUpdate) ClearHTMLEn() *ArticleUpdate {
+	au.mutation.ClearHTMLEn()
 	return au
 }
 
@@ -144,6 +124,26 @@ func (au *ArticleUpdate) SetNillableTextCn(s *string) *ArticleUpdate {
 // ClearTextCn clears the value of the "text_cn" field.
 func (au *ArticleUpdate) ClearTextCn() *ArticleUpdate {
 	au.mutation.ClearTextCn()
+	return au
+}
+
+// SetTextEn sets the "text_en" field.
+func (au *ArticleUpdate) SetTextEn(s string) *ArticleUpdate {
+	au.mutation.SetTextEn(s)
+	return au
+}
+
+// SetNillableTextEn sets the "text_en" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableTextEn(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetTextEn(*s)
+	}
+	return au
+}
+
+// ClearTextEn clears the value of the "text_en" field.
+func (au *ArticleUpdate) ClearTextEn() *ArticleUpdate {
+	au.mutation.ClearTextEn()
 	return au
 }
 
@@ -208,17 +208,17 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := au.mutation.TitleEn(); ok {
-		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
-	}
-	if au.mutation.TitleEnCleared() {
-		_spec.ClearField(article.FieldTitleEn, field.TypeString)
-	}
 	if value, ok := au.mutation.TitleCn(); ok {
 		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
 	}
 	if au.mutation.TitleCnCleared() {
 		_spec.ClearField(article.FieldTitleCn, field.TypeString)
+	}
+	if value, ok := au.mutation.TitleEn(); ok {
+		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
+	}
+	if au.mutation.TitleEnCleared() {
+		_spec.ClearField(article.FieldTitleEn, field.TypeString)
 	}
 	if au.mutation.AuthorCleared() {
 		_spec.ClearField(article.FieldAuthor, field.TypeString)
@@ -226,29 +226,29 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if au.mutation.TagsCleared() {
 		_spec.ClearField(article.FieldTags, field.TypeJSON)
 	}
-	if value, ok := au.mutation.HTMLEn(); ok {
-		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
-	}
-	if au.mutation.HTMLEnCleared() {
-		_spec.ClearField(article.FieldHTMLEn, field.TypeString)
-	}
 	if value, ok := au.mutation.HTMLCn(); ok {
 		_spec.SetField(article.FieldHTMLCn, field.TypeString, value)
 	}
 	if au.mutation.HTMLCnCleared() {
 		_spec.ClearField(article.FieldHTMLCn, field.TypeString)
 	}
-	if value, ok := au.mutation.TextEn(); ok {
-		_spec.SetField(article.FieldTextEn, field.TypeString, value)
+	if value, ok := au.mutation.HTMLEn(); ok {
+		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
 	}
-	if au.mutation.TextEnCleared() {
-		_spec.ClearField(article.FieldTextEn, field.TypeString)
+	if au.mutation.HTMLEnCleared() {
+		_spec.ClearField(article.FieldHTMLEn, field.TypeString)
 	}
 	if value, ok := au.mutation.TextCn(); ok {
 		_spec.SetField(article.FieldTextCn, field.TypeString, value)
 	}
 	if au.mutation.TextCnCleared() {
 		_spec.ClearField(article.FieldTextCn, field.TypeString)
+	}
+	if value, ok := au.mutation.TextEn(); ok {
+		_spec.SetField(article.FieldTextEn, field.TypeString, value)
+	}
+	if au.mutation.TextEnCleared() {
+		_spec.ClearField(article.FieldTextEn, field.TypeString)
 	}
 	if value, ok := au.mutation.SummaryCn(); ok {
 		_spec.SetField(article.FieldSummaryCn, field.TypeString, value)
@@ -276,26 +276,6 @@ type ArticleUpdateOne struct {
 	mutation *ArticleMutation
 }
 
-// SetTitleEn sets the "title_en" field.
-func (auo *ArticleUpdateOne) SetTitleEn(s string) *ArticleUpdateOne {
-	auo.mutation.SetTitleEn(s)
-	return auo
-}
-
-// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableTitleEn(s *string) *ArticleUpdateOne {
-	if s != nil {
-		auo.SetTitleEn(*s)
-	}
-	return auo
-}
-
-// ClearTitleEn clears the value of the "title_en" field.
-func (auo *ArticleUpdateOne) ClearTitleEn() *ArticleUpdateOne {
-	auo.mutation.ClearTitleEn()
-	return auo
-}
-
 // SetTitleCn sets the "title_cn" field.
 func (auo *ArticleUpdateOne) SetTitleCn(s string) *ArticleUpdateOne {
 	auo.mutation.SetTitleCn(s)
@@ -316,23 +296,23 @@ func (auo *ArticleUpdateOne) ClearTitleCn() *ArticleUpdateOne {
 	return auo
 }
 
-// SetHTMLEn sets the "html_en" field.
-func (auo *ArticleUpdateOne) SetHTMLEn(s string) *ArticleUpdateOne {
-	auo.mutation.SetHTMLEn(s)
+// SetTitleEn sets the "title_en" field.
+func (auo *ArticleUpdateOne) SetTitleEn(s string) *ArticleUpdateOne {
+	auo.mutation.SetTitleEn(s)
 	return auo
 }
 
-// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableHTMLEn(s *string) *ArticleUpdateOne {
+// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableTitleEn(s *string) *ArticleUpdateOne {
 	if s != nil {
-		auo.SetHTMLEn(*s)
+		auo.SetTitleEn(*s)
 	}
 	return auo
 }
 
-// ClearHTMLEn clears the value of the "html_en" field.
-func (auo *ArticleUpdateOne) ClearHTMLEn() *ArticleUpdateOne {
-	auo.mutation.ClearHTMLEn()
+// ClearTitleEn clears the value of the "title_en" field.
+func (auo *ArticleUpdateOne) ClearTitleEn() *ArticleUpdateOne {
+	auo.mutation.ClearTitleEn()
 	return auo
 }
 
@@ -356,23 +336,23 @@ func (auo *ArticleUpdateOne) ClearHTMLCn() *ArticleUpdateOne {
 	return auo
 }
 
-// SetTextEn sets the "text_en" field.
-func (auo *ArticleUpdateOne) SetTextEn(s string) *ArticleUpdateOne {
-	auo.mutation.SetTextEn(s)
+// SetHTMLEn sets the "html_en" field.
+func (auo *ArticleUpdateOne) SetHTMLEn(s string) *ArticleUpdateOne {
+	auo.mutation.SetHTMLEn(s)
 	return auo
 }
 
-// SetNillableTextEn sets the "text_en" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableTextEn(s *string) *ArticleUpdateOne {
+// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableHTMLEn(s *string) *ArticleUpdateOne {
 	if s != nil {
-		auo.SetTextEn(*s)
+		auo.SetHTMLEn(*s)
 	}
 	return auo
 }
 
-// ClearTextEn clears the value of the "text_en" field.
-func (auo *ArticleUpdateOne) ClearTextEn() *ArticleUpdateOne {
-	auo.mutation.ClearTextEn()
+// ClearHTMLEn clears the value of the "html_en" field.
+func (auo *ArticleUpdateOne) ClearHTMLEn() *ArticleUpdateOne {
+	auo.mutation.ClearHTMLEn()
 	return auo
 }
 
@@ -393,6 +373,26 @@ func (auo *ArticleUpdateOne) SetNillableTextCn(s *string) *ArticleUpdateOne {
 // ClearTextCn clears the value of the "text_cn" field.
 func (auo *ArticleUpdateOne) ClearTextCn() *ArticleUpdateOne {
 	auo.mutation.ClearTextCn()
+	return auo
+}
+
+// SetTextEn sets the "text_en" field.
+func (auo *ArticleUpdateOne) SetTextEn(s string) *ArticleUpdateOne {
+	auo.mutation.SetTextEn(s)
+	return auo
+}
+
+// SetNillableTextEn sets the "text_en" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableTextEn(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetTextEn(*s)
+	}
+	return auo
+}
+
+// ClearTextEn clears the value of the "text_en" field.
+func (auo *ArticleUpdateOne) ClearTextEn() *ArticleUpdateOne {
+	auo.mutation.ClearTextEn()
 	return auo
 }
 
@@ -487,17 +487,17 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			}
 		}
 	}
-	if value, ok := auo.mutation.TitleEn(); ok {
-		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
-	}
-	if auo.mutation.TitleEnCleared() {
-		_spec.ClearField(article.FieldTitleEn, field.TypeString)
-	}
 	if value, ok := auo.mutation.TitleCn(); ok {
 		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
 	}
 	if auo.mutation.TitleCnCleared() {
 		_spec.ClearField(article.FieldTitleCn, field.TypeString)
+	}
+	if value, ok := auo.mutation.TitleEn(); ok {
+		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
+	}
+	if auo.mutation.TitleEnCleared() {
+		_spec.ClearField(article.FieldTitleEn, field.TypeString)
 	}
 	if auo.mutation.AuthorCleared() {
 		_spec.ClearField(article.FieldAuthor, field.TypeString)
@@ -505,29 +505,29 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	if auo.mutation.TagsCleared() {
 		_spec.ClearField(article.FieldTags, field.TypeJSON)
 	}
-	if value, ok := auo.mutation.HTMLEn(); ok {
-		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
-	}
-	if auo.mutation.HTMLEnCleared() {
-		_spec.ClearField(article.FieldHTMLEn, field.TypeString)
-	}
 	if value, ok := auo.mutation.HTMLCn(); ok {
 		_spec.SetField(article.FieldHTMLCn, field.TypeString, value)
 	}
 	if auo.mutation.HTMLCnCleared() {
 		_spec.ClearField(article.FieldHTMLCn, field.TypeString)
 	}
-	if value, ok := auo.mutation.TextEn(); ok {
-		_spec.SetField(article.FieldTextEn, field.TypeString, value)
+	if value, ok := auo.mutation.HTMLEn(); ok {
+		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
 	}
-	if auo.mutation.TextEnCleared() {
-		_spec.ClearField(article.FieldTextEn, field.TypeString)
+	if auo.mutation.HTMLEnCleared() {
+		_spec.ClearField(article.FieldHTMLEn, field.TypeString)
 	}
 	if value, ok := auo.mutation.TextCn(); ok {
 		_spec.SetField(article.FieldTextCn, field.TypeString, value)
 	}
 	if auo.mutation.TextCnCleared() {
 		_spec.ClearField(article.FieldTextCn, field.TypeString)
+	}
+	if value, ok := auo.mutation.TextEn(); ok {
+		_spec.SetField(article.FieldTextEn, field.TypeString, value)
+	}
+	if auo.mutation.TextEnCleared() {
+		_spec.ClearField(article.FieldTextEn, field.TypeString)
 	}
 	if value, ok := auo.mutation.SummaryCn(); ok {
 		_spec.SetField(article.FieldSummaryCn, field.TypeString, value)

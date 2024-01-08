@@ -38,20 +38,6 @@ func (ac *ArticleCreate) SetURL(s string) *ArticleCreate {
 	return ac
 }
 
-// SetTitleEn sets the "title_en" field.
-func (ac *ArticleCreate) SetTitleEn(s string) *ArticleCreate {
-	ac.mutation.SetTitleEn(s)
-	return ac
-}
-
-// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTitleEn(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetTitleEn(*s)
-	}
-	return ac
-}
-
 // SetTitleCn sets the "title_cn" field.
 func (ac *ArticleCreate) SetTitleCn(s string) *ArticleCreate {
 	ac.mutation.SetTitleCn(s)
@@ -62,6 +48,20 @@ func (ac *ArticleCreate) SetTitleCn(s string) *ArticleCreate {
 func (ac *ArticleCreate) SetNillableTitleCn(s *string) *ArticleCreate {
 	if s != nil {
 		ac.SetTitleCn(*s)
+	}
+	return ac
+}
+
+// SetTitleEn sets the "title_en" field.
+func (ac *ArticleCreate) SetTitleEn(s string) *ArticleCreate {
+	ac.mutation.SetTitleEn(s)
+	return ac
+}
+
+// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleEn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTitleEn(*s)
 	}
 	return ac
 }
@@ -92,20 +92,6 @@ func (ac *ArticleCreate) SetPublishedAt(t time.Time) *ArticleCreate {
 	return ac
 }
 
-// SetHTMLEn sets the "html_en" field.
-func (ac *ArticleCreate) SetHTMLEn(s string) *ArticleCreate {
-	ac.mutation.SetHTMLEn(s)
-	return ac
-}
-
-// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableHTMLEn(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetHTMLEn(*s)
-	}
-	return ac
-}
-
 // SetHTMLCn sets the "html_cn" field.
 func (ac *ArticleCreate) SetHTMLCn(s string) *ArticleCreate {
 	ac.mutation.SetHTMLCn(s)
@@ -120,16 +106,16 @@ func (ac *ArticleCreate) SetNillableHTMLCn(s *string) *ArticleCreate {
 	return ac
 }
 
-// SetTextEn sets the "text_en" field.
-func (ac *ArticleCreate) SetTextEn(s string) *ArticleCreate {
-	ac.mutation.SetTextEn(s)
+// SetHTMLEn sets the "html_en" field.
+func (ac *ArticleCreate) SetHTMLEn(s string) *ArticleCreate {
+	ac.mutation.SetHTMLEn(s)
 	return ac
 }
 
-// SetNillableTextEn sets the "text_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTextEn(s *string) *ArticleCreate {
+// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLEn(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetTextEn(*s)
+		ac.SetHTMLEn(*s)
 	}
 	return ac
 }
@@ -144,6 +130,20 @@ func (ac *ArticleCreate) SetTextCn(s string) *ArticleCreate {
 func (ac *ArticleCreate) SetNillableTextCn(s *string) *ArticleCreate {
 	if s != nil {
 		ac.SetTextCn(*s)
+	}
+	return ac
+}
+
+// SetTextEn sets the "text_en" field.
+func (ac *ArticleCreate) SetTextEn(s string) *ArticleCreate {
+	ac.mutation.SetTextEn(s)
+	return ac
+}
+
+// SetNillableTextEn sets the "text_en" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextEn(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTextEn(*s)
 	}
 	return ac
 }
@@ -289,13 +289,13 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldURL, field.TypeString, value)
 		_node.URL = value
 	}
-	if value, ok := ac.mutation.TitleEn(); ok {
-		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
-		_node.TitleEn = value
-	}
 	if value, ok := ac.mutation.TitleCn(); ok {
 		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
 		_node.TitleCn = value
+	}
+	if value, ok := ac.mutation.TitleEn(); ok {
+		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
+		_node.TitleEn = value
 	}
 	if value, ok := ac.mutation.Author(); ok {
 		_spec.SetField(article.FieldAuthor, field.TypeString, value)
@@ -309,21 +309,21 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldPublishedAt, field.TypeTime, value)
 		_node.PublishedAt = value
 	}
-	if value, ok := ac.mutation.HTMLEn(); ok {
-		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
-		_node.HTMLEn = value
-	}
 	if value, ok := ac.mutation.HTMLCn(); ok {
 		_spec.SetField(article.FieldHTMLCn, field.TypeString, value)
 		_node.HTMLCn = value
 	}
-	if value, ok := ac.mutation.TextEn(); ok {
-		_spec.SetField(article.FieldTextEn, field.TypeString, value)
-		_node.TextEn = value
+	if value, ok := ac.mutation.HTMLEn(); ok {
+		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
+		_node.HTMLEn = value
 	}
 	if value, ok := ac.mutation.TextCn(); ok {
 		_spec.SetField(article.FieldTextCn, field.TypeString, value)
 		_node.TextCn = value
+	}
+	if value, ok := ac.mutation.TextEn(); ok {
+		_spec.SetField(article.FieldTextEn, field.TypeString, value)
+		_node.TextEn = value
 	}
 	if value, ok := ac.mutation.CrawledAt(); ok {
 		_spec.SetField(article.FieldCrawledAt, field.TypeTime, value)

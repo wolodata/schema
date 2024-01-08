@@ -38,16 +38,16 @@ type ArticleMutation struct {
 	origin_name   *string
 	origin_type   *string
 	url           *string
-	title_en      *string
 	title_cn      *string
+	title_en      *string
 	author        *string
 	tags          *[]string
 	appendtags    []string
 	published_at  *time.Time
-	html_en       *string
 	html_cn       *string
-	text_en       *string
+	html_en       *string
 	text_cn       *string
+	text_en       *string
 	crawled_at    *time.Time
 	summary_cn    *string
 	clearedFields map[string]struct{}
@@ -268,55 +268,6 @@ func (m *ArticleMutation) ResetURL() {
 	m.url = nil
 }
 
-// SetTitleEn sets the "title_en" field.
-func (m *ArticleMutation) SetTitleEn(s string) {
-	m.title_en = &s
-}
-
-// TitleEn returns the value of the "title_en" field in the mutation.
-func (m *ArticleMutation) TitleEn() (r string, exists bool) {
-	v := m.title_en
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTitleEn returns the old "title_en" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTitleEn(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTitleEn is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTitleEn requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTitleEn: %w", err)
-	}
-	return oldValue.TitleEn, nil
-}
-
-// ClearTitleEn clears the value of the "title_en" field.
-func (m *ArticleMutation) ClearTitleEn() {
-	m.title_en = nil
-	m.clearedFields[article.FieldTitleEn] = struct{}{}
-}
-
-// TitleEnCleared returns if the "title_en" field was cleared in this mutation.
-func (m *ArticleMutation) TitleEnCleared() bool {
-	_, ok := m.clearedFields[article.FieldTitleEn]
-	return ok
-}
-
-// ResetTitleEn resets all changes to the "title_en" field.
-func (m *ArticleMutation) ResetTitleEn() {
-	m.title_en = nil
-	delete(m.clearedFields, article.FieldTitleEn)
-}
-
 // SetTitleCn sets the "title_cn" field.
 func (m *ArticleMutation) SetTitleCn(s string) {
 	m.title_cn = &s
@@ -364,6 +315,55 @@ func (m *ArticleMutation) TitleCnCleared() bool {
 func (m *ArticleMutation) ResetTitleCn() {
 	m.title_cn = nil
 	delete(m.clearedFields, article.FieldTitleCn)
+}
+
+// SetTitleEn sets the "title_en" field.
+func (m *ArticleMutation) SetTitleEn(s string) {
+	m.title_en = &s
+}
+
+// TitleEn returns the value of the "title_en" field in the mutation.
+func (m *ArticleMutation) TitleEn() (r string, exists bool) {
+	v := m.title_en
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTitleEn returns the old "title_en" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldTitleEn(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTitleEn is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTitleEn requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTitleEn: %w", err)
+	}
+	return oldValue.TitleEn, nil
+}
+
+// ClearTitleEn clears the value of the "title_en" field.
+func (m *ArticleMutation) ClearTitleEn() {
+	m.title_en = nil
+	m.clearedFields[article.FieldTitleEn] = struct{}{}
+}
+
+// TitleEnCleared returns if the "title_en" field was cleared in this mutation.
+func (m *ArticleMutation) TitleEnCleared() bool {
+	_, ok := m.clearedFields[article.FieldTitleEn]
+	return ok
+}
+
+// ResetTitleEn resets all changes to the "title_en" field.
+func (m *ArticleMutation) ResetTitleEn() {
+	m.title_en = nil
+	delete(m.clearedFields, article.FieldTitleEn)
 }
 
 // SetAuthor sets the "author" field.
@@ -516,55 +516,6 @@ func (m *ArticleMutation) ResetPublishedAt() {
 	m.published_at = nil
 }
 
-// SetHTMLEn sets the "html_en" field.
-func (m *ArticleMutation) SetHTMLEn(s string) {
-	m.html_en = &s
-}
-
-// HTMLEn returns the value of the "html_en" field in the mutation.
-func (m *ArticleMutation) HTMLEn() (r string, exists bool) {
-	v := m.html_en
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldHTMLEn returns the old "html_en" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldHTMLEn(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldHTMLEn is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldHTMLEn requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldHTMLEn: %w", err)
-	}
-	return oldValue.HTMLEn, nil
-}
-
-// ClearHTMLEn clears the value of the "html_en" field.
-func (m *ArticleMutation) ClearHTMLEn() {
-	m.html_en = nil
-	m.clearedFields[article.FieldHTMLEn] = struct{}{}
-}
-
-// HTMLEnCleared returns if the "html_en" field was cleared in this mutation.
-func (m *ArticleMutation) HTMLEnCleared() bool {
-	_, ok := m.clearedFields[article.FieldHTMLEn]
-	return ok
-}
-
-// ResetHTMLEn resets all changes to the "html_en" field.
-func (m *ArticleMutation) ResetHTMLEn() {
-	m.html_en = nil
-	delete(m.clearedFields, article.FieldHTMLEn)
-}
-
 // SetHTMLCn sets the "html_cn" field.
 func (m *ArticleMutation) SetHTMLCn(s string) {
 	m.html_cn = &s
@@ -614,53 +565,53 @@ func (m *ArticleMutation) ResetHTMLCn() {
 	delete(m.clearedFields, article.FieldHTMLCn)
 }
 
-// SetTextEn sets the "text_en" field.
-func (m *ArticleMutation) SetTextEn(s string) {
-	m.text_en = &s
+// SetHTMLEn sets the "html_en" field.
+func (m *ArticleMutation) SetHTMLEn(s string) {
+	m.html_en = &s
 }
 
-// TextEn returns the value of the "text_en" field in the mutation.
-func (m *ArticleMutation) TextEn() (r string, exists bool) {
-	v := m.text_en
+// HTMLEn returns the value of the "html_en" field in the mutation.
+func (m *ArticleMutation) HTMLEn() (r string, exists bool) {
+	v := m.html_en
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTextEn returns the old "text_en" field's value of the Article entity.
+// OldHTMLEn returns the old "html_en" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTextEn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldHTMLEn(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTextEn is only allowed on UpdateOne operations")
+		return v, errors.New("OldHTMLEn is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTextEn requires an ID field in the mutation")
+		return v, errors.New("OldHTMLEn requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTextEn: %w", err)
+		return v, fmt.Errorf("querying old value for OldHTMLEn: %w", err)
 	}
-	return oldValue.TextEn, nil
+	return oldValue.HTMLEn, nil
 }
 
-// ClearTextEn clears the value of the "text_en" field.
-func (m *ArticleMutation) ClearTextEn() {
-	m.text_en = nil
-	m.clearedFields[article.FieldTextEn] = struct{}{}
+// ClearHTMLEn clears the value of the "html_en" field.
+func (m *ArticleMutation) ClearHTMLEn() {
+	m.html_en = nil
+	m.clearedFields[article.FieldHTMLEn] = struct{}{}
 }
 
-// TextEnCleared returns if the "text_en" field was cleared in this mutation.
-func (m *ArticleMutation) TextEnCleared() bool {
-	_, ok := m.clearedFields[article.FieldTextEn]
+// HTMLEnCleared returns if the "html_en" field was cleared in this mutation.
+func (m *ArticleMutation) HTMLEnCleared() bool {
+	_, ok := m.clearedFields[article.FieldHTMLEn]
 	return ok
 }
 
-// ResetTextEn resets all changes to the "text_en" field.
-func (m *ArticleMutation) ResetTextEn() {
-	m.text_en = nil
-	delete(m.clearedFields, article.FieldTextEn)
+// ResetHTMLEn resets all changes to the "html_en" field.
+func (m *ArticleMutation) ResetHTMLEn() {
+	m.html_en = nil
+	delete(m.clearedFields, article.FieldHTMLEn)
 }
 
 // SetTextCn sets the "text_cn" field.
@@ -710,6 +661,55 @@ func (m *ArticleMutation) TextCnCleared() bool {
 func (m *ArticleMutation) ResetTextCn() {
 	m.text_cn = nil
 	delete(m.clearedFields, article.FieldTextCn)
+}
+
+// SetTextEn sets the "text_en" field.
+func (m *ArticleMutation) SetTextEn(s string) {
+	m.text_en = &s
+}
+
+// TextEn returns the value of the "text_en" field in the mutation.
+func (m *ArticleMutation) TextEn() (r string, exists bool) {
+	v := m.text_en
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTextEn returns the old "text_en" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldTextEn(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTextEn is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTextEn requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTextEn: %w", err)
+	}
+	return oldValue.TextEn, nil
+}
+
+// ClearTextEn clears the value of the "text_en" field.
+func (m *ArticleMutation) ClearTextEn() {
+	m.text_en = nil
+	m.clearedFields[article.FieldTextEn] = struct{}{}
+}
+
+// TextEnCleared returns if the "text_en" field was cleared in this mutation.
+func (m *ArticleMutation) TextEnCleared() bool {
+	_, ok := m.clearedFields[article.FieldTextEn]
+	return ok
+}
+
+// ResetTextEn resets all changes to the "text_en" field.
+func (m *ArticleMutation) ResetTextEn() {
+	m.text_en = nil
+	delete(m.clearedFields, article.FieldTextEn)
 }
 
 // SetCrawledAt sets the "crawled_at" field.
@@ -841,11 +841,11 @@ func (m *ArticleMutation) Fields() []string {
 	if m.url != nil {
 		fields = append(fields, article.FieldURL)
 	}
-	if m.title_en != nil {
-		fields = append(fields, article.FieldTitleEn)
-	}
 	if m.title_cn != nil {
 		fields = append(fields, article.FieldTitleCn)
+	}
+	if m.title_en != nil {
+		fields = append(fields, article.FieldTitleEn)
 	}
 	if m.author != nil {
 		fields = append(fields, article.FieldAuthor)
@@ -856,17 +856,17 @@ func (m *ArticleMutation) Fields() []string {
 	if m.published_at != nil {
 		fields = append(fields, article.FieldPublishedAt)
 	}
-	if m.html_en != nil {
-		fields = append(fields, article.FieldHTMLEn)
-	}
 	if m.html_cn != nil {
 		fields = append(fields, article.FieldHTMLCn)
 	}
-	if m.text_en != nil {
-		fields = append(fields, article.FieldTextEn)
+	if m.html_en != nil {
+		fields = append(fields, article.FieldHTMLEn)
 	}
 	if m.text_cn != nil {
 		fields = append(fields, article.FieldTextCn)
+	}
+	if m.text_en != nil {
+		fields = append(fields, article.FieldTextEn)
 	}
 	if m.crawled_at != nil {
 		fields = append(fields, article.FieldCrawledAt)
@@ -888,24 +888,24 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.OriginType()
 	case article.FieldURL:
 		return m.URL()
-	case article.FieldTitleEn:
-		return m.TitleEn()
 	case article.FieldTitleCn:
 		return m.TitleCn()
+	case article.FieldTitleEn:
+		return m.TitleEn()
 	case article.FieldAuthor:
 		return m.Author()
 	case article.FieldTags:
 		return m.Tags()
 	case article.FieldPublishedAt:
 		return m.PublishedAt()
-	case article.FieldHTMLEn:
-		return m.HTMLEn()
 	case article.FieldHTMLCn:
 		return m.HTMLCn()
-	case article.FieldTextEn:
-		return m.TextEn()
+	case article.FieldHTMLEn:
+		return m.HTMLEn()
 	case article.FieldTextCn:
 		return m.TextCn()
+	case article.FieldTextEn:
+		return m.TextEn()
 	case article.FieldCrawledAt:
 		return m.CrawledAt()
 	case article.FieldSummaryCn:
@@ -925,24 +925,24 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldOriginType(ctx)
 	case article.FieldURL:
 		return m.OldURL(ctx)
-	case article.FieldTitleEn:
-		return m.OldTitleEn(ctx)
 	case article.FieldTitleCn:
 		return m.OldTitleCn(ctx)
+	case article.FieldTitleEn:
+		return m.OldTitleEn(ctx)
 	case article.FieldAuthor:
 		return m.OldAuthor(ctx)
 	case article.FieldTags:
 		return m.OldTags(ctx)
 	case article.FieldPublishedAt:
 		return m.OldPublishedAt(ctx)
-	case article.FieldHTMLEn:
-		return m.OldHTMLEn(ctx)
 	case article.FieldHTMLCn:
 		return m.OldHTMLCn(ctx)
-	case article.FieldTextEn:
-		return m.OldTextEn(ctx)
+	case article.FieldHTMLEn:
+		return m.OldHTMLEn(ctx)
 	case article.FieldTextCn:
 		return m.OldTextCn(ctx)
+	case article.FieldTextEn:
+		return m.OldTextEn(ctx)
 	case article.FieldCrawledAt:
 		return m.OldCrawledAt(ctx)
 	case article.FieldSummaryCn:
@@ -977,19 +977,19 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetURL(v)
 		return nil
-	case article.FieldTitleEn:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTitleEn(v)
-		return nil
 	case article.FieldTitleCn:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTitleCn(v)
+		return nil
+	case article.FieldTitleEn:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTitleEn(v)
 		return nil
 	case article.FieldAuthor:
 		v, ok := value.(string)
@@ -1012,13 +1012,6 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPublishedAt(v)
 		return nil
-	case article.FieldHTMLEn:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetHTMLEn(v)
-		return nil
 	case article.FieldHTMLCn:
 		v, ok := value.(string)
 		if !ok {
@@ -1026,12 +1019,12 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetHTMLCn(v)
 		return nil
-	case article.FieldTextEn:
+	case article.FieldHTMLEn:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTextEn(v)
+		m.SetHTMLEn(v)
 		return nil
 	case article.FieldTextCn:
 		v, ok := value.(string)
@@ -1039,6 +1032,13 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTextCn(v)
+		return nil
+	case article.FieldTextEn:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTextEn(v)
 		return nil
 	case article.FieldCrawledAt:
 		v, ok := value.(time.Time)
@@ -1084,11 +1084,11 @@ func (m *ArticleMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *ArticleMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(article.FieldTitleEn) {
-		fields = append(fields, article.FieldTitleEn)
-	}
 	if m.FieldCleared(article.FieldTitleCn) {
 		fields = append(fields, article.FieldTitleCn)
+	}
+	if m.FieldCleared(article.FieldTitleEn) {
+		fields = append(fields, article.FieldTitleEn)
 	}
 	if m.FieldCleared(article.FieldAuthor) {
 		fields = append(fields, article.FieldAuthor)
@@ -1096,17 +1096,17 @@ func (m *ArticleMutation) ClearedFields() []string {
 	if m.FieldCleared(article.FieldTags) {
 		fields = append(fields, article.FieldTags)
 	}
-	if m.FieldCleared(article.FieldHTMLEn) {
-		fields = append(fields, article.FieldHTMLEn)
-	}
 	if m.FieldCleared(article.FieldHTMLCn) {
 		fields = append(fields, article.FieldHTMLCn)
 	}
-	if m.FieldCleared(article.FieldTextEn) {
-		fields = append(fields, article.FieldTextEn)
+	if m.FieldCleared(article.FieldHTMLEn) {
+		fields = append(fields, article.FieldHTMLEn)
 	}
 	if m.FieldCleared(article.FieldTextCn) {
 		fields = append(fields, article.FieldTextCn)
+	}
+	if m.FieldCleared(article.FieldTextEn) {
+		fields = append(fields, article.FieldTextEn)
 	}
 	if m.FieldCleared(article.FieldSummaryCn) {
 		fields = append(fields, article.FieldSummaryCn)
@@ -1125,11 +1125,11 @@ func (m *ArticleMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *ArticleMutation) ClearField(name string) error {
 	switch name {
-	case article.FieldTitleEn:
-		m.ClearTitleEn()
-		return nil
 	case article.FieldTitleCn:
 		m.ClearTitleCn()
+		return nil
+	case article.FieldTitleEn:
+		m.ClearTitleEn()
 		return nil
 	case article.FieldAuthor:
 		m.ClearAuthor()
@@ -1137,17 +1137,17 @@ func (m *ArticleMutation) ClearField(name string) error {
 	case article.FieldTags:
 		m.ClearTags()
 		return nil
-	case article.FieldHTMLEn:
-		m.ClearHTMLEn()
-		return nil
 	case article.FieldHTMLCn:
 		m.ClearHTMLCn()
 		return nil
-	case article.FieldTextEn:
-		m.ClearTextEn()
+	case article.FieldHTMLEn:
+		m.ClearHTMLEn()
 		return nil
 	case article.FieldTextCn:
 		m.ClearTextCn()
+		return nil
+	case article.FieldTextEn:
+		m.ClearTextEn()
 		return nil
 	case article.FieldSummaryCn:
 		m.ClearSummaryCn()
@@ -1169,11 +1169,11 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldURL:
 		m.ResetURL()
 		return nil
-	case article.FieldTitleEn:
-		m.ResetTitleEn()
-		return nil
 	case article.FieldTitleCn:
 		m.ResetTitleCn()
+		return nil
+	case article.FieldTitleEn:
+		m.ResetTitleEn()
 		return nil
 	case article.FieldAuthor:
 		m.ResetAuthor()
@@ -1184,17 +1184,17 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldPublishedAt:
 		m.ResetPublishedAt()
 		return nil
-	case article.FieldHTMLEn:
-		m.ResetHTMLEn()
-		return nil
 	case article.FieldHTMLCn:
 		m.ResetHTMLCn()
 		return nil
-	case article.FieldTextEn:
-		m.ResetTextEn()
+	case article.FieldHTMLEn:
+		m.ResetHTMLEn()
 		return nil
 	case article.FieldTextCn:
 		m.ResetTextCn()
+		return nil
+	case article.FieldTextEn:
+		m.ResetTextEn()
 		return nil
 	case article.FieldCrawledAt:
 		m.ResetCrawledAt()
