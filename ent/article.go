@@ -18,8 +18,8 @@ type Article struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// OriginName holds the value of the "origin_name" field.
-	OriginName string `json:"origin_name,omitempty"`
+	// OriginShortID holds the value of the "origin_short_id" field.
+	OriginShortID string `json:"origin_short_id,omitempty"`
 	// OriginType holds the value of the "origin_type" field.
 	OriginType string `json:"origin_type,omitempty"`
 	// URL holds the value of the "url" field.
@@ -58,7 +58,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese:
+		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt, article.FieldCrawledAt:
 			values[i] = new(sql.NullTime)
@@ -83,11 +83,11 @@ func (a *Article) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			a.ID = int(value.Int64)
-		case article.FieldOriginName:
+		case article.FieldOriginShortID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field origin_name", values[i])
+				return fmt.Errorf("unexpected type %T for field origin_short_id", values[i])
 			} else if value.Valid {
-				a.OriginName = value.String
+				a.OriginShortID = value.String
 			}
 		case article.FieldOriginType:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -205,8 +205,8 @@ func (a *Article) String() string {
 	var builder strings.Builder
 	builder.WriteString("Article(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", a.ID))
-	builder.WriteString("origin_name=")
-	builder.WriteString(a.OriginName)
+	builder.WriteString("origin_short_id=")
+	builder.WriteString(a.OriginShortID)
 	builder.WriteString(", ")
 	builder.WriteString("origin_type=")
 	builder.WriteString(a.OriginType)

@@ -20,9 +20,9 @@ type ArticleCreate struct {
 	hooks    []Hook
 }
 
-// SetOriginName sets the "origin_name" field.
-func (ac *ArticleCreate) SetOriginName(s string) *ArticleCreate {
-	ac.mutation.SetOriginName(s)
+// SetOriginShortID sets the "origin_short_id" field.
+func (ac *ArticleCreate) SetOriginShortID(s string) *ArticleCreate {
+	ac.mutation.SetOriginShortID(s)
 	return ac
 }
 
@@ -225,8 +225,8 @@ func (ac *ArticleCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ac *ArticleCreate) check() error {
-	if _, ok := ac.mutation.OriginName(); !ok {
-		return &ValidationError{Name: "origin_name", err: errors.New(`ent: missing required field "Article.origin_name"`)}
+	if _, ok := ac.mutation.OriginShortID(); !ok {
+		return &ValidationError{Name: "origin_short_id", err: errors.New(`ent: missing required field "Article.origin_short_id"`)}
 	}
 	if _, ok := ac.mutation.OriginType(); !ok {
 		return &ValidationError{Name: "origin_type", err: errors.New(`ent: missing required field "Article.origin_type"`)}
@@ -277,9 +277,9 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ac.mutation.OriginName(); ok {
-		_spec.SetField(article.FieldOriginName, field.TypeString, value)
-		_node.OriginName = value
+	if value, ok := ac.mutation.OriginShortID(); ok {
+		_spec.SetField(article.FieldOriginShortID, field.TypeString, value)
+		_node.OriginShortID = value
 	}
 	if value, ok := ac.mutation.OriginType(); ok {
 		_spec.SetField(article.FieldOriginType, field.TypeString, value)

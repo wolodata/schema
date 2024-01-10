@@ -54,9 +54,9 @@ func IDLTE(id int) predicate.Article {
 	return predicate.Article(sql.FieldLTE(FieldID, id))
 }
 
-// OriginName applies equality check predicate on the "origin_name" field. It's identical to OriginNameEQ.
-func OriginName(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldOriginName, v))
+// OriginShortID applies equality check predicate on the "origin_short_id" field. It's identical to OriginShortIDEQ.
+func OriginShortID(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldOriginShortID, v))
 }
 
 // OriginType applies equality check predicate on the "origin_type" field. It's identical to OriginTypeEQ.
@@ -119,69 +119,69 @@ func SummaryChinese(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
 }
 
-// OriginNameEQ applies the EQ predicate on the "origin_name" field.
-func OriginNameEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldOriginName, v))
+// OriginShortIDEQ applies the EQ predicate on the "origin_short_id" field.
+func OriginShortIDEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldOriginShortID, v))
 }
 
-// OriginNameNEQ applies the NEQ predicate on the "origin_name" field.
-func OriginNameNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldOriginName, v))
+// OriginShortIDNEQ applies the NEQ predicate on the "origin_short_id" field.
+func OriginShortIDNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldOriginShortID, v))
 }
 
-// OriginNameIn applies the In predicate on the "origin_name" field.
-func OriginNameIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldOriginName, vs...))
+// OriginShortIDIn applies the In predicate on the "origin_short_id" field.
+func OriginShortIDIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldOriginShortID, vs...))
 }
 
-// OriginNameNotIn applies the NotIn predicate on the "origin_name" field.
-func OriginNameNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldOriginName, vs...))
+// OriginShortIDNotIn applies the NotIn predicate on the "origin_short_id" field.
+func OriginShortIDNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldOriginShortID, vs...))
 }
 
-// OriginNameGT applies the GT predicate on the "origin_name" field.
-func OriginNameGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldOriginName, v))
+// OriginShortIDGT applies the GT predicate on the "origin_short_id" field.
+func OriginShortIDGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldOriginShortID, v))
 }
 
-// OriginNameGTE applies the GTE predicate on the "origin_name" field.
-func OriginNameGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldOriginName, v))
+// OriginShortIDGTE applies the GTE predicate on the "origin_short_id" field.
+func OriginShortIDGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldOriginShortID, v))
 }
 
-// OriginNameLT applies the LT predicate on the "origin_name" field.
-func OriginNameLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldOriginName, v))
+// OriginShortIDLT applies the LT predicate on the "origin_short_id" field.
+func OriginShortIDLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldOriginShortID, v))
 }
 
-// OriginNameLTE applies the LTE predicate on the "origin_name" field.
-func OriginNameLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldOriginName, v))
+// OriginShortIDLTE applies the LTE predicate on the "origin_short_id" field.
+func OriginShortIDLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldOriginShortID, v))
 }
 
-// OriginNameContains applies the Contains predicate on the "origin_name" field.
-func OriginNameContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldOriginName, v))
+// OriginShortIDContains applies the Contains predicate on the "origin_short_id" field.
+func OriginShortIDContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldOriginShortID, v))
 }
 
-// OriginNameHasPrefix applies the HasPrefix predicate on the "origin_name" field.
-func OriginNameHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldOriginName, v))
+// OriginShortIDHasPrefix applies the HasPrefix predicate on the "origin_short_id" field.
+func OriginShortIDHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldOriginShortID, v))
 }
 
-// OriginNameHasSuffix applies the HasSuffix predicate on the "origin_name" field.
-func OriginNameHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldOriginName, v))
+// OriginShortIDHasSuffix applies the HasSuffix predicate on the "origin_short_id" field.
+func OriginShortIDHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldOriginShortID, v))
 }
 
-// OriginNameEqualFold applies the EqualFold predicate on the "origin_name" field.
-func OriginNameEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldOriginName, v))
+// OriginShortIDEqualFold applies the EqualFold predicate on the "origin_short_id" field.
+func OriginShortIDEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldOriginShortID, v))
 }
 
-// OriginNameContainsFold applies the ContainsFold predicate on the "origin_name" field.
-func OriginNameContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldOriginName, v))
+// OriginShortIDContainsFold applies the ContainsFold predicate on the "origin_short_id" field.
+func OriginShortIDContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldOriginShortID, v))
 }
 
 // OriginTypeEQ applies the EQ predicate on the "origin_type" field.

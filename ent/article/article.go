@@ -13,8 +13,8 @@ const (
 	Label = "article"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldOriginName holds the string denoting the origin_name field in the database.
-	FieldOriginName = "origin_name"
+	// FieldOriginShortID holds the string denoting the origin_short_id field in the database.
+	FieldOriginShortID = "origin_short_id"
 	// FieldOriginType holds the string denoting the origin_type field in the database.
 	FieldOriginType = "origin_type"
 	// FieldURL holds the string denoting the url field in the database.
@@ -48,7 +48,7 @@ const (
 // Columns holds all SQL columns for article fields.
 var Columns = []string{
 	FieldID,
-	FieldOriginName,
+	FieldOriginShortID,
 	FieldOriginType,
 	FieldURL,
 	FieldTitleChinese,
@@ -89,9 +89,9 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByOriginName orders the results by the origin_name field.
-func ByOriginName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOriginName, opts...).ToFunc()
+// ByOriginShortID orders the results by the origin_short_id field.
+func ByOriginShortID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOriginShortID, opts...).ToFunc()
 }
 
 // ByOriginType orders the results by the origin_type field.

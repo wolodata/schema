@@ -12,7 +12,7 @@ var (
 	// TArticleColumns holds the columns for the "t_article" table.
 	TArticleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "origin_name", Type: field.TypeString},
+		{Name: "origin_short_id", Type: field.TypeString},
 		{Name: "origin_type", Type: field.TypeString},
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
 		{Name: "title_chinese", Type: field.TypeString, Nullable: true},
@@ -44,7 +44,7 @@ var (
 				Columns: []*schema.Column{TArticleColumns[5]},
 			},
 			{
-				Name:    "article_origin_name",
+				Name:    "article_origin_short_id",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[1]},
 			},

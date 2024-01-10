@@ -37,7 +37,7 @@ type ArticleMutation struct {
 	op              Op
 	typ             string
 	id              *int
-	origin_name     *string
+	origin_short_id *string
 	origin_type     *string
 	url             *string
 	title_chinese   *string
@@ -162,40 +162,40 @@ func (m *ArticleMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
-// SetOriginName sets the "origin_name" field.
-func (m *ArticleMutation) SetOriginName(s string) {
-	m.origin_name = &s
+// SetOriginShortID sets the "origin_short_id" field.
+func (m *ArticleMutation) SetOriginShortID(s string) {
+	m.origin_short_id = &s
 }
 
-// OriginName returns the value of the "origin_name" field in the mutation.
-func (m *ArticleMutation) OriginName() (r string, exists bool) {
-	v := m.origin_name
+// OriginShortID returns the value of the "origin_short_id" field in the mutation.
+func (m *ArticleMutation) OriginShortID() (r string, exists bool) {
+	v := m.origin_short_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldOriginName returns the old "origin_name" field's value of the Article entity.
+// OldOriginShortID returns the old "origin_short_id" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldOriginName(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldOriginShortID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOriginName is only allowed on UpdateOne operations")
+		return v, errors.New("OldOriginShortID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOriginName requires an ID field in the mutation")
+		return v, errors.New("OldOriginShortID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOriginName: %w", err)
+		return v, fmt.Errorf("querying old value for OldOriginShortID: %w", err)
 	}
-	return oldValue.OriginName, nil
+	return oldValue.OriginShortID, nil
 }
 
-// ResetOriginName resets all changes to the "origin_name" field.
-func (m *ArticleMutation) ResetOriginName() {
-	m.origin_name = nil
+// ResetOriginShortID resets all changes to the "origin_short_id" field.
+func (m *ArticleMutation) ResetOriginShortID() {
+	m.origin_short_id = nil
 }
 
 // SetOriginType sets the "origin_type" field.
@@ -834,8 +834,8 @@ func (m *ArticleMutation) Type() string {
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
 	fields := make([]string, 0, 14)
-	if m.origin_name != nil {
-		fields = append(fields, article.FieldOriginName)
+	if m.origin_short_id != nil {
+		fields = append(fields, article.FieldOriginShortID)
 	}
 	if m.origin_type != nil {
 		fields = append(fields, article.FieldOriginType)
@@ -884,8 +884,8 @@ func (m *ArticleMutation) Fields() []string {
 // schema.
 func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case article.FieldOriginName:
-		return m.OriginName()
+	case article.FieldOriginShortID:
+		return m.OriginShortID()
 	case article.FieldOriginType:
 		return m.OriginType()
 	case article.FieldURL:
@@ -921,8 +921,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case article.FieldOriginName:
-		return m.OldOriginName(ctx)
+	case article.FieldOriginShortID:
+		return m.OldOriginShortID(ctx)
 	case article.FieldOriginType:
 		return m.OldOriginType(ctx)
 	case article.FieldURL:
@@ -958,12 +958,12 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 // type.
 func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case article.FieldOriginName:
+	case article.FieldOriginShortID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetOriginName(v)
+		m.SetOriginShortID(v)
 		return nil
 	case article.FieldOriginType:
 		v, ok := value.(string)
@@ -1162,8 +1162,8 @@ func (m *ArticleMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *ArticleMutation) ResetField(name string) error {
 	switch name {
-	case article.FieldOriginName:
-		m.ResetOriginName()
+	case article.FieldOriginShortID:
+		m.ResetOriginShortID()
 		return nil
 	case article.FieldOriginType:
 		m.ResetOriginType()
