@@ -55,6 +55,18 @@ var (
 			},
 		},
 	}
+	// TTagColumns holds the columns for the "t_tag" table.
+	TTagColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "english", Type: field.TypeString, Unique: true},
+		{Name: "chinese", Type: field.TypeString},
+	}
+	// TTagTable holds the schema information for the "t_tag" table.
+	TTagTable = &schema.Table{
+		Name:       "t_tag",
+		Columns:    TTagColumns,
+		PrimaryKey: []*schema.Column{TTagColumns[0]},
+	}
 	// TUserColumns holds the columns for the "t_user" table.
 	TUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -77,6 +89,7 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		TArticleTable,
+		TTagTable,
 		TUserTable,
 	}
 )
@@ -84,6 +97,11 @@ var (
 func init() {
 	TArticleTable.Annotation = &entsql.Annotation{
 		Table:     "t_article",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TTagTable.Annotation = &entsql.Annotation{
+		Table:     "t_tag",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

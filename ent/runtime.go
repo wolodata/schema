@@ -7,6 +7,7 @@ import (
 
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/schema"
+	"github.com/wolodata/schema/ent/tag"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -23,4 +24,14 @@ func init() {
 	articleDescCrawledAt := articleFields[13].Descriptor()
 	// article.DefaultCrawledAt holds the default value on creation for the crawled_at field.
 	article.DefaultCrawledAt = articleDescCrawledAt.Default.(func() time.Time)
+	tagFields := schema.Tag{}.Fields()
+	_ = tagFields
+	// tagDescEnglish is the schema descriptor for english field.
+	tagDescEnglish := tagFields[0].Descriptor()
+	// tag.EnglishValidator is a validator for the "english" field. It is called by the builders before save.
+	tag.EnglishValidator = tagDescEnglish.Validators[0].(func(string) error)
+	// tagDescChinese is the schema descriptor for chinese field.
+	tagDescChinese := tagFields[1].Descriptor()
+	// tag.ChineseValidator is a validator for the "chinese" field. It is called by the builders before save.
+	tag.ChineseValidator = tagDescChinese.Validators[0].(func(string) error)
 }
