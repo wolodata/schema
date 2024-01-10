@@ -18,9 +18,10 @@ type Article struct {
 func (Article) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("id").Immutable(),
-		field.String("origin_short_id").Immutable(),
+		field.String("origin_short_id").NotEmpty().Immutable(),
+		field.Bool("is_chinese").Default(false).Immutable(),
 		field.String("origin_type").Immutable(),
-		field.String("url").MaxLen(768).Unique().Immutable(),
+		field.String("url").MaxLen(768).NotEmpty().Unique().Immutable(),
 		field.String("title_chinese").Optional(),
 		field.String("title_english").Optional(),
 		field.String("author").Immutable().Optional(),
@@ -37,6 +38,7 @@ func (Article) Fields() []ent.Field {
 
 func (Article) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("is_chinese"),
 		index.Fields("title_chinese"),
 		index.Fields("title_english"),
 		index.Fields("origin_short_id"),

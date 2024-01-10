@@ -38,6 +38,7 @@ type ArticleMutation struct {
 	typ             string
 	id              *int
 	origin_short_id *string
+	is_chinese      *bool
 	origin_type     *string
 	url             *string
 	title_chinese   *string
@@ -196,6 +197,42 @@ func (m *ArticleMutation) OldOriginShortID(ctx context.Context) (v string, err e
 // ResetOriginShortID resets all changes to the "origin_short_id" field.
 func (m *ArticleMutation) ResetOriginShortID() {
 	m.origin_short_id = nil
+}
+
+// SetIsChinese sets the "is_chinese" field.
+func (m *ArticleMutation) SetIsChinese(b bool) {
+	m.is_chinese = &b
+}
+
+// IsChinese returns the value of the "is_chinese" field in the mutation.
+func (m *ArticleMutation) IsChinese() (r bool, exists bool) {
+	v := m.is_chinese
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsChinese returns the old "is_chinese" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldIsChinese(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsChinese is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsChinese requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsChinese: %w", err)
+	}
+	return oldValue.IsChinese, nil
+}
+
+// ResetIsChinese resets all changes to the "is_chinese" field.
+func (m *ArticleMutation) ResetIsChinese() {
+	m.is_chinese = nil
 }
 
 // SetOriginType sets the "origin_type" field.
@@ -833,9 +870,12 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 14)
+	fields := make([]string, 0, 15)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
+	}
+	if m.is_chinese != nil {
+		fields = append(fields, article.FieldIsChinese)
 	}
 	if m.origin_type != nil {
 		fields = append(fields, article.FieldOriginType)
@@ -886,6 +926,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case article.FieldOriginShortID:
 		return m.OriginShortID()
+	case article.FieldIsChinese:
+		return m.IsChinese()
 	case article.FieldOriginType:
 		return m.OriginType()
 	case article.FieldURL:
@@ -923,6 +965,8 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 	switch name {
 	case article.FieldOriginShortID:
 		return m.OldOriginShortID(ctx)
+	case article.FieldIsChinese:
+		return m.OldIsChinese(ctx)
 	case article.FieldOriginType:
 		return m.OldOriginType(ctx)
 	case article.FieldURL:
@@ -964,6 +1008,13 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOriginShortID(v)
+		return nil
+	case article.FieldIsChinese:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsChinese(v)
 		return nil
 	case article.FieldOriginType:
 		v, ok := value.(string)
@@ -1164,6 +1215,9 @@ func (m *ArticleMutation) ResetField(name string) error {
 	switch name {
 	case article.FieldOriginShortID:
 		m.ResetOriginShortID()
+		return nil
+	case article.FieldIsChinese:
+		m.ResetIsChinese()
 		return nil
 	case article.FieldOriginType:
 		m.ResetOriginType()

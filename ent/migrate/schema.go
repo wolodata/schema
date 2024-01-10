@@ -13,6 +13,7 @@ var (
 	TArticleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "origin_short_id", Type: field.TypeString},
+		{Name: "is_chinese", Type: field.TypeBool, Default: false},
 		{Name: "origin_type", Type: field.TypeString},
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
 		{Name: "title_chinese", Type: field.TypeString, Nullable: true},
@@ -34,14 +35,19 @@ var (
 		PrimaryKey: []*schema.Column{TArticleColumns[0]},
 		Indexes: []*schema.Index{
 			{
+				Name:    "article_is_chinese",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[2]},
+			},
+			{
 				Name:    "article_title_chinese",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[4]},
+				Columns: []*schema.Column{TArticleColumns[5]},
 			},
 			{
 				Name:    "article_title_english",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[5]},
+				Columns: []*schema.Column{TArticleColumns[6]},
 			},
 			{
 				Name:    "article_origin_short_id",
@@ -51,7 +57,7 @@ var (
 			{
 				Name:    "article_origin_type",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[2]},
+				Columns: []*schema.Column{TArticleColumns[3]},
 			},
 		},
 	}

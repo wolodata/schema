@@ -16,12 +16,34 @@ import (
 func init() {
 	articleFields := schema.Article{}.Fields()
 	_ = articleFields
+	// articleDescOriginShortID is the schema descriptor for origin_short_id field.
+	articleDescOriginShortID := articleFields[1].Descriptor()
+	// article.OriginShortIDValidator is a validator for the "origin_short_id" field. It is called by the builders before save.
+	article.OriginShortIDValidator = articleDescOriginShortID.Validators[0].(func(string) error)
+	// articleDescIsChinese is the schema descriptor for is_chinese field.
+	articleDescIsChinese := articleFields[2].Descriptor()
+	// article.DefaultIsChinese holds the default value on creation for the is_chinese field.
+	article.DefaultIsChinese = articleDescIsChinese.Default.(bool)
 	// articleDescURL is the schema descriptor for url field.
-	articleDescURL := articleFields[3].Descriptor()
+	articleDescURL := articleFields[4].Descriptor()
 	// article.URLValidator is a validator for the "url" field. It is called by the builders before save.
-	article.URLValidator = articleDescURL.Validators[0].(func(string) error)
+	article.URLValidator = func() func(string) error {
+		validators := articleDescURL.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(url string) error {
+			for _, fn := range fns {
+				if err := fn(url); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// articleDescCrawledAt is the schema descriptor for crawled_at field.
-	articleDescCrawledAt := articleFields[13].Descriptor()
+	articleDescCrawledAt := articleFields[14].Descriptor()
 	// article.DefaultCrawledAt holds the default value on creation for the crawled_at field.
 	article.DefaultCrawledAt = articleDescCrawledAt.Default.(func() time.Time)
 	tagFields := schema.Tag{}.Fields()

@@ -59,6 +59,11 @@ func OriginShortID(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldOriginShortID, v))
 }
 
+// IsChinese applies equality check predicate on the "is_chinese" field. It's identical to IsChineseEQ.
+func IsChinese(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsChinese, v))
+}
+
 // OriginType applies equality check predicate on the "origin_type" field. It's identical to OriginTypeEQ.
 func OriginType(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldOriginType, v))
@@ -182,6 +187,16 @@ func OriginShortIDEqualFold(v string) predicate.Article {
 // OriginShortIDContainsFold applies the ContainsFold predicate on the "origin_short_id" field.
 func OriginShortIDContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldOriginShortID, v))
+}
+
+// IsChineseEQ applies the EQ predicate on the "is_chinese" field.
+func IsChineseEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsChinese, v))
+}
+
+// IsChineseNEQ applies the NEQ predicate on the "is_chinese" field.
+func IsChineseNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldIsChinese, v))
 }
 
 // OriginTypeEQ applies the EQ predicate on the "origin_type" field.

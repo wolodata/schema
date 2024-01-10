@@ -26,6 +26,20 @@ func (ac *ArticleCreate) SetOriginShortID(s string) *ArticleCreate {
 	return ac
 }
 
+// SetIsChinese sets the "is_chinese" field.
+func (ac *ArticleCreate) SetIsChinese(b bool) *ArticleCreate {
+	ac.mutation.SetIsChinese(b)
+	return ac
+}
+
+// SetNillableIsChinese sets the "is_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableIsChinese(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetIsChinese(*b)
+	}
+	return ac
+}
+
 // SetOriginType sets the "origin_type" field.
 func (ac *ArticleCreate) SetOriginType(s string) *ArticleCreate {
 	ac.mutation.SetOriginType(s)
@@ -217,6 +231,10 @@ func (ac *ArticleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ac *ArticleCreate) defaults() {
+	if _, ok := ac.mutation.IsChinese(); !ok {
+		v := article.DefaultIsChinese
+		ac.mutation.SetIsChinese(v)
+	}
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		v := article.DefaultCrawledAt()
 		ac.mutation.SetCrawledAt(v)
@@ -227,6 +245,14 @@ func (ac *ArticleCreate) defaults() {
 func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.OriginShortID(); !ok {
 		return &ValidationError{Name: "origin_short_id", err: errors.New(`ent: missing required field "Article.origin_short_id"`)}
+	}
+	if v, ok := ac.mutation.OriginShortID(); ok {
+		if err := article.OriginShortIDValidator(v); err != nil {
+			return &ValidationError{Name: "origin_short_id", err: fmt.Errorf(`ent: validator failed for field "Article.origin_short_id": %w`, err)}
+		}
+	}
+	if _, ok := ac.mutation.IsChinese(); !ok {
+		return &ValidationError{Name: "is_chinese", err: errors.New(`ent: missing required field "Article.is_chinese"`)}
 	}
 	if _, ok := ac.mutation.OriginType(); !ok {
 		return &ValidationError{Name: "origin_type", err: errors.New(`ent: missing required field "Article.origin_type"`)}
@@ -280,6 +306,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.OriginShortID(); ok {
 		_spec.SetField(article.FieldOriginShortID, field.TypeString, value)
 		_node.OriginShortID = value
+	}
+	if value, ok := ac.mutation.IsChinese(); ok {
+		_spec.SetField(article.FieldIsChinese, field.TypeBool, value)
+		_node.IsChinese = value
 	}
 	if value, ok := ac.mutation.OriginType(); ok {
 		_spec.SetField(article.FieldOriginType, field.TypeString, value)

@@ -15,6 +15,8 @@ const (
 	FieldID = "id"
 	// FieldOriginShortID holds the string denoting the origin_short_id field in the database.
 	FieldOriginShortID = "origin_short_id"
+	// FieldIsChinese holds the string denoting the is_chinese field in the database.
+	FieldIsChinese = "is_chinese"
 	// FieldOriginType holds the string denoting the origin_type field in the database.
 	FieldOriginType = "origin_type"
 	// FieldURL holds the string denoting the url field in the database.
@@ -49,6 +51,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldOriginShortID,
+	FieldIsChinese,
 	FieldOriginType,
 	FieldURL,
 	FieldTitleChinese,
@@ -75,6 +78,10 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// OriginShortIDValidator is a validator for the "origin_short_id" field. It is called by the builders before save.
+	OriginShortIDValidator func(string) error
+	// DefaultIsChinese holds the default value on creation for the "is_chinese" field.
+	DefaultIsChinese bool
 	// URLValidator is a validator for the "url" field. It is called by the builders before save.
 	URLValidator func(string) error
 	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
@@ -92,6 +99,11 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByOriginShortID orders the results by the origin_short_id field.
 func ByOriginShortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOriginShortID, opts...).ToFunc()
+}
+
+// ByIsChinese orders the results by the is_chinese field.
+func ByIsChinese(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsChinese, opts...).ToFunc()
 }
 
 // ByOriginType orders the results by the origin_type field.
