@@ -5,8 +5,10 @@ import (
 )
 
 const (
-	ShortIdWhiteHouse = "WhiteHouse"
-	ShortIdDOJ        = "DOJ"
+	ShortIdWhiteHouse      = "WhiteHouse"
+	ShortIdDOJ             = "DOJ"
+	ShortIdUSTR            = "USTR"
+	ShortIdStateDepartment = "StateDepartment"
 )
 
 var (
@@ -52,6 +54,18 @@ func init() {
 		ShortId:     ShortIdDOJ,
 		NameChinese: "司法部",
 		NameEnglish: "justice.gov",
+		IsChinese:   false,
+	})
+	registerSource(Source{
+		ShortId:     ShortIdUSTR,
+		NameChinese: "贸易代表署",
+		NameEnglish: "ustr.gov",
+		IsChinese:   false,
+	})
+	registerSource(Source{
+		ShortId:     ShortIdStateDepartment,
+		NameChinese: "国务院",
+		NameEnglish: "state.gov",
 		IsChinese:   false,
 	})
 }
