@@ -32,28 +32,28 @@ const (
 // ArticleMutation represents an operation that mutates the Article nodes in the graph.
 type ArticleMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *int
-	origin_name   *string
-	origin_type   *string
-	url           *string
-	title_cn      *string
-	title_en      *string
-	author        *string
-	tags          *[]string
-	appendtags    []string
-	published_at  *time.Time
-	html_cn       *string
-	html_en       *string
-	text_cn       *string
-	text_en       *string
-	crawled_at    *time.Time
-	summary_cn    *string
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Article, error)
-	predicates    []predicate.Article
+	op              Op
+	typ             string
+	id              *int
+	origin_name     *string
+	origin_type     *string
+	url             *string
+	title_chinese   *string
+	title_english   *string
+	author          *string
+	tags            *[]string
+	appendtags      []string
+	published_at    *time.Time
+	html_chinese    *string
+	html_english    *string
+	text_chinese    *string
+	text_english    *string
+	crawled_at      *time.Time
+	summary_chinese *string
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*Article, error)
+	predicates      []predicate.Article
 }
 
 var _ ent.Mutation = (*ArticleMutation)(nil)
@@ -268,102 +268,102 @@ func (m *ArticleMutation) ResetURL() {
 	m.url = nil
 }
 
-// SetTitleCn sets the "title_cn" field.
-func (m *ArticleMutation) SetTitleCn(s string) {
-	m.title_cn = &s
+// SetTitleChinese sets the "title_chinese" field.
+func (m *ArticleMutation) SetTitleChinese(s string) {
+	m.title_chinese = &s
 }
 
-// TitleCn returns the value of the "title_cn" field in the mutation.
-func (m *ArticleMutation) TitleCn() (r string, exists bool) {
-	v := m.title_cn
+// TitleChinese returns the value of the "title_chinese" field in the mutation.
+func (m *ArticleMutation) TitleChinese() (r string, exists bool) {
+	v := m.title_chinese
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTitleCn returns the old "title_cn" field's value of the Article entity.
+// OldTitleChinese returns the old "title_chinese" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTitleCn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldTitleChinese(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTitleCn is only allowed on UpdateOne operations")
+		return v, errors.New("OldTitleChinese is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTitleCn requires an ID field in the mutation")
+		return v, errors.New("OldTitleChinese requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTitleCn: %w", err)
+		return v, fmt.Errorf("querying old value for OldTitleChinese: %w", err)
 	}
-	return oldValue.TitleCn, nil
+	return oldValue.TitleChinese, nil
 }
 
-// ClearTitleCn clears the value of the "title_cn" field.
-func (m *ArticleMutation) ClearTitleCn() {
-	m.title_cn = nil
-	m.clearedFields[article.FieldTitleCn] = struct{}{}
+// ClearTitleChinese clears the value of the "title_chinese" field.
+func (m *ArticleMutation) ClearTitleChinese() {
+	m.title_chinese = nil
+	m.clearedFields[article.FieldTitleChinese] = struct{}{}
 }
 
-// TitleCnCleared returns if the "title_cn" field was cleared in this mutation.
-func (m *ArticleMutation) TitleCnCleared() bool {
-	_, ok := m.clearedFields[article.FieldTitleCn]
+// TitleChineseCleared returns if the "title_chinese" field was cleared in this mutation.
+func (m *ArticleMutation) TitleChineseCleared() bool {
+	_, ok := m.clearedFields[article.FieldTitleChinese]
 	return ok
 }
 
-// ResetTitleCn resets all changes to the "title_cn" field.
-func (m *ArticleMutation) ResetTitleCn() {
-	m.title_cn = nil
-	delete(m.clearedFields, article.FieldTitleCn)
+// ResetTitleChinese resets all changes to the "title_chinese" field.
+func (m *ArticleMutation) ResetTitleChinese() {
+	m.title_chinese = nil
+	delete(m.clearedFields, article.FieldTitleChinese)
 }
 
-// SetTitleEn sets the "title_en" field.
-func (m *ArticleMutation) SetTitleEn(s string) {
-	m.title_en = &s
+// SetTitleEnglish sets the "title_english" field.
+func (m *ArticleMutation) SetTitleEnglish(s string) {
+	m.title_english = &s
 }
 
-// TitleEn returns the value of the "title_en" field in the mutation.
-func (m *ArticleMutation) TitleEn() (r string, exists bool) {
-	v := m.title_en
+// TitleEnglish returns the value of the "title_english" field in the mutation.
+func (m *ArticleMutation) TitleEnglish() (r string, exists bool) {
+	v := m.title_english
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTitleEn returns the old "title_en" field's value of the Article entity.
+// OldTitleEnglish returns the old "title_english" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTitleEn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldTitleEnglish(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTitleEn is only allowed on UpdateOne operations")
+		return v, errors.New("OldTitleEnglish is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTitleEn requires an ID field in the mutation")
+		return v, errors.New("OldTitleEnglish requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTitleEn: %w", err)
+		return v, fmt.Errorf("querying old value for OldTitleEnglish: %w", err)
 	}
-	return oldValue.TitleEn, nil
+	return oldValue.TitleEnglish, nil
 }
 
-// ClearTitleEn clears the value of the "title_en" field.
-func (m *ArticleMutation) ClearTitleEn() {
-	m.title_en = nil
-	m.clearedFields[article.FieldTitleEn] = struct{}{}
+// ClearTitleEnglish clears the value of the "title_english" field.
+func (m *ArticleMutation) ClearTitleEnglish() {
+	m.title_english = nil
+	m.clearedFields[article.FieldTitleEnglish] = struct{}{}
 }
 
-// TitleEnCleared returns if the "title_en" field was cleared in this mutation.
-func (m *ArticleMutation) TitleEnCleared() bool {
-	_, ok := m.clearedFields[article.FieldTitleEn]
+// TitleEnglishCleared returns if the "title_english" field was cleared in this mutation.
+func (m *ArticleMutation) TitleEnglishCleared() bool {
+	_, ok := m.clearedFields[article.FieldTitleEnglish]
 	return ok
 }
 
-// ResetTitleEn resets all changes to the "title_en" field.
-func (m *ArticleMutation) ResetTitleEn() {
-	m.title_en = nil
-	delete(m.clearedFields, article.FieldTitleEn)
+// ResetTitleEnglish resets all changes to the "title_english" field.
+func (m *ArticleMutation) ResetTitleEnglish() {
+	m.title_english = nil
+	delete(m.clearedFields, article.FieldTitleEnglish)
 }
 
 // SetAuthor sets the "author" field.
@@ -516,200 +516,200 @@ func (m *ArticleMutation) ResetPublishedAt() {
 	m.published_at = nil
 }
 
-// SetHTMLCn sets the "html_cn" field.
-func (m *ArticleMutation) SetHTMLCn(s string) {
-	m.html_cn = &s
+// SetHTMLChinese sets the "html_chinese" field.
+func (m *ArticleMutation) SetHTMLChinese(s string) {
+	m.html_chinese = &s
 }
 
-// HTMLCn returns the value of the "html_cn" field in the mutation.
-func (m *ArticleMutation) HTMLCn() (r string, exists bool) {
-	v := m.html_cn
+// HTMLChinese returns the value of the "html_chinese" field in the mutation.
+func (m *ArticleMutation) HTMLChinese() (r string, exists bool) {
+	v := m.html_chinese
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldHTMLCn returns the old "html_cn" field's value of the Article entity.
+// OldHTMLChinese returns the old "html_chinese" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldHTMLCn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldHTMLChinese(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldHTMLCn is only allowed on UpdateOne operations")
+		return v, errors.New("OldHTMLChinese is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldHTMLCn requires an ID field in the mutation")
+		return v, errors.New("OldHTMLChinese requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldHTMLCn: %w", err)
+		return v, fmt.Errorf("querying old value for OldHTMLChinese: %w", err)
 	}
-	return oldValue.HTMLCn, nil
+	return oldValue.HTMLChinese, nil
 }
 
-// ClearHTMLCn clears the value of the "html_cn" field.
-func (m *ArticleMutation) ClearHTMLCn() {
-	m.html_cn = nil
-	m.clearedFields[article.FieldHTMLCn] = struct{}{}
+// ClearHTMLChinese clears the value of the "html_chinese" field.
+func (m *ArticleMutation) ClearHTMLChinese() {
+	m.html_chinese = nil
+	m.clearedFields[article.FieldHTMLChinese] = struct{}{}
 }
 
-// HTMLCnCleared returns if the "html_cn" field was cleared in this mutation.
-func (m *ArticleMutation) HTMLCnCleared() bool {
-	_, ok := m.clearedFields[article.FieldHTMLCn]
+// HTMLChineseCleared returns if the "html_chinese" field was cleared in this mutation.
+func (m *ArticleMutation) HTMLChineseCleared() bool {
+	_, ok := m.clearedFields[article.FieldHTMLChinese]
 	return ok
 }
 
-// ResetHTMLCn resets all changes to the "html_cn" field.
-func (m *ArticleMutation) ResetHTMLCn() {
-	m.html_cn = nil
-	delete(m.clearedFields, article.FieldHTMLCn)
+// ResetHTMLChinese resets all changes to the "html_chinese" field.
+func (m *ArticleMutation) ResetHTMLChinese() {
+	m.html_chinese = nil
+	delete(m.clearedFields, article.FieldHTMLChinese)
 }
 
-// SetHTMLEn sets the "html_en" field.
-func (m *ArticleMutation) SetHTMLEn(s string) {
-	m.html_en = &s
+// SetHTMLEnglish sets the "html_english" field.
+func (m *ArticleMutation) SetHTMLEnglish(s string) {
+	m.html_english = &s
 }
 
-// HTMLEn returns the value of the "html_en" field in the mutation.
-func (m *ArticleMutation) HTMLEn() (r string, exists bool) {
-	v := m.html_en
+// HTMLEnglish returns the value of the "html_english" field in the mutation.
+func (m *ArticleMutation) HTMLEnglish() (r string, exists bool) {
+	v := m.html_english
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldHTMLEn returns the old "html_en" field's value of the Article entity.
+// OldHTMLEnglish returns the old "html_english" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldHTMLEn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldHTMLEnglish(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldHTMLEn is only allowed on UpdateOne operations")
+		return v, errors.New("OldHTMLEnglish is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldHTMLEn requires an ID field in the mutation")
+		return v, errors.New("OldHTMLEnglish requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldHTMLEn: %w", err)
+		return v, fmt.Errorf("querying old value for OldHTMLEnglish: %w", err)
 	}
-	return oldValue.HTMLEn, nil
+	return oldValue.HTMLEnglish, nil
 }
 
-// ClearHTMLEn clears the value of the "html_en" field.
-func (m *ArticleMutation) ClearHTMLEn() {
-	m.html_en = nil
-	m.clearedFields[article.FieldHTMLEn] = struct{}{}
+// ClearHTMLEnglish clears the value of the "html_english" field.
+func (m *ArticleMutation) ClearHTMLEnglish() {
+	m.html_english = nil
+	m.clearedFields[article.FieldHTMLEnglish] = struct{}{}
 }
 
-// HTMLEnCleared returns if the "html_en" field was cleared in this mutation.
-func (m *ArticleMutation) HTMLEnCleared() bool {
-	_, ok := m.clearedFields[article.FieldHTMLEn]
+// HTMLEnglishCleared returns if the "html_english" field was cleared in this mutation.
+func (m *ArticleMutation) HTMLEnglishCleared() bool {
+	_, ok := m.clearedFields[article.FieldHTMLEnglish]
 	return ok
 }
 
-// ResetHTMLEn resets all changes to the "html_en" field.
-func (m *ArticleMutation) ResetHTMLEn() {
-	m.html_en = nil
-	delete(m.clearedFields, article.FieldHTMLEn)
+// ResetHTMLEnglish resets all changes to the "html_english" field.
+func (m *ArticleMutation) ResetHTMLEnglish() {
+	m.html_english = nil
+	delete(m.clearedFields, article.FieldHTMLEnglish)
 }
 
-// SetTextCn sets the "text_cn" field.
-func (m *ArticleMutation) SetTextCn(s string) {
-	m.text_cn = &s
+// SetTextChinese sets the "text_chinese" field.
+func (m *ArticleMutation) SetTextChinese(s string) {
+	m.text_chinese = &s
 }
 
-// TextCn returns the value of the "text_cn" field in the mutation.
-func (m *ArticleMutation) TextCn() (r string, exists bool) {
-	v := m.text_cn
+// TextChinese returns the value of the "text_chinese" field in the mutation.
+func (m *ArticleMutation) TextChinese() (r string, exists bool) {
+	v := m.text_chinese
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTextCn returns the old "text_cn" field's value of the Article entity.
+// OldTextChinese returns the old "text_chinese" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTextCn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldTextChinese(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTextCn is only allowed on UpdateOne operations")
+		return v, errors.New("OldTextChinese is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTextCn requires an ID field in the mutation")
+		return v, errors.New("OldTextChinese requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTextCn: %w", err)
+		return v, fmt.Errorf("querying old value for OldTextChinese: %w", err)
 	}
-	return oldValue.TextCn, nil
+	return oldValue.TextChinese, nil
 }
 
-// ClearTextCn clears the value of the "text_cn" field.
-func (m *ArticleMutation) ClearTextCn() {
-	m.text_cn = nil
-	m.clearedFields[article.FieldTextCn] = struct{}{}
+// ClearTextChinese clears the value of the "text_chinese" field.
+func (m *ArticleMutation) ClearTextChinese() {
+	m.text_chinese = nil
+	m.clearedFields[article.FieldTextChinese] = struct{}{}
 }
 
-// TextCnCleared returns if the "text_cn" field was cleared in this mutation.
-func (m *ArticleMutation) TextCnCleared() bool {
-	_, ok := m.clearedFields[article.FieldTextCn]
+// TextChineseCleared returns if the "text_chinese" field was cleared in this mutation.
+func (m *ArticleMutation) TextChineseCleared() bool {
+	_, ok := m.clearedFields[article.FieldTextChinese]
 	return ok
 }
 
-// ResetTextCn resets all changes to the "text_cn" field.
-func (m *ArticleMutation) ResetTextCn() {
-	m.text_cn = nil
-	delete(m.clearedFields, article.FieldTextCn)
+// ResetTextChinese resets all changes to the "text_chinese" field.
+func (m *ArticleMutation) ResetTextChinese() {
+	m.text_chinese = nil
+	delete(m.clearedFields, article.FieldTextChinese)
 }
 
-// SetTextEn sets the "text_en" field.
-func (m *ArticleMutation) SetTextEn(s string) {
-	m.text_en = &s
+// SetTextEnglish sets the "text_english" field.
+func (m *ArticleMutation) SetTextEnglish(s string) {
+	m.text_english = &s
 }
 
-// TextEn returns the value of the "text_en" field in the mutation.
-func (m *ArticleMutation) TextEn() (r string, exists bool) {
-	v := m.text_en
+// TextEnglish returns the value of the "text_english" field in the mutation.
+func (m *ArticleMutation) TextEnglish() (r string, exists bool) {
+	v := m.text_english
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTextEn returns the old "text_en" field's value of the Article entity.
+// OldTextEnglish returns the old "text_english" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTextEn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldTextEnglish(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTextEn is only allowed on UpdateOne operations")
+		return v, errors.New("OldTextEnglish is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTextEn requires an ID field in the mutation")
+		return v, errors.New("OldTextEnglish requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTextEn: %w", err)
+		return v, fmt.Errorf("querying old value for OldTextEnglish: %w", err)
 	}
-	return oldValue.TextEn, nil
+	return oldValue.TextEnglish, nil
 }
 
-// ClearTextEn clears the value of the "text_en" field.
-func (m *ArticleMutation) ClearTextEn() {
-	m.text_en = nil
-	m.clearedFields[article.FieldTextEn] = struct{}{}
+// ClearTextEnglish clears the value of the "text_english" field.
+func (m *ArticleMutation) ClearTextEnglish() {
+	m.text_english = nil
+	m.clearedFields[article.FieldTextEnglish] = struct{}{}
 }
 
-// TextEnCleared returns if the "text_en" field was cleared in this mutation.
-func (m *ArticleMutation) TextEnCleared() bool {
-	_, ok := m.clearedFields[article.FieldTextEn]
+// TextEnglishCleared returns if the "text_english" field was cleared in this mutation.
+func (m *ArticleMutation) TextEnglishCleared() bool {
+	_, ok := m.clearedFields[article.FieldTextEnglish]
 	return ok
 }
 
-// ResetTextEn resets all changes to the "text_en" field.
-func (m *ArticleMutation) ResetTextEn() {
-	m.text_en = nil
-	delete(m.clearedFields, article.FieldTextEn)
+// ResetTextEnglish resets all changes to the "text_english" field.
+func (m *ArticleMutation) ResetTextEnglish() {
+	m.text_english = nil
+	delete(m.clearedFields, article.FieldTextEnglish)
 }
 
 // SetCrawledAt sets the "crawled_at" field.
@@ -748,53 +748,53 @@ func (m *ArticleMutation) ResetCrawledAt() {
 	m.crawled_at = nil
 }
 
-// SetSummaryCn sets the "summary_cn" field.
-func (m *ArticleMutation) SetSummaryCn(s string) {
-	m.summary_cn = &s
+// SetSummaryChinese sets the "summary_chinese" field.
+func (m *ArticleMutation) SetSummaryChinese(s string) {
+	m.summary_chinese = &s
 }
 
-// SummaryCn returns the value of the "summary_cn" field in the mutation.
-func (m *ArticleMutation) SummaryCn() (r string, exists bool) {
-	v := m.summary_cn
+// SummaryChinese returns the value of the "summary_chinese" field in the mutation.
+func (m *ArticleMutation) SummaryChinese() (r string, exists bool) {
+	v := m.summary_chinese
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldSummaryCn returns the old "summary_cn" field's value of the Article entity.
+// OldSummaryChinese returns the old "summary_chinese" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldSummaryCn(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldSummaryChinese(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSummaryCn is only allowed on UpdateOne operations")
+		return v, errors.New("OldSummaryChinese is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSummaryCn requires an ID field in the mutation")
+		return v, errors.New("OldSummaryChinese requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSummaryCn: %w", err)
+		return v, fmt.Errorf("querying old value for OldSummaryChinese: %w", err)
 	}
-	return oldValue.SummaryCn, nil
+	return oldValue.SummaryChinese, nil
 }
 
-// ClearSummaryCn clears the value of the "summary_cn" field.
-func (m *ArticleMutation) ClearSummaryCn() {
-	m.summary_cn = nil
-	m.clearedFields[article.FieldSummaryCn] = struct{}{}
+// ClearSummaryChinese clears the value of the "summary_chinese" field.
+func (m *ArticleMutation) ClearSummaryChinese() {
+	m.summary_chinese = nil
+	m.clearedFields[article.FieldSummaryChinese] = struct{}{}
 }
 
-// SummaryCnCleared returns if the "summary_cn" field was cleared in this mutation.
-func (m *ArticleMutation) SummaryCnCleared() bool {
-	_, ok := m.clearedFields[article.FieldSummaryCn]
+// SummaryChineseCleared returns if the "summary_chinese" field was cleared in this mutation.
+func (m *ArticleMutation) SummaryChineseCleared() bool {
+	_, ok := m.clearedFields[article.FieldSummaryChinese]
 	return ok
 }
 
-// ResetSummaryCn resets all changes to the "summary_cn" field.
-func (m *ArticleMutation) ResetSummaryCn() {
-	m.summary_cn = nil
-	delete(m.clearedFields, article.FieldSummaryCn)
+// ResetSummaryChinese resets all changes to the "summary_chinese" field.
+func (m *ArticleMutation) ResetSummaryChinese() {
+	m.summary_chinese = nil
+	delete(m.clearedFields, article.FieldSummaryChinese)
 }
 
 // Where appends a list predicates to the ArticleMutation builder.
@@ -841,11 +841,11 @@ func (m *ArticleMutation) Fields() []string {
 	if m.url != nil {
 		fields = append(fields, article.FieldURL)
 	}
-	if m.title_cn != nil {
-		fields = append(fields, article.FieldTitleCn)
+	if m.title_chinese != nil {
+		fields = append(fields, article.FieldTitleChinese)
 	}
-	if m.title_en != nil {
-		fields = append(fields, article.FieldTitleEn)
+	if m.title_english != nil {
+		fields = append(fields, article.FieldTitleEnglish)
 	}
 	if m.author != nil {
 		fields = append(fields, article.FieldAuthor)
@@ -856,23 +856,23 @@ func (m *ArticleMutation) Fields() []string {
 	if m.published_at != nil {
 		fields = append(fields, article.FieldPublishedAt)
 	}
-	if m.html_cn != nil {
-		fields = append(fields, article.FieldHTMLCn)
+	if m.html_chinese != nil {
+		fields = append(fields, article.FieldHTMLChinese)
 	}
-	if m.html_en != nil {
-		fields = append(fields, article.FieldHTMLEn)
+	if m.html_english != nil {
+		fields = append(fields, article.FieldHTMLEnglish)
 	}
-	if m.text_cn != nil {
-		fields = append(fields, article.FieldTextCn)
+	if m.text_chinese != nil {
+		fields = append(fields, article.FieldTextChinese)
 	}
-	if m.text_en != nil {
-		fields = append(fields, article.FieldTextEn)
+	if m.text_english != nil {
+		fields = append(fields, article.FieldTextEnglish)
 	}
 	if m.crawled_at != nil {
 		fields = append(fields, article.FieldCrawledAt)
 	}
-	if m.summary_cn != nil {
-		fields = append(fields, article.FieldSummaryCn)
+	if m.summary_chinese != nil {
+		fields = append(fields, article.FieldSummaryChinese)
 	}
 	return fields
 }
@@ -888,28 +888,28 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.OriginType()
 	case article.FieldURL:
 		return m.URL()
-	case article.FieldTitleCn:
-		return m.TitleCn()
-	case article.FieldTitleEn:
-		return m.TitleEn()
+	case article.FieldTitleChinese:
+		return m.TitleChinese()
+	case article.FieldTitleEnglish:
+		return m.TitleEnglish()
 	case article.FieldAuthor:
 		return m.Author()
 	case article.FieldTags:
 		return m.Tags()
 	case article.FieldPublishedAt:
 		return m.PublishedAt()
-	case article.FieldHTMLCn:
-		return m.HTMLCn()
-	case article.FieldHTMLEn:
-		return m.HTMLEn()
-	case article.FieldTextCn:
-		return m.TextCn()
-	case article.FieldTextEn:
-		return m.TextEn()
+	case article.FieldHTMLChinese:
+		return m.HTMLChinese()
+	case article.FieldHTMLEnglish:
+		return m.HTMLEnglish()
+	case article.FieldTextChinese:
+		return m.TextChinese()
+	case article.FieldTextEnglish:
+		return m.TextEnglish()
 	case article.FieldCrawledAt:
 		return m.CrawledAt()
-	case article.FieldSummaryCn:
-		return m.SummaryCn()
+	case article.FieldSummaryChinese:
+		return m.SummaryChinese()
 	}
 	return nil, false
 }
@@ -925,28 +925,28 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldOriginType(ctx)
 	case article.FieldURL:
 		return m.OldURL(ctx)
-	case article.FieldTitleCn:
-		return m.OldTitleCn(ctx)
-	case article.FieldTitleEn:
-		return m.OldTitleEn(ctx)
+	case article.FieldTitleChinese:
+		return m.OldTitleChinese(ctx)
+	case article.FieldTitleEnglish:
+		return m.OldTitleEnglish(ctx)
 	case article.FieldAuthor:
 		return m.OldAuthor(ctx)
 	case article.FieldTags:
 		return m.OldTags(ctx)
 	case article.FieldPublishedAt:
 		return m.OldPublishedAt(ctx)
-	case article.FieldHTMLCn:
-		return m.OldHTMLCn(ctx)
-	case article.FieldHTMLEn:
-		return m.OldHTMLEn(ctx)
-	case article.FieldTextCn:
-		return m.OldTextCn(ctx)
-	case article.FieldTextEn:
-		return m.OldTextEn(ctx)
+	case article.FieldHTMLChinese:
+		return m.OldHTMLChinese(ctx)
+	case article.FieldHTMLEnglish:
+		return m.OldHTMLEnglish(ctx)
+	case article.FieldTextChinese:
+		return m.OldTextChinese(ctx)
+	case article.FieldTextEnglish:
+		return m.OldTextEnglish(ctx)
 	case article.FieldCrawledAt:
 		return m.OldCrawledAt(ctx)
-	case article.FieldSummaryCn:
-		return m.OldSummaryCn(ctx)
+	case article.FieldSummaryChinese:
+		return m.OldSummaryChinese(ctx)
 	}
 	return nil, fmt.Errorf("unknown Article field %s", name)
 }
@@ -977,19 +977,19 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetURL(v)
 		return nil
-	case article.FieldTitleCn:
+	case article.FieldTitleChinese:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTitleCn(v)
+		m.SetTitleChinese(v)
 		return nil
-	case article.FieldTitleEn:
+	case article.FieldTitleEnglish:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTitleEn(v)
+		m.SetTitleEnglish(v)
 		return nil
 	case article.FieldAuthor:
 		v, ok := value.(string)
@@ -1012,33 +1012,33 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPublishedAt(v)
 		return nil
-	case article.FieldHTMLCn:
+	case article.FieldHTMLChinese:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetHTMLCn(v)
+		m.SetHTMLChinese(v)
 		return nil
-	case article.FieldHTMLEn:
+	case article.FieldHTMLEnglish:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetHTMLEn(v)
+		m.SetHTMLEnglish(v)
 		return nil
-	case article.FieldTextCn:
+	case article.FieldTextChinese:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTextCn(v)
+		m.SetTextChinese(v)
 		return nil
-	case article.FieldTextEn:
+	case article.FieldTextEnglish:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTextEn(v)
+		m.SetTextEnglish(v)
 		return nil
 	case article.FieldCrawledAt:
 		v, ok := value.(time.Time)
@@ -1047,12 +1047,12 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCrawledAt(v)
 		return nil
-	case article.FieldSummaryCn:
+	case article.FieldSummaryChinese:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetSummaryCn(v)
+		m.SetSummaryChinese(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
@@ -1084,11 +1084,11 @@ func (m *ArticleMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *ArticleMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(article.FieldTitleCn) {
-		fields = append(fields, article.FieldTitleCn)
+	if m.FieldCleared(article.FieldTitleChinese) {
+		fields = append(fields, article.FieldTitleChinese)
 	}
-	if m.FieldCleared(article.FieldTitleEn) {
-		fields = append(fields, article.FieldTitleEn)
+	if m.FieldCleared(article.FieldTitleEnglish) {
+		fields = append(fields, article.FieldTitleEnglish)
 	}
 	if m.FieldCleared(article.FieldAuthor) {
 		fields = append(fields, article.FieldAuthor)
@@ -1096,20 +1096,20 @@ func (m *ArticleMutation) ClearedFields() []string {
 	if m.FieldCleared(article.FieldTags) {
 		fields = append(fields, article.FieldTags)
 	}
-	if m.FieldCleared(article.FieldHTMLCn) {
-		fields = append(fields, article.FieldHTMLCn)
+	if m.FieldCleared(article.FieldHTMLChinese) {
+		fields = append(fields, article.FieldHTMLChinese)
 	}
-	if m.FieldCleared(article.FieldHTMLEn) {
-		fields = append(fields, article.FieldHTMLEn)
+	if m.FieldCleared(article.FieldHTMLEnglish) {
+		fields = append(fields, article.FieldHTMLEnglish)
 	}
-	if m.FieldCleared(article.FieldTextCn) {
-		fields = append(fields, article.FieldTextCn)
+	if m.FieldCleared(article.FieldTextChinese) {
+		fields = append(fields, article.FieldTextChinese)
 	}
-	if m.FieldCleared(article.FieldTextEn) {
-		fields = append(fields, article.FieldTextEn)
+	if m.FieldCleared(article.FieldTextEnglish) {
+		fields = append(fields, article.FieldTextEnglish)
 	}
-	if m.FieldCleared(article.FieldSummaryCn) {
-		fields = append(fields, article.FieldSummaryCn)
+	if m.FieldCleared(article.FieldSummaryChinese) {
+		fields = append(fields, article.FieldSummaryChinese)
 	}
 	return fields
 }
@@ -1125,11 +1125,11 @@ func (m *ArticleMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *ArticleMutation) ClearField(name string) error {
 	switch name {
-	case article.FieldTitleCn:
-		m.ClearTitleCn()
+	case article.FieldTitleChinese:
+		m.ClearTitleChinese()
 		return nil
-	case article.FieldTitleEn:
-		m.ClearTitleEn()
+	case article.FieldTitleEnglish:
+		m.ClearTitleEnglish()
 		return nil
 	case article.FieldAuthor:
 		m.ClearAuthor()
@@ -1137,20 +1137,20 @@ func (m *ArticleMutation) ClearField(name string) error {
 	case article.FieldTags:
 		m.ClearTags()
 		return nil
-	case article.FieldHTMLCn:
-		m.ClearHTMLCn()
+	case article.FieldHTMLChinese:
+		m.ClearHTMLChinese()
 		return nil
-	case article.FieldHTMLEn:
-		m.ClearHTMLEn()
+	case article.FieldHTMLEnglish:
+		m.ClearHTMLEnglish()
 		return nil
-	case article.FieldTextCn:
-		m.ClearTextCn()
+	case article.FieldTextChinese:
+		m.ClearTextChinese()
 		return nil
-	case article.FieldTextEn:
-		m.ClearTextEn()
+	case article.FieldTextEnglish:
+		m.ClearTextEnglish()
 		return nil
-	case article.FieldSummaryCn:
-		m.ClearSummaryCn()
+	case article.FieldSummaryChinese:
+		m.ClearSummaryChinese()
 		return nil
 	}
 	return fmt.Errorf("unknown Article nullable field %s", name)
@@ -1169,11 +1169,11 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldURL:
 		m.ResetURL()
 		return nil
-	case article.FieldTitleCn:
-		m.ResetTitleCn()
+	case article.FieldTitleChinese:
+		m.ResetTitleChinese()
 		return nil
-	case article.FieldTitleEn:
-		m.ResetTitleEn()
+	case article.FieldTitleEnglish:
+		m.ResetTitleEnglish()
 		return nil
 	case article.FieldAuthor:
 		m.ResetAuthor()
@@ -1184,23 +1184,23 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldPublishedAt:
 		m.ResetPublishedAt()
 		return nil
-	case article.FieldHTMLCn:
-		m.ResetHTMLCn()
+	case article.FieldHTMLChinese:
+		m.ResetHTMLChinese()
 		return nil
-	case article.FieldHTMLEn:
-		m.ResetHTMLEn()
+	case article.FieldHTMLEnglish:
+		m.ResetHTMLEnglish()
 		return nil
-	case article.FieldTextCn:
-		m.ResetTextCn()
+	case article.FieldTextChinese:
+		m.ResetTextChinese()
 		return nil
-	case article.FieldTextEn:
-		m.ResetTextEn()
+	case article.FieldTextEnglish:
+		m.ResetTextEnglish()
 		return nil
 	case article.FieldCrawledAt:
 		m.ResetCrawledAt()
 		return nil
-	case article.FieldSummaryCn:
-		m.ResetSummaryCn()
+	case article.FieldSummaryChinese:
+		m.ResetSummaryChinese()
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)

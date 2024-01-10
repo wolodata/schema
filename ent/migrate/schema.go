@@ -15,17 +15,17 @@ var (
 		{Name: "origin_name", Type: field.TypeString},
 		{Name: "origin_type", Type: field.TypeString},
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
-		{Name: "title_cn", Type: field.TypeString, Nullable: true},
-		{Name: "title_en", Type: field.TypeString, Nullable: true},
+		{Name: "title_chinese", Type: field.TypeString, Nullable: true},
+		{Name: "title_english", Type: field.TypeString, Nullable: true},
 		{Name: "author", Type: field.TypeString, Nullable: true},
 		{Name: "tags", Type: field.TypeJSON, Nullable: true},
 		{Name: "published_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "html_cn", Type: field.TypeString, Nullable: true, Size: 2147483647},
-		{Name: "html_en", Type: field.TypeString, Nullable: true, Size: 2147483647},
-		{Name: "text_cn", Type: field.TypeString, Nullable: true, Size: 2147483647},
-		{Name: "text_en", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "html_chinese", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "html_english", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "text_chinese", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "text_english", Type: field.TypeString, Nullable: true, Size: 2147483647},
 		{Name: "crawled_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "summary_cn", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "summary_chinese", Type: field.TypeString, Nullable: true, Size: 2147483647},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
 	TArticleTable = &schema.Table{
@@ -34,12 +34,12 @@ var (
 		PrimaryKey: []*schema.Column{TArticleColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "article_title_cn",
+				Name:    "article_title_chinese",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[4]},
 			},
 			{
-				Name:    "article_title_en",
+				Name:    "article_title_english",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[5]},
 			},

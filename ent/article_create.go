@@ -38,30 +38,30 @@ func (ac *ArticleCreate) SetURL(s string) *ArticleCreate {
 	return ac
 }
 
-// SetTitleCn sets the "title_cn" field.
-func (ac *ArticleCreate) SetTitleCn(s string) *ArticleCreate {
-	ac.mutation.SetTitleCn(s)
+// SetTitleChinese sets the "title_chinese" field.
+func (ac *ArticleCreate) SetTitleChinese(s string) *ArticleCreate {
+	ac.mutation.SetTitleChinese(s)
 	return ac
 }
 
-// SetNillableTitleCn sets the "title_cn" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTitleCn(s *string) *ArticleCreate {
+// SetNillableTitleChinese sets the "title_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleChinese(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetTitleCn(*s)
+		ac.SetTitleChinese(*s)
 	}
 	return ac
 }
 
-// SetTitleEn sets the "title_en" field.
-func (ac *ArticleCreate) SetTitleEn(s string) *ArticleCreate {
-	ac.mutation.SetTitleEn(s)
+// SetTitleEnglish sets the "title_english" field.
+func (ac *ArticleCreate) SetTitleEnglish(s string) *ArticleCreate {
+	ac.mutation.SetTitleEnglish(s)
 	return ac
 }
 
-// SetNillableTitleEn sets the "title_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTitleEn(s *string) *ArticleCreate {
+// SetNillableTitleEnglish sets the "title_english" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleEnglish(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetTitleEn(*s)
+		ac.SetTitleEnglish(*s)
 	}
 	return ac
 }
@@ -92,58 +92,58 @@ func (ac *ArticleCreate) SetPublishedAt(t time.Time) *ArticleCreate {
 	return ac
 }
 
-// SetHTMLCn sets the "html_cn" field.
-func (ac *ArticleCreate) SetHTMLCn(s string) *ArticleCreate {
-	ac.mutation.SetHTMLCn(s)
+// SetHTMLChinese sets the "html_chinese" field.
+func (ac *ArticleCreate) SetHTMLChinese(s string) *ArticleCreate {
+	ac.mutation.SetHTMLChinese(s)
 	return ac
 }
 
-// SetNillableHTMLCn sets the "html_cn" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableHTMLCn(s *string) *ArticleCreate {
+// SetNillableHTMLChinese sets the "html_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLChinese(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetHTMLCn(*s)
+		ac.SetHTMLChinese(*s)
 	}
 	return ac
 }
 
-// SetHTMLEn sets the "html_en" field.
-func (ac *ArticleCreate) SetHTMLEn(s string) *ArticleCreate {
-	ac.mutation.SetHTMLEn(s)
+// SetHTMLEnglish sets the "html_english" field.
+func (ac *ArticleCreate) SetHTMLEnglish(s string) *ArticleCreate {
+	ac.mutation.SetHTMLEnglish(s)
 	return ac
 }
 
-// SetNillableHTMLEn sets the "html_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableHTMLEn(s *string) *ArticleCreate {
+// SetNillableHTMLEnglish sets the "html_english" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLEnglish(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetHTMLEn(*s)
+		ac.SetHTMLEnglish(*s)
 	}
 	return ac
 }
 
-// SetTextCn sets the "text_cn" field.
-func (ac *ArticleCreate) SetTextCn(s string) *ArticleCreate {
-	ac.mutation.SetTextCn(s)
+// SetTextChinese sets the "text_chinese" field.
+func (ac *ArticleCreate) SetTextChinese(s string) *ArticleCreate {
+	ac.mutation.SetTextChinese(s)
 	return ac
 }
 
-// SetNillableTextCn sets the "text_cn" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTextCn(s *string) *ArticleCreate {
+// SetNillableTextChinese sets the "text_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextChinese(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetTextCn(*s)
+		ac.SetTextChinese(*s)
 	}
 	return ac
 }
 
-// SetTextEn sets the "text_en" field.
-func (ac *ArticleCreate) SetTextEn(s string) *ArticleCreate {
-	ac.mutation.SetTextEn(s)
+// SetTextEnglish sets the "text_english" field.
+func (ac *ArticleCreate) SetTextEnglish(s string) *ArticleCreate {
+	ac.mutation.SetTextEnglish(s)
 	return ac
 }
 
-// SetNillableTextEn sets the "text_en" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTextEn(s *string) *ArticleCreate {
+// SetNillableTextEnglish sets the "text_english" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextEnglish(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetTextEn(*s)
+		ac.SetTextEnglish(*s)
 	}
 	return ac
 }
@@ -162,16 +162,16 @@ func (ac *ArticleCreate) SetNillableCrawledAt(t *time.Time) *ArticleCreate {
 	return ac
 }
 
-// SetSummaryCn sets the "summary_cn" field.
-func (ac *ArticleCreate) SetSummaryCn(s string) *ArticleCreate {
-	ac.mutation.SetSummaryCn(s)
+// SetSummaryChinese sets the "summary_chinese" field.
+func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
+	ac.mutation.SetSummaryChinese(s)
 	return ac
 }
 
-// SetNillableSummaryCn sets the "summary_cn" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableSummaryCn(s *string) *ArticleCreate {
+// SetNillableSummaryChinese sets the "summary_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetSummaryCn(*s)
+		ac.SetSummaryChinese(*s)
 	}
 	return ac
 }
@@ -289,13 +289,13 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldURL, field.TypeString, value)
 		_node.URL = value
 	}
-	if value, ok := ac.mutation.TitleCn(); ok {
-		_spec.SetField(article.FieldTitleCn, field.TypeString, value)
-		_node.TitleCn = value
+	if value, ok := ac.mutation.TitleChinese(); ok {
+		_spec.SetField(article.FieldTitleChinese, field.TypeString, value)
+		_node.TitleChinese = value
 	}
-	if value, ok := ac.mutation.TitleEn(); ok {
-		_spec.SetField(article.FieldTitleEn, field.TypeString, value)
-		_node.TitleEn = value
+	if value, ok := ac.mutation.TitleEnglish(); ok {
+		_spec.SetField(article.FieldTitleEnglish, field.TypeString, value)
+		_node.TitleEnglish = value
 	}
 	if value, ok := ac.mutation.Author(); ok {
 		_spec.SetField(article.FieldAuthor, field.TypeString, value)
@@ -309,29 +309,29 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldPublishedAt, field.TypeTime, value)
 		_node.PublishedAt = value
 	}
-	if value, ok := ac.mutation.HTMLCn(); ok {
-		_spec.SetField(article.FieldHTMLCn, field.TypeString, value)
-		_node.HTMLCn = value
+	if value, ok := ac.mutation.HTMLChinese(); ok {
+		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)
+		_node.HTMLChinese = value
 	}
-	if value, ok := ac.mutation.HTMLEn(); ok {
-		_spec.SetField(article.FieldHTMLEn, field.TypeString, value)
-		_node.HTMLEn = value
+	if value, ok := ac.mutation.HTMLEnglish(); ok {
+		_spec.SetField(article.FieldHTMLEnglish, field.TypeString, value)
+		_node.HTMLEnglish = value
 	}
-	if value, ok := ac.mutation.TextCn(); ok {
-		_spec.SetField(article.FieldTextCn, field.TypeString, value)
-		_node.TextCn = value
+	if value, ok := ac.mutation.TextChinese(); ok {
+		_spec.SetField(article.FieldTextChinese, field.TypeString, value)
+		_node.TextChinese = value
 	}
-	if value, ok := ac.mutation.TextEn(); ok {
-		_spec.SetField(article.FieldTextEn, field.TypeString, value)
-		_node.TextEn = value
+	if value, ok := ac.mutation.TextEnglish(); ok {
+		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
+		_node.TextEnglish = value
 	}
 	if value, ok := ac.mutation.CrawledAt(); ok {
 		_spec.SetField(article.FieldCrawledAt, field.TypeTime, value)
 		_node.CrawledAt = value
 	}
-	if value, ok := ac.mutation.SummaryCn(); ok {
-		_spec.SetField(article.FieldSummaryCn, field.TypeString, value)
-		_node.SummaryCn = value
+	if value, ok := ac.mutation.SummaryChinese(); ok {
+		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+		_node.SummaryChinese = value
 	}
 	return _node, _spec
 }

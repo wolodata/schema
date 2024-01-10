@@ -24,29 +24,29 @@ type Article struct {
 	OriginType string `json:"origin_type,omitempty"`
 	// URL holds the value of the "url" field.
 	URL string `json:"url,omitempty"`
-	// TitleCn holds the value of the "title_cn" field.
-	TitleCn string `json:"title_cn,omitempty"`
-	// TitleEn holds the value of the "title_en" field.
-	TitleEn string `json:"title_en,omitempty"`
+	// TitleChinese holds the value of the "title_chinese" field.
+	TitleChinese string `json:"title_chinese,omitempty"`
+	// TitleEnglish holds the value of the "title_english" field.
+	TitleEnglish string `json:"title_english,omitempty"`
 	// Author holds the value of the "author" field.
 	Author string `json:"author,omitempty"`
 	// Tags holds the value of the "tags" field.
 	Tags []string `json:"tags,omitempty"`
 	// PublishedAt holds the value of the "published_at" field.
 	PublishedAt time.Time `json:"published_at,omitempty"`
-	// HTMLCn holds the value of the "html_cn" field.
-	HTMLCn string `json:"html_cn,omitempty"`
-	// HTMLEn holds the value of the "html_en" field.
-	HTMLEn string `json:"html_en,omitempty"`
-	// TextCn holds the value of the "text_cn" field.
-	TextCn string `json:"text_cn,omitempty"`
-	// TextEn holds the value of the "text_en" field.
-	TextEn string `json:"text_en,omitempty"`
+	// HTMLChinese holds the value of the "html_chinese" field.
+	HTMLChinese string `json:"html_chinese,omitempty"`
+	// HTMLEnglish holds the value of the "html_english" field.
+	HTMLEnglish string `json:"html_english,omitempty"`
+	// TextChinese holds the value of the "text_chinese" field.
+	TextChinese string `json:"text_chinese,omitempty"`
+	// TextEnglish holds the value of the "text_english" field.
+	TextEnglish string `json:"text_english,omitempty"`
 	// CrawledAt holds the value of the "crawled_at" field.
 	CrawledAt time.Time `json:"crawled_at,omitempty"`
-	// SummaryCn holds the value of the "summary_cn" field.
-	SummaryCn    string `json:"summary_cn,omitempty"`
-	selectValues sql.SelectValues
+	// SummaryChinese holds the value of the "summary_chinese" field.
+	SummaryChinese string `json:"summary_chinese,omitempty"`
+	selectValues   sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -58,7 +58,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitleCn, article.FieldTitleEn, article.FieldAuthor, article.FieldHTMLCn, article.FieldHTMLEn, article.FieldTextCn, article.FieldTextEn, article.FieldSummaryCn:
+		case article.FieldOriginName, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt, article.FieldCrawledAt:
 			values[i] = new(sql.NullTime)
@@ -101,17 +101,17 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.URL = value.String
 			}
-		case article.FieldTitleCn:
+		case article.FieldTitleChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field title_cn", values[i])
+				return fmt.Errorf("unexpected type %T for field title_chinese", values[i])
 			} else if value.Valid {
-				a.TitleCn = value.String
+				a.TitleChinese = value.String
 			}
-		case article.FieldTitleEn:
+		case article.FieldTitleEnglish:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field title_en", values[i])
+				return fmt.Errorf("unexpected type %T for field title_english", values[i])
 			} else if value.Valid {
-				a.TitleEn = value.String
+				a.TitleEnglish = value.String
 			}
 		case article.FieldAuthor:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -133,29 +133,29 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.PublishedAt = value.Time
 			}
-		case article.FieldHTMLCn:
+		case article.FieldHTMLChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field html_cn", values[i])
+				return fmt.Errorf("unexpected type %T for field html_chinese", values[i])
 			} else if value.Valid {
-				a.HTMLCn = value.String
+				a.HTMLChinese = value.String
 			}
-		case article.FieldHTMLEn:
+		case article.FieldHTMLEnglish:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field html_en", values[i])
+				return fmt.Errorf("unexpected type %T for field html_english", values[i])
 			} else if value.Valid {
-				a.HTMLEn = value.String
+				a.HTMLEnglish = value.String
 			}
-		case article.FieldTextCn:
+		case article.FieldTextChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field text_cn", values[i])
+				return fmt.Errorf("unexpected type %T for field text_chinese", values[i])
 			} else if value.Valid {
-				a.TextCn = value.String
+				a.TextChinese = value.String
 			}
-		case article.FieldTextEn:
+		case article.FieldTextEnglish:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field text_en", values[i])
+				return fmt.Errorf("unexpected type %T for field text_english", values[i])
 			} else if value.Valid {
-				a.TextEn = value.String
+				a.TextEnglish = value.String
 			}
 		case article.FieldCrawledAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -163,11 +163,11 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.CrawledAt = value.Time
 			}
-		case article.FieldSummaryCn:
+		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field summary_cn", values[i])
+				return fmt.Errorf("unexpected type %T for field summary_chinese", values[i])
 			} else if value.Valid {
-				a.SummaryCn = value.String
+				a.SummaryChinese = value.String
 			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
@@ -214,11 +214,11 @@ func (a *Article) String() string {
 	builder.WriteString("url=")
 	builder.WriteString(a.URL)
 	builder.WriteString(", ")
-	builder.WriteString("title_cn=")
-	builder.WriteString(a.TitleCn)
+	builder.WriteString("title_chinese=")
+	builder.WriteString(a.TitleChinese)
 	builder.WriteString(", ")
-	builder.WriteString("title_en=")
-	builder.WriteString(a.TitleEn)
+	builder.WriteString("title_english=")
+	builder.WriteString(a.TitleEnglish)
 	builder.WriteString(", ")
 	builder.WriteString("author=")
 	builder.WriteString(a.Author)
@@ -229,23 +229,23 @@ func (a *Article) String() string {
 	builder.WriteString("published_at=")
 	builder.WriteString(a.PublishedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("html_cn=")
-	builder.WriteString(a.HTMLCn)
+	builder.WriteString("html_chinese=")
+	builder.WriteString(a.HTMLChinese)
 	builder.WriteString(", ")
-	builder.WriteString("html_en=")
-	builder.WriteString(a.HTMLEn)
+	builder.WriteString("html_english=")
+	builder.WriteString(a.HTMLEnglish)
 	builder.WriteString(", ")
-	builder.WriteString("text_cn=")
-	builder.WriteString(a.TextCn)
+	builder.WriteString("text_chinese=")
+	builder.WriteString(a.TextChinese)
 	builder.WriteString(", ")
-	builder.WriteString("text_en=")
-	builder.WriteString(a.TextEn)
+	builder.WriteString("text_english=")
+	builder.WriteString(a.TextEnglish)
 	builder.WriteString(", ")
 	builder.WriteString("crawled_at=")
 	builder.WriteString(a.CrawledAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("summary_cn=")
-	builder.WriteString(a.SummaryCn)
+	builder.WriteString("summary_chinese=")
+	builder.WriteString(a.SummaryChinese)
 	builder.WriteByte(')')
 	return builder.String()
 }
