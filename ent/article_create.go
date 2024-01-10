@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/wolodata/schema/ent/article"
@@ -18,6 +19,7 @@ type ArticleCreate struct {
 	config
 	mutation *ArticleMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetOriginShortID sets the "origin_short_id" field.
@@ -299,6 +301,7 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_node = &Article{config: ac.config}
 		_spec = sqlgraph.NewCreateSpec(article.Table, sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt))
 	)
+	_spec.OnConflict = ac.conflict
 	if id, ok := ac.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -366,11 +369,439 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Article.Create().
+//		SetOriginShortID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.ArticleUpsert) {
+//			SetOriginShortID(v+v).
+//		}).
+//		Exec(ctx)
+func (ac *ArticleCreate) OnConflict(opts ...sql.ConflictOption) *ArticleUpsertOne {
+	ac.conflict = opts
+	return &ArticleUpsertOne{
+		create: ac,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Article.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (ac *ArticleCreate) OnConflictColumns(columns ...string) *ArticleUpsertOne {
+	ac.conflict = append(ac.conflict, sql.ConflictColumns(columns...))
+	return &ArticleUpsertOne{
+		create: ac,
+	}
+}
+
+type (
+	// ArticleUpsertOne is the builder for "upsert"-ing
+	//  one Article node.
+	ArticleUpsertOne struct {
+		create *ArticleCreate
+	}
+
+	// ArticleUpsert is the "OnConflict" setter.
+	ArticleUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetTitleChinese sets the "title_chinese" field.
+func (u *ArticleUpsert) SetTitleChinese(v string) *ArticleUpsert {
+	u.Set(article.FieldTitleChinese, v)
+	return u
+}
+
+// UpdateTitleChinese sets the "title_chinese" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateTitleChinese() *ArticleUpsert {
+	u.SetExcluded(article.FieldTitleChinese)
+	return u
+}
+
+// ClearTitleChinese clears the value of the "title_chinese" field.
+func (u *ArticleUpsert) ClearTitleChinese() *ArticleUpsert {
+	u.SetNull(article.FieldTitleChinese)
+	return u
+}
+
+// SetTitleEnglish sets the "title_english" field.
+func (u *ArticleUpsert) SetTitleEnglish(v string) *ArticleUpsert {
+	u.Set(article.FieldTitleEnglish, v)
+	return u
+}
+
+// UpdateTitleEnglish sets the "title_english" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateTitleEnglish() *ArticleUpsert {
+	u.SetExcluded(article.FieldTitleEnglish)
+	return u
+}
+
+// ClearTitleEnglish clears the value of the "title_english" field.
+func (u *ArticleUpsert) ClearTitleEnglish() *ArticleUpsert {
+	u.SetNull(article.FieldTitleEnglish)
+	return u
+}
+
+// SetHTMLChinese sets the "html_chinese" field.
+func (u *ArticleUpsert) SetHTMLChinese(v string) *ArticleUpsert {
+	u.Set(article.FieldHTMLChinese, v)
+	return u
+}
+
+// UpdateHTMLChinese sets the "html_chinese" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateHTMLChinese() *ArticleUpsert {
+	u.SetExcluded(article.FieldHTMLChinese)
+	return u
+}
+
+// ClearHTMLChinese clears the value of the "html_chinese" field.
+func (u *ArticleUpsert) ClearHTMLChinese() *ArticleUpsert {
+	u.SetNull(article.FieldHTMLChinese)
+	return u
+}
+
+// SetHTMLEnglish sets the "html_english" field.
+func (u *ArticleUpsert) SetHTMLEnglish(v string) *ArticleUpsert {
+	u.Set(article.FieldHTMLEnglish, v)
+	return u
+}
+
+// UpdateHTMLEnglish sets the "html_english" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateHTMLEnglish() *ArticleUpsert {
+	u.SetExcluded(article.FieldHTMLEnglish)
+	return u
+}
+
+// ClearHTMLEnglish clears the value of the "html_english" field.
+func (u *ArticleUpsert) ClearHTMLEnglish() *ArticleUpsert {
+	u.SetNull(article.FieldHTMLEnglish)
+	return u
+}
+
+// SetTextChinese sets the "text_chinese" field.
+func (u *ArticleUpsert) SetTextChinese(v string) *ArticleUpsert {
+	u.Set(article.FieldTextChinese, v)
+	return u
+}
+
+// UpdateTextChinese sets the "text_chinese" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateTextChinese() *ArticleUpsert {
+	u.SetExcluded(article.FieldTextChinese)
+	return u
+}
+
+// ClearTextChinese clears the value of the "text_chinese" field.
+func (u *ArticleUpsert) ClearTextChinese() *ArticleUpsert {
+	u.SetNull(article.FieldTextChinese)
+	return u
+}
+
+// SetTextEnglish sets the "text_english" field.
+func (u *ArticleUpsert) SetTextEnglish(v string) *ArticleUpsert {
+	u.Set(article.FieldTextEnglish, v)
+	return u
+}
+
+// UpdateTextEnglish sets the "text_english" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateTextEnglish() *ArticleUpsert {
+	u.SetExcluded(article.FieldTextEnglish)
+	return u
+}
+
+// ClearTextEnglish clears the value of the "text_english" field.
+func (u *ArticleUpsert) ClearTextEnglish() *ArticleUpsert {
+	u.SetNull(article.FieldTextEnglish)
+	return u
+}
+
+// SetSummaryChinese sets the "summary_chinese" field.
+func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
+	u.Set(article.FieldSummaryChinese, v)
+	return u
+}
+
+// UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
+	u.SetExcluded(article.FieldSummaryChinese)
+	return u
+}
+
+// ClearSummaryChinese clears the value of the "summary_chinese" field.
+func (u *ArticleUpsert) ClearSummaryChinese() *ArticleUpsert {
+	u.SetNull(article.FieldSummaryChinese)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Article.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(article.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *ArticleUpsertOne) UpdateNewValues() *ArticleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(article.FieldID)
+		}
+		if _, exists := u.create.mutation.OriginShortID(); exists {
+			s.SetIgnore(article.FieldOriginShortID)
+		}
+		if _, exists := u.create.mutation.IsChinese(); exists {
+			s.SetIgnore(article.FieldIsChinese)
+		}
+		if _, exists := u.create.mutation.OriginType(); exists {
+			s.SetIgnore(article.FieldOriginType)
+		}
+		if _, exists := u.create.mutation.URL(); exists {
+			s.SetIgnore(article.FieldURL)
+		}
+		if _, exists := u.create.mutation.Author(); exists {
+			s.SetIgnore(article.FieldAuthor)
+		}
+		if _, exists := u.create.mutation.Tags(); exists {
+			s.SetIgnore(article.FieldTags)
+		}
+		if _, exists := u.create.mutation.PublishedAt(); exists {
+			s.SetIgnore(article.FieldPublishedAt)
+		}
+		if _, exists := u.create.mutation.CrawledAt(); exists {
+			s.SetIgnore(article.FieldCrawledAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Article.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *ArticleUpsertOne) Ignore() *ArticleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *ArticleUpsertOne) DoNothing() *ArticleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the ArticleCreate.OnConflict
+// documentation for more info.
+func (u *ArticleUpsertOne) Update(set func(*ArticleUpsert)) *ArticleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&ArticleUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetTitleChinese sets the "title_chinese" field.
+func (u *ArticleUpsertOne) SetTitleChinese(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTitleChinese(v)
+	})
+}
+
+// UpdateTitleChinese sets the "title_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateTitleChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTitleChinese()
+	})
+}
+
+// ClearTitleChinese clears the value of the "title_chinese" field.
+func (u *ArticleUpsertOne) ClearTitleChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTitleChinese()
+	})
+}
+
+// SetTitleEnglish sets the "title_english" field.
+func (u *ArticleUpsertOne) SetTitleEnglish(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTitleEnglish(v)
+	})
+}
+
+// UpdateTitleEnglish sets the "title_english" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateTitleEnglish() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTitleEnglish()
+	})
+}
+
+// ClearTitleEnglish clears the value of the "title_english" field.
+func (u *ArticleUpsertOne) ClearTitleEnglish() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTitleEnglish()
+	})
+}
+
+// SetHTMLChinese sets the "html_chinese" field.
+func (u *ArticleUpsertOne) SetHTMLChinese(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetHTMLChinese(v)
+	})
+}
+
+// UpdateHTMLChinese sets the "html_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateHTMLChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateHTMLChinese()
+	})
+}
+
+// ClearHTMLChinese clears the value of the "html_chinese" field.
+func (u *ArticleUpsertOne) ClearHTMLChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearHTMLChinese()
+	})
+}
+
+// SetHTMLEnglish sets the "html_english" field.
+func (u *ArticleUpsertOne) SetHTMLEnglish(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetHTMLEnglish(v)
+	})
+}
+
+// UpdateHTMLEnglish sets the "html_english" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateHTMLEnglish() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateHTMLEnglish()
+	})
+}
+
+// ClearHTMLEnglish clears the value of the "html_english" field.
+func (u *ArticleUpsertOne) ClearHTMLEnglish() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearHTMLEnglish()
+	})
+}
+
+// SetTextChinese sets the "text_chinese" field.
+func (u *ArticleUpsertOne) SetTextChinese(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTextChinese(v)
+	})
+}
+
+// UpdateTextChinese sets the "text_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateTextChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTextChinese()
+	})
+}
+
+// ClearTextChinese clears the value of the "text_chinese" field.
+func (u *ArticleUpsertOne) ClearTextChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTextChinese()
+	})
+}
+
+// SetTextEnglish sets the "text_english" field.
+func (u *ArticleUpsertOne) SetTextEnglish(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTextEnglish(v)
+	})
+}
+
+// UpdateTextEnglish sets the "text_english" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateTextEnglish() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTextEnglish()
+	})
+}
+
+// ClearTextEnglish clears the value of the "text_english" field.
+func (u *ArticleUpsertOne) ClearTextEnglish() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTextEnglish()
+	})
+}
+
+// SetSummaryChinese sets the "summary_chinese" field.
+func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetSummaryChinese(v)
+	})
+}
+
+// UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateSummaryChinese()
+	})
+}
+
+// ClearSummaryChinese clears the value of the "summary_chinese" field.
+func (u *ArticleUpsertOne) ClearSummaryChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearSummaryChinese()
+	})
+}
+
+// Exec executes the query.
+func (u *ArticleUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for ArticleCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *ArticleUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *ArticleUpsertOne) ID(ctx context.Context) (id int, err error) {
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *ArticleUpsertOne) IDX(ctx context.Context) int {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // ArticleCreateBulk is the builder for creating many Article entities in bulk.
 type ArticleCreateBulk struct {
 	config
 	err      error
 	builders []*ArticleCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Article entities in the database.
@@ -400,6 +831,7 @@ func (acb *ArticleCreateBulk) Save(ctx context.Context) ([]*Article, error) {
 					_, err = mutators[i+1].Mutate(root, acb.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = acb.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, acb.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -450,6 +882,291 @@ func (acb *ArticleCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (acb *ArticleCreateBulk) ExecX(ctx context.Context) {
 	if err := acb.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Article.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.ArticleUpsert) {
+//			SetOriginShortID(v+v).
+//		}).
+//		Exec(ctx)
+func (acb *ArticleCreateBulk) OnConflict(opts ...sql.ConflictOption) *ArticleUpsertBulk {
+	acb.conflict = opts
+	return &ArticleUpsertBulk{
+		create: acb,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Article.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (acb *ArticleCreateBulk) OnConflictColumns(columns ...string) *ArticleUpsertBulk {
+	acb.conflict = append(acb.conflict, sql.ConflictColumns(columns...))
+	return &ArticleUpsertBulk{
+		create: acb,
+	}
+}
+
+// ArticleUpsertBulk is the builder for "upsert"-ing
+// a bulk of Article nodes.
+type ArticleUpsertBulk struct {
+	create *ArticleCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Article.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(article.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *ArticleUpsertBulk) UpdateNewValues() *ArticleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(article.FieldID)
+			}
+			if _, exists := b.mutation.OriginShortID(); exists {
+				s.SetIgnore(article.FieldOriginShortID)
+			}
+			if _, exists := b.mutation.IsChinese(); exists {
+				s.SetIgnore(article.FieldIsChinese)
+			}
+			if _, exists := b.mutation.OriginType(); exists {
+				s.SetIgnore(article.FieldOriginType)
+			}
+			if _, exists := b.mutation.URL(); exists {
+				s.SetIgnore(article.FieldURL)
+			}
+			if _, exists := b.mutation.Author(); exists {
+				s.SetIgnore(article.FieldAuthor)
+			}
+			if _, exists := b.mutation.Tags(); exists {
+				s.SetIgnore(article.FieldTags)
+			}
+			if _, exists := b.mutation.PublishedAt(); exists {
+				s.SetIgnore(article.FieldPublishedAt)
+			}
+			if _, exists := b.mutation.CrawledAt(); exists {
+				s.SetIgnore(article.FieldCrawledAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Article.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *ArticleUpsertBulk) Ignore() *ArticleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *ArticleUpsertBulk) DoNothing() *ArticleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the ArticleCreateBulk.OnConflict
+// documentation for more info.
+func (u *ArticleUpsertBulk) Update(set func(*ArticleUpsert)) *ArticleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&ArticleUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetTitleChinese sets the "title_chinese" field.
+func (u *ArticleUpsertBulk) SetTitleChinese(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTitleChinese(v)
+	})
+}
+
+// UpdateTitleChinese sets the "title_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateTitleChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTitleChinese()
+	})
+}
+
+// ClearTitleChinese clears the value of the "title_chinese" field.
+func (u *ArticleUpsertBulk) ClearTitleChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTitleChinese()
+	})
+}
+
+// SetTitleEnglish sets the "title_english" field.
+func (u *ArticleUpsertBulk) SetTitleEnglish(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTitleEnglish(v)
+	})
+}
+
+// UpdateTitleEnglish sets the "title_english" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateTitleEnglish() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTitleEnglish()
+	})
+}
+
+// ClearTitleEnglish clears the value of the "title_english" field.
+func (u *ArticleUpsertBulk) ClearTitleEnglish() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTitleEnglish()
+	})
+}
+
+// SetHTMLChinese sets the "html_chinese" field.
+func (u *ArticleUpsertBulk) SetHTMLChinese(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetHTMLChinese(v)
+	})
+}
+
+// UpdateHTMLChinese sets the "html_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateHTMLChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateHTMLChinese()
+	})
+}
+
+// ClearHTMLChinese clears the value of the "html_chinese" field.
+func (u *ArticleUpsertBulk) ClearHTMLChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearHTMLChinese()
+	})
+}
+
+// SetHTMLEnglish sets the "html_english" field.
+func (u *ArticleUpsertBulk) SetHTMLEnglish(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetHTMLEnglish(v)
+	})
+}
+
+// UpdateHTMLEnglish sets the "html_english" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateHTMLEnglish() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateHTMLEnglish()
+	})
+}
+
+// ClearHTMLEnglish clears the value of the "html_english" field.
+func (u *ArticleUpsertBulk) ClearHTMLEnglish() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearHTMLEnglish()
+	})
+}
+
+// SetTextChinese sets the "text_chinese" field.
+func (u *ArticleUpsertBulk) SetTextChinese(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTextChinese(v)
+	})
+}
+
+// UpdateTextChinese sets the "text_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateTextChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTextChinese()
+	})
+}
+
+// ClearTextChinese clears the value of the "text_chinese" field.
+func (u *ArticleUpsertBulk) ClearTextChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTextChinese()
+	})
+}
+
+// SetTextEnglish sets the "text_english" field.
+func (u *ArticleUpsertBulk) SetTextEnglish(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTextEnglish(v)
+	})
+}
+
+// UpdateTextEnglish sets the "text_english" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateTextEnglish() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTextEnglish()
+	})
+}
+
+// ClearTextEnglish clears the value of the "text_english" field.
+func (u *ArticleUpsertBulk) ClearTextEnglish() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearTextEnglish()
+	})
+}
+
+// SetSummaryChinese sets the "summary_chinese" field.
+func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetSummaryChinese(v)
+	})
+}
+
+// UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateSummaryChinese()
+	})
+}
+
+// ClearSummaryChinese clears the value of the "summary_chinese" field.
+func (u *ArticleUpsertBulk) ClearSummaryChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.ClearSummaryChinese()
+	})
+}
+
+// Exec executes the query.
+func (u *ArticleUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the ArticleCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for ArticleCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *ArticleUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
