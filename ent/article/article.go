@@ -80,6 +80,8 @@ func ValidColumn(column string) bool {
 var (
 	// OriginShortIDValidator is a validator for the "origin_short_id" field. It is called by the builders before save.
 	OriginShortIDValidator func(string) error
+	// DefaultIsChinese holds the default value on creation for the "is_chinese" field.
+	DefaultIsChinese bool
 	// URLValidator is a validator for the "url" field. It is called by the builders before save.
 	URLValidator func(string) error
 	// DefaultTags holds the default value on creation for the "tags" field.

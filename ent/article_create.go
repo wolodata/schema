@@ -34,6 +34,14 @@ func (ac *ArticleCreate) SetIsChinese(b bool) *ArticleCreate {
 	return ac
 }
 
+// SetNillableIsChinese sets the "is_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableIsChinese(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetIsChinese(*b)
+	}
+	return ac
+}
+
 // SetOriginType sets the "origin_type" field.
 func (ac *ArticleCreate) SetOriginType(s string) *ArticleCreate {
 	ac.mutation.SetOriginType(s)
@@ -161,6 +169,10 @@ func (ac *ArticleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ac *ArticleCreate) defaults() {
+	if _, ok := ac.mutation.IsChinese(); !ok {
+		v := article.DefaultIsChinese
+		ac.mutation.SetIsChinese(v)
+	}
 	if _, ok := ac.mutation.Tags(); !ok {
 		v := article.DefaultTags
 		ac.mutation.SetTags(v)

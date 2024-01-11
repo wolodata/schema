@@ -13,7 +13,7 @@ var (
 	TArticleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "origin_short_id", Type: field.TypeString},
-		{Name: "is_chinese", Type: field.TypeBool},
+		{Name: "is_chinese", Type: field.TypeBool, Default: false},
 		{Name: "origin_type", Type: field.TypeString},
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
 		{Name: "title_chinese", Type: field.TypeString},
