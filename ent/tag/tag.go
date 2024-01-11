@@ -39,6 +39,8 @@ func ValidColumn(column string) bool {
 var (
 	// EnglishValidator is a validator for the "english" field. It is called by the builders before save.
 	EnglishValidator func(string) error
+	// DefaultChinese holds the default value on creation for the "chinese" field.
+	DefaultChinese string
 )
 
 // OrderOption defines the ordering options for the Tag queries.

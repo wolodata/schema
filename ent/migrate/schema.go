@@ -65,7 +65,7 @@ var (
 	TTagColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "english", Type: field.TypeString, Unique: true},
-		{Name: "chinese", Type: field.TypeString},
+		{Name: "chinese", Type: field.TypeString, Default: ""},
 	}
 	// TTagTable holds the schema information for the "t_tag" table.
 	TTagTable = &schema.Table{

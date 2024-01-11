@@ -33,6 +33,14 @@ func (tc *TagCreate) SetChinese(s string) *TagCreate {
 	return tc
 }
 
+// SetNillableChinese sets the "chinese" field if the given value is not nil.
+func (tc *TagCreate) SetNillableChinese(s *string) *TagCreate {
+	if s != nil {
+		tc.SetChinese(*s)
+	}
+	return tc
+}
+
 // Mutation returns the TagMutation object of the builder.
 func (tc *TagCreate) Mutation() *TagMutation {
 	return tc.mutation
@@ -40,6 +48,7 @@ func (tc *TagCreate) Mutation() *TagMutation {
 
 // Save creates the Tag in the database.
 func (tc *TagCreate) Save(ctx context.Context) (*Tag, error) {
+	tc.defaults()
 	return withHooks(ctx, tc.sqlSave, tc.mutation, tc.hooks)
 }
 
@@ -62,6 +71,14 @@ func (tc *TagCreate) Exec(ctx context.Context) error {
 func (tc *TagCreate) ExecX(ctx context.Context) {
 	if err := tc.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (tc *TagCreate) defaults() {
+	if _, ok := tc.mutation.Chinese(); !ok {
+		v := tag.DefaultChinese
+		tc.mutation.SetChinese(v)
 	}
 }
 
@@ -288,6 +305,7 @@ func (tcb *TagCreateBulk) Save(ctx context.Context) ([]*Tag, error) {
 	for i := range tcb.builders {
 		func(i int, root context.Context) {
 			builder := tcb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TagMutation)
 				if !ok {
