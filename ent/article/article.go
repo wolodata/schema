@@ -82,6 +82,8 @@ var (
 	OriginShortIDValidator func(string) error
 	// URLValidator is a validator for the "url" field. It is called by the builders before save.
 	URLValidator func(string) error
+	// DefaultTags holds the default value on creation for the "tags" field.
+	DefaultTags []string
 	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
 	DefaultCrawledAt func() time.Time
 )

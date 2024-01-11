@@ -38,6 +38,10 @@ func init() {
 			return nil
 		}
 	}()
+	// articleDescTags is the schema descriptor for tags field.
+	articleDescTags := articleFields[8].Descriptor()
+	// article.DefaultTags holds the default value on creation for the tags field.
+	article.DefaultTags = articleDescTags.Default.([]string)
 	// articleDescCrawledAt is the schema descriptor for crawled_at field.
 	articleDescCrawledAt := articleFields[14].Descriptor()
 	// article.DefaultCrawledAt holds the default value on creation for the crawled_at field.

@@ -161,6 +161,10 @@ func (ac *ArticleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ac *ArticleCreate) defaults() {
+	if _, ok := ac.mutation.Tags(); !ok {
+		v := article.DefaultTags
+		ac.mutation.SetTags(v)
+	}
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		v := article.DefaultCrawledAt()
 		ac.mutation.SetCrawledAt(v)

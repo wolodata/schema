@@ -25,7 +25,7 @@ func (Article) Fields() []ent.Field {
 		field.String("title_chinese"),
 		field.String("title_english"),
 		field.String("author"),
-		field.Strings("tags"),
+		field.Strings("tags").Default([]string{}),
 		field.Time("published_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
 		field.Text("html_chinese"),
 		field.Text("html_english"),
