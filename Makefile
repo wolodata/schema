@@ -10,3 +10,4 @@ MAKEFLAGS += --no-print-directory
 .PHONY: ent
 ent:
 	go generate ./ent
+	go mod tidy -v
