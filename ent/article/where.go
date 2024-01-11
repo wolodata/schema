@@ -384,16 +384,6 @@ func TitleChineseHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldTitleChinese, v))
 }
 
-// TitleChineseIsNil applies the IsNil predicate on the "title_chinese" field.
-func TitleChineseIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldTitleChinese))
-}
-
-// TitleChineseNotNil applies the NotNil predicate on the "title_chinese" field.
-func TitleChineseNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldTitleChinese))
-}
-
 // TitleChineseEqualFold applies the EqualFold predicate on the "title_chinese" field.
 func TitleChineseEqualFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldEqualFold(FieldTitleChinese, v))
@@ -457,16 +447,6 @@ func TitleEnglishHasPrefix(v string) predicate.Article {
 // TitleEnglishHasSuffix applies the HasSuffix predicate on the "title_english" field.
 func TitleEnglishHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldTitleEnglish, v))
-}
-
-// TitleEnglishIsNil applies the IsNil predicate on the "title_english" field.
-func TitleEnglishIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldTitleEnglish))
-}
-
-// TitleEnglishNotNil applies the NotNil predicate on the "title_english" field.
-func TitleEnglishNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldTitleEnglish))
 }
 
 // TitleEnglishEqualFold applies the EqualFold predicate on the "title_english" field.
@@ -534,16 +514,6 @@ func AuthorHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldAuthor, v))
 }
 
-// AuthorIsNil applies the IsNil predicate on the "author" field.
-func AuthorIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldAuthor))
-}
-
-// AuthorNotNil applies the NotNil predicate on the "author" field.
-func AuthorNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldAuthor))
-}
-
 // AuthorEqualFold applies the EqualFold predicate on the "author" field.
 func AuthorEqualFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldEqualFold(FieldAuthor, v))
@@ -552,16 +522,6 @@ func AuthorEqualFold(v string) predicate.Article {
 // AuthorContainsFold applies the ContainsFold predicate on the "author" field.
 func AuthorContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldAuthor, v))
-}
-
-// TagsIsNil applies the IsNil predicate on the "tags" field.
-func TagsIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldTags))
-}
-
-// TagsNotNil applies the NotNil predicate on the "tags" field.
-func TagsNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldTags))
 }
 
 // PublishedAtEQ applies the EQ predicate on the "published_at" field.
@@ -659,16 +619,6 @@ func HTMLChineseHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldHTMLChinese, v))
 }
 
-// HTMLChineseIsNil applies the IsNil predicate on the "html_chinese" field.
-func HTMLChineseIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldHTMLChinese))
-}
-
-// HTMLChineseNotNil applies the NotNil predicate on the "html_chinese" field.
-func HTMLChineseNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldHTMLChinese))
-}
-
 // HTMLChineseEqualFold applies the EqualFold predicate on the "html_chinese" field.
 func HTMLChineseEqualFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldEqualFold(FieldHTMLChinese, v))
@@ -732,16 +682,6 @@ func HTMLEnglishHasPrefix(v string) predicate.Article {
 // HTMLEnglishHasSuffix applies the HasSuffix predicate on the "html_english" field.
 func HTMLEnglishHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldHTMLEnglish, v))
-}
-
-// HTMLEnglishIsNil applies the IsNil predicate on the "html_english" field.
-func HTMLEnglishIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldHTMLEnglish))
-}
-
-// HTMLEnglishNotNil applies the NotNil predicate on the "html_english" field.
-func HTMLEnglishNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldHTMLEnglish))
 }
 
 // HTMLEnglishEqualFold applies the EqualFold predicate on the "html_english" field.
@@ -809,16 +749,6 @@ func TextChineseHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldTextChinese, v))
 }
 
-// TextChineseIsNil applies the IsNil predicate on the "text_chinese" field.
-func TextChineseIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldTextChinese))
-}
-
-// TextChineseNotNil applies the NotNil predicate on the "text_chinese" field.
-func TextChineseNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldTextChinese))
-}
-
 // TextChineseEqualFold applies the EqualFold predicate on the "text_chinese" field.
 func TextChineseEqualFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldEqualFold(FieldTextChinese, v))
@@ -882,16 +812,6 @@ func TextEnglishHasPrefix(v string) predicate.Article {
 // TextEnglishHasSuffix applies the HasSuffix predicate on the "text_english" field.
 func TextEnglishHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldTextEnglish, v))
-}
-
-// TextEnglishIsNil applies the IsNil predicate on the "text_english" field.
-func TextEnglishIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldTextEnglish))
-}
-
-// TextEnglishNotNil applies the NotNil predicate on the "text_english" field.
-func TextEnglishNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldTextEnglish))
 }
 
 // TextEnglishEqualFold applies the EqualFold predicate on the "text_english" field.
@@ -997,16 +917,6 @@ func SummaryChineseHasPrefix(v string) predicate.Article {
 // SummaryChineseHasSuffix applies the HasSuffix predicate on the "summary_chinese" field.
 func SummaryChineseHasSuffix(v string) predicate.Article {
 	return predicate.Article(sql.FieldHasSuffix(FieldSummaryChinese, v))
-}
-
-// SummaryChineseIsNil applies the IsNil predicate on the "summary_chinese" field.
-func SummaryChineseIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldSummaryChinese))
-}
-
-// SummaryChineseNotNil applies the NotNil predicate on the "summary_chinese" field.
-func SummaryChineseNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldSummaryChinese))
 }
 
 // SummaryChineseEqualFold applies the EqualFold predicate on the "summary_chinese" field.

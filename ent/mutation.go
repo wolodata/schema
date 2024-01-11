@@ -338,22 +338,9 @@ func (m *ArticleMutation) OldTitleChinese(ctx context.Context) (v string, err er
 	return oldValue.TitleChinese, nil
 }
 
-// ClearTitleChinese clears the value of the "title_chinese" field.
-func (m *ArticleMutation) ClearTitleChinese() {
-	m.title_chinese = nil
-	m.clearedFields[article.FieldTitleChinese] = struct{}{}
-}
-
-// TitleChineseCleared returns if the "title_chinese" field was cleared in this mutation.
-func (m *ArticleMutation) TitleChineseCleared() bool {
-	_, ok := m.clearedFields[article.FieldTitleChinese]
-	return ok
-}
-
 // ResetTitleChinese resets all changes to the "title_chinese" field.
 func (m *ArticleMutation) ResetTitleChinese() {
 	m.title_chinese = nil
-	delete(m.clearedFields, article.FieldTitleChinese)
 }
 
 // SetTitleEnglish sets the "title_english" field.
@@ -387,22 +374,9 @@ func (m *ArticleMutation) OldTitleEnglish(ctx context.Context) (v string, err er
 	return oldValue.TitleEnglish, nil
 }
 
-// ClearTitleEnglish clears the value of the "title_english" field.
-func (m *ArticleMutation) ClearTitleEnglish() {
-	m.title_english = nil
-	m.clearedFields[article.FieldTitleEnglish] = struct{}{}
-}
-
-// TitleEnglishCleared returns if the "title_english" field was cleared in this mutation.
-func (m *ArticleMutation) TitleEnglishCleared() bool {
-	_, ok := m.clearedFields[article.FieldTitleEnglish]
-	return ok
-}
-
 // ResetTitleEnglish resets all changes to the "title_english" field.
 func (m *ArticleMutation) ResetTitleEnglish() {
 	m.title_english = nil
-	delete(m.clearedFields, article.FieldTitleEnglish)
 }
 
 // SetAuthor sets the "author" field.
@@ -436,22 +410,9 @@ func (m *ArticleMutation) OldAuthor(ctx context.Context) (v string, err error) {
 	return oldValue.Author, nil
 }
 
-// ClearAuthor clears the value of the "author" field.
-func (m *ArticleMutation) ClearAuthor() {
-	m.author = nil
-	m.clearedFields[article.FieldAuthor] = struct{}{}
-}
-
-// AuthorCleared returns if the "author" field was cleared in this mutation.
-func (m *ArticleMutation) AuthorCleared() bool {
-	_, ok := m.clearedFields[article.FieldAuthor]
-	return ok
-}
-
 // ResetAuthor resets all changes to the "author" field.
 func (m *ArticleMutation) ResetAuthor() {
 	m.author = nil
-	delete(m.clearedFields, article.FieldAuthor)
 }
 
 // SetTags sets the "tags" field.
@@ -499,24 +460,10 @@ func (m *ArticleMutation) AppendedTags() ([]string, bool) {
 	return m.appendtags, true
 }
 
-// ClearTags clears the value of the "tags" field.
-func (m *ArticleMutation) ClearTags() {
-	m.tags = nil
-	m.appendtags = nil
-	m.clearedFields[article.FieldTags] = struct{}{}
-}
-
-// TagsCleared returns if the "tags" field was cleared in this mutation.
-func (m *ArticleMutation) TagsCleared() bool {
-	_, ok := m.clearedFields[article.FieldTags]
-	return ok
-}
-
 // ResetTags resets all changes to the "tags" field.
 func (m *ArticleMutation) ResetTags() {
 	m.tags = nil
 	m.appendtags = nil
-	delete(m.clearedFields, article.FieldTags)
 }
 
 // SetPublishedAt sets the "published_at" field.
@@ -586,22 +533,9 @@ func (m *ArticleMutation) OldHTMLChinese(ctx context.Context) (v string, err err
 	return oldValue.HTMLChinese, nil
 }
 
-// ClearHTMLChinese clears the value of the "html_chinese" field.
-func (m *ArticleMutation) ClearHTMLChinese() {
-	m.html_chinese = nil
-	m.clearedFields[article.FieldHTMLChinese] = struct{}{}
-}
-
-// HTMLChineseCleared returns if the "html_chinese" field was cleared in this mutation.
-func (m *ArticleMutation) HTMLChineseCleared() bool {
-	_, ok := m.clearedFields[article.FieldHTMLChinese]
-	return ok
-}
-
 // ResetHTMLChinese resets all changes to the "html_chinese" field.
 func (m *ArticleMutation) ResetHTMLChinese() {
 	m.html_chinese = nil
-	delete(m.clearedFields, article.FieldHTMLChinese)
 }
 
 // SetHTMLEnglish sets the "html_english" field.
@@ -635,22 +569,9 @@ func (m *ArticleMutation) OldHTMLEnglish(ctx context.Context) (v string, err err
 	return oldValue.HTMLEnglish, nil
 }
 
-// ClearHTMLEnglish clears the value of the "html_english" field.
-func (m *ArticleMutation) ClearHTMLEnglish() {
-	m.html_english = nil
-	m.clearedFields[article.FieldHTMLEnglish] = struct{}{}
-}
-
-// HTMLEnglishCleared returns if the "html_english" field was cleared in this mutation.
-func (m *ArticleMutation) HTMLEnglishCleared() bool {
-	_, ok := m.clearedFields[article.FieldHTMLEnglish]
-	return ok
-}
-
 // ResetHTMLEnglish resets all changes to the "html_english" field.
 func (m *ArticleMutation) ResetHTMLEnglish() {
 	m.html_english = nil
-	delete(m.clearedFields, article.FieldHTMLEnglish)
 }
 
 // SetTextChinese sets the "text_chinese" field.
@@ -684,22 +605,9 @@ func (m *ArticleMutation) OldTextChinese(ctx context.Context) (v string, err err
 	return oldValue.TextChinese, nil
 }
 
-// ClearTextChinese clears the value of the "text_chinese" field.
-func (m *ArticleMutation) ClearTextChinese() {
-	m.text_chinese = nil
-	m.clearedFields[article.FieldTextChinese] = struct{}{}
-}
-
-// TextChineseCleared returns if the "text_chinese" field was cleared in this mutation.
-func (m *ArticleMutation) TextChineseCleared() bool {
-	_, ok := m.clearedFields[article.FieldTextChinese]
-	return ok
-}
-
 // ResetTextChinese resets all changes to the "text_chinese" field.
 func (m *ArticleMutation) ResetTextChinese() {
 	m.text_chinese = nil
-	delete(m.clearedFields, article.FieldTextChinese)
 }
 
 // SetTextEnglish sets the "text_english" field.
@@ -733,22 +641,9 @@ func (m *ArticleMutation) OldTextEnglish(ctx context.Context) (v string, err err
 	return oldValue.TextEnglish, nil
 }
 
-// ClearTextEnglish clears the value of the "text_english" field.
-func (m *ArticleMutation) ClearTextEnglish() {
-	m.text_english = nil
-	m.clearedFields[article.FieldTextEnglish] = struct{}{}
-}
-
-// TextEnglishCleared returns if the "text_english" field was cleared in this mutation.
-func (m *ArticleMutation) TextEnglishCleared() bool {
-	_, ok := m.clearedFields[article.FieldTextEnglish]
-	return ok
-}
-
 // ResetTextEnglish resets all changes to the "text_english" field.
 func (m *ArticleMutation) ResetTextEnglish() {
 	m.text_english = nil
-	delete(m.clearedFields, article.FieldTextEnglish)
 }
 
 // SetCrawledAt sets the "crawled_at" field.
@@ -818,22 +713,9 @@ func (m *ArticleMutation) OldSummaryChinese(ctx context.Context) (v string, err 
 	return oldValue.SummaryChinese, nil
 }
 
-// ClearSummaryChinese clears the value of the "summary_chinese" field.
-func (m *ArticleMutation) ClearSummaryChinese() {
-	m.summary_chinese = nil
-	m.clearedFields[article.FieldSummaryChinese] = struct{}{}
-}
-
-// SummaryChineseCleared returns if the "summary_chinese" field was cleared in this mutation.
-func (m *ArticleMutation) SummaryChineseCleared() bool {
-	_, ok := m.clearedFields[article.FieldSummaryChinese]
-	return ok
-}
-
 // ResetSummaryChinese resets all changes to the "summary_chinese" field.
 func (m *ArticleMutation) ResetSummaryChinese() {
 	m.summary_chinese = nil
-	delete(m.clearedFields, article.FieldSummaryChinese)
 }
 
 // Where appends a list predicates to the ArticleMutation builder.
@@ -1136,35 +1018,7 @@ func (m *ArticleMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *ArticleMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(article.FieldTitleChinese) {
-		fields = append(fields, article.FieldTitleChinese)
-	}
-	if m.FieldCleared(article.FieldTitleEnglish) {
-		fields = append(fields, article.FieldTitleEnglish)
-	}
-	if m.FieldCleared(article.FieldAuthor) {
-		fields = append(fields, article.FieldAuthor)
-	}
-	if m.FieldCleared(article.FieldTags) {
-		fields = append(fields, article.FieldTags)
-	}
-	if m.FieldCleared(article.FieldHTMLChinese) {
-		fields = append(fields, article.FieldHTMLChinese)
-	}
-	if m.FieldCleared(article.FieldHTMLEnglish) {
-		fields = append(fields, article.FieldHTMLEnglish)
-	}
-	if m.FieldCleared(article.FieldTextChinese) {
-		fields = append(fields, article.FieldTextChinese)
-	}
-	if m.FieldCleared(article.FieldTextEnglish) {
-		fields = append(fields, article.FieldTextEnglish)
-	}
-	if m.FieldCleared(article.FieldSummaryChinese) {
-		fields = append(fields, article.FieldSummaryChinese)
-	}
-	return fields
+	return nil
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -1177,35 +1031,6 @@ func (m *ArticleMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *ArticleMutation) ClearField(name string) error {
-	switch name {
-	case article.FieldTitleChinese:
-		m.ClearTitleChinese()
-		return nil
-	case article.FieldTitleEnglish:
-		m.ClearTitleEnglish()
-		return nil
-	case article.FieldAuthor:
-		m.ClearAuthor()
-		return nil
-	case article.FieldTags:
-		m.ClearTags()
-		return nil
-	case article.FieldHTMLChinese:
-		m.ClearHTMLChinese()
-		return nil
-	case article.FieldHTMLEnglish:
-		m.ClearHTMLEnglish()
-		return nil
-	case article.FieldTextChinese:
-		m.ClearTextChinese()
-		return nil
-	case article.FieldTextEnglish:
-		m.ClearTextEnglish()
-		return nil
-	case article.FieldSummaryChinese:
-		m.ClearSummaryChinese()
-		return nil
-	}
 	return fmt.Errorf("unknown Article nullable field %s", name)
 }
 

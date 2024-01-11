@@ -34,14 +34,6 @@ func (ac *ArticleCreate) SetIsChinese(b bool) *ArticleCreate {
 	return ac
 }
 
-// SetNillableIsChinese sets the "is_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableIsChinese(b *bool) *ArticleCreate {
-	if b != nil {
-		ac.SetIsChinese(*b)
-	}
-	return ac
-}
-
 // SetOriginType sets the "origin_type" field.
 func (ac *ArticleCreate) SetOriginType(s string) *ArticleCreate {
 	ac.mutation.SetOriginType(s)
@@ -60,39 +52,15 @@ func (ac *ArticleCreate) SetTitleChinese(s string) *ArticleCreate {
 	return ac
 }
 
-// SetNillableTitleChinese sets the "title_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTitleChinese(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetTitleChinese(*s)
-	}
-	return ac
-}
-
 // SetTitleEnglish sets the "title_english" field.
 func (ac *ArticleCreate) SetTitleEnglish(s string) *ArticleCreate {
 	ac.mutation.SetTitleEnglish(s)
 	return ac
 }
 
-// SetNillableTitleEnglish sets the "title_english" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTitleEnglish(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetTitleEnglish(*s)
-	}
-	return ac
-}
-
 // SetAuthor sets the "author" field.
 func (ac *ArticleCreate) SetAuthor(s string) *ArticleCreate {
 	ac.mutation.SetAuthor(s)
-	return ac
-}
-
-// SetNillableAuthor sets the "author" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableAuthor(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetAuthor(*s)
-	}
 	return ac
 }
 
@@ -114,25 +82,9 @@ func (ac *ArticleCreate) SetHTMLChinese(s string) *ArticleCreate {
 	return ac
 }
 
-// SetNillableHTMLChinese sets the "html_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableHTMLChinese(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetHTMLChinese(*s)
-	}
-	return ac
-}
-
 // SetHTMLEnglish sets the "html_english" field.
 func (ac *ArticleCreate) SetHTMLEnglish(s string) *ArticleCreate {
 	ac.mutation.SetHTMLEnglish(s)
-	return ac
-}
-
-// SetNillableHTMLEnglish sets the "html_english" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableHTMLEnglish(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetHTMLEnglish(*s)
-	}
 	return ac
 }
 
@@ -142,25 +94,9 @@ func (ac *ArticleCreate) SetTextChinese(s string) *ArticleCreate {
 	return ac
 }
 
-// SetNillableTextChinese sets the "text_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTextChinese(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetTextChinese(*s)
-	}
-	return ac
-}
-
 // SetTextEnglish sets the "text_english" field.
 func (ac *ArticleCreate) SetTextEnglish(s string) *ArticleCreate {
 	ac.mutation.SetTextEnglish(s)
-	return ac
-}
-
-// SetNillableTextEnglish sets the "text_english" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableTextEnglish(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetTextEnglish(*s)
-	}
 	return ac
 }
 
@@ -181,14 +117,6 @@ func (ac *ArticleCreate) SetNillableCrawledAt(t *time.Time) *ArticleCreate {
 // SetSummaryChinese sets the "summary_chinese" field.
 func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 	ac.mutation.SetSummaryChinese(s)
-	return ac
-}
-
-// SetNillableSummaryChinese sets the "summary_chinese" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetSummaryChinese(*s)
-	}
 	return ac
 }
 
@@ -233,10 +161,6 @@ func (ac *ArticleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ac *ArticleCreate) defaults() {
-	if _, ok := ac.mutation.IsChinese(); !ok {
-		v := article.DefaultIsChinese
-		ac.mutation.SetIsChinese(v)
-	}
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		v := article.DefaultCrawledAt()
 		ac.mutation.SetCrawledAt(v)
@@ -267,11 +191,38 @@ func (ac *ArticleCreate) check() error {
 			return &ValidationError{Name: "url", err: fmt.Errorf(`ent: validator failed for field "Article.url": %w`, err)}
 		}
 	}
+	if _, ok := ac.mutation.TitleChinese(); !ok {
+		return &ValidationError{Name: "title_chinese", err: errors.New(`ent: missing required field "Article.title_chinese"`)}
+	}
+	if _, ok := ac.mutation.TitleEnglish(); !ok {
+		return &ValidationError{Name: "title_english", err: errors.New(`ent: missing required field "Article.title_english"`)}
+	}
+	if _, ok := ac.mutation.Author(); !ok {
+		return &ValidationError{Name: "author", err: errors.New(`ent: missing required field "Article.author"`)}
+	}
+	if _, ok := ac.mutation.Tags(); !ok {
+		return &ValidationError{Name: "tags", err: errors.New(`ent: missing required field "Article.tags"`)}
+	}
 	if _, ok := ac.mutation.PublishedAt(); !ok {
 		return &ValidationError{Name: "published_at", err: errors.New(`ent: missing required field "Article.published_at"`)}
 	}
+	if _, ok := ac.mutation.HTMLChinese(); !ok {
+		return &ValidationError{Name: "html_chinese", err: errors.New(`ent: missing required field "Article.html_chinese"`)}
+	}
+	if _, ok := ac.mutation.HTMLEnglish(); !ok {
+		return &ValidationError{Name: "html_english", err: errors.New(`ent: missing required field "Article.html_english"`)}
+	}
+	if _, ok := ac.mutation.TextChinese(); !ok {
+		return &ValidationError{Name: "text_chinese", err: errors.New(`ent: missing required field "Article.text_chinese"`)}
+	}
+	if _, ok := ac.mutation.TextEnglish(); !ok {
+		return &ValidationError{Name: "text_english", err: errors.New(`ent: missing required field "Article.text_english"`)}
+	}
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		return &ValidationError{Name: "crawled_at", err: errors.New(`ent: missing required field "Article.crawled_at"`)}
+	}
+	if _, ok := ac.mutation.SummaryChinese(); !ok {
+		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
 	}
 	return nil
 }
@@ -430,12 +381,6 @@ func (u *ArticleUpsert) UpdateTitleChinese() *ArticleUpsert {
 	return u
 }
 
-// ClearTitleChinese clears the value of the "title_chinese" field.
-func (u *ArticleUpsert) ClearTitleChinese() *ArticleUpsert {
-	u.SetNull(article.FieldTitleChinese)
-	return u
-}
-
 // SetTitleEnglish sets the "title_english" field.
 func (u *ArticleUpsert) SetTitleEnglish(v string) *ArticleUpsert {
 	u.Set(article.FieldTitleEnglish, v)
@@ -448,9 +393,27 @@ func (u *ArticleUpsert) UpdateTitleEnglish() *ArticleUpsert {
 	return u
 }
 
-// ClearTitleEnglish clears the value of the "title_english" field.
-func (u *ArticleUpsert) ClearTitleEnglish() *ArticleUpsert {
-	u.SetNull(article.FieldTitleEnglish)
+// SetAuthor sets the "author" field.
+func (u *ArticleUpsert) SetAuthor(v string) *ArticleUpsert {
+	u.Set(article.FieldAuthor, v)
+	return u
+}
+
+// UpdateAuthor sets the "author" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateAuthor() *ArticleUpsert {
+	u.SetExcluded(article.FieldAuthor)
+	return u
+}
+
+// SetTags sets the "tags" field.
+func (u *ArticleUpsert) SetTags(v []string) *ArticleUpsert {
+	u.Set(article.FieldTags, v)
+	return u
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateTags() *ArticleUpsert {
+	u.SetExcluded(article.FieldTags)
 	return u
 }
 
@@ -466,12 +429,6 @@ func (u *ArticleUpsert) UpdateHTMLChinese() *ArticleUpsert {
 	return u
 }
 
-// ClearHTMLChinese clears the value of the "html_chinese" field.
-func (u *ArticleUpsert) ClearHTMLChinese() *ArticleUpsert {
-	u.SetNull(article.FieldHTMLChinese)
-	return u
-}
-
 // SetHTMLEnglish sets the "html_english" field.
 func (u *ArticleUpsert) SetHTMLEnglish(v string) *ArticleUpsert {
 	u.Set(article.FieldHTMLEnglish, v)
@@ -481,12 +438,6 @@ func (u *ArticleUpsert) SetHTMLEnglish(v string) *ArticleUpsert {
 // UpdateHTMLEnglish sets the "html_english" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateHTMLEnglish() *ArticleUpsert {
 	u.SetExcluded(article.FieldHTMLEnglish)
-	return u
-}
-
-// ClearHTMLEnglish clears the value of the "html_english" field.
-func (u *ArticleUpsert) ClearHTMLEnglish() *ArticleUpsert {
-	u.SetNull(article.FieldHTMLEnglish)
 	return u
 }
 
@@ -502,12 +453,6 @@ func (u *ArticleUpsert) UpdateTextChinese() *ArticleUpsert {
 	return u
 }
 
-// ClearTextChinese clears the value of the "text_chinese" field.
-func (u *ArticleUpsert) ClearTextChinese() *ArticleUpsert {
-	u.SetNull(article.FieldTextChinese)
-	return u
-}
-
 // SetTextEnglish sets the "text_english" field.
 func (u *ArticleUpsert) SetTextEnglish(v string) *ArticleUpsert {
 	u.Set(article.FieldTextEnglish, v)
@@ -520,12 +465,6 @@ func (u *ArticleUpsert) UpdateTextEnglish() *ArticleUpsert {
 	return u
 }
 
-// ClearTextEnglish clears the value of the "text_english" field.
-func (u *ArticleUpsert) ClearTextEnglish() *ArticleUpsert {
-	u.SetNull(article.FieldTextEnglish)
-	return u
-}
-
 // SetSummaryChinese sets the "summary_chinese" field.
 func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 	u.Set(article.FieldSummaryChinese, v)
@@ -535,12 +474,6 @@ func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 // UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
 	u.SetExcluded(article.FieldSummaryChinese)
-	return u
-}
-
-// ClearSummaryChinese clears the value of the "summary_chinese" field.
-func (u *ArticleUpsert) ClearSummaryChinese() *ArticleUpsert {
-	u.SetNull(article.FieldSummaryChinese)
 	return u
 }
 
@@ -572,12 +505,6 @@ func (u *ArticleUpsertOne) UpdateNewValues() *ArticleUpsertOne {
 		}
 		if _, exists := u.create.mutation.URL(); exists {
 			s.SetIgnore(article.FieldURL)
-		}
-		if _, exists := u.create.mutation.Author(); exists {
-			s.SetIgnore(article.FieldAuthor)
-		}
-		if _, exists := u.create.mutation.Tags(); exists {
-			s.SetIgnore(article.FieldTags)
 		}
 		if _, exists := u.create.mutation.PublishedAt(); exists {
 			s.SetIgnore(article.FieldPublishedAt)
@@ -630,13 +557,6 @@ func (u *ArticleUpsertOne) UpdateTitleChinese() *ArticleUpsertOne {
 	})
 }
 
-// ClearTitleChinese clears the value of the "title_chinese" field.
-func (u *ArticleUpsertOne) ClearTitleChinese() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTitleChinese()
-	})
-}
-
 // SetTitleEnglish sets the "title_english" field.
 func (u *ArticleUpsertOne) SetTitleEnglish(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -651,10 +571,31 @@ func (u *ArticleUpsertOne) UpdateTitleEnglish() *ArticleUpsertOne {
 	})
 }
 
-// ClearTitleEnglish clears the value of the "title_english" field.
-func (u *ArticleUpsertOne) ClearTitleEnglish() *ArticleUpsertOne {
+// SetAuthor sets the "author" field.
+func (u *ArticleUpsertOne) SetAuthor(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTitleEnglish()
+		s.SetAuthor(v)
+	})
+}
+
+// UpdateAuthor sets the "author" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateAuthor() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAuthor()
+	})
+}
+
+// SetTags sets the "tags" field.
+func (u *ArticleUpsertOne) SetTags(v []string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTags(v)
+	})
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateTags() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTags()
 	})
 }
 
@@ -672,13 +613,6 @@ func (u *ArticleUpsertOne) UpdateHTMLChinese() *ArticleUpsertOne {
 	})
 }
 
-// ClearHTMLChinese clears the value of the "html_chinese" field.
-func (u *ArticleUpsertOne) ClearHTMLChinese() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearHTMLChinese()
-	})
-}
-
 // SetHTMLEnglish sets the "html_english" field.
 func (u *ArticleUpsertOne) SetHTMLEnglish(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -690,13 +624,6 @@ func (u *ArticleUpsertOne) SetHTMLEnglish(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateHTMLEnglish() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateHTMLEnglish()
-	})
-}
-
-// ClearHTMLEnglish clears the value of the "html_english" field.
-func (u *ArticleUpsertOne) ClearHTMLEnglish() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearHTMLEnglish()
 	})
 }
 
@@ -714,13 +641,6 @@ func (u *ArticleUpsertOne) UpdateTextChinese() *ArticleUpsertOne {
 	})
 }
 
-// ClearTextChinese clears the value of the "text_chinese" field.
-func (u *ArticleUpsertOne) ClearTextChinese() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTextChinese()
-	})
-}
-
 // SetTextEnglish sets the "text_english" field.
 func (u *ArticleUpsertOne) SetTextEnglish(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -735,13 +655,6 @@ func (u *ArticleUpsertOne) UpdateTextEnglish() *ArticleUpsertOne {
 	})
 }
 
-// ClearTextEnglish clears the value of the "text_english" field.
-func (u *ArticleUpsertOne) ClearTextEnglish() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTextEnglish()
-	})
-}
-
 // SetSummaryChinese sets the "summary_chinese" field.
 func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -753,13 +666,6 @@ func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
-	})
-}
-
-// ClearSummaryChinese clears the value of the "summary_chinese" field.
-func (u *ArticleUpsertOne) ClearSummaryChinese() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearSummaryChinese()
 	})
 }
 
@@ -957,12 +863,6 @@ func (u *ArticleUpsertBulk) UpdateNewValues() *ArticleUpsertBulk {
 			if _, exists := b.mutation.URL(); exists {
 				s.SetIgnore(article.FieldURL)
 			}
-			if _, exists := b.mutation.Author(); exists {
-				s.SetIgnore(article.FieldAuthor)
-			}
-			if _, exists := b.mutation.Tags(); exists {
-				s.SetIgnore(article.FieldTags)
-			}
 			if _, exists := b.mutation.PublishedAt(); exists {
 				s.SetIgnore(article.FieldPublishedAt)
 			}
@@ -1015,13 +915,6 @@ func (u *ArticleUpsertBulk) UpdateTitleChinese() *ArticleUpsertBulk {
 	})
 }
 
-// ClearTitleChinese clears the value of the "title_chinese" field.
-func (u *ArticleUpsertBulk) ClearTitleChinese() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTitleChinese()
-	})
-}
-
 // SetTitleEnglish sets the "title_english" field.
 func (u *ArticleUpsertBulk) SetTitleEnglish(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1036,10 +929,31 @@ func (u *ArticleUpsertBulk) UpdateTitleEnglish() *ArticleUpsertBulk {
 	})
 }
 
-// ClearTitleEnglish clears the value of the "title_english" field.
-func (u *ArticleUpsertBulk) ClearTitleEnglish() *ArticleUpsertBulk {
+// SetAuthor sets the "author" field.
+func (u *ArticleUpsertBulk) SetAuthor(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTitleEnglish()
+		s.SetAuthor(v)
+	})
+}
+
+// UpdateAuthor sets the "author" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateAuthor() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAuthor()
+	})
+}
+
+// SetTags sets the "tags" field.
+func (u *ArticleUpsertBulk) SetTags(v []string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetTags(v)
+	})
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateTags() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateTags()
 	})
 }
 
@@ -1057,13 +971,6 @@ func (u *ArticleUpsertBulk) UpdateHTMLChinese() *ArticleUpsertBulk {
 	})
 }
 
-// ClearHTMLChinese clears the value of the "html_chinese" field.
-func (u *ArticleUpsertBulk) ClearHTMLChinese() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearHTMLChinese()
-	})
-}
-
 // SetHTMLEnglish sets the "html_english" field.
 func (u *ArticleUpsertBulk) SetHTMLEnglish(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1075,13 +982,6 @@ func (u *ArticleUpsertBulk) SetHTMLEnglish(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateHTMLEnglish() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateHTMLEnglish()
-	})
-}
-
-// ClearHTMLEnglish clears the value of the "html_english" field.
-func (u *ArticleUpsertBulk) ClearHTMLEnglish() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearHTMLEnglish()
 	})
 }
 
@@ -1099,13 +999,6 @@ func (u *ArticleUpsertBulk) UpdateTextChinese() *ArticleUpsertBulk {
 	})
 }
 
-// ClearTextChinese clears the value of the "text_chinese" field.
-func (u *ArticleUpsertBulk) ClearTextChinese() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTextChinese()
-	})
-}
-
 // SetTextEnglish sets the "text_english" field.
 func (u *ArticleUpsertBulk) SetTextEnglish(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1120,13 +1013,6 @@ func (u *ArticleUpsertBulk) UpdateTextEnglish() *ArticleUpsertBulk {
 	})
 }
 
-// ClearTextEnglish clears the value of the "text_english" field.
-func (u *ArticleUpsertBulk) ClearTextEnglish() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearTextEnglish()
-	})
-}
-
 // SetSummaryChinese sets the "summary_chinese" field.
 func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1138,13 +1024,6 @@ func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
-	})
-}
-
-// ClearSummaryChinese clears the value of the "summary_chinese" field.
-func (u *ArticleUpsertBulk) ClearSummaryChinese() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.ClearSummaryChinese()
 	})
 }
 

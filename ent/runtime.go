@@ -20,10 +20,6 @@ func init() {
 	articleDescOriginShortID := articleFields[1].Descriptor()
 	// article.OriginShortIDValidator is a validator for the "origin_short_id" field. It is called by the builders before save.
 	article.OriginShortIDValidator = articleDescOriginShortID.Validators[0].(func(string) error)
-	// articleDescIsChinese is the schema descriptor for is_chinese field.
-	articleDescIsChinese := articleFields[2].Descriptor()
-	// article.DefaultIsChinese holds the default value on creation for the is_chinese field.
-	article.DefaultIsChinese = articleDescIsChinese.Default.(bool)
 	// articleDescURL is the schema descriptor for url field.
 	articleDescURL := articleFields[4].Descriptor()
 	// article.URLValidator is a validator for the "url" field. It is called by the builders before save.
