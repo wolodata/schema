@@ -184,6 +184,14 @@ func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 	return ac
 }
 
+// SetNillableSummaryChinese sets the "summary_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetSummaryChinese(*s)
+	}
+	return ac
+}
+
 // SetID sets the "id" field.
 func (ac *ArticleCreate) SetID(i int) *ArticleCreate {
 	ac.mutation.SetID(i)
@@ -264,6 +272,10 @@ func (ac *ArticleCreate) defaults() {
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		v := article.DefaultCrawledAt()
 		ac.mutation.SetCrawledAt(v)
+	}
+	if _, ok := ac.mutation.SummaryChinese(); !ok {
+		v := article.DefaultSummaryChinese
+		ac.mutation.SetSummaryChinese(v)
 	}
 }
 

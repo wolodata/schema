@@ -102,6 +102,8 @@ var (
 	DefaultTextEnglish string
 	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
 	DefaultCrawledAt func() time.Time
+	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
+	DefaultSummaryChinese string
 )
 
 // OrderOption defines the ordering options for the Article queries.

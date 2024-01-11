@@ -32,7 +32,7 @@ func (Article) Fields() []ent.Field {
 		field.Text("text_chinese").Default(""),
 		field.Text("text_english").Default(""),
 		field.Time("crawled_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
-		field.Text("summary_chinese"),
+		field.Text("summary_chinese").Default(""),
 	}
 }
 
