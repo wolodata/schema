@@ -84,8 +84,22 @@ var (
 	DefaultIsChinese bool
 	// URLValidator is a validator for the "url" field. It is called by the builders before save.
 	URLValidator func(string) error
+	// DefaultTitleChinese holds the default value on creation for the "title_chinese" field.
+	DefaultTitleChinese string
+	// DefaultTitleEnglish holds the default value on creation for the "title_english" field.
+	DefaultTitleEnglish string
+	// DefaultAuthor holds the default value on creation for the "author" field.
+	DefaultAuthor string
 	// DefaultTags holds the default value on creation for the "tags" field.
 	DefaultTags []string
+	// DefaultHTMLChinese holds the default value on creation for the "html_chinese" field.
+	DefaultHTMLChinese string
+	// DefaultHTMLEnglish holds the default value on creation for the "html_english" field.
+	DefaultHTMLEnglish string
+	// DefaultTextChinese holds the default value on creation for the "text_chinese" field.
+	DefaultTextChinese string
+	// DefaultTextEnglish holds the default value on creation for the "text_english" field.
+	DefaultTextEnglish string
 	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
 	DefaultCrawledAt func() time.Time
 )

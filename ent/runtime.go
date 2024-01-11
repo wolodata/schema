@@ -42,10 +42,38 @@ func init() {
 			return nil
 		}
 	}()
+	// articleDescTitleChinese is the schema descriptor for title_chinese field.
+	articleDescTitleChinese := articleFields[5].Descriptor()
+	// article.DefaultTitleChinese holds the default value on creation for the title_chinese field.
+	article.DefaultTitleChinese = articleDescTitleChinese.Default.(string)
+	// articleDescTitleEnglish is the schema descriptor for title_english field.
+	articleDescTitleEnglish := articleFields[6].Descriptor()
+	// article.DefaultTitleEnglish holds the default value on creation for the title_english field.
+	article.DefaultTitleEnglish = articleDescTitleEnglish.Default.(string)
+	// articleDescAuthor is the schema descriptor for author field.
+	articleDescAuthor := articleFields[7].Descriptor()
+	// article.DefaultAuthor holds the default value on creation for the author field.
+	article.DefaultAuthor = articleDescAuthor.Default.(string)
 	// articleDescTags is the schema descriptor for tags field.
 	articleDescTags := articleFields[8].Descriptor()
 	// article.DefaultTags holds the default value on creation for the tags field.
 	article.DefaultTags = articleDescTags.Default.([]string)
+	// articleDescHTMLChinese is the schema descriptor for html_chinese field.
+	articleDescHTMLChinese := articleFields[10].Descriptor()
+	// article.DefaultHTMLChinese holds the default value on creation for the html_chinese field.
+	article.DefaultHTMLChinese = articleDescHTMLChinese.Default.(string)
+	// articleDescHTMLEnglish is the schema descriptor for html_english field.
+	articleDescHTMLEnglish := articleFields[11].Descriptor()
+	// article.DefaultHTMLEnglish holds the default value on creation for the html_english field.
+	article.DefaultHTMLEnglish = articleDescHTMLEnglish.Default.(string)
+	// articleDescTextChinese is the schema descriptor for text_chinese field.
+	articleDescTextChinese := articleFields[12].Descriptor()
+	// article.DefaultTextChinese holds the default value on creation for the text_chinese field.
+	article.DefaultTextChinese = articleDescTextChinese.Default.(string)
+	// articleDescTextEnglish is the schema descriptor for text_english field.
+	articleDescTextEnglish := articleFields[13].Descriptor()
+	// article.DefaultTextEnglish holds the default value on creation for the text_english field.
+	article.DefaultTextEnglish = articleDescTextEnglish.Default.(string)
 	// articleDescCrawledAt is the schema descriptor for crawled_at field.
 	articleDescCrawledAt := articleFields[14].Descriptor()
 	// article.DefaultCrawledAt holds the default value on creation for the crawled_at field.

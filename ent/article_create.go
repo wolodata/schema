@@ -60,15 +60,39 @@ func (ac *ArticleCreate) SetTitleChinese(s string) *ArticleCreate {
 	return ac
 }
 
+// SetNillableTitleChinese sets the "title_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleChinese(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTitleChinese(*s)
+	}
+	return ac
+}
+
 // SetTitleEnglish sets the "title_english" field.
 func (ac *ArticleCreate) SetTitleEnglish(s string) *ArticleCreate {
 	ac.mutation.SetTitleEnglish(s)
 	return ac
 }
 
+// SetNillableTitleEnglish sets the "title_english" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTitleEnglish(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTitleEnglish(*s)
+	}
+	return ac
+}
+
 // SetAuthor sets the "author" field.
 func (ac *ArticleCreate) SetAuthor(s string) *ArticleCreate {
 	ac.mutation.SetAuthor(s)
+	return ac
+}
+
+// SetNillableAuthor sets the "author" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableAuthor(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetAuthor(*s)
+	}
 	return ac
 }
 
@@ -90,9 +114,25 @@ func (ac *ArticleCreate) SetHTMLChinese(s string) *ArticleCreate {
 	return ac
 }
 
+// SetNillableHTMLChinese sets the "html_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLChinese(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetHTMLChinese(*s)
+	}
+	return ac
+}
+
 // SetHTMLEnglish sets the "html_english" field.
 func (ac *ArticleCreate) SetHTMLEnglish(s string) *ArticleCreate {
 	ac.mutation.SetHTMLEnglish(s)
+	return ac
+}
+
+// SetNillableHTMLEnglish sets the "html_english" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableHTMLEnglish(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetHTMLEnglish(*s)
+	}
 	return ac
 }
 
@@ -102,9 +142,25 @@ func (ac *ArticleCreate) SetTextChinese(s string) *ArticleCreate {
 	return ac
 }
 
+// SetNillableTextChinese sets the "text_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextChinese(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTextChinese(*s)
+	}
+	return ac
+}
+
 // SetTextEnglish sets the "text_english" field.
 func (ac *ArticleCreate) SetTextEnglish(s string) *ArticleCreate {
 	ac.mutation.SetTextEnglish(s)
+	return ac
+}
+
+// SetNillableTextEnglish sets the "text_english" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableTextEnglish(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetTextEnglish(*s)
+	}
 	return ac
 }
 
@@ -173,9 +229,37 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultIsChinese
 		ac.mutation.SetIsChinese(v)
 	}
+	if _, ok := ac.mutation.TitleChinese(); !ok {
+		v := article.DefaultTitleChinese
+		ac.mutation.SetTitleChinese(v)
+	}
+	if _, ok := ac.mutation.TitleEnglish(); !ok {
+		v := article.DefaultTitleEnglish
+		ac.mutation.SetTitleEnglish(v)
+	}
+	if _, ok := ac.mutation.Author(); !ok {
+		v := article.DefaultAuthor
+		ac.mutation.SetAuthor(v)
+	}
 	if _, ok := ac.mutation.Tags(); !ok {
 		v := article.DefaultTags
 		ac.mutation.SetTags(v)
+	}
+	if _, ok := ac.mutation.HTMLChinese(); !ok {
+		v := article.DefaultHTMLChinese
+		ac.mutation.SetHTMLChinese(v)
+	}
+	if _, ok := ac.mutation.HTMLEnglish(); !ok {
+		v := article.DefaultHTMLEnglish
+		ac.mutation.SetHTMLEnglish(v)
+	}
+	if _, ok := ac.mutation.TextChinese(); !ok {
+		v := article.DefaultTextChinese
+		ac.mutation.SetTextChinese(v)
+	}
+	if _, ok := ac.mutation.TextEnglish(); !ok {
+		v := article.DefaultTextEnglish
+		ac.mutation.SetTextEnglish(v)
 	}
 	if _, ok := ac.mutation.CrawledAt(); !ok {
 		v := article.DefaultCrawledAt()
