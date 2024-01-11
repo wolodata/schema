@@ -14,7 +14,7 @@ type Tag struct {
 func (Tag) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("english").NotEmpty().Immutable().Unique(),
-		field.String("chinese").NotEmpty(),
+		field.String("chinese"),
 	}
 }
 

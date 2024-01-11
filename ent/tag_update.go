@@ -73,20 +73,7 @@ func (tu *TagUpdate) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tu *TagUpdate) check() error {
-	if v, ok := tu.mutation.Chinese(); ok {
-		if err := tag.ChineseValidator(v); err != nil {
-			return &ValidationError{Name: "chinese", err: fmt.Errorf(`ent: validator failed for field "Tag.chinese": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tu *TagUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tu.check(); err != nil {
-		return n, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tag.Table, tag.Columns, sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt))
 	if ps := tu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -177,20 +164,7 @@ func (tuo *TagUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tuo *TagUpdateOne) check() error {
-	if v, ok := tuo.mutation.Chinese(); ok {
-		if err := tag.ChineseValidator(v); err != nil {
-			return &ValidationError{Name: "chinese", err: fmt.Errorf(`ent: validator failed for field "Tag.chinese": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (tuo *TagUpdateOne) sqlSave(ctx context.Context) (_node *Tag, err error) {
-	if err := tuo.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(tag.Table, tag.Columns, sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt))
 	id, ok := tuo.mutation.ID()
 	if !ok {

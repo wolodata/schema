@@ -78,11 +78,6 @@ func (tc *TagCreate) check() error {
 	if _, ok := tc.mutation.Chinese(); !ok {
 		return &ValidationError{Name: "chinese", err: errors.New(`ent: missing required field "Tag.chinese"`)}
 	}
-	if v, ok := tc.mutation.Chinese(); ok {
-		if err := tag.ChineseValidator(v); err != nil {
-			return &ValidationError{Name: "chinese", err: fmt.Errorf(`ent: validator failed for field "Tag.chinese": %w`, err)}
-		}
-	}
 	return nil
 }
 
