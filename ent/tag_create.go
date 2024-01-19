@@ -42,7 +42,7 @@ func (tc *TagCreate) SetNillableChinese(s *string) *TagCreate {
 }
 
 // SetID sets the "id" field.
-func (tc *TagCreate) SetID(i int) *TagCreate {
+func (tc *TagCreate) SetID(i int32) *TagCreate {
 	tc.mutation.SetID(i)
 	return tc
 }
@@ -117,7 +117,7 @@ func (tc *TagCreate) sqlSave(ctx context.Context) (*Tag, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = int(id)
+		_node.ID = int32(id)
 	}
 	tc.mutation.id = &_node.ID
 	tc.mutation.done = true
@@ -127,7 +127,7 @@ func (tc *TagCreate) sqlSave(ctx context.Context) (*Tag, error) {
 func (tc *TagCreate) createSpec() (*Tag, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Tag{config: tc.config}
-		_spec = sqlgraph.NewCreateSpec(tag.Table, sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(tag.Table, sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt32))
 	)
 	_spec.OnConflict = tc.conflict
 	if id, ok := tc.mutation.ID(); ok {
@@ -287,7 +287,7 @@ func (u *TagUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *TagUpsertOne) ID(ctx context.Context) (id int, err error) {
+func (u *TagUpsertOne) ID(ctx context.Context) (id int32, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -296,7 +296,7 @@ func (u *TagUpsertOne) ID(ctx context.Context) (id int, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *TagUpsertOne) IDX(ctx context.Context) int {
+func (u *TagUpsertOne) IDX(ctx context.Context) int32 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -353,7 +353,7 @@ func (tcb *TagCreateBulk) Save(ctx context.Context) ([]*Tag, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = int32(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

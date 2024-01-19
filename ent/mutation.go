@@ -38,7 +38,7 @@ type ArticleMutation struct {
 	config
 	op              Op
 	typ             string
-	id              *int
+	id              *int32
 	origin_short_id *string
 	is_chinese      *bool
 	origin_type     *string
@@ -81,7 +81,7 @@ func newArticleMutation(c config, op Op, opts ...articleOption) *ArticleMutation
 }
 
 // withArticleID sets the ID field of the mutation.
-func withArticleID(id int) articleOption {
+func withArticleID(id int32) articleOption {
 	return func(m *ArticleMutation) {
 		var (
 			err   error
@@ -133,13 +133,13 @@ func (m ArticleMutation) Tx() (*Tx, error) {
 
 // SetID sets the value of the id field. Note that this
 // operation is only accepted on creation of Article entities.
-func (m *ArticleMutation) SetID(id int) {
+func (m *ArticleMutation) SetID(id int32) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *ArticleMutation) ID() (id int, exists bool) {
+func (m *ArticleMutation) ID() (id int32, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -150,12 +150,12 @@ func (m *ArticleMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *ArticleMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *ArticleMutation) IDs(ctx context.Context) ([]int32, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []int32{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -1142,7 +1142,7 @@ type TagMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int
+	id            *int32
 	english       *string
 	chinese       *string
 	clearedFields map[string]struct{}
@@ -1171,7 +1171,7 @@ func newTagMutation(c config, op Op, opts ...tagOption) *TagMutation {
 }
 
 // withTagID sets the ID field of the mutation.
-func withTagID(id int) tagOption {
+func withTagID(id int32) tagOption {
 	return func(m *TagMutation) {
 		var (
 			err   error
@@ -1223,13 +1223,13 @@ func (m TagMutation) Tx() (*Tx, error) {
 
 // SetID sets the value of the id field. Note that this
 // operation is only accepted on creation of Tag entities.
-func (m *TagMutation) SetID(id int) {
+func (m *TagMutation) SetID(id int32) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *TagMutation) ID() (id int, exists bool) {
+func (m *TagMutation) ID() (id int32, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -1240,12 +1240,12 @@ func (m *TagMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *TagMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *TagMutation) IDs(ctx context.Context) ([]int32, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []int32{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -1528,9 +1528,9 @@ type TopicMutation struct {
 	config
 	op             Op
 	typ            string
-	id             *int
-	user_id        *int
-	adduser_id     *int
+	id             *int32
+	user_id        *int32
+	adduser_id     *int32
 	keyword        *string
 	follow_title   *bool
 	follow_content *bool
@@ -1560,7 +1560,7 @@ func newTopicMutation(c config, op Op, opts ...topicOption) *TopicMutation {
 }
 
 // withTopicID sets the ID field of the mutation.
-func withTopicID(id int) topicOption {
+func withTopicID(id int32) topicOption {
 	return func(m *TopicMutation) {
 		var (
 			err   error
@@ -1612,13 +1612,13 @@ func (m TopicMutation) Tx() (*Tx, error) {
 
 // SetID sets the value of the id field. Note that this
 // operation is only accepted on creation of Topic entities.
-func (m *TopicMutation) SetID(id int) {
+func (m *TopicMutation) SetID(id int32) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *TopicMutation) ID() (id int, exists bool) {
+func (m *TopicMutation) ID() (id int32, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -1629,12 +1629,12 @@ func (m *TopicMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *TopicMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *TopicMutation) IDs(ctx context.Context) ([]int32, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []int32{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -1645,13 +1645,13 @@ func (m *TopicMutation) IDs(ctx context.Context) ([]int, error) {
 }
 
 // SetUserID sets the "user_id" field.
-func (m *TopicMutation) SetUserID(i int) {
+func (m *TopicMutation) SetUserID(i int32) {
 	m.user_id = &i
 	m.adduser_id = nil
 }
 
 // UserID returns the value of the "user_id" field in the mutation.
-func (m *TopicMutation) UserID() (r int, exists bool) {
+func (m *TopicMutation) UserID() (r int32, exists bool) {
 	v := m.user_id
 	if v == nil {
 		return
@@ -1662,7 +1662,7 @@ func (m *TopicMutation) UserID() (r int, exists bool) {
 // OldUserID returns the old "user_id" field's value of the Topic entity.
 // If the Topic object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TopicMutation) OldUserID(ctx context.Context) (v int, err error) {
+func (m *TopicMutation) OldUserID(ctx context.Context) (v int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
 	}
@@ -1677,7 +1677,7 @@ func (m *TopicMutation) OldUserID(ctx context.Context) (v int, err error) {
 }
 
 // AddUserID adds i to the "user_id" field.
-func (m *TopicMutation) AddUserID(i int) {
+func (m *TopicMutation) AddUserID(i int32) {
 	if m.adduser_id != nil {
 		*m.adduser_id += i
 	} else {
@@ -1686,7 +1686,7 @@ func (m *TopicMutation) AddUserID(i int) {
 }
 
 // AddedUserID returns the value that was added to the "user_id" field in this mutation.
-func (m *TopicMutation) AddedUserID() (r int, exists bool) {
+func (m *TopicMutation) AddedUserID() (r int32, exists bool) {
 	v := m.adduser_id
 	if v == nil {
 		return
@@ -1898,7 +1898,7 @@ func (m *TopicMutation) OldField(ctx context.Context, name string) (ent.Value, e
 func (m *TopicMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case topic.FieldUserID:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1956,7 +1956,7 @@ func (m *TopicMutation) AddedField(name string) (ent.Value, bool) {
 func (m *TopicMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case topic.FieldUserID:
-		v, ok := value.(int)
+		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2058,7 +2058,7 @@ type UserMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int
+	id            *int32
 	username      *string
 	password      *string
 	clearedFields map[string]struct{}
@@ -2087,7 +2087,7 @@ func newUserMutation(c config, op Op, opts ...userOption) *UserMutation {
 }
 
 // withUserID sets the ID field of the mutation.
-func withUserID(id int) userOption {
+func withUserID(id int32) userOption {
 	return func(m *UserMutation) {
 		var (
 			err   error
@@ -2139,13 +2139,13 @@ func (m UserMutation) Tx() (*Tx, error) {
 
 // SetID sets the value of the id field. Note that this
 // operation is only accepted on creation of User entities.
-func (m *UserMutation) SetID(id int) {
+func (m *UserMutation) SetID(id int32) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *UserMutation) ID() (id int, exists bool) {
+func (m *UserMutation) ID() (id int32, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -2156,12 +2156,12 @@ func (m *UserMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *UserMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *UserMutation) IDs(ctx context.Context) ([]int32, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []int32{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):

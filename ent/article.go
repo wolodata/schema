@@ -17,7 +17,7 @@ import (
 type Article struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID int32 `json:"id,omitempty"`
 	// OriginShortID holds the value of the "origin_short_id" field.
 	OriginShortID string `json:"origin_short_id,omitempty"`
 	// IsChinese holds the value of the "is_chinese" field.
@@ -86,7 +86,7 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			a.ID = int(value.Int64)
+			a.ID = int32(value.Int64)
 		case article.FieldOriginShortID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field origin_short_id", values[i])

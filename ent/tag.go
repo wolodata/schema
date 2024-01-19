@@ -15,7 +15,7 @@ import (
 type Tag struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID int32 `json:"id,omitempty"`
 	// English holds the value of the "english" field.
 	English string `json:"english,omitempty"`
 	// Chinese holds the value of the "chinese" field.
@@ -52,7 +52,7 @@ func (t *Tag) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			t.ID = int(value.Int64)
+			t.ID = int32(value.Int64)
 		case tag.FieldEnglish:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field english", values[i])

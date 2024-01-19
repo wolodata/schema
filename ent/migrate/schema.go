@@ -11,7 +11,7 @@ import (
 var (
 	// TArticleColumns holds the columns for the "t_article" table.
 	TArticleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt32, Increment: true},
 		{Name: "origin_short_id", Type: field.TypeString},
 		{Name: "is_chinese", Type: field.TypeBool, Default: false},
 		{Name: "origin_type", Type: field.TypeString},
@@ -63,7 +63,7 @@ var (
 	}
 	// TTagColumns holds the columns for the "t_tag" table.
 	TTagColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt32, Increment: true},
 		{Name: "english", Type: field.TypeString, Unique: true},
 		{Name: "chinese", Type: field.TypeString, Default: ""},
 	}
@@ -75,8 +75,8 @@ var (
 	}
 	// TTopicColumns holds the columns for the "t_topic" table.
 	TTopicColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "user_id", Type: field.TypeInt},
+		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "user_id", Type: field.TypeInt32},
 		{Name: "keyword", Type: field.TypeString},
 		{Name: "follow_title", Type: field.TypeBool, Default: false},
 		{Name: "follow_content", Type: field.TypeBool, Default: false},
@@ -106,7 +106,7 @@ var (
 	}
 	// TUserColumns holds the columns for the "t_user" table.
 	TUserColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt32, Increment: true},
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "password", Type: field.TypeString},
 	}
