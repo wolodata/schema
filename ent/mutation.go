@@ -1529,11 +1529,11 @@ type TopicMutation struct {
 	op             Op
 	typ            string
 	id             *int
+	user_id        *int
+	adduser_id     *int
 	keyword        *string
 	follow_title   *bool
 	follow_content *bool
-	user_ids       *[]int
-	appenduser_ids []int
 	clearedFields  map[string]struct{}
 	done           bool
 	oldValue       func(context.Context) (*Topic, error)
@@ -1644,6 +1644,62 @@ func (m *TopicMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
+// SetUserID sets the "user_id" field.
+func (m *TopicMutation) SetUserID(i int) {
+	m.user_id = &i
+	m.adduser_id = nil
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *TopicMutation) UserID() (r int, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the Topic entity.
+// If the Topic object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TopicMutation) OldUserID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// AddUserID adds i to the "user_id" field.
+func (m *TopicMutation) AddUserID(i int) {
+	if m.adduser_id != nil {
+		*m.adduser_id += i
+	} else {
+		m.adduser_id = &i
+	}
+}
+
+// AddedUserID returns the value that was added to the "user_id" field in this mutation.
+func (m *TopicMutation) AddedUserID() (r int, exists bool) {
+	v := m.adduser_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *TopicMutation) ResetUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+}
+
 // SetKeyword sets the "keyword" field.
 func (m *TopicMutation) SetKeyword(s string) {
 	m.keyword = &s
@@ -1752,57 +1808,6 @@ func (m *TopicMutation) ResetFollowContent() {
 	m.follow_content = nil
 }
 
-// SetUserIds sets the "user_ids" field.
-func (m *TopicMutation) SetUserIds(i []int) {
-	m.user_ids = &i
-	m.appenduser_ids = nil
-}
-
-// UserIds returns the value of the "user_ids" field in the mutation.
-func (m *TopicMutation) UserIds() (r []int, exists bool) {
-	v := m.user_ids
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUserIds returns the old "user_ids" field's value of the Topic entity.
-// If the Topic object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TopicMutation) OldUserIds(ctx context.Context) (v []int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUserIds is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUserIds requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUserIds: %w", err)
-	}
-	return oldValue.UserIds, nil
-}
-
-// AppendUserIds adds i to the "user_ids" field.
-func (m *TopicMutation) AppendUserIds(i []int) {
-	m.appenduser_ids = append(m.appenduser_ids, i...)
-}
-
-// AppendedUserIds returns the list of values that were appended to the "user_ids" field in this mutation.
-func (m *TopicMutation) AppendedUserIds() ([]int, bool) {
-	if len(m.appenduser_ids) == 0 {
-		return nil, false
-	}
-	return m.appenduser_ids, true
-}
-
-// ResetUserIds resets all changes to the "user_ids" field.
-func (m *TopicMutation) ResetUserIds() {
-	m.user_ids = nil
-	m.appenduser_ids = nil
-}
-
 // Where appends a list predicates to the TopicMutation builder.
 func (m *TopicMutation) Where(ps ...predicate.Topic) {
 	m.predicates = append(m.predicates, ps...)
@@ -1838,6 +1843,9 @@ func (m *TopicMutation) Type() string {
 // AddedFields().
 func (m *TopicMutation) Fields() []string {
 	fields := make([]string, 0, 4)
+	if m.user_id != nil {
+		fields = append(fields, topic.FieldUserID)
+	}
 	if m.keyword != nil {
 		fields = append(fields, topic.FieldKeyword)
 	}
@@ -1847,9 +1855,6 @@ func (m *TopicMutation) Fields() []string {
 	if m.follow_content != nil {
 		fields = append(fields, topic.FieldFollowContent)
 	}
-	if m.user_ids != nil {
-		fields = append(fields, topic.FieldUserIds)
-	}
 	return fields
 }
 
@@ -1858,14 +1863,14 @@ func (m *TopicMutation) Fields() []string {
 // schema.
 func (m *TopicMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case topic.FieldUserID:
+		return m.UserID()
 	case topic.FieldKeyword:
 		return m.Keyword()
 	case topic.FieldFollowTitle:
 		return m.FollowTitle()
 	case topic.FieldFollowContent:
 		return m.FollowContent()
-	case topic.FieldUserIds:
-		return m.UserIds()
 	}
 	return nil, false
 }
@@ -1875,14 +1880,14 @@ func (m *TopicMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *TopicMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case topic.FieldUserID:
+		return m.OldUserID(ctx)
 	case topic.FieldKeyword:
 		return m.OldKeyword(ctx)
 	case topic.FieldFollowTitle:
 		return m.OldFollowTitle(ctx)
 	case topic.FieldFollowContent:
 		return m.OldFollowContent(ctx)
-	case topic.FieldUserIds:
-		return m.OldUserIds(ctx)
 	}
 	return nil, fmt.Errorf("unknown Topic field %s", name)
 }
@@ -1892,6 +1897,13 @@ func (m *TopicMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type.
 func (m *TopicMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case topic.FieldUserID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
 	case topic.FieldKeyword:
 		v, ok := value.(string)
 		if !ok {
@@ -1913,13 +1925,6 @@ func (m *TopicMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetFollowContent(v)
 		return nil
-	case topic.FieldUserIds:
-		v, ok := value.([]int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUserIds(v)
-		return nil
 	}
 	return fmt.Errorf("unknown Topic field %s", name)
 }
@@ -1927,13 +1932,21 @@ func (m *TopicMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *TopicMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.adduser_id != nil {
+		fields = append(fields, topic.FieldUserID)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *TopicMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case topic.FieldUserID:
+		return m.AddedUserID()
+	}
 	return nil, false
 }
 
@@ -1942,6 +1955,13 @@ func (m *TopicMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *TopicMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case topic.FieldUserID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUserID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Topic numeric field %s", name)
 }
@@ -1969,6 +1989,9 @@ func (m *TopicMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *TopicMutation) ResetField(name string) error {
 	switch name {
+	case topic.FieldUserID:
+		m.ResetUserID()
+		return nil
 	case topic.FieldKeyword:
 		m.ResetKeyword()
 		return nil
@@ -1977,9 +2000,6 @@ func (m *TopicMutation) ResetField(name string) error {
 		return nil
 	case topic.FieldFollowContent:
 		m.ResetFollowContent()
-		return nil
-	case topic.FieldUserIds:
-		m.ResetUserIds()
 		return nil
 	}
 	return fmt.Errorf("unknown Topic field %s", name)

@@ -52,6 +52,11 @@ func IDLTE(id int) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldID, id))
 }
 
+// UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
+func UserID(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldUserID, v))
+}
+
 // Keyword applies equality check predicate on the "keyword" field. It's identical to KeywordEQ.
 func Keyword(v string) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldKeyword, v))
@@ -65,6 +70,46 @@ func FollowTitle(v bool) predicate.Topic {
 // FollowContent applies equality check predicate on the "follow_content" field. It's identical to FollowContentEQ.
 func FollowContent(v bool) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldFollowContent, v))
+}
+
+// UserIDEQ applies the EQ predicate on the "user_id" field.
+func UserIDEQ(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldEQ(FieldUserID, v))
+}
+
+// UserIDNEQ applies the NEQ predicate on the "user_id" field.
+func UserIDNEQ(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldNEQ(FieldUserID, v))
+}
+
+// UserIDIn applies the In predicate on the "user_id" field.
+func UserIDIn(vs ...int) predicate.Topic {
+	return predicate.Topic(sql.FieldIn(FieldUserID, vs...))
+}
+
+// UserIDNotIn applies the NotIn predicate on the "user_id" field.
+func UserIDNotIn(vs ...int) predicate.Topic {
+	return predicate.Topic(sql.FieldNotIn(FieldUserID, vs...))
+}
+
+// UserIDGT applies the GT predicate on the "user_id" field.
+func UserIDGT(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldGT(FieldUserID, v))
+}
+
+// UserIDGTE applies the GTE predicate on the "user_id" field.
+func UserIDGTE(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldGTE(FieldUserID, v))
+}
+
+// UserIDLT applies the LT predicate on the "user_id" field.
+func UserIDLT(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldLT(FieldUserID, v))
+}
+
+// UserIDLTE applies the LTE predicate on the "user_id" field.
+func UserIDLTE(v int) predicate.Topic {
+	return predicate.Topic(sql.FieldLTE(FieldUserID, v))
 }
 
 // KeywordEQ applies the EQ predicate on the "keyword" field.

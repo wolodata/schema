@@ -96,15 +96,15 @@ func init() {
 	topicFields := schema.Topic{}.Fields()
 	_ = topicFields
 	// topicDescKeyword is the schema descriptor for keyword field.
-	topicDescKeyword := topicFields[1].Descriptor()
+	topicDescKeyword := topicFields[2].Descriptor()
 	// topic.KeywordValidator is a validator for the "keyword" field. It is called by the builders before save.
 	topic.KeywordValidator = topicDescKeyword.Validators[0].(func(string) error)
 	// topicDescFollowTitle is the schema descriptor for follow_title field.
-	topicDescFollowTitle := topicFields[2].Descriptor()
+	topicDescFollowTitle := topicFields[3].Descriptor()
 	// topic.DefaultFollowTitle holds the default value on creation for the follow_title field.
 	topic.DefaultFollowTitle = topicDescFollowTitle.Default.(bool)
 	// topicDescFollowContent is the schema descriptor for follow_content field.
-	topicDescFollowContent := topicFields[3].Descriptor()
+	topicDescFollowContent := topicFields[4].Descriptor()
 	// topic.DefaultFollowContent holds the default value on creation for the follow_content field.
 	topic.DefaultFollowContent = topicDescFollowContent.Default.(bool)
 }

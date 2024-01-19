@@ -76,10 +76,10 @@ var (
 	// TTopicColumns holds the columns for the "t_topic" table.
 	TTopicColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "keyword", Type: field.TypeString, Unique: true},
+		{Name: "user_id", Type: field.TypeInt},
+		{Name: "keyword", Type: field.TypeString},
 		{Name: "follow_title", Type: field.TypeBool, Default: false},
 		{Name: "follow_content", Type: field.TypeBool, Default: false},
-		{Name: "user_ids", Type: field.TypeJSON},
 	}
 	// TTopicTable holds the schema information for the "t_topic" table.
 	TTopicTable = &schema.Table{
@@ -88,14 +88,19 @@ var (
 		PrimaryKey: []*schema.Column{TTopicColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "topic_keyword",
+				Name:    "topic_user_id_keyword",
+				Unique:  true,
+				Columns: []*schema.Column{TTopicColumns[1], TTopicColumns[2]},
+			},
+			{
+				Name:    "topic_user_id",
 				Unique:  false,
 				Columns: []*schema.Column{TTopicColumns[1]},
 			},
 			{
-				Name:    "topic_user_ids",
+				Name:    "topic_keyword",
 				Unique:  false,
-				Columns: []*schema.Column{TTopicColumns[4]},
+				Columns: []*schema.Column{TTopicColumns[2]},
 			},
 		},
 	}

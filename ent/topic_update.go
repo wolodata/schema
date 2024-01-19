@@ -9,7 +9,6 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 	"github.com/wolodata/schema/ent/predicate"
 	"github.com/wolodata/schema/ent/topic"
@@ -67,18 +66,6 @@ func (tu *TopicUpdate) SetNillableFollowContent(b *bool) *TopicUpdate {
 	if b != nil {
 		tu.SetFollowContent(*b)
 	}
-	return tu
-}
-
-// SetUserIds sets the "user_ids" field.
-func (tu *TopicUpdate) SetUserIds(i []int) *TopicUpdate {
-	tu.mutation.SetUserIds(i)
-	return tu
-}
-
-// AppendUserIds appends i to the "user_ids" field.
-func (tu *TopicUpdate) AppendUserIds(i []int) *TopicUpdate {
-	tu.mutation.AppendUserIds(i)
 	return tu
 }
 
@@ -145,14 +132,6 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.FollowContent(); ok {
 		_spec.SetField(topic.FieldFollowContent, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.UserIds(); ok {
-		_spec.SetField(topic.FieldUserIds, field.TypeJSON, value)
-	}
-	if value, ok := tu.mutation.AppendedUserIds(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, topic.FieldUserIds, value)
-		})
-	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{topic.Label}
@@ -212,18 +191,6 @@ func (tuo *TopicUpdateOne) SetNillableFollowContent(b *bool) *TopicUpdateOne {
 	if b != nil {
 		tuo.SetFollowContent(*b)
 	}
-	return tuo
-}
-
-// SetUserIds sets the "user_ids" field.
-func (tuo *TopicUpdateOne) SetUserIds(i []int) *TopicUpdateOne {
-	tuo.mutation.SetUserIds(i)
-	return tuo
-}
-
-// AppendUserIds appends i to the "user_ids" field.
-func (tuo *TopicUpdateOne) AppendUserIds(i []int) *TopicUpdateOne {
-	tuo.mutation.AppendUserIds(i)
 	return tuo
 }
 
@@ -319,14 +286,6 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 	}
 	if value, ok := tuo.mutation.FollowContent(); ok {
 		_spec.SetField(topic.FieldFollowContent, field.TypeBool, value)
-	}
-	if value, ok := tuo.mutation.UserIds(); ok {
-		_spec.SetField(topic.FieldUserIds, field.TypeJSON, value)
-	}
-	if value, ok := tuo.mutation.AppendedUserIds(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, topic.FieldUserIds, value)
-		})
 	}
 	_node = &Topic{config: tuo.config}
 	_spec.Assign = _node.assignValues

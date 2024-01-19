@@ -3,7 +3,6 @@
 package ent
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -17,15 +16,15 @@ type Topic struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// UserID holds the value of the "user_id" field.
+	UserID int `json:"user_id,omitempty"`
 	// Keyword holds the value of the "keyword" field.
 	Keyword string `json:"keyword,omitempty"`
 	// FollowTitle holds the value of the "follow_title" field.
 	FollowTitle bool `json:"follow_title,omitempty"`
 	// FollowContent holds the value of the "follow_content" field.
 	FollowContent bool `json:"follow_content,omitempty"`
-	// UserIds holds the value of the "user_ids" field.
-	UserIds      []int `json:"user_ids,omitempty"`
-	selectValues sql.SelectValues
+	selectValues  sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -33,11 +32,9 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case topic.FieldUserIds:
-			values[i] = new([]byte)
 		case topic.FieldFollowTitle, topic.FieldFollowContent:
 			values[i] = new(sql.NullBool)
-		case topic.FieldID:
+		case topic.FieldID, topic.FieldUserID:
 			values[i] = new(sql.NullInt64)
 		case topic.FieldKeyword:
 			values[i] = new(sql.NullString)
@@ -62,6 +59,12 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			t.ID = int(value.Int64)
+		case topic.FieldUserID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
+			} else if value.Valid {
+				t.UserID = int(value.Int64)
+			}
 		case topic.FieldKeyword:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field keyword", values[i])
@@ -79,14 +82,6 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field follow_content", values[i])
 			} else if value.Valid {
 				t.FollowContent = value.Bool
-			}
-		case topic.FieldUserIds:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field user_ids", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.UserIds); err != nil {
-					return fmt.Errorf("unmarshal field user_ids: %w", err)
-				}
 			}
 		default:
 			t.selectValues.Set(columns[i], values[i])
@@ -124,6 +119,9 @@ func (t *Topic) String() string {
 	var builder strings.Builder
 	builder.WriteString("Topic(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
+	builder.WriteString("user_id=")
+	builder.WriteString(fmt.Sprintf("%v", t.UserID))
+	builder.WriteString(", ")
 	builder.WriteString("keyword=")
 	builder.WriteString(t.Keyword)
 	builder.WriteString(", ")
@@ -132,9 +130,6 @@ func (t *Topic) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("follow_content=")
 	builder.WriteString(fmt.Sprintf("%v", t.FollowContent))
-	builder.WriteString(", ")
-	builder.WriteString("user_ids=")
-	builder.WriteString(fmt.Sprintf("%v", t.UserIds))
 	builder.WriteByte(')')
 	return builder.String()
 }

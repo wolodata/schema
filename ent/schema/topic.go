@@ -15,17 +15,18 @@ type Topic struct {
 func (Topic) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("id").Immutable(),
-		field.String("keyword").NotEmpty().Unique(),
+		field.Int("user_id").Immutable(),
+		field.String("keyword").NotEmpty(),
 		field.Bool("follow_title").Default(false),
 		field.Bool("follow_content").Default(false),
-		field.Ints("user_ids"),
 	}
 }
 
 func (Topic) Indexes() []ent.Index {
 	return []ent.Index{
+		index.Fields("user_id", "keyword").Unique(),
+		index.Fields("user_id"),
 		index.Fields("keyword"),
-		index.Fields("user_ids"),
 	}
 }
 

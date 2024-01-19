@@ -261,12 +261,12 @@ func (tq *TopicQuery) Clone() *TopicQuery {
 // Example:
 //
 //	var v []struct {
-//		Keyword string `json:"keyword,omitempty"`
+//		UserID int `json:"user_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Topic.Query().
-//		GroupBy(topic.FieldKeyword).
+//		GroupBy(topic.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (tq *TopicQuery) GroupBy(field string, fields ...string) *TopicGroupBy {
@@ -284,11 +284,11 @@ func (tq *TopicQuery) GroupBy(field string, fields ...string) *TopicGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Keyword string `json:"keyword,omitempty"`
+//		UserID int `json:"user_id,omitempty"`
 //	}
 //
 //	client.Topic.Query().
-//		Select(topic.FieldKeyword).
+//		Select(topic.FieldUserID).
 //		Scan(ctx, &v)
 func (tq *TopicQuery) Select(fields ...string) *TopicSelect {
 	tq.ctx.Fields = append(tq.ctx.Fields, fields...)

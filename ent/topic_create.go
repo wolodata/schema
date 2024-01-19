@@ -21,6 +21,12 @@ type TopicCreate struct {
 	conflict []sql.ConflictOption
 }
 
+// SetUserID sets the "user_id" field.
+func (tc *TopicCreate) SetUserID(i int) *TopicCreate {
+	tc.mutation.SetUserID(i)
+	return tc
+}
+
 // SetKeyword sets the "keyword" field.
 func (tc *TopicCreate) SetKeyword(s string) *TopicCreate {
 	tc.mutation.SetKeyword(s)
@@ -52,12 +58,6 @@ func (tc *TopicCreate) SetNillableFollowContent(b *bool) *TopicCreate {
 	if b != nil {
 		tc.SetFollowContent(*b)
 	}
-	return tc
-}
-
-// SetUserIds sets the "user_ids" field.
-func (tc *TopicCreate) SetUserIds(i []int) *TopicCreate {
-	tc.mutation.SetUserIds(i)
 	return tc
 }
 
@@ -114,6 +114,9 @@ func (tc *TopicCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tc *TopicCreate) check() error {
+	if _, ok := tc.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "Topic.user_id"`)}
+	}
 	if _, ok := tc.mutation.Keyword(); !ok {
 		return &ValidationError{Name: "keyword", err: errors.New(`ent: missing required field "Topic.keyword"`)}
 	}
@@ -127,9 +130,6 @@ func (tc *TopicCreate) check() error {
 	}
 	if _, ok := tc.mutation.FollowContent(); !ok {
 		return &ValidationError{Name: "follow_content", err: errors.New(`ent: missing required field "Topic.follow_content"`)}
-	}
-	if _, ok := tc.mutation.UserIds(); !ok {
-		return &ValidationError{Name: "user_ids", err: errors.New(`ent: missing required field "Topic.user_ids"`)}
 	}
 	return nil
 }
@@ -164,6 +164,10 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := tc.mutation.UserID(); ok {
+		_spec.SetField(topic.FieldUserID, field.TypeInt, value)
+		_node.UserID = value
+	}
 	if value, ok := tc.mutation.Keyword(); ok {
 		_spec.SetField(topic.FieldKeyword, field.TypeString, value)
 		_node.Keyword = value
@@ -176,10 +180,6 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_spec.SetField(topic.FieldFollowContent, field.TypeBool, value)
 		_node.FollowContent = value
 	}
-	if value, ok := tc.mutation.UserIds(); ok {
-		_spec.SetField(topic.FieldUserIds, field.TypeJSON, value)
-		_node.UserIds = value
-	}
 	return _node, _spec
 }
 
@@ -187,7 +187,7 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Topic.Create().
-//		SetKeyword(v).
+//		SetUserID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -196,7 +196,7 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.TopicUpsert) {
-//			SetKeyword(v+v).
+//			SetUserID(v+v).
 //		}).
 //		Exec(ctx)
 func (tc *TopicCreate) OnConflict(opts ...sql.ConflictOption) *TopicUpsertOne {
@@ -268,18 +268,6 @@ func (u *TopicUpsert) UpdateFollowContent() *TopicUpsert {
 	return u
 }
 
-// SetUserIds sets the "user_ids" field.
-func (u *TopicUpsert) SetUserIds(v []int) *TopicUpsert {
-	u.Set(topic.FieldUserIds, v)
-	return u
-}
-
-// UpdateUserIds sets the "user_ids" field to the value that was provided on create.
-func (u *TopicUpsert) UpdateUserIds() *TopicUpsert {
-	u.SetExcluded(topic.FieldUserIds)
-	return u
-}
-
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -296,6 +284,9 @@ func (u *TopicUpsertOne) UpdateNewValues() *TopicUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(topic.FieldID)
+		}
+		if _, exists := u.create.mutation.UserID(); exists {
+			s.SetIgnore(topic.FieldUserID)
 		}
 	}))
 	return u
@@ -367,20 +358,6 @@ func (u *TopicUpsertOne) SetFollowContent(v bool) *TopicUpsertOne {
 func (u *TopicUpsertOne) UpdateFollowContent() *TopicUpsertOne {
 	return u.Update(func(s *TopicUpsert) {
 		s.UpdateFollowContent()
-	})
-}
-
-// SetUserIds sets the "user_ids" field.
-func (u *TopicUpsertOne) SetUserIds(v []int) *TopicUpsertOne {
-	return u.Update(func(s *TopicUpsert) {
-		s.SetUserIds(v)
-	})
-}
-
-// UpdateUserIds sets the "user_ids" field to the value that was provided on create.
-func (u *TopicUpsertOne) UpdateUserIds() *TopicUpsertOne {
-	return u.Update(func(s *TopicUpsert) {
-		s.UpdateUserIds()
 	})
 }
 
@@ -519,7 +496,7 @@ func (tcb *TopicCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.TopicUpsert) {
-//			SetKeyword(v+v).
+//			SetUserID(v+v).
 //		}).
 //		Exec(ctx)
 func (tcb *TopicCreateBulk) OnConflict(opts ...sql.ConflictOption) *TopicUpsertBulk {
@@ -565,6 +542,9 @@ func (u *TopicUpsertBulk) UpdateNewValues() *TopicUpsertBulk {
 		for _, b := range u.create.builders {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(topic.FieldID)
+			}
+			if _, exists := b.mutation.UserID(); exists {
+				s.SetIgnore(topic.FieldUserID)
 			}
 		}
 	}))
@@ -637,20 +617,6 @@ func (u *TopicUpsertBulk) SetFollowContent(v bool) *TopicUpsertBulk {
 func (u *TopicUpsertBulk) UpdateFollowContent() *TopicUpsertBulk {
 	return u.Update(func(s *TopicUpsert) {
 		s.UpdateFollowContent()
-	})
-}
-
-// SetUserIds sets the "user_ids" field.
-func (u *TopicUpsertBulk) SetUserIds(v []int) *TopicUpsertBulk {
-	return u.Update(func(s *TopicUpsert) {
-		s.SetUserIds(v)
-	})
-}
-
-// UpdateUserIds sets the "user_ids" field to the value that was provided on create.
-func (u *TopicUpsertBulk) UpdateUserIds() *TopicUpsertBulk {
-	return u.Update(func(s *TopicUpsert) {
-		s.UpdateUserIds()
 	})
 }
 

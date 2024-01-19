@@ -11,14 +11,14 @@ const (
 	Label = "topic"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldKeyword holds the string denoting the keyword field in the database.
 	FieldKeyword = "keyword"
 	// FieldFollowTitle holds the string denoting the follow_title field in the database.
 	FieldFollowTitle = "follow_title"
 	// FieldFollowContent holds the string denoting the follow_content field in the database.
 	FieldFollowContent = "follow_content"
-	// FieldUserIds holds the string denoting the user_ids field in the database.
-	FieldUserIds = "user_ids"
 	// Table holds the table name of the topic in the database.
 	Table = "t_topic"
 )
@@ -26,10 +26,10 @@ const (
 // Columns holds all SQL columns for topic fields.
 var Columns = []string{
 	FieldID,
+	FieldUserID,
 	FieldKeyword,
 	FieldFollowTitle,
 	FieldFollowContent,
-	FieldUserIds,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -57,6 +57,11 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
+}
+
+// ByUserID orders the results by the user_id field.
+func ByUserID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUserID, opts...).ToFunc()
 }
 
 // ByKeyword orders the results by the keyword field.
