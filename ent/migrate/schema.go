@@ -73,6 +73,32 @@ var (
 		Columns:    TTagColumns,
 		PrimaryKey: []*schema.Column{TTagColumns[0]},
 	}
+	// TTopicColumns holds the columns for the "t_topic" table.
+	TTopicColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "keyword", Type: field.TypeString, Unique: true},
+		{Name: "follow_title", Type: field.TypeBool, Default: false},
+		{Name: "follow_content", Type: field.TypeBool, Default: false},
+		{Name: "user_ids", Type: field.TypeJSON},
+	}
+	// TTopicTable holds the schema information for the "t_topic" table.
+	TTopicTable = &schema.Table{
+		Name:       "t_topic",
+		Columns:    TTopicColumns,
+		PrimaryKey: []*schema.Column{TTopicColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "topic_keyword",
+				Unique:  false,
+				Columns: []*schema.Column{TTopicColumns[1]},
+			},
+			{
+				Name:    "topic_user_ids",
+				Unique:  false,
+				Columns: []*schema.Column{TTopicColumns[4]},
+			},
+		},
+	}
 	// TUserColumns holds the columns for the "t_user" table.
 	TUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -96,6 +122,7 @@ var (
 	Tables = []*schema.Table{
 		TArticleTable,
 		TTagTable,
+		TTopicTable,
 		TUserTable,
 	}
 )
@@ -108,6 +135,11 @@ func init() {
 	}
 	TTagTable.Annotation = &entsql.Annotation{
 		Table:     "t_tag",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TTopicTable.Annotation = &entsql.Annotation{
+		Table:     "t_topic",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

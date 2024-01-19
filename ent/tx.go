@@ -16,6 +16,8 @@ type Tx struct {
 	Article *ArticleClient
 	// Tag is the client for interacting with the Tag builders.
 	Tag *TagClient
+	// Topic is the client for interacting with the Topic builders.
+	Topic *TopicClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -151,6 +153,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Article = NewArticleClient(tx.config)
 	tx.Tag = NewTagClient(tx.config)
+	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 

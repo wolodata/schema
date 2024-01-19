@@ -13,6 +13,7 @@ type Tag struct {
 
 func (Tag) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int("id").Immutable(),
 		field.String("english").NotEmpty().Immutable().Unique(),
 		field.String("chinese").Default(""),
 	}

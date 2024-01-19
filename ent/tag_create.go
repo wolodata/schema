@@ -41,6 +41,12 @@ func (tc *TagCreate) SetNillableChinese(s *string) *TagCreate {
 	return tc
 }
 
+// SetID sets the "id" field.
+func (tc *TagCreate) SetID(i int) *TagCreate {
+	tc.mutation.SetID(i)
+	return tc
+}
+
 // Mutation returns the TagMutation object of the builder.
 func (tc *TagCreate) Mutation() *TagMutation {
 	return tc.mutation
@@ -109,8 +115,10 @@ func (tc *TagCreate) sqlSave(ctx context.Context) (*Tag, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = int(id)
+	}
 	tc.mutation.id = &_node.ID
 	tc.mutation.done = true
 	return _node, nil
@@ -122,6 +130,10 @@ func (tc *TagCreate) createSpec() (*Tag, *sqlgraph.CreateSpec) {
 		_spec = sqlgraph.NewCreateSpec(tag.Table, sqlgraph.NewFieldSpec(tag.FieldID, field.TypeInt))
 	)
 	_spec.OnConflict = tc.conflict
+	if id, ok := tc.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := tc.mutation.English(); ok {
 		_spec.SetField(tag.FieldEnglish, field.TypeString, value)
 		_node.English = value
@@ -194,17 +206,23 @@ func (u *TagUpsert) UpdateChinese() *TagUpsert {
 	return u
 }
 
-// UpdateNewValues updates the mutable fields using the new values that were set on create.
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
 //	client.Tag.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(tag.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 func (u *TagUpsertOne) UpdateNewValues() *TagUpsertOne {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
 	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(tag.FieldID)
+		}
 		if _, exists := u.create.mutation.English(); exists {
 			s.SetIgnore(tag.FieldEnglish)
 		}
@@ -333,7 +351,7 @@ func (tcb *TagCreateBulk) Save(ctx context.Context) ([]*Tag, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
 					nodes[i].ID = int(id)
 				}
@@ -423,12 +441,18 @@ type TagUpsertBulk struct {
 //	client.Tag.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(tag.FieldID)
+//			}),
 //		).
 //		Exec(ctx)
 func (u *TagUpsertBulk) UpdateNewValues() *TagUpsertBulk {
 	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
 	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
 		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(tag.FieldID)
+			}
 			if _, exists := b.mutation.English(); exists {
 				s.SetIgnore(tag.FieldEnglish)
 			}

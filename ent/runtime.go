@@ -8,6 +8,7 @@ import (
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/tag"
+	"github.com/wolodata/schema/ent/topic"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -85,11 +86,25 @@ func init() {
 	tagFields := schema.Tag{}.Fields()
 	_ = tagFields
 	// tagDescEnglish is the schema descriptor for english field.
-	tagDescEnglish := tagFields[0].Descriptor()
+	tagDescEnglish := tagFields[1].Descriptor()
 	// tag.EnglishValidator is a validator for the "english" field. It is called by the builders before save.
 	tag.EnglishValidator = tagDescEnglish.Validators[0].(func(string) error)
 	// tagDescChinese is the schema descriptor for chinese field.
-	tagDescChinese := tagFields[1].Descriptor()
+	tagDescChinese := tagFields[2].Descriptor()
 	// tag.DefaultChinese holds the default value on creation for the chinese field.
 	tag.DefaultChinese = tagDescChinese.Default.(string)
+	topicFields := schema.Topic{}.Fields()
+	_ = topicFields
+	// topicDescKeyword is the schema descriptor for keyword field.
+	topicDescKeyword := topicFields[1].Descriptor()
+	// topic.KeywordValidator is a validator for the "keyword" field. It is called by the builders before save.
+	topic.KeywordValidator = topicDescKeyword.Validators[0].(func(string) error)
+	// topicDescFollowTitle is the schema descriptor for follow_title field.
+	topicDescFollowTitle := topicFields[2].Descriptor()
+	// topic.DefaultFollowTitle holds the default value on creation for the follow_title field.
+	topic.DefaultFollowTitle = topicDescFollowTitle.Default.(bool)
+	// topicDescFollowContent is the schema descriptor for follow_content field.
+	topicDescFollowContent := topicFields[3].Descriptor()
+	// topic.DefaultFollowContent holds the default value on creation for the follow_content field.
+	topic.DefaultFollowContent = topicDescFollowContent.Default.(bool)
 }

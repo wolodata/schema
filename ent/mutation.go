@@ -14,6 +14,7 @@ import (
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/predicate"
 	"github.com/wolodata/schema/ent/tag"
+	"github.com/wolodata/schema/ent/topic"
 	"github.com/wolodata/schema/ent/user"
 )
 
@@ -28,6 +29,7 @@ const (
 	// Node types.
 	TypeArticle = "Article"
 	TypeTag     = "Tag"
+	TypeTopic   = "Topic"
 	TypeUser    = "User"
 )
 
@@ -1219,6 +1221,12 @@ func (m TagMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Tag entities.
+func (m *TagMutation) SetID(id int) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
 func (m *TagMutation) ID() (id int, exists bool) {
@@ -1513,6 +1521,516 @@ func (m *TagMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *TagMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Tag edge %s", name)
+}
+
+// TopicMutation represents an operation that mutates the Topic nodes in the graph.
+type TopicMutation struct {
+	config
+	op             Op
+	typ            string
+	id             *int
+	keyword        *string
+	follow_title   *bool
+	follow_content *bool
+	user_ids       *[]int
+	appenduser_ids []int
+	clearedFields  map[string]struct{}
+	done           bool
+	oldValue       func(context.Context) (*Topic, error)
+	predicates     []predicate.Topic
+}
+
+var _ ent.Mutation = (*TopicMutation)(nil)
+
+// topicOption allows management of the mutation configuration using functional options.
+type topicOption func(*TopicMutation)
+
+// newTopicMutation creates new mutation for the Topic entity.
+func newTopicMutation(c config, op Op, opts ...topicOption) *TopicMutation {
+	m := &TopicMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeTopic,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withTopicID sets the ID field of the mutation.
+func withTopicID(id int) topicOption {
+	return func(m *TopicMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Topic
+		)
+		m.oldValue = func(ctx context.Context) (*Topic, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Topic.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withTopic sets the old Topic of the mutation.
+func withTopic(node *Topic) topicOption {
+	return func(m *TopicMutation) {
+		m.oldValue = func(context.Context) (*Topic, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m TopicMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m TopicMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Topic entities.
+func (m *TopicMutation) SetID(id int) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *TopicMutation) ID() (id int, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *TopicMutation) IDs(ctx context.Context) ([]int, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Topic.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetKeyword sets the "keyword" field.
+func (m *TopicMutation) SetKeyword(s string) {
+	m.keyword = &s
+}
+
+// Keyword returns the value of the "keyword" field in the mutation.
+func (m *TopicMutation) Keyword() (r string, exists bool) {
+	v := m.keyword
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldKeyword returns the old "keyword" field's value of the Topic entity.
+// If the Topic object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TopicMutation) OldKeyword(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldKeyword is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldKeyword requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldKeyword: %w", err)
+	}
+	return oldValue.Keyword, nil
+}
+
+// ResetKeyword resets all changes to the "keyword" field.
+func (m *TopicMutation) ResetKeyword() {
+	m.keyword = nil
+}
+
+// SetFollowTitle sets the "follow_title" field.
+func (m *TopicMutation) SetFollowTitle(b bool) {
+	m.follow_title = &b
+}
+
+// FollowTitle returns the value of the "follow_title" field in the mutation.
+func (m *TopicMutation) FollowTitle() (r bool, exists bool) {
+	v := m.follow_title
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFollowTitle returns the old "follow_title" field's value of the Topic entity.
+// If the Topic object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TopicMutation) OldFollowTitle(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFollowTitle is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFollowTitle requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFollowTitle: %w", err)
+	}
+	return oldValue.FollowTitle, nil
+}
+
+// ResetFollowTitle resets all changes to the "follow_title" field.
+func (m *TopicMutation) ResetFollowTitle() {
+	m.follow_title = nil
+}
+
+// SetFollowContent sets the "follow_content" field.
+func (m *TopicMutation) SetFollowContent(b bool) {
+	m.follow_content = &b
+}
+
+// FollowContent returns the value of the "follow_content" field in the mutation.
+func (m *TopicMutation) FollowContent() (r bool, exists bool) {
+	v := m.follow_content
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFollowContent returns the old "follow_content" field's value of the Topic entity.
+// If the Topic object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TopicMutation) OldFollowContent(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFollowContent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFollowContent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFollowContent: %w", err)
+	}
+	return oldValue.FollowContent, nil
+}
+
+// ResetFollowContent resets all changes to the "follow_content" field.
+func (m *TopicMutation) ResetFollowContent() {
+	m.follow_content = nil
+}
+
+// SetUserIds sets the "user_ids" field.
+func (m *TopicMutation) SetUserIds(i []int) {
+	m.user_ids = &i
+	m.appenduser_ids = nil
+}
+
+// UserIds returns the value of the "user_ids" field in the mutation.
+func (m *TopicMutation) UserIds() (r []int, exists bool) {
+	v := m.user_ids
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserIds returns the old "user_ids" field's value of the Topic entity.
+// If the Topic object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TopicMutation) OldUserIds(ctx context.Context) (v []int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserIds is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserIds requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserIds: %w", err)
+	}
+	return oldValue.UserIds, nil
+}
+
+// AppendUserIds adds i to the "user_ids" field.
+func (m *TopicMutation) AppendUserIds(i []int) {
+	m.appenduser_ids = append(m.appenduser_ids, i...)
+}
+
+// AppendedUserIds returns the list of values that were appended to the "user_ids" field in this mutation.
+func (m *TopicMutation) AppendedUserIds() ([]int, bool) {
+	if len(m.appenduser_ids) == 0 {
+		return nil, false
+	}
+	return m.appenduser_ids, true
+}
+
+// ResetUserIds resets all changes to the "user_ids" field.
+func (m *TopicMutation) ResetUserIds() {
+	m.user_ids = nil
+	m.appenduser_ids = nil
+}
+
+// Where appends a list predicates to the TopicMutation builder.
+func (m *TopicMutation) Where(ps ...predicate.Topic) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the TopicMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *TopicMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Topic, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *TopicMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *TopicMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Topic).
+func (m *TopicMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *TopicMutation) Fields() []string {
+	fields := make([]string, 0, 4)
+	if m.keyword != nil {
+		fields = append(fields, topic.FieldKeyword)
+	}
+	if m.follow_title != nil {
+		fields = append(fields, topic.FieldFollowTitle)
+	}
+	if m.follow_content != nil {
+		fields = append(fields, topic.FieldFollowContent)
+	}
+	if m.user_ids != nil {
+		fields = append(fields, topic.FieldUserIds)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *TopicMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case topic.FieldKeyword:
+		return m.Keyword()
+	case topic.FieldFollowTitle:
+		return m.FollowTitle()
+	case topic.FieldFollowContent:
+		return m.FollowContent()
+	case topic.FieldUserIds:
+		return m.UserIds()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *TopicMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case topic.FieldKeyword:
+		return m.OldKeyword(ctx)
+	case topic.FieldFollowTitle:
+		return m.OldFollowTitle(ctx)
+	case topic.FieldFollowContent:
+		return m.OldFollowContent(ctx)
+	case topic.FieldUserIds:
+		return m.OldUserIds(ctx)
+	}
+	return nil, fmt.Errorf("unknown Topic field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TopicMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case topic.FieldKeyword:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetKeyword(v)
+		return nil
+	case topic.FieldFollowTitle:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFollowTitle(v)
+		return nil
+	case topic.FieldFollowContent:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFollowContent(v)
+		return nil
+	case topic.FieldUserIds:
+		v, ok := value.([]int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserIds(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Topic field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *TopicMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *TopicMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *TopicMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown Topic numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *TopicMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *TopicMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *TopicMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown Topic nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *TopicMutation) ResetField(name string) error {
+	switch name {
+	case topic.FieldKeyword:
+		m.ResetKeyword()
+		return nil
+	case topic.FieldFollowTitle:
+		m.ResetFollowTitle()
+		return nil
+	case topic.FieldFollowContent:
+		m.ResetFollowContent()
+		return nil
+	case topic.FieldUserIds:
+		m.ResetUserIds()
+		return nil
+	}
+	return fmt.Errorf("unknown Topic field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *TopicMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *TopicMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *TopicMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *TopicMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *TopicMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *TopicMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *TopicMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Topic unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *TopicMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Topic edge %s", name)
 }
 
 // UserMutation represents an operation that mutates the User nodes in the graph.
