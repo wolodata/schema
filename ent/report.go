@@ -28,6 +28,8 @@ type Report struct {
 	RelatedArticleIds []string `json:"related_article_ids,omitempty"`
 	// Content holds the value of the "content" field.
 	Content string `json:"content,omitempty"`
+	// Reason holds the value of the "reason" field.
+	Reason string `json:"reason,omitempty"`
 	// GeneratedAt holds the value of the "generated_at" field.
 	GeneratedAt  time.Time `json:"generated_at,omitempty"`
 	selectValues sql.SelectValues
@@ -42,7 +44,7 @@ func (*Report) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case report.FieldID, report.FieldTriggerUserID:
 			values[i] = new(sql.NullInt64)
-		case report.FieldReportType, report.FieldContent:
+		case report.FieldReportType, report.FieldContent, report.FieldReason:
 			values[i] = new(sql.NullString)
 		case report.FieldTriggerAt, report.FieldGeneratedAt:
 			values[i] = new(sql.NullTime)
@@ -98,6 +100,12 @@ func (r *Report) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field content", values[i])
 			} else if value.Valid {
 				r.Content = value.String
+			}
+		case report.FieldReason:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field reason", values[i])
+			} else if value.Valid {
+				r.Reason = value.String
 			}
 		case report.FieldGeneratedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -155,6 +163,9 @@ func (r *Report) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("content=")
 	builder.WriteString(r.Content)
+	builder.WriteString(", ")
+	builder.WriteString("reason=")
+	builder.WriteString(r.Reason)
 	builder.WriteString(", ")
 	builder.WriteString("generated_at=")
 	builder.WriteString(r.GeneratedAt.Format(time.ANSIC))

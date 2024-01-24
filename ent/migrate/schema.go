@@ -69,6 +69,7 @@ var (
 		{Name: "trigger_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "related_article_ids", Type: field.TypeJSON},
 		{Name: "content", Type: field.TypeString, Size: 2147483647},
+		{Name: "reason", Type: field.TypeString, Size: 2147483647},
 		{Name: "generated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 	}
 	// TReportTable holds the schema information for the "t_report" table.
@@ -95,7 +96,7 @@ var (
 			{
 				Name:    "report_generated_at",
 				Unique:  false,
-				Columns: []*schema.Column{TReportColumns[6]},
+				Columns: []*schema.Column{TReportColumns[7]},
 			},
 		},
 	}

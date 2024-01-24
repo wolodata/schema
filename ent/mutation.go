@@ -1152,6 +1152,7 @@ type ReportMutation struct {
 	related_article_ids       *[]string
 	appendrelated_article_ids []string
 	content                   *string
+	reason                    *string
 	generated_at              *time.Time
 	clearedFields             map[string]struct{}
 	done                      bool
@@ -1492,6 +1493,42 @@ func (m *ReportMutation) ResetContent() {
 	m.content = nil
 }
 
+// SetReason sets the "reason" field.
+func (m *ReportMutation) SetReason(s string) {
+	m.reason = &s
+}
+
+// Reason returns the value of the "reason" field in the mutation.
+func (m *ReportMutation) Reason() (r string, exists bool) {
+	v := m.reason
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReason returns the old "reason" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldReason(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReason is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReason requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReason: %w", err)
+	}
+	return oldValue.Reason, nil
+}
+
+// ResetReason resets all changes to the "reason" field.
+func (m *ReportMutation) ResetReason() {
+	m.reason = nil
+}
+
 // SetGeneratedAt sets the "generated_at" field.
 func (m *ReportMutation) SetGeneratedAt(t time.Time) {
 	m.generated_at = &t
@@ -1562,7 +1599,7 @@ func (m *ReportMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ReportMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.report_type != nil {
 		fields = append(fields, report.FieldReportType)
 	}
@@ -1577,6 +1614,9 @@ func (m *ReportMutation) Fields() []string {
 	}
 	if m.content != nil {
 		fields = append(fields, report.FieldContent)
+	}
+	if m.reason != nil {
+		fields = append(fields, report.FieldReason)
 	}
 	if m.generated_at != nil {
 		fields = append(fields, report.FieldGeneratedAt)
@@ -1599,6 +1639,8 @@ func (m *ReportMutation) Field(name string) (ent.Value, bool) {
 		return m.RelatedArticleIds()
 	case report.FieldContent:
 		return m.Content()
+	case report.FieldReason:
+		return m.Reason()
 	case report.FieldGeneratedAt:
 		return m.GeneratedAt()
 	}
@@ -1620,6 +1662,8 @@ func (m *ReportMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldRelatedArticleIds(ctx)
 	case report.FieldContent:
 		return m.OldContent(ctx)
+	case report.FieldReason:
+		return m.OldReason(ctx)
 	case report.FieldGeneratedAt:
 		return m.OldGeneratedAt(ctx)
 	}
@@ -1665,6 +1709,13 @@ func (m *ReportMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetContent(v)
+		return nil
+	case report.FieldReason:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReason(v)
 		return nil
 	case report.FieldGeneratedAt:
 		v, ok := value.(time.Time)
@@ -1760,6 +1811,9 @@ func (m *ReportMutation) ResetField(name string) error {
 		return nil
 	case report.FieldContent:
 		m.ResetContent()
+		return nil
+	case report.FieldReason:
+		m.ResetReason()
 		return nil
 	case report.FieldGeneratedAt:
 		m.ResetGeneratedAt()

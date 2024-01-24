@@ -23,6 +23,8 @@ const (
 	FieldRelatedArticleIds = "related_article_ids"
 	// FieldContent holds the string denoting the content field in the database.
 	FieldContent = "content"
+	// FieldReason holds the string denoting the reason field in the database.
+	FieldReason = "reason"
 	// FieldGeneratedAt holds the string denoting the generated_at field in the database.
 	FieldGeneratedAt = "generated_at"
 	// Table holds the table name of the report in the database.
@@ -37,6 +39,7 @@ var Columns = []string{
 	FieldTriggerAt,
 	FieldRelatedArticleIds,
 	FieldContent,
+	FieldReason,
 	FieldGeneratedAt,
 }
 
@@ -85,6 +88,11 @@ func ByTriggerAt(opts ...sql.OrderTermOption) OrderOption {
 // ByContent orders the results by the content field.
 func ByContent(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldContent, opts...).ToFunc()
+}
+
+// ByReason orders the results by the reason field.
+func ByReason(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldReason, opts...).ToFunc()
 }
 
 // ByGeneratedAt orders the results by the generated_at field.
