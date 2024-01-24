@@ -14,6 +14,8 @@ type Tx struct {
 	config
 	// Article is the client for interacting with the Article builders.
 	Article *ArticleClient
+	// Report is the client for interacting with the Report builders.
+	Report *ReportClient
 	// Tag is the client for interacting with the Tag builders.
 	Tag *TagClient
 	// Topic is the client for interacting with the Topic builders.
@@ -152,6 +154,7 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Article = NewArticleClient(tx.config)
+	tx.Report = NewReportClient(tx.config)
 	tx.Tag = NewTagClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)

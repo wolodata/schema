@@ -61,6 +61,44 @@ var (
 			},
 		},
 	}
+	// TReportColumns holds the columns for the "t_report" table.
+	TReportColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "report_type", Type: field.TypeString},
+		{Name: "trigger_user_id", Type: field.TypeInt32, Nullable: true},
+		{Name: "trigger_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "related_article_ids", Type: field.TypeJSON},
+		{Name: "content", Type: field.TypeString, Size: 2147483647},
+		{Name: "generated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+	}
+	// TReportTable holds the schema information for the "t_report" table.
+	TReportTable = &schema.Table{
+		Name:       "t_report",
+		Columns:    TReportColumns,
+		PrimaryKey: []*schema.Column{TReportColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "report_report_type",
+				Unique:  false,
+				Columns: []*schema.Column{TReportColumns[1]},
+			},
+			{
+				Name:    "report_trigger_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{TReportColumns[2]},
+			},
+			{
+				Name:    "report_trigger_at",
+				Unique:  false,
+				Columns: []*schema.Column{TReportColumns[3]},
+			},
+			{
+				Name:    "report_generated_at",
+				Unique:  false,
+				Columns: []*schema.Column{TReportColumns[6]},
+			},
+		},
+	}
 	// TTagColumns holds the columns for the "t_tag" table.
 	TTagColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt32, Increment: true},
@@ -126,6 +164,7 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		TArticleTable,
+		TReportTable,
 		TTagTable,
 		TTopicTable,
 		TUserTable,
@@ -135,6 +174,11 @@ var (
 func init() {
 	TArticleTable.Annotation = &entsql.Annotation{
 		Table:     "t_article",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TReportTable.Annotation = &entsql.Annotation{
+		Table:     "t_report",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

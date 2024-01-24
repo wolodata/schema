@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/tag"
 	"github.com/wolodata/schema/ent/topic"
@@ -83,6 +84,20 @@ func init() {
 	articleDescSummaryChinese := articleFields[15].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
+	reportFields := schema.Report{}.Fields()
+	_ = reportFields
+	// reportDescReportType is the schema descriptor for report_type field.
+	reportDescReportType := reportFields[1].Descriptor()
+	// report.ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
+	report.ReportTypeValidator = reportDescReportType.Validators[0].(func(string) error)
+	// reportDescTriggerAt is the schema descriptor for trigger_at field.
+	reportDescTriggerAt := reportFields[3].Descriptor()
+	// report.DefaultTriggerAt holds the default value on creation for the trigger_at field.
+	report.DefaultTriggerAt = reportDescTriggerAt.Default.(func() time.Time)
+	// reportDescRelatedArticleIds is the schema descriptor for related_article_ids field.
+	reportDescRelatedArticleIds := reportFields[4].Descriptor()
+	// report.DefaultRelatedArticleIds holds the default value on creation for the related_article_ids field.
+	report.DefaultRelatedArticleIds = reportDescRelatedArticleIds.Default.([]string)
 	tagFields := schema.Tag{}.Fields()
 	_ = tagFields
 	// tagDescEnglish is the schema descriptor for english field.
