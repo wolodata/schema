@@ -27,7 +27,7 @@ var (
 		{Name: "text_english", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "crawled_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
-		{Name: "category", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "category", Type: field.TypeString, Default: ""},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
 	TArticleTable = &schema.Table{
