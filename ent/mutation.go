@@ -57,6 +57,7 @@ type ArticleMutation struct {
 	text_english    *string
 	crawled_at      *time.Time
 	summary_chinese *string
+	category        *string
 	clearedFields   map[string]struct{}
 	done            bool
 	oldValue        func(context.Context) (*Article, error)
@@ -722,6 +723,42 @@ func (m *ArticleMutation) ResetSummaryChinese() {
 	m.summary_chinese = nil
 }
 
+// SetCategory sets the "category" field.
+func (m *ArticleMutation) SetCategory(s string) {
+	m.category = &s
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *ArticleMutation) Category() (r string, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *ArticleMutation) ResetCategory() {
+	m.category = nil
+}
+
 // Where appends a list predicates to the ArticleMutation builder.
 func (m *ArticleMutation) Where(ps ...predicate.Article) {
 	m.predicates = append(m.predicates, ps...)
@@ -756,7 +793,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 16)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -802,6 +839,9 @@ func (m *ArticleMutation) Fields() []string {
 	if m.summary_chinese != nil {
 		fields = append(fields, article.FieldSummaryChinese)
 	}
+	if m.category != nil {
+		fields = append(fields, article.FieldCategory)
+	}
 	return fields
 }
 
@@ -840,6 +880,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.CrawledAt()
 	case article.FieldSummaryChinese:
 		return m.SummaryChinese()
+	case article.FieldCategory:
+		return m.Category()
 	}
 	return nil, false
 }
@@ -879,6 +921,8 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldCrawledAt(ctx)
 	case article.FieldSummaryChinese:
 		return m.OldSummaryChinese(ctx)
+	case article.FieldCategory:
+		return m.OldCategory(ctx)
 	}
 	return nil, fmt.Errorf("unknown Article field %s", name)
 }
@@ -993,6 +1037,13 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetSummaryChinese(v)
 		return nil
+	case article.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
 }
@@ -1086,6 +1137,9 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldSummaryChinese:
 		m.ResetSummaryChinese()
+		return nil
+	case article.FieldCategory:
+		m.ResetCategory()
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)

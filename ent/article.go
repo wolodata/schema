@@ -48,7 +48,9 @@ type Article struct {
 	CrawledAt time.Time `json:"crawled_at,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
-	selectValues   sql.SelectValues
+	// Category holds the value of the "category" field.
+	Category     string `json:"category,omitempty"`
+	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -62,7 +64,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese:
+		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese, article.FieldCategory:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt, article.FieldCrawledAt:
 			values[i] = new(sql.NullTime)
@@ -179,6 +181,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.SummaryChinese = value.String
 			}
+		case article.FieldCategory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field category", values[i])
+			} else if value.Valid {
+				a.Category = value.String
+			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
 		}
@@ -259,6 +267,9 @@ func (a *Article) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)
+	builder.WriteString(", ")
+	builder.WriteString("category=")
+	builder.WriteString(a.Category)
 	builder.WriteByte(')')
 	return builder.String()
 }

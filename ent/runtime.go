@@ -84,6 +84,10 @@ func init() {
 	articleDescSummaryChinese := articleFields[15].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
+	// articleDescCategory is the schema descriptor for category field.
+	articleDescCategory := articleFields[16].Descriptor()
+	// article.DefaultCategory holds the default value on creation for the category field.
+	article.DefaultCategory = articleDescCategory.Default.(string)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.

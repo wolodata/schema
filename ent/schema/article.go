@@ -33,6 +33,7 @@ func (Article) Fields() []ent.Field {
 		field.Text("text_english").Default(""),
 		field.Time("crawled_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
 		field.Text("summary_chinese").Default(""),
+		field.Text("category").Default(""),
 	}
 }
 
@@ -43,6 +44,7 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("title_english"),
 		index.Fields("origin_short_id"),
 		index.Fields("origin_type"),
+		index.Fields("category"),
 	}
 }
 

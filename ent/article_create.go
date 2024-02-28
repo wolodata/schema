@@ -192,6 +192,20 @@ func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 	return ac
 }
 
+// SetCategory sets the "category" field.
+func (ac *ArticleCreate) SetCategory(s string) *ArticleCreate {
+	ac.mutation.SetCategory(s)
+	return ac
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableCategory(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetCategory(*s)
+	}
+	return ac
+}
+
 // SetID sets the "id" field.
 func (ac *ArticleCreate) SetID(i int32) *ArticleCreate {
 	ac.mutation.SetID(i)
@@ -277,6 +291,10 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
 	}
+	if _, ok := ac.mutation.Category(); !ok {
+		v := article.DefaultCategory
+		ac.mutation.SetCategory(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -335,6 +353,9 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
+	}
+	if _, ok := ac.mutation.Category(); !ok {
+		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "Article.category"`)}
 	}
 	return nil
 }
@@ -428,6 +449,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
 		_node.SummaryChinese = value
+	}
+	if value, ok := ac.mutation.Category(); ok {
+		_spec.SetField(article.FieldCategory, field.TypeString, value)
+		_node.Category = value
 	}
 	return _node, _spec
 }
@@ -586,6 +611,18 @@ func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 // UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
 	u.SetExcluded(article.FieldSummaryChinese)
+	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *ArticleUpsert) SetCategory(v string) *ArticleUpsert {
+	u.Set(article.FieldCategory, v)
+	return u
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateCategory() *ArticleUpsert {
+	u.SetExcluded(article.FieldCategory)
 	return u
 }
 
@@ -778,6 +815,20 @@ func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *ArticleUpsertOne) SetCategory(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateCategory() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateCategory()
 	})
 }
 
@@ -1136,6 +1187,20 @@ func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *ArticleUpsertBulk) SetCategory(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateCategory() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateCategory()
 	})
 }
 

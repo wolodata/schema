@@ -152,6 +152,20 @@ func (au *ArticleUpdate) SetNillableSummaryChinese(s *string) *ArticleUpdate {
 	return au
 }
 
+// SetCategory sets the "category" field.
+func (au *ArticleUpdate) SetCategory(s string) *ArticleUpdate {
+	au.mutation.SetCategory(s)
+	return au
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableCategory(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetCategory(*s)
+	}
+	return au
+}
+
 // Mutation returns the ArticleMutation object of the builder.
 func (au *ArticleUpdate) Mutation() *ArticleMutation {
 	return au.mutation
@@ -224,6 +238,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	}
+	if value, ok := au.mutation.Category(); ok {
+		_spec.SetField(article.FieldCategory, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -369,6 +386,20 @@ func (auo *ArticleUpdateOne) SetNillableSummaryChinese(s *string) *ArticleUpdate
 	return auo
 }
 
+// SetCategory sets the "category" field.
+func (auo *ArticleUpdateOne) SetCategory(s string) *ArticleUpdateOne {
+	auo.mutation.SetCategory(s)
+	return auo
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableCategory(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetCategory(*s)
+	}
+	return auo
+}
+
 // Mutation returns the ArticleMutation object of the builder.
 func (auo *ArticleUpdateOne) Mutation() *ArticleMutation {
 	return auo.mutation
@@ -471,6 +502,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.Category(); ok {
+		_spec.SetField(article.FieldCategory, field.TypeString, value)
 	}
 	_node = &Article{config: auo.config}
 	_spec.Assign = _node.assignValues

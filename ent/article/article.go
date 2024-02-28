@@ -43,6 +43,8 @@ const (
 	FieldCrawledAt = "crawled_at"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
 	// Table holds the table name of the article in the database.
 	Table = "t_article"
 )
@@ -65,6 +67,7 @@ var Columns = []string{
 	FieldTextEnglish,
 	FieldCrawledAt,
 	FieldSummaryChinese,
+	FieldCategory,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -104,6 +107,8 @@ var (
 	DefaultCrawledAt func() time.Time
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
+	// DefaultCategory holds the default value on creation for the "category" field.
+	DefaultCategory string
 )
 
 // OrderOption defines the ordering options for the Article queries.
@@ -182,4 +187,9 @@ func ByCrawledAt(opts ...sql.OrderTermOption) OrderOption {
 // BySummaryChinese orders the results by the summary_chinese field.
 func BySummaryChinese(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSummaryChinese, opts...).ToFunc()
+}
+
+// ByCategory orders the results by the category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
 }
