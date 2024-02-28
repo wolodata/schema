@@ -2,7 +2,7 @@ module github.com/wolodata/schema
 
 go 1.22.0
 
-require entgo.io/ent v0.13.0
+require entgo.io/ent v0.13.1
 
 require (
 	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43 // indirect
@@ -14,6 +14,6 @@ require (
 	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
-	golang.org/x/mod v0.14.0 // indirect
+	golang.org/x/mod v0.15.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 )
