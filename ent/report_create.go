@@ -48,14 +48,6 @@ func (rc *ReportCreate) SetTriggerAt(t time.Time) *ReportCreate {
 	return rc
 }
 
-// SetNillableTriggerAt sets the "trigger_at" field if the given value is not nil.
-func (rc *ReportCreate) SetNillableTriggerAt(t *time.Time) *ReportCreate {
-	if t != nil {
-		rc.SetTriggerAt(*t)
-	}
-	return rc
-}
-
 // SetRelatedArticleIds sets the "related_article_ids" field.
 func (rc *ReportCreate) SetRelatedArticleIds(i []int32) *ReportCreate {
 	rc.mutation.SetRelatedArticleIds(i)
@@ -93,6 +85,14 @@ func (rc *ReportCreate) SetNillableReason(s *string) *ReportCreate {
 // SetGeneratedAt sets the "generated_at" field.
 func (rc *ReportCreate) SetGeneratedAt(t time.Time) *ReportCreate {
 	rc.mutation.SetGeneratedAt(t)
+	return rc
+}
+
+// SetNillableGeneratedAt sets the "generated_at" field if the given value is not nil.
+func (rc *ReportCreate) SetNillableGeneratedAt(t *time.Time) *ReportCreate {
+	if t != nil {
+		rc.SetGeneratedAt(*t)
+	}
 	return rc
 }
 
@@ -137,10 +137,6 @@ func (rc *ReportCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rc *ReportCreate) defaults() {
-	if _, ok := rc.mutation.TriggerAt(); !ok {
-		v := report.DefaultTriggerAt()
-		rc.mutation.SetTriggerAt(v)
-	}
 	if _, ok := rc.mutation.RelatedArticleIds(); !ok {
 		v := report.DefaultRelatedArticleIds
 		rc.mutation.SetRelatedArticleIds(v)
@@ -152,6 +148,10 @@ func (rc *ReportCreate) defaults() {
 	if _, ok := rc.mutation.Reason(); !ok {
 		v := report.DefaultReason
 		rc.mutation.SetReason(v)
+	}
+	if _, ok := rc.mutation.GeneratedAt(); !ok {
+		v := report.DefaultGeneratedAt()
+		rc.mutation.SetGeneratedAt(v)
 	}
 }
 

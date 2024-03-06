@@ -56,14 +56,14 @@ func ValidColumn(column string) bool {
 var (
 	// ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	ReportTypeValidator func(string) error
-	// DefaultTriggerAt holds the default value on creation for the "trigger_at" field.
-	DefaultTriggerAt func() time.Time
 	// DefaultRelatedArticleIds holds the default value on creation for the "related_article_ids" field.
 	DefaultRelatedArticleIds []int32
 	// DefaultContent holds the default value on creation for the "content" field.
 	DefaultContent string
 	// DefaultReason holds the default value on creation for the "reason" field.
 	DefaultReason string
+	// DefaultGeneratedAt holds the default value on creation for the "generated_at" field.
+	DefaultGeneratedAt func() time.Time
 )
 
 // OrderOption defines the ordering options for the Report queries.
