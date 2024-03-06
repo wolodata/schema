@@ -57,8 +57,8 @@ func (rc *ReportCreate) SetNillableTriggerAt(t *time.Time) *ReportCreate {
 }
 
 // SetRelatedArticleIds sets the "related_article_ids" field.
-func (rc *ReportCreate) SetRelatedArticleIds(s []string) *ReportCreate {
-	rc.mutation.SetRelatedArticleIds(s)
+func (rc *ReportCreate) SetRelatedArticleIds(i []int32) *ReportCreate {
+	rc.mutation.SetRelatedArticleIds(i)
 	return rc
 }
 

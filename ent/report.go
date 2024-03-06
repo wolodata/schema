@@ -25,7 +25,7 @@ type Report struct {
 	// TriggerAt holds the value of the "trigger_at" field.
 	TriggerAt time.Time `json:"trigger_at,omitempty"`
 	// RelatedArticleIds holds the value of the "related_article_ids" field.
-	RelatedArticleIds []string `json:"related_article_ids,omitempty"`
+	RelatedArticleIds []int32 `json:"related_article_ids,omitempty"`
 	// Content holds the value of the "content" field.
 	Content string `json:"content,omitempty"`
 	// Reason holds the value of the "reason" field.

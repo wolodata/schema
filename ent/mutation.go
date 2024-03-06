@@ -1203,8 +1203,8 @@ type ReportMutation struct {
 	trigger_user_id           *int32
 	addtrigger_user_id        *int32
 	trigger_at                *time.Time
-	related_article_ids       *[]string
-	appendrelated_article_ids []string
+	related_article_ids       *[]int32
+	appendrelated_article_ids []int32
 	content                   *string
 	reason                    *string
 	generated_at              *time.Time
@@ -1461,13 +1461,13 @@ func (m *ReportMutation) ResetTriggerAt() {
 }
 
 // SetRelatedArticleIds sets the "related_article_ids" field.
-func (m *ReportMutation) SetRelatedArticleIds(s []string) {
-	m.related_article_ids = &s
+func (m *ReportMutation) SetRelatedArticleIds(i []int32) {
+	m.related_article_ids = &i
 	m.appendrelated_article_ids = nil
 }
 
 // RelatedArticleIds returns the value of the "related_article_ids" field in the mutation.
-func (m *ReportMutation) RelatedArticleIds() (r []string, exists bool) {
+func (m *ReportMutation) RelatedArticleIds() (r []int32, exists bool) {
 	v := m.related_article_ids
 	if v == nil {
 		return
@@ -1478,7 +1478,7 @@ func (m *ReportMutation) RelatedArticleIds() (r []string, exists bool) {
 // OldRelatedArticleIds returns the old "related_article_ids" field's value of the Report entity.
 // If the Report object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ReportMutation) OldRelatedArticleIds(ctx context.Context) (v []string, err error) {
+func (m *ReportMutation) OldRelatedArticleIds(ctx context.Context) (v []int32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldRelatedArticleIds is only allowed on UpdateOne operations")
 	}
@@ -1492,13 +1492,13 @@ func (m *ReportMutation) OldRelatedArticleIds(ctx context.Context) (v []string, 
 	return oldValue.RelatedArticleIds, nil
 }
 
-// AppendRelatedArticleIds adds s to the "related_article_ids" field.
-func (m *ReportMutation) AppendRelatedArticleIds(s []string) {
-	m.appendrelated_article_ids = append(m.appendrelated_article_ids, s...)
+// AppendRelatedArticleIds adds i to the "related_article_ids" field.
+func (m *ReportMutation) AppendRelatedArticleIds(i []int32) {
+	m.appendrelated_article_ids = append(m.appendrelated_article_ids, i...)
 }
 
 // AppendedRelatedArticleIds returns the list of values that were appended to the "related_article_ids" field in this mutation.
-func (m *ReportMutation) AppendedRelatedArticleIds() ([]string, bool) {
+func (m *ReportMutation) AppendedRelatedArticleIds() ([]int32, bool) {
 	if len(m.appendrelated_article_ids) == 0 {
 		return nil, false
 	}
@@ -1751,7 +1751,7 @@ func (m *ReportMutation) SetField(name string, value ent.Value) error {
 		m.SetTriggerAt(v)
 		return nil
 	case report.FieldRelatedArticleIds:
-		v, ok := value.([]string)
+		v, ok := value.([]int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

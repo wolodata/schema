@@ -101,7 +101,7 @@ func init() {
 	// reportDescRelatedArticleIds is the schema descriptor for related_article_ids field.
 	reportDescRelatedArticleIds := reportFields[4].Descriptor()
 	// report.DefaultRelatedArticleIds holds the default value on creation for the related_article_ids field.
-	report.DefaultRelatedArticleIds = reportDescRelatedArticleIds.Default.([]string)
+	report.DefaultRelatedArticleIds = reportDescRelatedArticleIds.Default.([]int32)
 	tagFields := schema.Tag{}.Fields()
 	_ = tagFields
 	// tagDescEnglish is the schema descriptor for english field.
