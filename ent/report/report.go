@@ -60,6 +60,10 @@ var (
 	DefaultTriggerAt func() time.Time
 	// DefaultRelatedArticleIds holds the default value on creation for the "related_article_ids" field.
 	DefaultRelatedArticleIds []int32
+	// DefaultContent holds the default value on creation for the "content" field.
+	DefaultContent string
+	// DefaultReason holds the default value on creation for the "reason" field.
+	DefaultReason string
 )
 
 // OrderOption defines the ordering options for the Report queries.

@@ -68,9 +68,25 @@ func (rc *ReportCreate) SetContent(s string) *ReportCreate {
 	return rc
 }
 
+// SetNillableContent sets the "content" field if the given value is not nil.
+func (rc *ReportCreate) SetNillableContent(s *string) *ReportCreate {
+	if s != nil {
+		rc.SetContent(*s)
+	}
+	return rc
+}
+
 // SetReason sets the "reason" field.
 func (rc *ReportCreate) SetReason(s string) *ReportCreate {
 	rc.mutation.SetReason(s)
+	return rc
+}
+
+// SetNillableReason sets the "reason" field if the given value is not nil.
+func (rc *ReportCreate) SetNillableReason(s *string) *ReportCreate {
+	if s != nil {
+		rc.SetReason(*s)
+	}
 	return rc
 }
 
@@ -128,6 +144,14 @@ func (rc *ReportCreate) defaults() {
 	if _, ok := rc.mutation.RelatedArticleIds(); !ok {
 		v := report.DefaultRelatedArticleIds
 		rc.mutation.SetRelatedArticleIds(v)
+	}
+	if _, ok := rc.mutation.Content(); !ok {
+		v := report.DefaultContent
+		rc.mutation.SetContent(v)
+	}
+	if _, ok := rc.mutation.Reason(); !ok {
+		v := report.DefaultReason
+		rc.mutation.SetReason(v)
 	}
 }
 
