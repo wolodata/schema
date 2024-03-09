@@ -70,18 +70,6 @@ func (au *ArticleUpdate) SetNillableAuthor(s *string) *ArticleUpdate {
 	return au
 }
 
-// SetTags sets the "tags" field.
-func (au *ArticleUpdate) SetTags(s []string) *ArticleUpdate {
-	au.mutation.SetTags(s)
-	return au
-}
-
-// AppendTags appends s to the "tags" field.
-func (au *ArticleUpdate) AppendTags(s []string) *ArticleUpdate {
-	au.mutation.AppendTags(s)
-	return au
-}
-
 // SetHTMLChinese sets the "html_chinese" field.
 func (au *ArticleUpdate) SetHTMLChinese(s string) *ArticleUpdate {
 	au.mutation.SetHTMLChinese(s)
@@ -256,14 +244,6 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := au.mutation.Author(); ok {
 		_spec.SetField(article.FieldAuthor, field.TypeString, value)
 	}
-	if value, ok := au.mutation.Tags(); ok {
-		_spec.SetField(article.FieldTags, field.TypeJSON, value)
-	}
-	if value, ok := au.mutation.AppendedTags(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldTags, value)
-		})
-	}
 	if value, ok := au.mutation.HTMLChinese(); ok {
 		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)
 	}
@@ -355,18 +335,6 @@ func (auo *ArticleUpdateOne) SetNillableAuthor(s *string) *ArticleUpdateOne {
 	if s != nil {
 		auo.SetAuthor(*s)
 	}
-	return auo
-}
-
-// SetTags sets the "tags" field.
-func (auo *ArticleUpdateOne) SetTags(s []string) *ArticleUpdateOne {
-	auo.mutation.SetTags(s)
-	return auo
-}
-
-// AppendTags appends s to the "tags" field.
-func (auo *ArticleUpdateOne) AppendTags(s []string) *ArticleUpdateOne {
-	auo.mutation.AppendTags(s)
 	return auo
 }
 
@@ -573,14 +541,6 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	}
 	if value, ok := auo.mutation.Author(); ok {
 		_spec.SetField(article.FieldAuthor, field.TypeString, value)
-	}
-	if value, ok := auo.mutation.Tags(); ok {
-		_spec.SetField(article.FieldTags, field.TypeJSON, value)
-	}
-	if value, ok := auo.mutation.AppendedTags(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldTags, value)
-		})
 	}
 	if value, ok := auo.mutation.HTMLChinese(); ok {
 		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)

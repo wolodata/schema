@@ -96,12 +96,6 @@ func (ac *ArticleCreate) SetNillableAuthor(s *string) *ArticleCreate {
 	return ac
 }
 
-// SetTags sets the "tags" field.
-func (ac *ArticleCreate) SetTags(s []string) *ArticleCreate {
-	ac.mutation.SetTags(s)
-	return ac
-}
-
 // SetPublishedAt sets the "published_at" field.
 func (ac *ArticleCreate) SetPublishedAt(t time.Time) *ArticleCreate {
 	ac.mutation.SetPublishedAt(t)
@@ -283,10 +277,6 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultAuthor
 		ac.mutation.SetAuthor(v)
 	}
-	if _, ok := ac.mutation.Tags(); !ok {
-		v := article.DefaultTags
-		ac.mutation.SetTags(v)
-	}
 	if _, ok := ac.mutation.HTMLChinese(); !ok {
 		v := article.DefaultHTMLChinese
 		ac.mutation.SetHTMLChinese(v)
@@ -357,9 +347,6 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.Author(); !ok {
 		return &ValidationError{Name: "author", err: errors.New(`ent: missing required field "Article.author"`)}
-	}
-	if _, ok := ac.mutation.Tags(); !ok {
-		return &ValidationError{Name: "tags", err: errors.New(`ent: missing required field "Article.tags"`)}
 	}
 	if _, ok := ac.mutation.PublishedAt(); !ok {
 		return &ValidationError{Name: "published_at", err: errors.New(`ent: missing required field "Article.published_at"`)}
@@ -451,10 +438,6 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.Author(); ok {
 		_spec.SetField(article.FieldAuthor, field.TypeString, value)
 		_node.Author = value
-	}
-	if value, ok := ac.mutation.Tags(); ok {
-		_spec.SetField(article.FieldTags, field.TypeJSON, value)
-		_node.Tags = value
 	}
 	if value, ok := ac.mutation.PublishedAt(); ok {
 		_spec.SetField(article.FieldPublishedAt, field.TypeTime, value)
@@ -581,18 +564,6 @@ func (u *ArticleUpsert) SetAuthor(v string) *ArticleUpsert {
 // UpdateAuthor sets the "author" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateAuthor() *ArticleUpsert {
 	u.SetExcluded(article.FieldAuthor)
-	return u
-}
-
-// SetTags sets the "tags" field.
-func (u *ArticleUpsert) SetTags(v []string) *ArticleUpsert {
-	u.Set(article.FieldTags, v)
-	return u
-}
-
-// UpdateTags sets the "tags" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateTags() *ArticleUpsert {
-	u.SetExcluded(article.FieldTags)
 	return u
 }
 
@@ -806,20 +777,6 @@ func (u *ArticleUpsertOne) SetAuthor(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateAuthor() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateAuthor()
-	})
-}
-
-// SetTags sets the "tags" field.
-func (u *ArticleUpsertOne) SetTags(v []string) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetTags(v)
-	})
-}
-
-// UpdateTags sets the "tags" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateTags() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateTags()
 	})
 }
 
@@ -1217,20 +1174,6 @@ func (u *ArticleUpsertBulk) SetAuthor(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateAuthor() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateAuthor()
-	})
-}
-
-// SetTags sets the "tags" field.
-func (u *ArticleUpsertBulk) SetTags(v []string) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetTags(v)
-	})
-}
-
-// UpdateTags sets the "tags" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateTags() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateTags()
 	})
 }
 

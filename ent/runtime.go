@@ -57,44 +57,40 @@ func init() {
 	articleDescAuthor := articleFields[7].Descriptor()
 	// article.DefaultAuthor holds the default value on creation for the author field.
 	article.DefaultAuthor = articleDescAuthor.Default.(string)
-	// articleDescTags is the schema descriptor for tags field.
-	articleDescTags := articleFields[8].Descriptor()
-	// article.DefaultTags holds the default value on creation for the tags field.
-	article.DefaultTags = articleDescTags.Default.([]string)
 	// articleDescHTMLChinese is the schema descriptor for html_chinese field.
-	articleDescHTMLChinese := articleFields[10].Descriptor()
+	articleDescHTMLChinese := articleFields[9].Descriptor()
 	// article.DefaultHTMLChinese holds the default value on creation for the html_chinese field.
 	article.DefaultHTMLChinese = articleDescHTMLChinese.Default.(string)
 	// articleDescHTMLEnglish is the schema descriptor for html_english field.
-	articleDescHTMLEnglish := articleFields[11].Descriptor()
+	articleDescHTMLEnglish := articleFields[10].Descriptor()
 	// article.DefaultHTMLEnglish holds the default value on creation for the html_english field.
 	article.DefaultHTMLEnglish = articleDescHTMLEnglish.Default.(string)
 	// articleDescTextChinese is the schema descriptor for text_chinese field.
-	articleDescTextChinese := articleFields[12].Descriptor()
+	articleDescTextChinese := articleFields[11].Descriptor()
 	// article.DefaultTextChinese holds the default value on creation for the text_chinese field.
 	article.DefaultTextChinese = articleDescTextChinese.Default.(string)
 	// articleDescTextEnglish is the schema descriptor for text_english field.
-	articleDescTextEnglish := articleFields[13].Descriptor()
+	articleDescTextEnglish := articleFields[12].Descriptor()
 	// article.DefaultTextEnglish holds the default value on creation for the text_english field.
 	article.DefaultTextEnglish = articleDescTextEnglish.Default.(string)
 	// articleDescIsChinaRelated is the schema descriptor for is_china_related field.
-	articleDescIsChinaRelated := articleFields[14].Descriptor()
+	articleDescIsChinaRelated := articleFields[13].Descriptor()
 	// article.DefaultIsChinaRelated holds the default value on creation for the is_china_related field.
 	article.DefaultIsChinaRelated = articleDescIsChinaRelated.Default.(bool)
 	// articleDescChinaRelatedKeywords is the schema descriptor for china_related_keywords field.
-	articleDescChinaRelatedKeywords := articleFields[15].Descriptor()
+	articleDescChinaRelatedKeywords := articleFields[14].Descriptor()
 	// article.DefaultChinaRelatedKeywords holds the default value on creation for the china_related_keywords field.
 	article.DefaultChinaRelatedKeywords = articleDescChinaRelatedKeywords.Default.([]string)
 	// articleDescIsChinaStrongRelated is the schema descriptor for is_china_strong_related field.
-	articleDescIsChinaStrongRelated := articleFields[16].Descriptor()
+	articleDescIsChinaStrongRelated := articleFields[15].Descriptor()
 	// article.DefaultIsChinaStrongRelated holds the default value on creation for the is_china_strong_related field.
 	article.DefaultIsChinaStrongRelated = articleDescIsChinaStrongRelated.Default.(bool)
 	// articleDescChinaRelatedCategory is the schema descriptor for china_related_category field.
-	articleDescChinaRelatedCategory := articleFields[17].Descriptor()
+	articleDescChinaRelatedCategory := articleFields[16].Descriptor()
 	// article.DefaultChinaRelatedCategory holds the default value on creation for the china_related_category field.
 	article.DefaultChinaRelatedCategory = articleDescChinaRelatedCategory.Default.(string)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[18].Descriptor()
+	articleDescSummaryChinese := articleFields[17].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
 	htmlFields := schema.Html{}.Fields()

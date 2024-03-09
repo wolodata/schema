@@ -19,7 +19,6 @@ var (
 		{Name: "title_chinese", Type: field.TypeString, Default: ""},
 		{Name: "title_english", Type: field.TypeString, Default: ""},
 		{Name: "author", Type: field.TypeString, Default: ""},
-		{Name: "tags", Type: field.TypeJSON},
 		{Name: "published_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "html_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "html_english", Type: field.TypeString, Size: 2147483647, Default: ""},
@@ -65,22 +64,22 @@ var (
 			{
 				Name:    "article_is_china_related",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[14]},
+				Columns: []*schema.Column{TArticleColumns[13]},
 			},
 			{
 				Name:    "article_china_related_keywords",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[15]},
+				Columns: []*schema.Column{TArticleColumns[14]},
 			},
 			{
 				Name:    "article_is_china_strong_related",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[16]},
+				Columns: []*schema.Column{TArticleColumns[15]},
 			},
 			{
 				Name:    "article_china_related_category",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[17]},
+				Columns: []*schema.Column{TArticleColumns[16]},
 			},
 		},
 	}

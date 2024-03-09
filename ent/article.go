@@ -32,8 +32,6 @@ type Article struct {
 	TitleEnglish string `json:"title_english,omitempty"`
 	// Author holds the value of the "author" field.
 	Author string `json:"author,omitempty"`
-	// Tags holds the value of the "tags" field.
-	Tags []string `json:"tags,omitempty"`
 	// PublishedAt holds the value of the "published_at" field.
 	PublishedAt time.Time `json:"published_at,omitempty"`
 	// HTMLChinese holds the value of the "html_chinese" field.
@@ -62,7 +60,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldTags, article.FieldChinaRelatedKeywords:
+		case article.FieldChinaRelatedKeywords:
 			values[i] = new([]byte)
 		case article.FieldIsChinese, article.FieldIsChinaRelated, article.FieldIsChinaStrongRelated:
 			values[i] = new(sql.NullBool)
@@ -134,14 +132,6 @@ func (a *Article) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field author", values[i])
 			} else if value.Valid {
 				a.Author = value.String
-			}
-		case article.FieldTags:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field tags", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.Tags); err != nil {
-					return fmt.Errorf("unmarshal field tags: %w", err)
-				}
 			}
 		case article.FieldPublishedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -261,9 +251,6 @@ func (a *Article) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("author=")
 	builder.WriteString(a.Author)
-	builder.WriteString(", ")
-	builder.WriteString("tags=")
-	builder.WriteString(fmt.Sprintf("%v", a.Tags))
 	builder.WriteString(", ")
 	builder.WriteString("published_at=")
 	builder.WriteString(a.PublishedAt.Format(time.ANSIC))

@@ -25,8 +25,6 @@ const (
 	FieldTitleEnglish = "title_english"
 	// FieldAuthor holds the string denoting the author field in the database.
 	FieldAuthor = "author"
-	// FieldTags holds the string denoting the tags field in the database.
-	FieldTags = "tags"
 	// FieldPublishedAt holds the string denoting the published_at field in the database.
 	FieldPublishedAt = "published_at"
 	// FieldHTMLChinese holds the string denoting the html_chinese field in the database.
@@ -61,7 +59,6 @@ var Columns = []string{
 	FieldTitleChinese,
 	FieldTitleEnglish,
 	FieldAuthor,
-	FieldTags,
 	FieldPublishedAt,
 	FieldHTMLChinese,
 	FieldHTMLEnglish,
@@ -97,8 +94,6 @@ var (
 	DefaultTitleEnglish string
 	// DefaultAuthor holds the default value on creation for the "author" field.
 	DefaultAuthor string
-	// DefaultTags holds the default value on creation for the "tags" field.
-	DefaultTags []string
 	// DefaultHTMLChinese holds the default value on creation for the "html_chinese" field.
 	DefaultHTMLChinese string
 	// DefaultHTMLEnglish holds the default value on creation for the "html_english" field.

@@ -48,8 +48,6 @@ type ArticleMutation struct {
 	title_chinese                *string
 	title_english                *string
 	author                       *string
-	tags                         *[]string
-	appendtags                   []string
 	published_at                 *time.Time
 	html_chinese                 *string
 	html_english                 *string
@@ -421,57 +419,6 @@ func (m *ArticleMutation) OldAuthor(ctx context.Context) (v string, err error) {
 // ResetAuthor resets all changes to the "author" field.
 func (m *ArticleMutation) ResetAuthor() {
 	m.author = nil
-}
-
-// SetTags sets the "tags" field.
-func (m *ArticleMutation) SetTags(s []string) {
-	m.tags = &s
-	m.appendtags = nil
-}
-
-// Tags returns the value of the "tags" field in the mutation.
-func (m *ArticleMutation) Tags() (r []string, exists bool) {
-	v := m.tags
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTags returns the old "tags" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldTags(ctx context.Context) (v []string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTags is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTags requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTags: %w", err)
-	}
-	return oldValue.Tags, nil
-}
-
-// AppendTags adds s to the "tags" field.
-func (m *ArticleMutation) AppendTags(s []string) {
-	m.appendtags = append(m.appendtags, s...)
-}
-
-// AppendedTags returns the list of values that were appended to the "tags" field in this mutation.
-func (m *ArticleMutation) AppendedTags() ([]string, bool) {
-	if len(m.appendtags) == 0 {
-		return nil, false
-	}
-	return m.appendtags, true
-}
-
-// ResetTags resets all changes to the "tags" field.
-func (m *ArticleMutation) ResetTags() {
-	m.tags = nil
-	m.appendtags = nil
 }
 
 // SetPublishedAt sets the "published_at" field.
@@ -883,7 +830,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 18)
+	fields := make([]string, 0, 17)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -904,9 +851,6 @@ func (m *ArticleMutation) Fields() []string {
 	}
 	if m.author != nil {
 		fields = append(fields, article.FieldAuthor)
-	}
-	if m.tags != nil {
-		fields = append(fields, article.FieldTags)
 	}
 	if m.published_at != nil {
 		fields = append(fields, article.FieldPublishedAt)
@@ -960,8 +904,6 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.TitleEnglish()
 	case article.FieldAuthor:
 		return m.Author()
-	case article.FieldTags:
-		return m.Tags()
 	case article.FieldPublishedAt:
 		return m.PublishedAt()
 	case article.FieldHTMLChinese:
@@ -1005,8 +947,6 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldTitleEnglish(ctx)
 	case article.FieldAuthor:
 		return m.OldAuthor(ctx)
-	case article.FieldTags:
-		return m.OldTags(ctx)
 	case article.FieldPublishedAt:
 		return m.OldPublishedAt(ctx)
 	case article.FieldHTMLChinese:
@@ -1084,13 +1024,6 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAuthor(v)
-		return nil
-	case article.FieldTags:
-		v, ok := value.([]string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTags(v)
 		return nil
 	case article.FieldPublishedAt:
 		v, ok := value.(time.Time)
@@ -1231,9 +1164,6 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldAuthor:
 		m.ResetAuthor()
-		return nil
-	case article.FieldTags:
-		m.ResetTags()
 		return nil
 	case article.FieldPublishedAt:
 		m.ResetPublishedAt()
