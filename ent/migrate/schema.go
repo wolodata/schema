@@ -11,7 +11,7 @@ import (
 var (
 	// TArticleColumns holds the columns for the "t_article" table.
 	TArticleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "origin_short_id", Type: field.TypeString},
 		{Name: "is_chinese", Type: field.TypeBool, Default: false},
 		{Name: "origin_type", Type: field.TypeString},
@@ -80,7 +80,7 @@ var (
 	}
 	// THTMLColumns holds the columns for the "t_html" table.
 	THTMLColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "origin_short_id", Type: field.TypeString},
 		{Name: "is_chinese", Type: field.TypeBool, Default: false},
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
@@ -112,7 +112,7 @@ var (
 	}
 	// TReportColumns holds the columns for the "t_report" table.
 	TReportColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "report_type", Type: field.TypeString},
 		{Name: "trigger_user_id", Type: field.TypeInt32, Nullable: true},
 		{Name: "trigger_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
@@ -151,7 +151,7 @@ var (
 	}
 	// TTopicColumns holds the columns for the "t_topic" table.
 	TTopicColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "user_id", Type: field.TypeInt32},
 		{Name: "keyword", Type: field.TypeString},
 		{Name: "follow_title", Type: field.TypeBool, Default: false},
@@ -182,7 +182,7 @@ var (
 	}
 	// TUserColumns holds the columns for the "t_user" table.
 	TUserColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "is_admin", Type: field.TypeBool, Default: false},

@@ -17,7 +17,7 @@ import (
 type Report struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int32 `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 	// ReportType holds the value of the "report_type" field.
 	ReportType string `json:"report_type,omitempty"`
 	// TriggerUserID holds the value of the "trigger_user_id" field.
@@ -68,7 +68,7 @@ func (r *Report) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			r.ID = int32(value.Int64)
+			r.ID = int64(value.Int64)
 		case report.FieldReportType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field report_type", values[i])

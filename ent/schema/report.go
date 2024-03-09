@@ -17,7 +17,7 @@ type Report struct {
 
 func (Report) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("id").Immutable(),
+		field.Int64("id").Immutable(),
 		field.String("report_type").NotEmpty().Immutable(),
 		field.Int32("trigger_user_id").Optional().Immutable(),
 		field.Time("trigger_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),

@@ -81,8 +81,8 @@ func (hq *HTMLQuery) FirstX(ctx context.Context) *Html {
 
 // FirstID returns the first Html ID from the query.
 // Returns a *NotFoundError when no Html ID was found.
-func (hq *HTMLQuery) FirstID(ctx context.Context) (id int32, err error) {
-	var ids []int32
+func (hq *HTMLQuery) FirstID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = hq.Limit(1).IDs(setContextOp(ctx, hq.ctx, "FirstID")); err != nil {
 		return
 	}
@@ -94,7 +94,7 @@ func (hq *HTMLQuery) FirstID(ctx context.Context) (id int32, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (hq *HTMLQuery) FirstIDX(ctx context.Context) int32 {
+func (hq *HTMLQuery) FirstIDX(ctx context.Context) int64 {
 	id, err := hq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -132,8 +132,8 @@ func (hq *HTMLQuery) OnlyX(ctx context.Context) *Html {
 // OnlyID is like Only, but returns the only Html ID in the query.
 // Returns a *NotSingularError when more than one Html ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (hq *HTMLQuery) OnlyID(ctx context.Context) (id int32, err error) {
-	var ids []int32
+func (hq *HTMLQuery) OnlyID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = hq.Limit(2).IDs(setContextOp(ctx, hq.ctx, "OnlyID")); err != nil {
 		return
 	}
@@ -149,7 +149,7 @@ func (hq *HTMLQuery) OnlyID(ctx context.Context) (id int32, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (hq *HTMLQuery) OnlyIDX(ctx context.Context) int32 {
+func (hq *HTMLQuery) OnlyIDX(ctx context.Context) int64 {
 	id, err := hq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -177,7 +177,7 @@ func (hq *HTMLQuery) AllX(ctx context.Context) []*Html {
 }
 
 // IDs executes the query and returns a list of Html IDs.
-func (hq *HTMLQuery) IDs(ctx context.Context) (ids []int32, err error) {
+func (hq *HTMLQuery) IDs(ctx context.Context) (ids []int64, err error) {
 	if hq.ctx.Unique == nil && hq.path != nil {
 		hq.Unique(true)
 	}
@@ -189,7 +189,7 @@ func (hq *HTMLQuery) IDs(ctx context.Context) (ids []int32, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (hq *HTMLQuery) IDsX(ctx context.Context) []int32 {
+func (hq *HTMLQuery) IDsX(ctx context.Context) []int64 {
 	ids, err := hq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -364,7 +364,7 @@ func (hq *HTMLQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (hq *HTMLQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(html.Table, html.Columns, sqlgraph.NewFieldSpec(html.FieldID, field.TypeInt32))
+	_spec := sqlgraph.NewQuerySpec(html.Table, html.Columns, sqlgraph.NewFieldSpec(html.FieldID, field.TypeInt64))
 	_spec.From = hq.sql
 	if unique := hq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

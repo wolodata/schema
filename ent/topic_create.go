@@ -62,7 +62,7 @@ func (tc *TopicCreate) SetNillableFollowContent(b *bool) *TopicCreate {
 }
 
 // SetID sets the "id" field.
-func (tc *TopicCreate) SetID(i int32) *TopicCreate {
+func (tc *TopicCreate) SetID(i int64) *TopicCreate {
 	tc.mutation.SetID(i)
 	return tc
 }
@@ -147,7 +147,7 @@ func (tc *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = int32(id)
+		_node.ID = int64(id)
 	}
 	tc.mutation.id = &_node.ID
 	tc.mutation.done = true
@@ -157,7 +157,7 @@ func (tc *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
 func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Topic{config: tc.config}
-		_spec = sqlgraph.NewCreateSpec(topic.Table, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeInt32))
+		_spec = sqlgraph.NewCreateSpec(topic.Table, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeInt64))
 	)
 	_spec.OnConflict = tc.conflict
 	if id, ok := tc.mutation.ID(); ok {
@@ -377,7 +377,7 @@ func (u *TopicUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *TopicUpsertOne) ID(ctx context.Context) (id int32, err error) {
+func (u *TopicUpsertOne) ID(ctx context.Context) (id int64, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -386,7 +386,7 @@ func (u *TopicUpsertOne) ID(ctx context.Context) (id int32, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *TopicUpsertOne) IDX(ctx context.Context) int32 {
+func (u *TopicUpsertOne) IDX(ctx context.Context) int64 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -443,7 +443,7 @@ func (tcb *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int32(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

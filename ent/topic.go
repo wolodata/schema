@@ -15,7 +15,7 @@ import (
 type Topic struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int32 `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 	// UserID holds the value of the "user_id" field.
 	UserID int32 `json:"user_id,omitempty"`
 	// Keyword holds the value of the "keyword" field.
@@ -58,7 +58,7 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			t.ID = int32(value.Int64)
+			t.ID = int64(value.Int64)
 		case topic.FieldUserID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])

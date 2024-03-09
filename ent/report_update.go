@@ -103,7 +103,7 @@ func (ru *ReportUpdate) ExecX(ctx context.Context) {
 }
 
 func (ru *ReportUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeInt32))
+	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeInt64))
 	if ps := ru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -231,7 +231,7 @@ func (ruo *ReportUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (ruo *ReportUpdateOne) sqlSave(ctx context.Context) (_node *Report, err error) {
-	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeInt32))
+	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeInt64))
 	id, ok := ruo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Report.id" for update`)}

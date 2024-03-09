@@ -97,7 +97,7 @@ func (rc *ReportCreate) SetNillableGeneratedAt(t *time.Time) *ReportCreate {
 }
 
 // SetID sets the "id" field.
-func (rc *ReportCreate) SetID(i int32) *ReportCreate {
+func (rc *ReportCreate) SetID(i int64) *ReportCreate {
 	rc.mutation.SetID(i)
 	return rc
 }
@@ -196,7 +196,7 @@ func (rc *ReportCreate) sqlSave(ctx context.Context) (*Report, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = int32(id)
+		_node.ID = int64(id)
 	}
 	rc.mutation.id = &_node.ID
 	rc.mutation.done = true
@@ -206,7 +206,7 @@ func (rc *ReportCreate) sqlSave(ctx context.Context) (*Report, error) {
 func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Report{config: rc.config}
-		_spec = sqlgraph.NewCreateSpec(report.Table, sqlgraph.NewFieldSpec(report.FieldID, field.TypeInt32))
+		_spec = sqlgraph.NewCreateSpec(report.Table, sqlgraph.NewFieldSpec(report.FieldID, field.TypeInt64))
 	)
 	_spec.OnConflict = rc.conflict
 	if id, ok := rc.mutation.ID(); ok {
@@ -447,7 +447,7 @@ func (u *ReportUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *ReportUpsertOne) ID(ctx context.Context) (id int32, err error) {
+func (u *ReportUpsertOne) ID(ctx context.Context) (id int64, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -456,7 +456,7 @@ func (u *ReportUpsertOne) ID(ctx context.Context) (id int32, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *ReportUpsertOne) IDX(ctx context.Context) int32 {
+func (u *ReportUpsertOne) IDX(ctx context.Context) int64 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -513,7 +513,7 @@ func (rcb *ReportCreateBulk) Save(ctx context.Context) ([]*Report, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int32(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil
