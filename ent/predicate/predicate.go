@@ -15,9 +15,6 @@ type Html func(*sql.Selector)
 // Report is the predicate function for report builders.
 type Report func(*sql.Selector)
 
-// Tag is the predicate function for tag builders.
-type Tag func(*sql.Selector)
-
 // Topic is the predicate function for topic builders.
 type Topic func(*sql.Selector)
 

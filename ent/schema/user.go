@@ -17,12 +17,14 @@ func (User) Fields() []ent.Field {
 		field.Int32("id").Immutable(),
 		field.String("username").Unique().Immutable(),
 		field.String("password").Immutable(),
+		field.Bool("is_admin").Default(false).Immutable(),
 	}
 }
 
 func (User) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("username"),
+		index.Fields("is_admin"),
 	}
 }
 

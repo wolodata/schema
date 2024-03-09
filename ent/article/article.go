@@ -37,10 +37,16 @@ const (
 	FieldTextChinese = "text_chinese"
 	// FieldTextEnglish holds the string denoting the text_english field in the database.
 	FieldTextEnglish = "text_english"
+	// FieldIsChinaRelated holds the string denoting the is_china_related field in the database.
+	FieldIsChinaRelated = "is_china_related"
+	// FieldChinaRelatedKeywords holds the string denoting the china_related_keywords field in the database.
+	FieldChinaRelatedKeywords = "china_related_keywords"
+	// FieldIsChinaStrongRelated holds the string denoting the is_china_strong_related field in the database.
+	FieldIsChinaStrongRelated = "is_china_strong_related"
+	// FieldChinaRelatedCategory holds the string denoting the china_related_category field in the database.
+	FieldChinaRelatedCategory = "china_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
-	// FieldCategory holds the string denoting the category field in the database.
-	FieldCategory = "category"
 	// Table holds the table name of the article in the database.
 	Table = "t_article"
 )
@@ -61,8 +67,11 @@ var Columns = []string{
 	FieldHTMLEnglish,
 	FieldTextChinese,
 	FieldTextEnglish,
+	FieldIsChinaRelated,
+	FieldChinaRelatedKeywords,
+	FieldIsChinaStrongRelated,
+	FieldChinaRelatedCategory,
 	FieldSummaryChinese,
-	FieldCategory,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -98,10 +107,16 @@ var (
 	DefaultTextChinese string
 	// DefaultTextEnglish holds the default value on creation for the "text_english" field.
 	DefaultTextEnglish string
+	// DefaultIsChinaRelated holds the default value on creation for the "is_china_related" field.
+	DefaultIsChinaRelated bool
+	// DefaultChinaRelatedKeywords holds the default value on creation for the "china_related_keywords" field.
+	DefaultChinaRelatedKeywords []string
+	// DefaultIsChinaStrongRelated holds the default value on creation for the "is_china_strong_related" field.
+	DefaultIsChinaStrongRelated bool
+	// DefaultChinaRelatedCategory holds the default value on creation for the "china_related_category" field.
+	DefaultChinaRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
-	// DefaultCategory holds the default value on creation for the "category" field.
-	DefaultCategory string
 )
 
 // OrderOption defines the ordering options for the Article queries.
@@ -172,12 +187,22 @@ func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
 }
 
+// ByIsChinaRelated orders the results by the is_china_related field.
+func ByIsChinaRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsChinaRelated, opts...).ToFunc()
+}
+
+// ByIsChinaStrongRelated orders the results by the is_china_strong_related field.
+func ByIsChinaStrongRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsChinaStrongRelated, opts...).ToFunc()
+}
+
+// ByChinaRelatedCategory orders the results by the china_related_category field.
+func ByChinaRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChinaRelatedCategory, opts...).ToFunc()
+}
+
 // BySummaryChinese orders the results by the summary_chinese field.
 func BySummaryChinese(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSummaryChinese, opts...).ToFunc()
-}
-
-// ByCategory orders the results by the category field.
-func ByCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCategory, opts...).ToFunc()
 }

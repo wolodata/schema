@@ -45,18 +45,6 @@ func (f ReportFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, erro
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ReportMutation", m)
 }
 
-// The TagFunc type is an adapter to allow the use of ordinary
-// function as Tag mutator.
-type TagFunc func(context.Context, *ent.TagMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f TagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TagMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TagMutation", m)
-}
-
 // The TopicFunc type is an adapter to allow the use of ordinary
 // function as Topic mutator.
 type TopicFunc func(context.Context, *ent.TopicMutation) (ent.Value, error)

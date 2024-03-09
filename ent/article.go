@@ -44,11 +44,17 @@ type Article struct {
 	TextChinese string `json:"text_chinese,omitempty"`
 	// TextEnglish holds the value of the "text_english" field.
 	TextEnglish string `json:"text_english,omitempty"`
+	// IsChinaRelated holds the value of the "is_china_related" field.
+	IsChinaRelated bool `json:"is_china_related,omitempty"`
+	// ChinaRelatedKeywords holds the value of the "china_related_keywords" field.
+	ChinaRelatedKeywords []string `json:"china_related_keywords,omitempty"`
+	// IsChinaStrongRelated holds the value of the "is_china_strong_related" field.
+	IsChinaStrongRelated bool `json:"is_china_strong_related,omitempty"`
+	// ChinaRelatedCategory holds the value of the "china_related_category" field.
+	ChinaRelatedCategory string `json:"china_related_category,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
-	// Category holds the value of the "category" field.
-	Category     string `json:"category,omitempty"`
-	selectValues sql.SelectValues
+	selectValues   sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -56,13 +62,13 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldTags:
+		case article.FieldTags, article.FieldChinaRelatedKeywords:
 			values[i] = new([]byte)
-		case article.FieldIsChinese:
+		case article.FieldIsChinese, article.FieldIsChinaRelated, article.FieldIsChinaStrongRelated:
 			values[i] = new(sql.NullBool)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese, article.FieldCategory:
+		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldChinaRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -167,17 +173,37 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.TextEnglish = value.String
 			}
+		case article.FieldIsChinaRelated:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field is_china_related", values[i])
+			} else if value.Valid {
+				a.IsChinaRelated = value.Bool
+			}
+		case article.FieldChinaRelatedKeywords:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field china_related_keywords", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &a.ChinaRelatedKeywords); err != nil {
+					return fmt.Errorf("unmarshal field china_related_keywords: %w", err)
+				}
+			}
+		case article.FieldIsChinaStrongRelated:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field is_china_strong_related", values[i])
+			} else if value.Valid {
+				a.IsChinaStrongRelated = value.Bool
+			}
+		case article.FieldChinaRelatedCategory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field china_related_category", values[i])
+			} else if value.Valid {
+				a.ChinaRelatedCategory = value.String
+			}
 		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field summary_chinese", values[i])
 			} else if value.Valid {
 				a.SummaryChinese = value.String
-			}
-		case article.FieldCategory:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field category", values[i])
-			} else if value.Valid {
-				a.Category = value.String
 			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
@@ -254,11 +280,20 @@ func (a *Article) String() string {
 	builder.WriteString("text_english=")
 	builder.WriteString(a.TextEnglish)
 	builder.WriteString(", ")
+	builder.WriteString("is_china_related=")
+	builder.WriteString(fmt.Sprintf("%v", a.IsChinaRelated))
+	builder.WriteString(", ")
+	builder.WriteString("china_related_keywords=")
+	builder.WriteString(fmt.Sprintf("%v", a.ChinaRelatedKeywords))
+	builder.WriteString(", ")
+	builder.WriteString("is_china_strong_related=")
+	builder.WriteString(fmt.Sprintf("%v", a.IsChinaStrongRelated))
+	builder.WriteString(", ")
+	builder.WriteString("china_related_category=")
+	builder.WriteString(a.ChinaRelatedCategory)
+	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)
-	builder.WriteString(", ")
-	builder.WriteString("category=")
-	builder.WriteString(a.Category)
 	builder.WriteByte(')')
 	return builder.String()
 }

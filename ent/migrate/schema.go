@@ -25,8 +25,11 @@ var (
 		{Name: "html_english", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "text_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "text_english", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "is_china_related", Type: field.TypeBool, Default: false},
+		{Name: "china_related_keywords", Type: field.TypeJSON},
+		{Name: "is_china_strong_related", Type: field.TypeBool, Default: false},
+		{Name: "china_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
-		{Name: "category", Type: field.TypeString, Default: ""},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
 	TArticleTable = &schema.Table{
@@ -60,9 +63,24 @@ var (
 				Columns: []*schema.Column{TArticleColumns[3]},
 			},
 			{
-				Name:    "article_category",
+				Name:    "article_is_china_related",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[14]},
+			},
+			{
+				Name:    "article_china_related_keywords",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[15]},
+			},
+			{
+				Name:    "article_is_china_strong_related",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[16]},
+			},
+			{
+				Name:    "article_china_related_category",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[17]},
 			},
 		},
 	}
@@ -137,18 +155,6 @@ var (
 			},
 		},
 	}
-	// TTagColumns holds the columns for the "t_tag" table.
-	TTagColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true},
-		{Name: "english", Type: field.TypeString, Unique: true},
-		{Name: "chinese", Type: field.TypeString, Default: ""},
-	}
-	// TTagTable holds the schema information for the "t_tag" table.
-	TTagTable = &schema.Table{
-		Name:       "t_tag",
-		Columns:    TTagColumns,
-		PrimaryKey: []*schema.Column{TTagColumns[0]},
-	}
 	// TTopicColumns holds the columns for the "t_topic" table.
 	TTopicColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt32, Increment: true},
@@ -185,6 +191,7 @@ var (
 		{Name: "id", Type: field.TypeInt32, Increment: true},
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "password", Type: field.TypeString},
+		{Name: "is_admin", Type: field.TypeBool, Default: false},
 	}
 	// TUserTable holds the schema information for the "t_user" table.
 	TUserTable = &schema.Table{
@@ -197,6 +204,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{TUserColumns[1]},
 			},
+			{
+				Name:    "user_is_admin",
+				Unique:  false,
+				Columns: []*schema.Column{TUserColumns[3]},
+			},
 		},
 	}
 	// Tables holds all the tables in the schema.
@@ -204,7 +216,6 @@ var (
 		TArticleTable,
 		THTMLTable,
 		TReportTable,
-		TTagTable,
 		TTopicTable,
 		TUserTable,
 	}
@@ -223,11 +234,6 @@ func init() {
 	}
 	TReportTable.Annotation = &entsql.Annotation{
 		Table:     "t_report",
-		Charset:   "utf8mb4",
-		Collation: "utf8mb4_general_ci",
-	}
-	TTagTable.Annotation = &entsql.Annotation{
-		Table:     "t_tag",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

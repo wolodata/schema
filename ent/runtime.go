@@ -9,8 +9,8 @@ import (
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
-	"github.com/wolodata/schema/ent/tag"
 	"github.com/wolodata/schema/ent/topic"
+	"github.com/wolodata/schema/ent/user"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -77,14 +77,26 @@ func init() {
 	articleDescTextEnglish := articleFields[13].Descriptor()
 	// article.DefaultTextEnglish holds the default value on creation for the text_english field.
 	article.DefaultTextEnglish = articleDescTextEnglish.Default.(string)
+	// articleDescIsChinaRelated is the schema descriptor for is_china_related field.
+	articleDescIsChinaRelated := articleFields[14].Descriptor()
+	// article.DefaultIsChinaRelated holds the default value on creation for the is_china_related field.
+	article.DefaultIsChinaRelated = articleDescIsChinaRelated.Default.(bool)
+	// articleDescChinaRelatedKeywords is the schema descriptor for china_related_keywords field.
+	articleDescChinaRelatedKeywords := articleFields[15].Descriptor()
+	// article.DefaultChinaRelatedKeywords holds the default value on creation for the china_related_keywords field.
+	article.DefaultChinaRelatedKeywords = articleDescChinaRelatedKeywords.Default.([]string)
+	// articleDescIsChinaStrongRelated is the schema descriptor for is_china_strong_related field.
+	articleDescIsChinaStrongRelated := articleFields[16].Descriptor()
+	// article.DefaultIsChinaStrongRelated holds the default value on creation for the is_china_strong_related field.
+	article.DefaultIsChinaStrongRelated = articleDescIsChinaStrongRelated.Default.(bool)
+	// articleDescChinaRelatedCategory is the schema descriptor for china_related_category field.
+	articleDescChinaRelatedCategory := articleFields[17].Descriptor()
+	// article.DefaultChinaRelatedCategory holds the default value on creation for the china_related_category field.
+	article.DefaultChinaRelatedCategory = articleDescChinaRelatedCategory.Default.(string)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[14].Descriptor()
+	articleDescSummaryChinese := articleFields[18].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
-	// articleDescCategory is the schema descriptor for category field.
-	articleDescCategory := articleFields[15].Descriptor()
-	// article.DefaultCategory holds the default value on creation for the category field.
-	article.DefaultCategory = articleDescCategory.Default.(string)
 	htmlFields := schema.Html{}.Fields()
 	_ = htmlFields
 	// htmlDescOriginShortID is the schema descriptor for origin_short_id field.
@@ -143,16 +155,6 @@ func init() {
 	reportDescGeneratedAt := reportFields[7].Descriptor()
 	// report.DefaultGeneratedAt holds the default value on creation for the generated_at field.
 	report.DefaultGeneratedAt = reportDescGeneratedAt.Default.(func() time.Time)
-	tagFields := schema.Tag{}.Fields()
-	_ = tagFields
-	// tagDescEnglish is the schema descriptor for english field.
-	tagDescEnglish := tagFields[1].Descriptor()
-	// tag.EnglishValidator is a validator for the "english" field. It is called by the builders before save.
-	tag.EnglishValidator = tagDescEnglish.Validators[0].(func(string) error)
-	// tagDescChinese is the schema descriptor for chinese field.
-	tagDescChinese := tagFields[2].Descriptor()
-	// tag.DefaultChinese holds the default value on creation for the chinese field.
-	tag.DefaultChinese = tagDescChinese.Default.(string)
 	topicFields := schema.Topic{}.Fields()
 	_ = topicFields
 	// topicDescKeyword is the schema descriptor for keyword field.
@@ -167,4 +169,10 @@ func init() {
 	topicDescFollowContent := topicFields[4].Descriptor()
 	// topic.DefaultFollowContent holds the default value on creation for the follow_content field.
 	topic.DefaultFollowContent = topicDescFollowContent.Default.(bool)
+	userFields := schema.User{}.Fields()
+	_ = userFields
+	// userDescIsAdmin is the schema descriptor for is_admin field.
+	userDescIsAdmin := userFields[3].Descriptor()
+	// user.DefaultIsAdmin holds the default value on creation for the is_admin field.
+	user.DefaultIsAdmin = userDescIsAdmin.Default.(bool)
 }

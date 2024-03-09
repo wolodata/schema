@@ -15,7 +15,6 @@ import (
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/predicate"
 	"github.com/wolodata/schema/ent/report"
-	"github.com/wolodata/schema/ent/tag"
 	"github.com/wolodata/schema/ent/topic"
 	"github.com/wolodata/schema/ent/user"
 )
@@ -32,7 +31,6 @@ const (
 	TypeArticle = "Article"
 	TypeHTML    = "Html"
 	TypeReport  = "Report"
-	TypeTag     = "Tag"
 	TypeTopic   = "Topic"
 	TypeUser    = "User"
 )
@@ -40,29 +38,33 @@ const (
 // ArticleMutation represents an operation that mutates the Article nodes in the graph.
 type ArticleMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *int32
-	origin_short_id *string
-	is_chinese      *bool
-	origin_type     *string
-	url             *string
-	title_chinese   *string
-	title_english   *string
-	author          *string
-	tags            *[]string
-	appendtags      []string
-	published_at    *time.Time
-	html_chinese    *string
-	html_english    *string
-	text_chinese    *string
-	text_english    *string
-	summary_chinese *string
-	category        *string
-	clearedFields   map[string]struct{}
-	done            bool
-	oldValue        func(context.Context) (*Article, error)
-	predicates      []predicate.Article
+	op                           Op
+	typ                          string
+	id                           *int32
+	origin_short_id              *string
+	is_chinese                   *bool
+	origin_type                  *string
+	url                          *string
+	title_chinese                *string
+	title_english                *string
+	author                       *string
+	tags                         *[]string
+	appendtags                   []string
+	published_at                 *time.Time
+	html_chinese                 *string
+	html_english                 *string
+	text_chinese                 *string
+	text_english                 *string
+	is_china_related             *bool
+	china_related_keywords       *[]string
+	appendchina_related_keywords []string
+	is_china_strong_related      *bool
+	china_related_category       *string
+	summary_chinese              *string
+	clearedFields                map[string]struct{}
+	done                         bool
+	oldValue                     func(context.Context) (*Article, error)
+	predicates                   []predicate.Article
 }
 
 var _ ent.Mutation = (*ArticleMutation)(nil)
@@ -652,6 +654,165 @@ func (m *ArticleMutation) ResetTextEnglish() {
 	m.text_english = nil
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (m *ArticleMutation) SetIsChinaRelated(b bool) {
+	m.is_china_related = &b
+}
+
+// IsChinaRelated returns the value of the "is_china_related" field in the mutation.
+func (m *ArticleMutation) IsChinaRelated() (r bool, exists bool) {
+	v := m.is_china_related
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsChinaRelated returns the old "is_china_related" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldIsChinaRelated(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsChinaRelated is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsChinaRelated requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsChinaRelated: %w", err)
+	}
+	return oldValue.IsChinaRelated, nil
+}
+
+// ResetIsChinaRelated resets all changes to the "is_china_related" field.
+func (m *ArticleMutation) ResetIsChinaRelated() {
+	m.is_china_related = nil
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (m *ArticleMutation) SetChinaRelatedKeywords(s []string) {
+	m.china_related_keywords = &s
+	m.appendchina_related_keywords = nil
+}
+
+// ChinaRelatedKeywords returns the value of the "china_related_keywords" field in the mutation.
+func (m *ArticleMutation) ChinaRelatedKeywords() (r []string, exists bool) {
+	v := m.china_related_keywords
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldChinaRelatedKeywords returns the old "china_related_keywords" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldChinaRelatedKeywords(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldChinaRelatedKeywords is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldChinaRelatedKeywords requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldChinaRelatedKeywords: %w", err)
+	}
+	return oldValue.ChinaRelatedKeywords, nil
+}
+
+// AppendChinaRelatedKeywords adds s to the "china_related_keywords" field.
+func (m *ArticleMutation) AppendChinaRelatedKeywords(s []string) {
+	m.appendchina_related_keywords = append(m.appendchina_related_keywords, s...)
+}
+
+// AppendedChinaRelatedKeywords returns the list of values that were appended to the "china_related_keywords" field in this mutation.
+func (m *ArticleMutation) AppendedChinaRelatedKeywords() ([]string, bool) {
+	if len(m.appendchina_related_keywords) == 0 {
+		return nil, false
+	}
+	return m.appendchina_related_keywords, true
+}
+
+// ResetChinaRelatedKeywords resets all changes to the "china_related_keywords" field.
+func (m *ArticleMutation) ResetChinaRelatedKeywords() {
+	m.china_related_keywords = nil
+	m.appendchina_related_keywords = nil
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (m *ArticleMutation) SetIsChinaStrongRelated(b bool) {
+	m.is_china_strong_related = &b
+}
+
+// IsChinaStrongRelated returns the value of the "is_china_strong_related" field in the mutation.
+func (m *ArticleMutation) IsChinaStrongRelated() (r bool, exists bool) {
+	v := m.is_china_strong_related
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsChinaStrongRelated returns the old "is_china_strong_related" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldIsChinaStrongRelated(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsChinaStrongRelated is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsChinaStrongRelated requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsChinaStrongRelated: %w", err)
+	}
+	return oldValue.IsChinaStrongRelated, nil
+}
+
+// ResetIsChinaStrongRelated resets all changes to the "is_china_strong_related" field.
+func (m *ArticleMutation) ResetIsChinaStrongRelated() {
+	m.is_china_strong_related = nil
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (m *ArticleMutation) SetChinaRelatedCategory(s string) {
+	m.china_related_category = &s
+}
+
+// ChinaRelatedCategory returns the value of the "china_related_category" field in the mutation.
+func (m *ArticleMutation) ChinaRelatedCategory() (r string, exists bool) {
+	v := m.china_related_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldChinaRelatedCategory returns the old "china_related_category" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldChinaRelatedCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldChinaRelatedCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldChinaRelatedCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldChinaRelatedCategory: %w", err)
+	}
+	return oldValue.ChinaRelatedCategory, nil
+}
+
+// ResetChinaRelatedCategory resets all changes to the "china_related_category" field.
+func (m *ArticleMutation) ResetChinaRelatedCategory() {
+	m.china_related_category = nil
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (m *ArticleMutation) SetSummaryChinese(s string) {
 	m.summary_chinese = &s
@@ -688,42 +849,6 @@ func (m *ArticleMutation) ResetSummaryChinese() {
 	m.summary_chinese = nil
 }
 
-// SetCategory sets the "category" field.
-func (m *ArticleMutation) SetCategory(s string) {
-	m.category = &s
-}
-
-// Category returns the value of the "category" field in the mutation.
-func (m *ArticleMutation) Category() (r string, exists bool) {
-	v := m.category
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCategory returns the old "category" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldCategory(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCategory requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
-	}
-	return oldValue.Category, nil
-}
-
-// ResetCategory resets all changes to the "category" field.
-func (m *ArticleMutation) ResetCategory() {
-	m.category = nil
-}
-
 // Where appends a list predicates to the ArticleMutation builder.
 func (m *ArticleMutation) Where(ps ...predicate.Article) {
 	m.predicates = append(m.predicates, ps...)
@@ -758,7 +883,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 18)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -798,11 +923,20 @@ func (m *ArticleMutation) Fields() []string {
 	if m.text_english != nil {
 		fields = append(fields, article.FieldTextEnglish)
 	}
+	if m.is_china_related != nil {
+		fields = append(fields, article.FieldIsChinaRelated)
+	}
+	if m.china_related_keywords != nil {
+		fields = append(fields, article.FieldChinaRelatedKeywords)
+	}
+	if m.is_china_strong_related != nil {
+		fields = append(fields, article.FieldIsChinaStrongRelated)
+	}
+	if m.china_related_category != nil {
+		fields = append(fields, article.FieldChinaRelatedCategory)
+	}
 	if m.summary_chinese != nil {
 		fields = append(fields, article.FieldSummaryChinese)
-	}
-	if m.category != nil {
-		fields = append(fields, article.FieldCategory)
 	}
 	return fields
 }
@@ -838,10 +972,16 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.TextChinese()
 	case article.FieldTextEnglish:
 		return m.TextEnglish()
+	case article.FieldIsChinaRelated:
+		return m.IsChinaRelated()
+	case article.FieldChinaRelatedKeywords:
+		return m.ChinaRelatedKeywords()
+	case article.FieldIsChinaStrongRelated:
+		return m.IsChinaStrongRelated()
+	case article.FieldChinaRelatedCategory:
+		return m.ChinaRelatedCategory()
 	case article.FieldSummaryChinese:
 		return m.SummaryChinese()
-	case article.FieldCategory:
-		return m.Category()
 	}
 	return nil, false
 }
@@ -877,10 +1017,16 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldTextChinese(ctx)
 	case article.FieldTextEnglish:
 		return m.OldTextEnglish(ctx)
+	case article.FieldIsChinaRelated:
+		return m.OldIsChinaRelated(ctx)
+	case article.FieldChinaRelatedKeywords:
+		return m.OldChinaRelatedKeywords(ctx)
+	case article.FieldIsChinaStrongRelated:
+		return m.OldIsChinaStrongRelated(ctx)
+	case article.FieldChinaRelatedCategory:
+		return m.OldChinaRelatedCategory(ctx)
 	case article.FieldSummaryChinese:
 		return m.OldSummaryChinese(ctx)
-	case article.FieldCategory:
-		return m.OldCategory(ctx)
 	}
 	return nil, fmt.Errorf("unknown Article field %s", name)
 }
@@ -981,19 +1127,40 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetTextEnglish(v)
 		return nil
+	case article.FieldIsChinaRelated:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsChinaRelated(v)
+		return nil
+	case article.FieldChinaRelatedKeywords:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetChinaRelatedKeywords(v)
+		return nil
+	case article.FieldIsChinaStrongRelated:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsChinaStrongRelated(v)
+		return nil
+	case article.FieldChinaRelatedCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetChinaRelatedCategory(v)
+		return nil
 	case article.FieldSummaryChinese:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSummaryChinese(v)
-		return nil
-	case article.FieldCategory:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCategory(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
@@ -1083,11 +1250,20 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldTextEnglish:
 		m.ResetTextEnglish()
 		return nil
+	case article.FieldIsChinaRelated:
+		m.ResetIsChinaRelated()
+		return nil
+	case article.FieldChinaRelatedKeywords:
+		m.ResetChinaRelatedKeywords()
+		return nil
+	case article.FieldIsChinaStrongRelated:
+		m.ResetIsChinaStrongRelated()
+		return nil
+	case article.FieldChinaRelatedCategory:
+		m.ResetChinaRelatedCategory()
+		return nil
 	case article.FieldSummaryChinese:
 		m.ResetSummaryChinese()
-		return nil
-	case article.FieldCategory:
-		m.ResetCategory()
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
@@ -2420,392 +2596,6 @@ func (m *ReportMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Report edge %s", name)
 }
 
-// TagMutation represents an operation that mutates the Tag nodes in the graph.
-type TagMutation struct {
-	config
-	op            Op
-	typ           string
-	id            *int32
-	english       *string
-	chinese       *string
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Tag, error)
-	predicates    []predicate.Tag
-}
-
-var _ ent.Mutation = (*TagMutation)(nil)
-
-// tagOption allows management of the mutation configuration using functional options.
-type tagOption func(*TagMutation)
-
-// newTagMutation creates new mutation for the Tag entity.
-func newTagMutation(c config, op Op, opts ...tagOption) *TagMutation {
-	m := &TagMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeTag,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withTagID sets the ID field of the mutation.
-func withTagID(id int32) tagOption {
-	return func(m *TagMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *Tag
-		)
-		m.oldValue = func(ctx context.Context) (*Tag, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().Tag.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withTag sets the old Tag of the mutation.
-func withTag(node *Tag) tagOption {
-	return func(m *TagMutation) {
-		m.oldValue = func(context.Context) (*Tag, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m TagMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m TagMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of Tag entities.
-func (m *TagMutation) SetID(id int32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *TagMutation) ID() (id int32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *TagMutation) IDs(ctx context.Context) ([]int32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []int32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().Tag.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetEnglish sets the "english" field.
-func (m *TagMutation) SetEnglish(s string) {
-	m.english = &s
-}
-
-// English returns the value of the "english" field in the mutation.
-func (m *TagMutation) English() (r string, exists bool) {
-	v := m.english
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldEnglish returns the old "english" field's value of the Tag entity.
-// If the Tag object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TagMutation) OldEnglish(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldEnglish is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldEnglish requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldEnglish: %w", err)
-	}
-	return oldValue.English, nil
-}
-
-// ResetEnglish resets all changes to the "english" field.
-func (m *TagMutation) ResetEnglish() {
-	m.english = nil
-}
-
-// SetChinese sets the "chinese" field.
-func (m *TagMutation) SetChinese(s string) {
-	m.chinese = &s
-}
-
-// Chinese returns the value of the "chinese" field in the mutation.
-func (m *TagMutation) Chinese() (r string, exists bool) {
-	v := m.chinese
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldChinese returns the old "chinese" field's value of the Tag entity.
-// If the Tag object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TagMutation) OldChinese(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldChinese is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldChinese requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldChinese: %w", err)
-	}
-	return oldValue.Chinese, nil
-}
-
-// ResetChinese resets all changes to the "chinese" field.
-func (m *TagMutation) ResetChinese() {
-	m.chinese = nil
-}
-
-// Where appends a list predicates to the TagMutation builder.
-func (m *TagMutation) Where(ps ...predicate.Tag) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the TagMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *TagMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.Tag, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *TagMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *TagMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (Tag).
-func (m *TagMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *TagMutation) Fields() []string {
-	fields := make([]string, 0, 2)
-	if m.english != nil {
-		fields = append(fields, tag.FieldEnglish)
-	}
-	if m.chinese != nil {
-		fields = append(fields, tag.FieldChinese)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *TagMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case tag.FieldEnglish:
-		return m.English()
-	case tag.FieldChinese:
-		return m.Chinese()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *TagMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case tag.FieldEnglish:
-		return m.OldEnglish(ctx)
-	case tag.FieldChinese:
-		return m.OldChinese(ctx)
-	}
-	return nil, fmt.Errorf("unknown Tag field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *TagMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case tag.FieldEnglish:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetEnglish(v)
-		return nil
-	case tag.FieldChinese:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetChinese(v)
-		return nil
-	}
-	return fmt.Errorf("unknown Tag field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *TagMutation) AddedFields() []string {
-	return nil
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *TagMutation) AddedField(name string) (ent.Value, bool) {
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *TagMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown Tag numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *TagMutation) ClearedFields() []string {
-	return nil
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *TagMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *TagMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown Tag nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *TagMutation) ResetField(name string) error {
-	switch name {
-	case tag.FieldEnglish:
-		m.ResetEnglish()
-		return nil
-	case tag.FieldChinese:
-		m.ResetChinese()
-		return nil
-	}
-	return fmt.Errorf("unknown Tag field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *TagMutation) AddedEdges() []string {
-	edges := make([]string, 0, 0)
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *TagMutation) AddedIDs(name string) []ent.Value {
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *TagMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 0)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *TagMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *TagMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 0)
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *TagMutation) EdgeCleared(name string) bool {
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *TagMutation) ClearEdge(name string) error {
-	return fmt.Errorf("unknown Tag unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *TagMutation) ResetEdge(name string) error {
-	return fmt.Errorf("unknown Tag edge %s", name)
-}
-
 // TopicMutation represents an operation that mutates the Topic nodes in the graph.
 type TopicMutation struct {
 	config
@@ -3344,6 +3134,7 @@ type UserMutation struct {
 	id            *int32
 	username      *string
 	password      *string
+	is_admin      *bool
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*User, error)
@@ -3526,6 +3317,42 @@ func (m *UserMutation) ResetPassword() {
 	m.password = nil
 }
 
+// SetIsAdmin sets the "is_admin" field.
+func (m *UserMutation) SetIsAdmin(b bool) {
+	m.is_admin = &b
+}
+
+// IsAdmin returns the value of the "is_admin" field in the mutation.
+func (m *UserMutation) IsAdmin() (r bool, exists bool) {
+	v := m.is_admin
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsAdmin returns the old "is_admin" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldIsAdmin(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsAdmin is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsAdmin requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsAdmin: %w", err)
+	}
+	return oldValue.IsAdmin, nil
+}
+
+// ResetIsAdmin resets all changes to the "is_admin" field.
+func (m *UserMutation) ResetIsAdmin() {
+	m.is_admin = nil
+}
+
 // Where appends a list predicates to the UserMutation builder.
 func (m *UserMutation) Where(ps ...predicate.User) {
 	m.predicates = append(m.predicates, ps...)
@@ -3560,12 +3387,15 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 3)
 	if m.username != nil {
 		fields = append(fields, user.FieldUsername)
 	}
 	if m.password != nil {
 		fields = append(fields, user.FieldPassword)
+	}
+	if m.is_admin != nil {
+		fields = append(fields, user.FieldIsAdmin)
 	}
 	return fields
 }
@@ -3579,6 +3409,8 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.Username()
 	case user.FieldPassword:
 		return m.Password()
+	case user.FieldIsAdmin:
+		return m.IsAdmin()
 	}
 	return nil, false
 }
@@ -3592,6 +3424,8 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldUsername(ctx)
 	case user.FieldPassword:
 		return m.OldPassword(ctx)
+	case user.FieldIsAdmin:
+		return m.OldIsAdmin(ctx)
 	}
 	return nil, fmt.Errorf("unknown User field %s", name)
 }
@@ -3614,6 +3448,13 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPassword(v)
+		return nil
+	case user.FieldIsAdmin:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsAdmin(v)
 		return nil
 	}
 	return fmt.Errorf("unknown User field %s", name)
@@ -3669,6 +3510,9 @@ func (m *UserMutation) ResetField(name string) error {
 		return nil
 	case user.FieldPassword:
 		m.ResetPassword()
+		return nil
+	case user.FieldIsAdmin:
+		m.ResetIsAdmin()
 		return nil
 	}
 	return fmt.Errorf("unknown User field %s", name)

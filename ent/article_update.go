@@ -138,6 +138,60 @@ func (au *ArticleUpdate) SetNillableTextEnglish(s *string) *ArticleUpdate {
 	return au
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (au *ArticleUpdate) SetIsChinaRelated(b bool) *ArticleUpdate {
+	au.mutation.SetIsChinaRelated(b)
+	return au
+}
+
+// SetNillableIsChinaRelated sets the "is_china_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableIsChinaRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetIsChinaRelated(*b)
+	}
+	return au
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (au *ArticleUpdate) SetChinaRelatedKeywords(s []string) *ArticleUpdate {
+	au.mutation.SetChinaRelatedKeywords(s)
+	return au
+}
+
+// AppendChinaRelatedKeywords appends s to the "china_related_keywords" field.
+func (au *ArticleUpdate) AppendChinaRelatedKeywords(s []string) *ArticleUpdate {
+	au.mutation.AppendChinaRelatedKeywords(s)
+	return au
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (au *ArticleUpdate) SetIsChinaStrongRelated(b bool) *ArticleUpdate {
+	au.mutation.SetIsChinaStrongRelated(b)
+	return au
+}
+
+// SetNillableIsChinaStrongRelated sets the "is_china_strong_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableIsChinaStrongRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetIsChinaStrongRelated(*b)
+	}
+	return au
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (au *ArticleUpdate) SetChinaRelatedCategory(s string) *ArticleUpdate {
+	au.mutation.SetChinaRelatedCategory(s)
+	return au
+}
+
+// SetNillableChinaRelatedCategory sets the "china_related_category" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableChinaRelatedCategory(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetChinaRelatedCategory(*s)
+	}
+	return au
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (au *ArticleUpdate) SetSummaryChinese(s string) *ArticleUpdate {
 	au.mutation.SetSummaryChinese(s)
@@ -148,20 +202,6 @@ func (au *ArticleUpdate) SetSummaryChinese(s string) *ArticleUpdate {
 func (au *ArticleUpdate) SetNillableSummaryChinese(s *string) *ArticleUpdate {
 	if s != nil {
 		au.SetSummaryChinese(*s)
-	}
-	return au
-}
-
-// SetCategory sets the "category" field.
-func (au *ArticleUpdate) SetCategory(s string) *ArticleUpdate {
-	au.mutation.SetCategory(s)
-	return au
-}
-
-// SetNillableCategory sets the "category" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableCategory(s *string) *ArticleUpdate {
-	if s != nil {
-		au.SetCategory(*s)
 	}
 	return au
 }
@@ -236,11 +276,25 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := au.mutation.TextEnglish(); ok {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
 	}
+	if value, ok := au.mutation.IsChinaRelated(); ok {
+		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.ChinaRelatedKeywords(); ok {
+		_spec.SetField(article.FieldChinaRelatedKeywords, field.TypeJSON, value)
+	}
+	if value, ok := au.mutation.AppendedChinaRelatedKeywords(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldChinaRelatedKeywords, value)
+		})
+	}
+	if value, ok := au.mutation.IsChinaStrongRelated(); ok {
+		_spec.SetField(article.FieldIsChinaStrongRelated, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.ChinaRelatedCategory(); ok {
+		_spec.SetField(article.FieldChinaRelatedCategory, field.TypeString, value)
+	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
-	}
-	if value, ok := au.mutation.Category(); ok {
-		_spec.SetField(article.FieldCategory, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -372,6 +426,60 @@ func (auo *ArticleUpdateOne) SetNillableTextEnglish(s *string) *ArticleUpdateOne
 	return auo
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (auo *ArticleUpdateOne) SetIsChinaRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetIsChinaRelated(b)
+	return auo
+}
+
+// SetNillableIsChinaRelated sets the "is_china_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableIsChinaRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetIsChinaRelated(*b)
+	}
+	return auo
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (auo *ArticleUpdateOne) SetChinaRelatedKeywords(s []string) *ArticleUpdateOne {
+	auo.mutation.SetChinaRelatedKeywords(s)
+	return auo
+}
+
+// AppendChinaRelatedKeywords appends s to the "china_related_keywords" field.
+func (auo *ArticleUpdateOne) AppendChinaRelatedKeywords(s []string) *ArticleUpdateOne {
+	auo.mutation.AppendChinaRelatedKeywords(s)
+	return auo
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (auo *ArticleUpdateOne) SetIsChinaStrongRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetIsChinaStrongRelated(b)
+	return auo
+}
+
+// SetNillableIsChinaStrongRelated sets the "is_china_strong_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableIsChinaStrongRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetIsChinaStrongRelated(*b)
+	}
+	return auo
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (auo *ArticleUpdateOne) SetChinaRelatedCategory(s string) *ArticleUpdateOne {
+	auo.mutation.SetChinaRelatedCategory(s)
+	return auo
+}
+
+// SetNillableChinaRelatedCategory sets the "china_related_category" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableChinaRelatedCategory(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetChinaRelatedCategory(*s)
+	}
+	return auo
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (auo *ArticleUpdateOne) SetSummaryChinese(s string) *ArticleUpdateOne {
 	auo.mutation.SetSummaryChinese(s)
@@ -382,20 +490,6 @@ func (auo *ArticleUpdateOne) SetSummaryChinese(s string) *ArticleUpdateOne {
 func (auo *ArticleUpdateOne) SetNillableSummaryChinese(s *string) *ArticleUpdateOne {
 	if s != nil {
 		auo.SetSummaryChinese(*s)
-	}
-	return auo
-}
-
-// SetCategory sets the "category" field.
-func (auo *ArticleUpdateOne) SetCategory(s string) *ArticleUpdateOne {
-	auo.mutation.SetCategory(s)
-	return auo
-}
-
-// SetNillableCategory sets the "category" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableCategory(s *string) *ArticleUpdateOne {
-	if s != nil {
-		auo.SetCategory(*s)
 	}
 	return auo
 }
@@ -500,11 +594,25 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	if value, ok := auo.mutation.TextEnglish(); ok {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
 	}
+	if value, ok := auo.mutation.IsChinaRelated(); ok {
+		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.ChinaRelatedKeywords(); ok {
+		_spec.SetField(article.FieldChinaRelatedKeywords, field.TypeJSON, value)
+	}
+	if value, ok := auo.mutation.AppendedChinaRelatedKeywords(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldChinaRelatedKeywords, value)
+		})
+	}
+	if value, ok := auo.mutation.IsChinaStrongRelated(); ok {
+		_spec.SetField(article.FieldIsChinaStrongRelated, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.ChinaRelatedCategory(); ok {
+		_spec.SetField(article.FieldChinaRelatedCategory, field.TypeString, value)
+	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
-	}
-	if value, ok := auo.mutation.Category(); ok {
-		_spec.SetField(article.FieldCategory, field.TypeString, value)
 	}
 	_node = &Article{config: auo.config}
 	_spec.Assign = _node.assignValues

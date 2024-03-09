@@ -15,7 +15,6 @@ import (
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/report"
-	"github.com/wolodata/schema/ent/tag"
 	"github.com/wolodata/schema/ent/topic"
 	"github.com/wolodata/schema/ent/user"
 )
@@ -81,7 +80,6 @@ func checkColumn(table, column string) error {
 			article.Table: article.ValidColumn,
 			html.Table:    html.ValidColumn,
 			report.Table:  report.ValidColumn,
-			tag.Table:     tag.ValidColumn,
 			topic.Table:   topic.ValidColumn,
 			user.Table:    user.ValidColumn,
 		})

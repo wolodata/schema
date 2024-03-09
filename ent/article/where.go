@@ -114,14 +114,24 @@ func TextEnglish(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldTextEnglish, v))
 }
 
+// IsChinaRelated applies equality check predicate on the "is_china_related" field. It's identical to IsChinaRelatedEQ.
+func IsChinaRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsChinaRelated, v))
+}
+
+// IsChinaStrongRelated applies equality check predicate on the "is_china_strong_related" field. It's identical to IsChinaStrongRelatedEQ.
+func IsChinaStrongRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsChinaStrongRelated, v))
+}
+
+// ChinaRelatedCategory applies equality check predicate on the "china_related_category" field. It's identical to ChinaRelatedCategoryEQ.
+func ChinaRelatedCategory(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldChinaRelatedCategory, v))
+}
+
 // SummaryChinese applies equality check predicate on the "summary_chinese" field. It's identical to SummaryChineseEQ.
 func SummaryChinese(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
-}
-
-// Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
-func Category(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldCategory, v))
 }
 
 // OriginShortIDEQ applies the EQ predicate on the "origin_short_id" field.
@@ -824,6 +834,91 @@ func TextEnglishContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldTextEnglish, v))
 }
 
+// IsChinaRelatedEQ applies the EQ predicate on the "is_china_related" field.
+func IsChinaRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsChinaRelated, v))
+}
+
+// IsChinaRelatedNEQ applies the NEQ predicate on the "is_china_related" field.
+func IsChinaRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldIsChinaRelated, v))
+}
+
+// IsChinaStrongRelatedEQ applies the EQ predicate on the "is_china_strong_related" field.
+func IsChinaStrongRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsChinaStrongRelated, v))
+}
+
+// IsChinaStrongRelatedNEQ applies the NEQ predicate on the "is_china_strong_related" field.
+func IsChinaStrongRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldIsChinaStrongRelated, v))
+}
+
+// ChinaRelatedCategoryEQ applies the EQ predicate on the "china_related_category" field.
+func ChinaRelatedCategoryEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryNEQ applies the NEQ predicate on the "china_related_category" field.
+func ChinaRelatedCategoryNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryIn applies the In predicate on the "china_related_category" field.
+func ChinaRelatedCategoryIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldChinaRelatedCategory, vs...))
+}
+
+// ChinaRelatedCategoryNotIn applies the NotIn predicate on the "china_related_category" field.
+func ChinaRelatedCategoryNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldChinaRelatedCategory, vs...))
+}
+
+// ChinaRelatedCategoryGT applies the GT predicate on the "china_related_category" field.
+func ChinaRelatedCategoryGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryGTE applies the GTE predicate on the "china_related_category" field.
+func ChinaRelatedCategoryGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryLT applies the LT predicate on the "china_related_category" field.
+func ChinaRelatedCategoryLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryLTE applies the LTE predicate on the "china_related_category" field.
+func ChinaRelatedCategoryLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryContains applies the Contains predicate on the "china_related_category" field.
+func ChinaRelatedCategoryContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryHasPrefix applies the HasPrefix predicate on the "china_related_category" field.
+func ChinaRelatedCategoryHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryHasSuffix applies the HasSuffix predicate on the "china_related_category" field.
+func ChinaRelatedCategoryHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryEqualFold applies the EqualFold predicate on the "china_related_category" field.
+func ChinaRelatedCategoryEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldChinaRelatedCategory, v))
+}
+
+// ChinaRelatedCategoryContainsFold applies the ContainsFold predicate on the "china_related_category" field.
+func ChinaRelatedCategoryContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldChinaRelatedCategory, v))
+}
+
 // SummaryChineseEQ applies the EQ predicate on the "summary_chinese" field.
 func SummaryChineseEQ(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
@@ -887,71 +982,6 @@ func SummaryChineseEqualFold(v string) predicate.Article {
 // SummaryChineseContainsFold applies the ContainsFold predicate on the "summary_chinese" field.
 func SummaryChineseContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldSummaryChinese, v))
-}
-
-// CategoryEQ applies the EQ predicate on the "category" field.
-func CategoryEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldCategory, v))
-}
-
-// CategoryNEQ applies the NEQ predicate on the "category" field.
-func CategoryNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldCategory, v))
-}
-
-// CategoryIn applies the In predicate on the "category" field.
-func CategoryIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldCategory, vs...))
-}
-
-// CategoryNotIn applies the NotIn predicate on the "category" field.
-func CategoryNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldCategory, vs...))
-}
-
-// CategoryGT applies the GT predicate on the "category" field.
-func CategoryGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldCategory, v))
-}
-
-// CategoryGTE applies the GTE predicate on the "category" field.
-func CategoryGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldCategory, v))
-}
-
-// CategoryLT applies the LT predicate on the "category" field.
-func CategoryLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldCategory, v))
-}
-
-// CategoryLTE applies the LTE predicate on the "category" field.
-func CategoryLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldCategory, v))
-}
-
-// CategoryContains applies the Contains predicate on the "category" field.
-func CategoryContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldCategory, v))
-}
-
-// CategoryHasPrefix applies the HasPrefix predicate on the "category" field.
-func CategoryHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldCategory, v))
-}
-
-// CategoryHasSuffix applies the HasSuffix predicate on the "category" field.
-func CategoryHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldCategory, v))
-}
-
-// CategoryEqualFold applies the EqualFold predicate on the "category" field.
-func CategoryEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldCategory, v))
-}
-
-// CategoryContainsFold applies the ContainsFold predicate on the "category" field.
-func CategoryContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldCategory, v))
 }
 
 // And groups predicates with the AND operator between them.

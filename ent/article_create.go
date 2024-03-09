@@ -164,6 +164,54 @@ func (ac *ArticleCreate) SetNillableTextEnglish(s *string) *ArticleCreate {
 	return ac
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (ac *ArticleCreate) SetIsChinaRelated(b bool) *ArticleCreate {
+	ac.mutation.SetIsChinaRelated(b)
+	return ac
+}
+
+// SetNillableIsChinaRelated sets the "is_china_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableIsChinaRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetIsChinaRelated(*b)
+	}
+	return ac
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (ac *ArticleCreate) SetChinaRelatedKeywords(s []string) *ArticleCreate {
+	ac.mutation.SetChinaRelatedKeywords(s)
+	return ac
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (ac *ArticleCreate) SetIsChinaStrongRelated(b bool) *ArticleCreate {
+	ac.mutation.SetIsChinaStrongRelated(b)
+	return ac
+}
+
+// SetNillableIsChinaStrongRelated sets the "is_china_strong_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableIsChinaStrongRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetIsChinaStrongRelated(*b)
+	}
+	return ac
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (ac *ArticleCreate) SetChinaRelatedCategory(s string) *ArticleCreate {
+	ac.mutation.SetChinaRelatedCategory(s)
+	return ac
+}
+
+// SetNillableChinaRelatedCategory sets the "china_related_category" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableChinaRelatedCategory(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetChinaRelatedCategory(*s)
+	}
+	return ac
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 	ac.mutation.SetSummaryChinese(s)
@@ -174,20 +222,6 @@ func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 	if s != nil {
 		ac.SetSummaryChinese(*s)
-	}
-	return ac
-}
-
-// SetCategory sets the "category" field.
-func (ac *ArticleCreate) SetCategory(s string) *ArticleCreate {
-	ac.mutation.SetCategory(s)
-	return ac
-}
-
-// SetNillableCategory sets the "category" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableCategory(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetCategory(*s)
 	}
 	return ac
 }
@@ -269,13 +303,25 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultTextEnglish
 		ac.mutation.SetTextEnglish(v)
 	}
+	if _, ok := ac.mutation.IsChinaRelated(); !ok {
+		v := article.DefaultIsChinaRelated
+		ac.mutation.SetIsChinaRelated(v)
+	}
+	if _, ok := ac.mutation.ChinaRelatedKeywords(); !ok {
+		v := article.DefaultChinaRelatedKeywords
+		ac.mutation.SetChinaRelatedKeywords(v)
+	}
+	if _, ok := ac.mutation.IsChinaStrongRelated(); !ok {
+		v := article.DefaultIsChinaStrongRelated
+		ac.mutation.SetIsChinaStrongRelated(v)
+	}
+	if _, ok := ac.mutation.ChinaRelatedCategory(); !ok {
+		v := article.DefaultChinaRelatedCategory
+		ac.mutation.SetChinaRelatedCategory(v)
+	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
-	}
-	if _, ok := ac.mutation.Category(); !ok {
-		v := article.DefaultCategory
-		ac.mutation.SetCategory(v)
 	}
 }
 
@@ -330,11 +376,20 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.TextEnglish(); !ok {
 		return &ValidationError{Name: "text_english", err: errors.New(`ent: missing required field "Article.text_english"`)}
 	}
+	if _, ok := ac.mutation.IsChinaRelated(); !ok {
+		return &ValidationError{Name: "is_china_related", err: errors.New(`ent: missing required field "Article.is_china_related"`)}
+	}
+	if _, ok := ac.mutation.ChinaRelatedKeywords(); !ok {
+		return &ValidationError{Name: "china_related_keywords", err: errors.New(`ent: missing required field "Article.china_related_keywords"`)}
+	}
+	if _, ok := ac.mutation.IsChinaStrongRelated(); !ok {
+		return &ValidationError{Name: "is_china_strong_related", err: errors.New(`ent: missing required field "Article.is_china_strong_related"`)}
+	}
+	if _, ok := ac.mutation.ChinaRelatedCategory(); !ok {
+		return &ValidationError{Name: "china_related_category", err: errors.New(`ent: missing required field "Article.china_related_category"`)}
+	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
-	}
-	if _, ok := ac.mutation.Category(); !ok {
-		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "Article.category"`)}
 	}
 	return nil
 }
@@ -421,13 +476,25 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
 		_node.TextEnglish = value
 	}
+	if value, ok := ac.mutation.IsChinaRelated(); ok {
+		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
+		_node.IsChinaRelated = value
+	}
+	if value, ok := ac.mutation.ChinaRelatedKeywords(); ok {
+		_spec.SetField(article.FieldChinaRelatedKeywords, field.TypeJSON, value)
+		_node.ChinaRelatedKeywords = value
+	}
+	if value, ok := ac.mutation.IsChinaStrongRelated(); ok {
+		_spec.SetField(article.FieldIsChinaStrongRelated, field.TypeBool, value)
+		_node.IsChinaStrongRelated = value
+	}
+	if value, ok := ac.mutation.ChinaRelatedCategory(); ok {
+		_spec.SetField(article.FieldChinaRelatedCategory, field.TypeString, value)
+		_node.ChinaRelatedCategory = value
+	}
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
 		_node.SummaryChinese = value
-	}
-	if value, ok := ac.mutation.Category(); ok {
-		_spec.SetField(article.FieldCategory, field.TypeString, value)
-		_node.Category = value
 	}
 	return _node, _spec
 }
@@ -577,6 +644,54 @@ func (u *ArticleUpsert) UpdateTextEnglish() *ArticleUpsert {
 	return u
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (u *ArticleUpsert) SetIsChinaRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldIsChinaRelated, v)
+	return u
+}
+
+// UpdateIsChinaRelated sets the "is_china_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateIsChinaRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldIsChinaRelated)
+	return u
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (u *ArticleUpsert) SetChinaRelatedKeywords(v []string) *ArticleUpsert {
+	u.Set(article.FieldChinaRelatedKeywords, v)
+	return u
+}
+
+// UpdateChinaRelatedKeywords sets the "china_related_keywords" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateChinaRelatedKeywords() *ArticleUpsert {
+	u.SetExcluded(article.FieldChinaRelatedKeywords)
+	return u
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (u *ArticleUpsert) SetIsChinaStrongRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldIsChinaStrongRelated, v)
+	return u
+}
+
+// UpdateIsChinaStrongRelated sets the "is_china_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateIsChinaStrongRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldIsChinaStrongRelated)
+	return u
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (u *ArticleUpsert) SetChinaRelatedCategory(v string) *ArticleUpsert {
+	u.Set(article.FieldChinaRelatedCategory, v)
+	return u
+}
+
+// UpdateChinaRelatedCategory sets the "china_related_category" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateChinaRelatedCategory() *ArticleUpsert {
+	u.SetExcluded(article.FieldChinaRelatedCategory)
+	return u
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 	u.Set(article.FieldSummaryChinese, v)
@@ -586,18 +701,6 @@ func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 // UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
 	u.SetExcluded(article.FieldSummaryChinese)
-	return u
-}
-
-// SetCategory sets the "category" field.
-func (u *ArticleUpsert) SetCategory(v string) *ArticleUpsert {
-	u.Set(article.FieldCategory, v)
-	return u
-}
-
-// UpdateCategory sets the "category" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateCategory() *ArticleUpsert {
-	u.SetExcluded(article.FieldCategory)
 	return u
 }
 
@@ -776,6 +879,62 @@ func (u *ArticleUpsertOne) UpdateTextEnglish() *ArticleUpsertOne {
 	})
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (u *ArticleUpsertOne) SetIsChinaRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetIsChinaRelated(v)
+	})
+}
+
+// UpdateIsChinaRelated sets the "is_china_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateIsChinaRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateIsChinaRelated()
+	})
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (u *ArticleUpsertOne) SetChinaRelatedKeywords(v []string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetChinaRelatedKeywords(v)
+	})
+}
+
+// UpdateChinaRelatedKeywords sets the "china_related_keywords" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateChinaRelatedKeywords() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateChinaRelatedKeywords()
+	})
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (u *ArticleUpsertOne) SetIsChinaStrongRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetIsChinaStrongRelated(v)
+	})
+}
+
+// UpdateIsChinaStrongRelated sets the "is_china_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateIsChinaStrongRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateIsChinaStrongRelated()
+	})
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (u *ArticleUpsertOne) SetChinaRelatedCategory(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetChinaRelatedCategory(v)
+	})
+}
+
+// UpdateChinaRelatedCategory sets the "china_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateChinaRelatedCategory() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateChinaRelatedCategory()
+	})
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -787,20 +946,6 @@ func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
-	})
-}
-
-// SetCategory sets the "category" field.
-func (u *ArticleUpsertOne) SetCategory(v string) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetCategory(v)
-	})
-}
-
-// UpdateCategory sets the "category" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateCategory() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateCategory()
 	})
 }
 
@@ -1145,6 +1290,62 @@ func (u *ArticleUpsertBulk) UpdateTextEnglish() *ArticleUpsertBulk {
 	})
 }
 
+// SetIsChinaRelated sets the "is_china_related" field.
+func (u *ArticleUpsertBulk) SetIsChinaRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetIsChinaRelated(v)
+	})
+}
+
+// UpdateIsChinaRelated sets the "is_china_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateIsChinaRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateIsChinaRelated()
+	})
+}
+
+// SetChinaRelatedKeywords sets the "china_related_keywords" field.
+func (u *ArticleUpsertBulk) SetChinaRelatedKeywords(v []string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetChinaRelatedKeywords(v)
+	})
+}
+
+// UpdateChinaRelatedKeywords sets the "china_related_keywords" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateChinaRelatedKeywords() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateChinaRelatedKeywords()
+	})
+}
+
+// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
+func (u *ArticleUpsertBulk) SetIsChinaStrongRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetIsChinaStrongRelated(v)
+	})
+}
+
+// UpdateIsChinaStrongRelated sets the "is_china_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateIsChinaStrongRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateIsChinaStrongRelated()
+	})
+}
+
+// SetChinaRelatedCategory sets the "china_related_category" field.
+func (u *ArticleUpsertBulk) SetChinaRelatedCategory(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetChinaRelatedCategory(v)
+	})
+}
+
+// UpdateChinaRelatedCategory sets the "china_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateChinaRelatedCategory() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateChinaRelatedCategory()
+	})
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1156,20 +1357,6 @@ func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
-	})
-}
-
-// SetCategory sets the "category" field.
-func (u *ArticleUpsertBulk) SetCategory(v string) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetCategory(v)
-	})
-}
-
-// UpdateCategory sets the "category" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateCategory() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateCategory()
 	})
 }
 
