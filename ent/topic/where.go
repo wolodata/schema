@@ -8,52 +8,52 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int64) predicate.Topic {
+func ID(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int64) predicate.Topic {
+func IDEQ(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int64) predicate.Topic {
+func IDNEQ(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int64) predicate.Topic {
+func IDIn(ids ...uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int64) predicate.Topic {
+func IDNotIn(ids ...uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int64) predicate.Topic {
+func IDGT(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int64) predicate.Topic {
+func IDGTE(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int64) predicate.Topic {
+func IDLT(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int64) predicate.Topic {
+func IDLTE(id uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldID, id))
 }
 
 // UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
-func UserID(v int32) predicate.Topic {
+func UserID(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldUserID, v))
 }
 
@@ -73,42 +73,42 @@ func FollowContent(v bool) predicate.Topic {
 }
 
 // UserIDEQ applies the EQ predicate on the "user_id" field.
-func UserIDEQ(v int32) predicate.Topic {
+func UserIDEQ(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldEQ(FieldUserID, v))
 }
 
 // UserIDNEQ applies the NEQ predicate on the "user_id" field.
-func UserIDNEQ(v int32) predicate.Topic {
+func UserIDNEQ(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldNEQ(FieldUserID, v))
 }
 
 // UserIDIn applies the In predicate on the "user_id" field.
-func UserIDIn(vs ...int32) predicate.Topic {
+func UserIDIn(vs ...uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldIn(FieldUserID, vs...))
 }
 
 // UserIDNotIn applies the NotIn predicate on the "user_id" field.
-func UserIDNotIn(vs ...int32) predicate.Topic {
+func UserIDNotIn(vs ...uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldNotIn(FieldUserID, vs...))
 }
 
 // UserIDGT applies the GT predicate on the "user_id" field.
-func UserIDGT(v int32) predicate.Topic {
+func UserIDGT(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldGT(FieldUserID, v))
 }
 
 // UserIDGTE applies the GTE predicate on the "user_id" field.
-func UserIDGTE(v int32) predicate.Topic {
+func UserIDGTE(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldGTE(FieldUserID, v))
 }
 
 // UserIDLT applies the LT predicate on the "user_id" field.
-func UserIDLT(v int32) predicate.Topic {
+func UserIDLT(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldLT(FieldUserID, v))
 }
 
 // UserIDLTE applies the LTE predicate on the "user_id" field.
-func UserIDLTE(v int32) predicate.Topic {
+func UserIDLTE(v uint64) predicate.Topic {
 	return predicate.Topic(sql.FieldLTE(FieldUserID, v))
 }
 

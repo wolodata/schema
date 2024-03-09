@@ -138,7 +138,7 @@ func init() {
 	// reportDescRelatedArticleIds is the schema descriptor for related_article_ids field.
 	reportDescRelatedArticleIds := reportFields[4].Descriptor()
 	// report.DefaultRelatedArticleIds holds the default value on creation for the related_article_ids field.
-	report.DefaultRelatedArticleIds = reportDescRelatedArticleIds.Default.([]int32)
+	report.DefaultRelatedArticleIds = reportDescRelatedArticleIds.Default.([]uint64)
 	// reportDescContent is the schema descriptor for content field.
 	reportDescContent := reportFields[5].Descriptor()
 	// report.DefaultContent holds the default value on creation for the content field.

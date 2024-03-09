@@ -221,8 +221,8 @@ func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 }
 
 // SetID sets the "id" field.
-func (ac *ArticleCreate) SetID(i int64) *ArticleCreate {
-	ac.mutation.SetID(i)
+func (ac *ArticleCreate) SetID(u uint64) *ArticleCreate {
+	ac.mutation.SetID(u)
 	return ac
 }
 
@@ -394,7 +394,7 @@ func (ac *ArticleCreate) sqlSave(ctx context.Context) (*Article, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = int64(id)
+		_node.ID = uint64(id)
 	}
 	ac.mutation.id = &_node.ID
 	ac.mutation.done = true
@@ -404,7 +404,7 @@ func (ac *ArticleCreate) sqlSave(ctx context.Context) (*Article, error) {
 func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Article{config: ac.config}
-		_spec = sqlgraph.NewCreateSpec(article.Table, sqlgraph.NewFieldSpec(article.FieldID, field.TypeInt64))
+		_spec = sqlgraph.NewCreateSpec(article.Table, sqlgraph.NewFieldSpec(article.FieldID, field.TypeUint64))
 	)
 	_spec.OnConflict = ac.conflict
 	if id, ok := ac.mutation.ID(); ok {
@@ -922,7 +922,7 @@ func (u *ArticleUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *ArticleUpsertOne) ID(ctx context.Context) (id int64, err error) {
+func (u *ArticleUpsertOne) ID(ctx context.Context) (id uint64, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -931,7 +931,7 @@ func (u *ArticleUpsertOne) ID(ctx context.Context) (id int64, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *ArticleUpsertOne) IDX(ctx context.Context) int64 {
+func (u *ArticleUpsertOne) IDX(ctx context.Context) uint64 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -988,7 +988,7 @@ func (acb *ArticleCreateBulk) Save(ctx context.Context) ([]*Article, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int64(id)
+					nodes[i].ID = uint64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

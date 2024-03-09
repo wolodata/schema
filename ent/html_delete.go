@@ -40,7 +40,7 @@ func (hd *HTMLDelete) ExecX(ctx context.Context) int {
 }
 
 func (hd *HTMLDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(html.Table, sqlgraph.NewFieldSpec(html.FieldID, field.TypeInt64))
+	_spec := sqlgraph.NewDeleteSpec(html.Table, sqlgraph.NewFieldSpec(html.FieldID, field.TypeUint64))
 	if ps := hd.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {

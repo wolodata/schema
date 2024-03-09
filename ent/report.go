@@ -17,15 +17,15 @@ import (
 type Report struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int64 `json:"id,omitempty"`
+	ID uint64 `json:"id,omitempty"`
 	// ReportType holds the value of the "report_type" field.
 	ReportType string `json:"report_type,omitempty"`
 	// TriggerUserID holds the value of the "trigger_user_id" field.
-	TriggerUserID int32 `json:"trigger_user_id,omitempty"`
+	TriggerUserID uint64 `json:"trigger_user_id,omitempty"`
 	// TriggerAt holds the value of the "trigger_at" field.
 	TriggerAt time.Time `json:"trigger_at,omitempty"`
 	// RelatedArticleIds holds the value of the "related_article_ids" field.
-	RelatedArticleIds []int32 `json:"related_article_ids,omitempty"`
+	RelatedArticleIds []uint64 `json:"related_article_ids,omitempty"`
 	// Content holds the value of the "content" field.
 	Content string `json:"content,omitempty"`
 	// Reason holds the value of the "reason" field.
@@ -68,7 +68,7 @@ func (r *Report) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			r.ID = int64(value.Int64)
+			r.ID = uint64(value.Int64)
 		case report.FieldReportType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field report_type", values[i])
@@ -79,7 +79,7 @@ func (r *Report) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field trigger_user_id", values[i])
 			} else if value.Valid {
-				r.TriggerUserID = int32(value.Int64)
+				r.TriggerUserID = uint64(value.Int64)
 			}
 		case report.FieldTriggerAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
