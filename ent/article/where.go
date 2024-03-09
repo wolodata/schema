@@ -114,11 +114,6 @@ func TextEnglish(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldTextEnglish, v))
 }
 
-// CrawledAt applies equality check predicate on the "crawled_at" field. It's identical to CrawledAtEQ.
-func CrawledAt(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldCrawledAt, v))
-}
-
 // SummaryChinese applies equality check predicate on the "summary_chinese" field. It's identical to SummaryChineseEQ.
 func SummaryChinese(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
@@ -827,46 +822,6 @@ func TextEnglishEqualFold(v string) predicate.Article {
 // TextEnglishContainsFold applies the ContainsFold predicate on the "text_english" field.
 func TextEnglishContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldTextEnglish, v))
-}
-
-// CrawledAtEQ applies the EQ predicate on the "crawled_at" field.
-func CrawledAtEQ(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldCrawledAt, v))
-}
-
-// CrawledAtNEQ applies the NEQ predicate on the "crawled_at" field.
-func CrawledAtNEQ(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldCrawledAt, v))
-}
-
-// CrawledAtIn applies the In predicate on the "crawled_at" field.
-func CrawledAtIn(vs ...time.Time) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldCrawledAt, vs...))
-}
-
-// CrawledAtNotIn applies the NotIn predicate on the "crawled_at" field.
-func CrawledAtNotIn(vs ...time.Time) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldCrawledAt, vs...))
-}
-
-// CrawledAtGT applies the GT predicate on the "crawled_at" field.
-func CrawledAtGT(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldCrawledAt, v))
-}
-
-// CrawledAtGTE applies the GTE predicate on the "crawled_at" field.
-func CrawledAtGTE(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldCrawledAt, v))
-}
-
-// CrawledAtLT applies the LT predicate on the "crawled_at" field.
-func CrawledAtLT(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldCrawledAt, v))
-}
-
-// CrawledAtLTE applies the LTE predicate on the "crawled_at" field.
-func CrawledAtLTE(v time.Time) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldCrawledAt, v))
 }
 
 // SummaryChineseEQ applies the EQ predicate on the "summary_chinese" field.

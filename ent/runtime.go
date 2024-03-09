@@ -77,16 +77,12 @@ func init() {
 	articleDescTextEnglish := articleFields[13].Descriptor()
 	// article.DefaultTextEnglish holds the default value on creation for the text_english field.
 	article.DefaultTextEnglish = articleDescTextEnglish.Default.(string)
-	// articleDescCrawledAt is the schema descriptor for crawled_at field.
-	articleDescCrawledAt := articleFields[14].Descriptor()
-	// article.DefaultCrawledAt holds the default value on creation for the crawled_at field.
-	article.DefaultCrawledAt = articleDescCrawledAt.Default.(func() time.Time)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[15].Descriptor()
+	articleDescSummaryChinese := articleFields[14].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
 	// articleDescCategory is the schema descriptor for category field.
-	articleDescCategory := articleFields[16].Descriptor()
+	articleDescCategory := articleFields[15].Descriptor()
 	// article.DefaultCategory holds the default value on creation for the category field.
 	article.DefaultCategory = articleDescCategory.Default.(string)
 	htmlFields := schema.Html{}.Fields()

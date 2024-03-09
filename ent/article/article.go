@@ -3,8 +3,6 @@
 package article
 
 import (
-	"time"
-
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -39,8 +37,6 @@ const (
 	FieldTextChinese = "text_chinese"
 	// FieldTextEnglish holds the string denoting the text_english field in the database.
 	FieldTextEnglish = "text_english"
-	// FieldCrawledAt holds the string denoting the crawled_at field in the database.
-	FieldCrawledAt = "crawled_at"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
 	// FieldCategory holds the string denoting the category field in the database.
@@ -65,7 +61,6 @@ var Columns = []string{
 	FieldHTMLEnglish,
 	FieldTextChinese,
 	FieldTextEnglish,
-	FieldCrawledAt,
 	FieldSummaryChinese,
 	FieldCategory,
 }
@@ -103,8 +98,6 @@ var (
 	DefaultTextChinese string
 	// DefaultTextEnglish holds the default value on creation for the "text_english" field.
 	DefaultTextEnglish string
-	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
-	DefaultCrawledAt func() time.Time
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
 	// DefaultCategory holds the default value on creation for the "category" field.
@@ -177,11 +170,6 @@ func ByTextChinese(opts ...sql.OrderTermOption) OrderOption {
 // ByTextEnglish orders the results by the text_english field.
 func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
-}
-
-// ByCrawledAt orders the results by the crawled_at field.
-func ByCrawledAt(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCrawledAt, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.

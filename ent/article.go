@@ -44,8 +44,6 @@ type Article struct {
 	TextChinese string `json:"text_chinese,omitempty"`
 	// TextEnglish holds the value of the "text_english" field.
 	TextEnglish string `json:"text_english,omitempty"`
-	// CrawledAt holds the value of the "crawled_at" field.
-	CrawledAt time.Time `json:"crawled_at,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
 	// Category holds the value of the "category" field.
@@ -66,7 +64,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese, article.FieldCategory:
 			values[i] = new(sql.NullString)
-		case article.FieldPublishedAt, article.FieldCrawledAt:
+		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -169,12 +167,6 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.TextEnglish = value.String
 			}
-		case article.FieldCrawledAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field crawled_at", values[i])
-			} else if value.Valid {
-				a.CrawledAt = value.Time
-			}
 		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field summary_chinese", values[i])
@@ -261,9 +253,6 @@ func (a *Article) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("text_english=")
 	builder.WriteString(a.TextEnglish)
-	builder.WriteString(", ")
-	builder.WriteString("crawled_at=")
-	builder.WriteString(a.CrawledAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)

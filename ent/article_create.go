@@ -164,20 +164,6 @@ func (ac *ArticleCreate) SetNillableTextEnglish(s *string) *ArticleCreate {
 	return ac
 }
 
-// SetCrawledAt sets the "crawled_at" field.
-func (ac *ArticleCreate) SetCrawledAt(t time.Time) *ArticleCreate {
-	ac.mutation.SetCrawledAt(t)
-	return ac
-}
-
-// SetNillableCrawledAt sets the "crawled_at" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableCrawledAt(t *time.Time) *ArticleCreate {
-	if t != nil {
-		ac.SetCrawledAt(*t)
-	}
-	return ac
-}
-
 // SetSummaryChinese sets the "summary_chinese" field.
 func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 	ac.mutation.SetSummaryChinese(s)
@@ -283,10 +269,6 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultTextEnglish
 		ac.mutation.SetTextEnglish(v)
 	}
-	if _, ok := ac.mutation.CrawledAt(); !ok {
-		v := article.DefaultCrawledAt()
-		ac.mutation.SetCrawledAt(v)
-	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
@@ -347,9 +329,6 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.TextEnglish(); !ok {
 		return &ValidationError{Name: "text_english", err: errors.New(`ent: missing required field "Article.text_english"`)}
-	}
-	if _, ok := ac.mutation.CrawledAt(); !ok {
-		return &ValidationError{Name: "crawled_at", err: errors.New(`ent: missing required field "Article.crawled_at"`)}
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
@@ -441,10 +420,6 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.TextEnglish(); ok {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
 		_node.TextEnglish = value
-	}
-	if value, ok := ac.mutation.CrawledAt(); ok {
-		_spec.SetField(article.FieldCrawledAt, field.TypeTime, value)
-		_node.CrawledAt = value
 	}
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -657,9 +632,6 @@ func (u *ArticleUpsertOne) UpdateNewValues() *ArticleUpsertOne {
 		}
 		if _, exists := u.create.mutation.PublishedAt(); exists {
 			s.SetIgnore(article.FieldPublishedAt)
-		}
-		if _, exists := u.create.mutation.CrawledAt(); exists {
-			s.SetIgnore(article.FieldCrawledAt)
 		}
 	}))
 	return u
@@ -1028,9 +1000,6 @@ func (u *ArticleUpsertBulk) UpdateNewValues() *ArticleUpsertBulk {
 			}
 			if _, exists := b.mutation.PublishedAt(); exists {
 				s.SetIgnore(article.FieldPublishedAt)
-			}
-			if _, exists := b.mutation.CrawledAt(); exists {
-				s.SetIgnore(article.FieldCrawledAt)
 			}
 		}
 	}))

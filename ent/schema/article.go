@@ -1,8 +1,6 @@
 package schema
 
 import (
-	"time"
-
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/entsql"
@@ -31,7 +29,6 @@ func (Article) Fields() []ent.Field {
 		field.Text("html_english").Default(""),
 		field.Text("text_chinese").Default(""),
 		field.Text("text_english").Default(""),
-		field.Time("crawled_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
 		field.Text("summary_chinese").Default(""),
 		field.String("category").Default(""),
 	}
