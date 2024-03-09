@@ -44,7 +44,6 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("origin_short_id"),
 		index.Fields("origin_type"),
 		index.Fields("is_china_related"),
-		index.Fields("china_related_keywords"),
 		index.Fields("is_china_strong_related"),
 		index.Fields("china_related_category"),
 	}

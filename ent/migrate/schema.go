@@ -67,11 +67,6 @@ var (
 				Columns: []*schema.Column{TArticleColumns[13]},
 			},
 			{
-				Name:    "article_china_related_keywords",
-				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[14]},
-			},
-			{
 				Name:    "article_is_china_strong_related",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[15]},
