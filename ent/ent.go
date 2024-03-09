@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/tag"
 	"github.com/wolodata/schema/ent/topic"
@@ -78,6 +79,7 @@ func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			article.Table: article.ValidColumn,
+			html.Table:    html.ValidColumn,
 			report.Table:  report.ValidColumn,
 			tag.Table:     tag.ValidColumn,
 			topic.Table:   topic.ValidColumn,

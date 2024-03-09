@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/tag"
@@ -88,6 +89,42 @@ func init() {
 	articleDescCategory := articleFields[16].Descriptor()
 	// article.DefaultCategory holds the default value on creation for the category field.
 	article.DefaultCategory = articleDescCategory.Default.(string)
+	htmlFields := schema.Html{}.Fields()
+	_ = htmlFields
+	// htmlDescOriginShortID is the schema descriptor for origin_short_id field.
+	htmlDescOriginShortID := htmlFields[1].Descriptor()
+	// html.OriginShortIDValidator is a validator for the "origin_short_id" field. It is called by the builders before save.
+	html.OriginShortIDValidator = htmlDescOriginShortID.Validators[0].(func(string) error)
+	// htmlDescIsChinese is the schema descriptor for is_chinese field.
+	htmlDescIsChinese := htmlFields[2].Descriptor()
+	// html.DefaultIsChinese holds the default value on creation for the is_chinese field.
+	html.DefaultIsChinese = htmlDescIsChinese.Default.(bool)
+	// htmlDescURL is the schema descriptor for url field.
+	htmlDescURL := htmlFields[3].Descriptor()
+	// html.URLValidator is a validator for the "url" field. It is called by the builders before save.
+	html.URLValidator = func() func(string) error {
+		validators := htmlDescURL.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(url string) error {
+			for _, fn := range fns {
+				if err := fn(url); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// htmlDescHTML is the schema descriptor for html field.
+	htmlDescHTML := htmlFields[4].Descriptor()
+	// html.HTMLValidator is a validator for the "html" field. It is called by the builders before save.
+	html.HTMLValidator = htmlDescHTML.Validators[0].(func(string) error)
+	// htmlDescCrawledAt is the schema descriptor for crawled_at field.
+	htmlDescCrawledAt := htmlFields[5].Descriptor()
+	// html.DefaultCrawledAt holds the default value on creation for the crawled_at field.
+	html.DefaultCrawledAt = htmlDescCrawledAt.Default.(func() time.Time)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.

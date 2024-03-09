@@ -15,6 +15,7 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/tag"
 	"github.com/wolodata/schema/ent/topic"
@@ -28,6 +29,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// Article is the client for interacting with the Article builders.
 	Article *ArticleClient
+	// Html is the client for interacting with the Html builders.
+	Html *HTMLClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// Tag is the client for interacting with the Tag builders.
@@ -48,6 +51,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Article = NewArticleClient(c.config)
+	c.Html = NewHTMLClient(c.config)
 	c.Report = NewReportClient(c.config)
 	c.Tag = NewTagClient(c.config)
 	c.Topic = NewTopicClient(c.config)
@@ -145,6 +149,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:     ctx,
 		config:  cfg,
 		Article: NewArticleClient(cfg),
+		Html:    NewHTMLClient(cfg),
 		Report:  NewReportClient(cfg),
 		Tag:     NewTagClient(cfg),
 		Topic:   NewTopicClient(cfg),
@@ -169,6 +174,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:     ctx,
 		config:  cfg,
 		Article: NewArticleClient(cfg),
+		Html:    NewHTMLClient(cfg),
 		Report:  NewReportClient(cfg),
 		Tag:     NewTagClient(cfg),
 		Topic:   NewTopicClient(cfg),
@@ -201,21 +207,21 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Article.Use(hooks...)
-	c.Report.Use(hooks...)
-	c.Tag.Use(hooks...)
-	c.Topic.Use(hooks...)
-	c.User.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.Article, c.Html, c.Report, c.Tag, c.Topic, c.User,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Article.Intercept(interceptors...)
-	c.Report.Intercept(interceptors...)
-	c.Tag.Intercept(interceptors...)
-	c.Topic.Intercept(interceptors...)
-	c.User.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.Article, c.Html, c.Report, c.Tag, c.Topic, c.User,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -223,6 +229,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *ArticleMutation:
 		return c.Article.mutate(ctx, m)
+	case *HTMLMutation:
+		return c.Html.mutate(ctx, m)
 	case *ReportMutation:
 		return c.Report.mutate(ctx, m)
 	case *TagMutation:
@@ -366,6 +374,139 @@ func (c *ArticleClient) mutate(ctx context.Context, m *ArticleMutation) (Value, 
 		return (&ArticleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Article mutation op: %q", m.Op())
+	}
+}
+
+// HTMLClient is a client for the Html schema.
+type HTMLClient struct {
+	config
+}
+
+// NewHTMLClient returns a client for the Html from the given config.
+func NewHTMLClient(c config) *HTMLClient {
+	return &HTMLClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `html.Hooks(f(g(h())))`.
+func (c *HTMLClient) Use(hooks ...Hook) {
+	c.hooks.Html = append(c.hooks.Html, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `html.Intercept(f(g(h())))`.
+func (c *HTMLClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Html = append(c.inters.Html, interceptors...)
+}
+
+// Create returns a builder for creating a Html entity.
+func (c *HTMLClient) Create() *HTMLCreate {
+	mutation := newHTMLMutation(c.config, OpCreate)
+	return &HTMLCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Html entities.
+func (c *HTMLClient) CreateBulk(builders ...*HTMLCreate) *HTMLCreateBulk {
+	return &HTMLCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *HTMLClient) MapCreateBulk(slice any, setFunc func(*HTMLCreate, int)) *HTMLCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &HTMLCreateBulk{err: fmt.Errorf("calling to HTMLClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*HTMLCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &HTMLCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Html.
+func (c *HTMLClient) Update() *HTMLUpdate {
+	mutation := newHTMLMutation(c.config, OpUpdate)
+	return &HTMLUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *HTMLClient) UpdateOne(h *Html) *HTMLUpdateOne {
+	mutation := newHTMLMutation(c.config, OpUpdateOne, withHtml(h))
+	return &HTMLUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *HTMLClient) UpdateOneID(id int32) *HTMLUpdateOne {
+	mutation := newHTMLMutation(c.config, OpUpdateOne, withHtmlID(id))
+	return &HTMLUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Html.
+func (c *HTMLClient) Delete() *HTMLDelete {
+	mutation := newHTMLMutation(c.config, OpDelete)
+	return &HTMLDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *HTMLClient) DeleteOne(h *Html) *HTMLDeleteOne {
+	return c.DeleteOneID(h.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *HTMLClient) DeleteOneID(id int32) *HTMLDeleteOne {
+	builder := c.Delete().Where(html.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &HTMLDeleteOne{builder}
+}
+
+// Query returns a query builder for Html.
+func (c *HTMLClient) Query() *HTMLQuery {
+	return &HTMLQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeHTML},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Html entity by its id.
+func (c *HTMLClient) Get(ctx context.Context, id int32) (*Html, error) {
+	return c.Query().Where(html.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *HTMLClient) GetX(ctx context.Context, id int32) *Html {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *HTMLClient) Hooks() []Hook {
+	return c.hooks.Html
+}
+
+// Interceptors returns the client interceptors.
+func (c *HTMLClient) Interceptors() []Interceptor {
+	return c.inters.Html
+}
+
+func (c *HTMLClient) mutate(ctx context.Context, m *HTMLMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&HTMLCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&HTMLUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&HTMLUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&HTMLDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Html mutation op: %q", m.Op())
 	}
 }
 
@@ -904,9 +1045,9 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Article, Report, Tag, Topic, User []ent.Hook
+		Article, Html, Report, Tag, Topic, User []ent.Hook
 	}
 	inters struct {
-		Article, Report, Tag, Topic, User []ent.Interceptor
+		Article, Html, Report, Tag, Topic, User []ent.Interceptor
 	}
 )

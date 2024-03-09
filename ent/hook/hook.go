@@ -21,6 +21,18 @@ func (f ArticleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ArticleMutation", m)
 }
 
+// The HtmlFunc type is an adapter to allow the use of ordinary
+// function as Html mutator.
+type HtmlFunc func(context.Context, *ent.HTMLMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f HtmlFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.HTMLMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.HTMLMutation", m)
+}
+
 // The ReportFunc type is an adapter to allow the use of ordinary
 // function as Report mutator.
 type ReportFunc func(context.Context, *ent.ReportMutation) (ent.Value, error)

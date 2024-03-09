@@ -67,6 +67,38 @@ var (
 			},
 		},
 	}
+	// THTMLColumns holds the columns for the "t_html" table.
+	THTMLColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt32, Increment: true},
+		{Name: "origin_short_id", Type: field.TypeString},
+		{Name: "is_chinese", Type: field.TypeBool, Default: false},
+		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
+		{Name: "html", Type: field.TypeString, Size: 2147483647},
+		{Name: "crawled_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
+	}
+	// THTMLTable holds the schema information for the "t_html" table.
+	THTMLTable = &schema.Table{
+		Name:       "t_html",
+		Columns:    THTMLColumns,
+		PrimaryKey: []*schema.Column{THTMLColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "html_origin_short_id",
+				Unique:  false,
+				Columns: []*schema.Column{THTMLColumns[1]},
+			},
+			{
+				Name:    "html_is_chinese",
+				Unique:  false,
+				Columns: []*schema.Column{THTMLColumns[2]},
+			},
+			{
+				Name:    "html_crawled_at",
+				Unique:  false,
+				Columns: []*schema.Column{THTMLColumns[5]},
+			},
+		},
+	}
 	// TReportColumns holds the columns for the "t_report" table.
 	TReportColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt32, Increment: true},
@@ -171,6 +203,7 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		TArticleTable,
+		THTMLTable,
 		TReportTable,
 		TTagTable,
 		TTopicTable,
@@ -181,6 +214,11 @@ var (
 func init() {
 	TArticleTable.Annotation = &entsql.Annotation{
 		Table:     "t_article",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	THTMLTable.Annotation = &entsql.Annotation{
+		Table:     "t_html",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

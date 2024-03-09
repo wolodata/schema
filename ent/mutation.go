@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/predicate"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/tag"
@@ -29,6 +30,7 @@ const (
 
 	// Node types.
 	TypeArticle = "Article"
+	TypeHTML    = "Html"
 	TypeReport  = "Report"
 	TypeTag     = "Tag"
 	TypeTopic   = "Topic"
@@ -1191,6 +1193,554 @@ func (m *ArticleMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *ArticleMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Article edge %s", name)
+}
+
+// HTMLMutation represents an operation that mutates the Html nodes in the graph.
+type HTMLMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *int32
+	origin_short_id *string
+	is_chinese      *bool
+	url             *string
+	html            *string
+	crawled_at      *time.Time
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*Html, error)
+	predicates      []predicate.Html
+}
+
+var _ ent.Mutation = (*HTMLMutation)(nil)
+
+// htmlOption allows management of the mutation configuration using functional options.
+type htmlOption func(*HTMLMutation)
+
+// newHTMLMutation creates new mutation for the Html entity.
+func newHTMLMutation(c config, op Op, opts ...htmlOption) *HTMLMutation {
+	m := &HTMLMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeHTML,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withHtmlID sets the ID field of the mutation.
+func withHtmlID(id int32) htmlOption {
+	return func(m *HTMLMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Html
+		)
+		m.oldValue = func(ctx context.Context) (*Html, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Html.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withHtml sets the old Html of the mutation.
+func withHtml(node *Html) htmlOption {
+	return func(m *HTMLMutation) {
+		m.oldValue = func(context.Context) (*Html, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m HTMLMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m HTMLMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Html entities.
+func (m *HTMLMutation) SetID(id int32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *HTMLMutation) ID() (id int32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *HTMLMutation) IDs(ctx context.Context) ([]int32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []int32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Html.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetOriginShortID sets the "origin_short_id" field.
+func (m *HTMLMutation) SetOriginShortID(s string) {
+	m.origin_short_id = &s
+}
+
+// OriginShortID returns the value of the "origin_short_id" field in the mutation.
+func (m *HTMLMutation) OriginShortID() (r string, exists bool) {
+	v := m.origin_short_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOriginShortID returns the old "origin_short_id" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldOriginShortID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOriginShortID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOriginShortID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOriginShortID: %w", err)
+	}
+	return oldValue.OriginShortID, nil
+}
+
+// ResetOriginShortID resets all changes to the "origin_short_id" field.
+func (m *HTMLMutation) ResetOriginShortID() {
+	m.origin_short_id = nil
+}
+
+// SetIsChinese sets the "is_chinese" field.
+func (m *HTMLMutation) SetIsChinese(b bool) {
+	m.is_chinese = &b
+}
+
+// IsChinese returns the value of the "is_chinese" field in the mutation.
+func (m *HTMLMutation) IsChinese() (r bool, exists bool) {
+	v := m.is_chinese
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsChinese returns the old "is_chinese" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldIsChinese(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsChinese is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsChinese requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsChinese: %w", err)
+	}
+	return oldValue.IsChinese, nil
+}
+
+// ResetIsChinese resets all changes to the "is_chinese" field.
+func (m *HTMLMutation) ResetIsChinese() {
+	m.is_chinese = nil
+}
+
+// SetURL sets the "url" field.
+func (m *HTMLMutation) SetURL(s string) {
+	m.url = &s
+}
+
+// URL returns the value of the "url" field in the mutation.
+func (m *HTMLMutation) URL() (r string, exists bool) {
+	v := m.url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldURL returns the old "url" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldURL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldURL: %w", err)
+	}
+	return oldValue.URL, nil
+}
+
+// ResetURL resets all changes to the "url" field.
+func (m *HTMLMutation) ResetURL() {
+	m.url = nil
+}
+
+// SetHTML sets the "html" field.
+func (m *HTMLMutation) SetHTML(s string) {
+	m.html = &s
+}
+
+// HTML returns the value of the "html" field in the mutation.
+func (m *HTMLMutation) HTML() (r string, exists bool) {
+	v := m.html
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHTML returns the old "html" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldHTML(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHTML is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHTML requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHTML: %w", err)
+	}
+	return oldValue.HTML, nil
+}
+
+// ResetHTML resets all changes to the "html" field.
+func (m *HTMLMutation) ResetHTML() {
+	m.html = nil
+}
+
+// SetCrawledAt sets the "crawled_at" field.
+func (m *HTMLMutation) SetCrawledAt(t time.Time) {
+	m.crawled_at = &t
+}
+
+// CrawledAt returns the value of the "crawled_at" field in the mutation.
+func (m *HTMLMutation) CrawledAt() (r time.Time, exists bool) {
+	v := m.crawled_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCrawledAt returns the old "crawled_at" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldCrawledAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCrawledAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCrawledAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCrawledAt: %w", err)
+	}
+	return oldValue.CrawledAt, nil
+}
+
+// ResetCrawledAt resets all changes to the "crawled_at" field.
+func (m *HTMLMutation) ResetCrawledAt() {
+	m.crawled_at = nil
+}
+
+// Where appends a list predicates to the HTMLMutation builder.
+func (m *HTMLMutation) Where(ps ...predicate.Html) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the HTMLMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *HTMLMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Html, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *HTMLMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *HTMLMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Html).
+func (m *HTMLMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *HTMLMutation) Fields() []string {
+	fields := make([]string, 0, 5)
+	if m.origin_short_id != nil {
+		fields = append(fields, html.FieldOriginShortID)
+	}
+	if m.is_chinese != nil {
+		fields = append(fields, html.FieldIsChinese)
+	}
+	if m.url != nil {
+		fields = append(fields, html.FieldURL)
+	}
+	if m.html != nil {
+		fields = append(fields, html.FieldHTML)
+	}
+	if m.crawled_at != nil {
+		fields = append(fields, html.FieldCrawledAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *HTMLMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case html.FieldOriginShortID:
+		return m.OriginShortID()
+	case html.FieldIsChinese:
+		return m.IsChinese()
+	case html.FieldURL:
+		return m.URL()
+	case html.FieldHTML:
+		return m.HTML()
+	case html.FieldCrawledAt:
+		return m.CrawledAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *HTMLMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case html.FieldOriginShortID:
+		return m.OldOriginShortID(ctx)
+	case html.FieldIsChinese:
+		return m.OldIsChinese(ctx)
+	case html.FieldURL:
+		return m.OldURL(ctx)
+	case html.FieldHTML:
+		return m.OldHTML(ctx)
+	case html.FieldCrawledAt:
+		return m.OldCrawledAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown Html field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *HTMLMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case html.FieldOriginShortID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOriginShortID(v)
+		return nil
+	case html.FieldIsChinese:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsChinese(v)
+		return nil
+	case html.FieldURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetURL(v)
+		return nil
+	case html.FieldHTML:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHTML(v)
+		return nil
+	case html.FieldCrawledAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCrawledAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Html field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *HTMLMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *HTMLMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *HTMLMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown Html numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *HTMLMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *HTMLMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *HTMLMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown Html nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *HTMLMutation) ResetField(name string) error {
+	switch name {
+	case html.FieldOriginShortID:
+		m.ResetOriginShortID()
+		return nil
+	case html.FieldIsChinese:
+		m.ResetIsChinese()
+		return nil
+	case html.FieldURL:
+		m.ResetURL()
+		return nil
+	case html.FieldHTML:
+		m.ResetHTML()
+		return nil
+	case html.FieldCrawledAt:
+		m.ResetCrawledAt()
+		return nil
+	}
+	return fmt.Errorf("unknown Html field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *HTMLMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *HTMLMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *HTMLMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *HTMLMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *HTMLMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *HTMLMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *HTMLMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Html unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *HTMLMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Html edge %s", name)
 }
 
 // ReportMutation represents an operation that mutates the Report nodes in the graph.
