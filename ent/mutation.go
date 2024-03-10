@@ -1906,22 +1906,19 @@ func (m *HTMLMutation) ResetEdge(name string) error {
 // ReportMutation represents an operation that mutates the Report nodes in the graph.
 type ReportMutation struct {
 	config
-	op                        Op
-	typ                       string
-	id                        *string
-	report_type               *string
-	trigger_user_id           *string
-	date                      *time.Time
-	trigger_at                *time.Time
-	related_article_ids       *[]string
-	appendrelated_article_ids []string
-	content                   *string
-	reason                    *string
-	generated_at              *time.Time
-	clearedFields             map[string]struct{}
-	done                      bool
-	oldValue                  func(context.Context) (*Report, error)
-	predicates                []predicate.Report
+	op              Op
+	typ             string
+	id              *string
+	report_type     *string
+	trigger_user_id *string
+	date            *time.Time
+	trigger_at      *time.Time
+	content         *string
+	generated_at    *time.Time
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*Report, error)
+	predicates      []predicate.Report
 }
 
 var _ ent.Mutation = (*ReportMutation)(nil)
@@ -2185,57 +2182,6 @@ func (m *ReportMutation) ResetTriggerAt() {
 	m.trigger_at = nil
 }
 
-// SetRelatedArticleIds sets the "related_article_ids" field.
-func (m *ReportMutation) SetRelatedArticleIds(s []string) {
-	m.related_article_ids = &s
-	m.appendrelated_article_ids = nil
-}
-
-// RelatedArticleIds returns the value of the "related_article_ids" field in the mutation.
-func (m *ReportMutation) RelatedArticleIds() (r []string, exists bool) {
-	v := m.related_article_ids
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldRelatedArticleIds returns the old "related_article_ids" field's value of the Report entity.
-// If the Report object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ReportMutation) OldRelatedArticleIds(ctx context.Context) (v []string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRelatedArticleIds is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRelatedArticleIds requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRelatedArticleIds: %w", err)
-	}
-	return oldValue.RelatedArticleIds, nil
-}
-
-// AppendRelatedArticleIds adds s to the "related_article_ids" field.
-func (m *ReportMutation) AppendRelatedArticleIds(s []string) {
-	m.appendrelated_article_ids = append(m.appendrelated_article_ids, s...)
-}
-
-// AppendedRelatedArticleIds returns the list of values that were appended to the "related_article_ids" field in this mutation.
-func (m *ReportMutation) AppendedRelatedArticleIds() ([]string, bool) {
-	if len(m.appendrelated_article_ids) == 0 {
-		return nil, false
-	}
-	return m.appendrelated_article_ids, true
-}
-
-// ResetRelatedArticleIds resets all changes to the "related_article_ids" field.
-func (m *ReportMutation) ResetRelatedArticleIds() {
-	m.related_article_ids = nil
-	m.appendrelated_article_ids = nil
-}
-
 // SetContent sets the "content" field.
 func (m *ReportMutation) SetContent(s string) {
 	m.content = &s
@@ -2270,42 +2216,6 @@ func (m *ReportMutation) OldContent(ctx context.Context) (v string, err error) {
 // ResetContent resets all changes to the "content" field.
 func (m *ReportMutation) ResetContent() {
 	m.content = nil
-}
-
-// SetReason sets the "reason" field.
-func (m *ReportMutation) SetReason(s string) {
-	m.reason = &s
-}
-
-// Reason returns the value of the "reason" field in the mutation.
-func (m *ReportMutation) Reason() (r string, exists bool) {
-	v := m.reason
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldReason returns the old "reason" field's value of the Report entity.
-// If the Report object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ReportMutation) OldReason(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldReason is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldReason requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldReason: %w", err)
-	}
-	return oldValue.Reason, nil
-}
-
-// ResetReason resets all changes to the "reason" field.
-func (m *ReportMutation) ResetReason() {
-	m.reason = nil
 }
 
 // SetGeneratedAt sets the "generated_at" field.
@@ -2378,7 +2288,7 @@ func (m *ReportMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ReportMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 6)
 	if m.report_type != nil {
 		fields = append(fields, report.FieldReportType)
 	}
@@ -2391,14 +2301,8 @@ func (m *ReportMutation) Fields() []string {
 	if m.trigger_at != nil {
 		fields = append(fields, report.FieldTriggerAt)
 	}
-	if m.related_article_ids != nil {
-		fields = append(fields, report.FieldRelatedArticleIds)
-	}
 	if m.content != nil {
 		fields = append(fields, report.FieldContent)
-	}
-	if m.reason != nil {
-		fields = append(fields, report.FieldReason)
 	}
 	if m.generated_at != nil {
 		fields = append(fields, report.FieldGeneratedAt)
@@ -2419,12 +2323,8 @@ func (m *ReportMutation) Field(name string) (ent.Value, bool) {
 		return m.Date()
 	case report.FieldTriggerAt:
 		return m.TriggerAt()
-	case report.FieldRelatedArticleIds:
-		return m.RelatedArticleIds()
 	case report.FieldContent:
 		return m.Content()
-	case report.FieldReason:
-		return m.Reason()
 	case report.FieldGeneratedAt:
 		return m.GeneratedAt()
 	}
@@ -2444,12 +2344,8 @@ func (m *ReportMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldDate(ctx)
 	case report.FieldTriggerAt:
 		return m.OldTriggerAt(ctx)
-	case report.FieldRelatedArticleIds:
-		return m.OldRelatedArticleIds(ctx)
 	case report.FieldContent:
 		return m.OldContent(ctx)
-	case report.FieldReason:
-		return m.OldReason(ctx)
 	case report.FieldGeneratedAt:
 		return m.OldGeneratedAt(ctx)
 	}
@@ -2489,26 +2385,12 @@ func (m *ReportMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetTriggerAt(v)
 		return nil
-	case report.FieldRelatedArticleIds:
-		v, ok := value.([]string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetRelatedArticleIds(v)
-		return nil
 	case report.FieldContent:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetContent(v)
-		return nil
-	case report.FieldReason:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetReason(v)
 		return nil
 	case report.FieldGeneratedAt:
 		v, ok := value.(time.Time)
@@ -2587,14 +2469,8 @@ func (m *ReportMutation) ResetField(name string) error {
 	case report.FieldTriggerAt:
 		m.ResetTriggerAt()
 		return nil
-	case report.FieldRelatedArticleIds:
-		m.ResetRelatedArticleIds()
-		return nil
 	case report.FieldContent:
 		m.ResetContent()
-		return nil
-	case report.FieldReason:
-		m.ResetReason()
 		return nil
 	case report.FieldGeneratedAt:
 		m.ResetGeneratedAt()

@@ -21,12 +21,8 @@ const (
 	FieldDate = "date"
 	// FieldTriggerAt holds the string denoting the trigger_at field in the database.
 	FieldTriggerAt = "trigger_at"
-	// FieldRelatedArticleIds holds the string denoting the related_article_ids field in the database.
-	FieldRelatedArticleIds = "related_article_ids"
 	// FieldContent holds the string denoting the content field in the database.
 	FieldContent = "content"
-	// FieldReason holds the string denoting the reason field in the database.
-	FieldReason = "reason"
 	// FieldGeneratedAt holds the string denoting the generated_at field in the database.
 	FieldGeneratedAt = "generated_at"
 	// Table holds the table name of the report in the database.
@@ -40,9 +36,7 @@ var Columns = []string{
 	FieldTriggerUserID,
 	FieldDate,
 	FieldTriggerAt,
-	FieldRelatedArticleIds,
 	FieldContent,
-	FieldReason,
 	FieldGeneratedAt,
 }
 
@@ -59,12 +53,8 @@ func ValidColumn(column string) bool {
 var (
 	// ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	ReportTypeValidator func(string) error
-	// DefaultRelatedArticleIds holds the default value on creation for the "related_article_ids" field.
-	DefaultRelatedArticleIds []string
 	// DefaultContent holds the default value on creation for the "content" field.
 	DefaultContent string
-	// DefaultReason holds the default value on creation for the "reason" field.
-	DefaultReason string
 	// DefaultGeneratedAt holds the default value on creation for the "generated_at" field.
 	DefaultGeneratedAt func() time.Time
 )
@@ -100,11 +90,6 @@ func ByTriggerAt(opts ...sql.OrderTermOption) OrderOption {
 // ByContent orders the results by the content field.
 func ByContent(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldContent, opts...).ToFunc()
-}
-
-// ByReason orders the results by the reason field.
-func ByReason(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldReason, opts...).ToFunc()
 }
 
 // ByGeneratedAt orders the results by the generated_at field.

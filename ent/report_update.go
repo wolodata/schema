@@ -42,20 +42,6 @@ func (ru *ReportUpdate) SetNillableContent(s *string) *ReportUpdate {
 	return ru
 }
 
-// SetReason sets the "reason" field.
-func (ru *ReportUpdate) SetReason(s string) *ReportUpdate {
-	ru.mutation.SetReason(s)
-	return ru
-}
-
-// SetNillableReason sets the "reason" field if the given value is not nil.
-func (ru *ReportUpdate) SetNillableReason(s *string) *ReportUpdate {
-	if s != nil {
-		ru.SetReason(*s)
-	}
-	return ru
-}
-
 // SetGeneratedAt sets the "generated_at" field.
 func (ru *ReportUpdate) SetGeneratedAt(t time.Time) *ReportUpdate {
 	ru.mutation.SetGeneratedAt(t)
@@ -117,9 +103,6 @@ func (ru *ReportUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := ru.mutation.Content(); ok {
 		_spec.SetField(report.FieldContent, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.Reason(); ok {
-		_spec.SetField(report.FieldReason, field.TypeString, value)
-	}
 	if value, ok := ru.mutation.GeneratedAt(); ok {
 		_spec.SetField(report.FieldGeneratedAt, field.TypeTime, value)
 	}
@@ -153,20 +136,6 @@ func (ruo *ReportUpdateOne) SetContent(s string) *ReportUpdateOne {
 func (ruo *ReportUpdateOne) SetNillableContent(s *string) *ReportUpdateOne {
 	if s != nil {
 		ruo.SetContent(*s)
-	}
-	return ruo
-}
-
-// SetReason sets the "reason" field.
-func (ruo *ReportUpdateOne) SetReason(s string) *ReportUpdateOne {
-	ruo.mutation.SetReason(s)
-	return ruo
-}
-
-// SetNillableReason sets the "reason" field if the given value is not nil.
-func (ruo *ReportUpdateOne) SetNillableReason(s *string) *ReportUpdateOne {
-	if s != nil {
-		ruo.SetReason(*s)
 	}
 	return ruo
 }
@@ -261,9 +230,6 @@ func (ruo *ReportUpdateOne) sqlSave(ctx context.Context) (_node *Report, err err
 	}
 	if value, ok := ruo.mutation.Content(); ok {
 		_spec.SetField(report.FieldContent, field.TypeString, value)
-	}
-	if value, ok := ruo.mutation.Reason(); ok {
-		_spec.SetField(report.FieldReason, field.TypeString, value)
 	}
 	if value, ok := ruo.mutation.GeneratedAt(); ok {
 		_spec.SetField(report.FieldGeneratedAt, field.TypeTime, value)

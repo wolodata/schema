@@ -55,12 +55,6 @@ func (rc *ReportCreate) SetTriggerAt(t time.Time) *ReportCreate {
 	return rc
 }
 
-// SetRelatedArticleIds sets the "related_article_ids" field.
-func (rc *ReportCreate) SetRelatedArticleIds(s []string) *ReportCreate {
-	rc.mutation.SetRelatedArticleIds(s)
-	return rc
-}
-
 // SetContent sets the "content" field.
 func (rc *ReportCreate) SetContent(s string) *ReportCreate {
 	rc.mutation.SetContent(s)
@@ -71,20 +65,6 @@ func (rc *ReportCreate) SetContent(s string) *ReportCreate {
 func (rc *ReportCreate) SetNillableContent(s *string) *ReportCreate {
 	if s != nil {
 		rc.SetContent(*s)
-	}
-	return rc
-}
-
-// SetReason sets the "reason" field.
-func (rc *ReportCreate) SetReason(s string) *ReportCreate {
-	rc.mutation.SetReason(s)
-	return rc
-}
-
-// SetNillableReason sets the "reason" field if the given value is not nil.
-func (rc *ReportCreate) SetNillableReason(s *string) *ReportCreate {
-	if s != nil {
-		rc.SetReason(*s)
 	}
 	return rc
 }
@@ -144,17 +124,9 @@ func (rc *ReportCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rc *ReportCreate) defaults() {
-	if _, ok := rc.mutation.RelatedArticleIds(); !ok {
-		v := report.DefaultRelatedArticleIds
-		rc.mutation.SetRelatedArticleIds(v)
-	}
 	if _, ok := rc.mutation.Content(); !ok {
 		v := report.DefaultContent
 		rc.mutation.SetContent(v)
-	}
-	if _, ok := rc.mutation.Reason(); !ok {
-		v := report.DefaultReason
-		rc.mutation.SetReason(v)
 	}
 	if _, ok := rc.mutation.GeneratedAt(); !ok {
 		v := report.DefaultGeneratedAt()
@@ -178,14 +150,8 @@ func (rc *ReportCreate) check() error {
 	if _, ok := rc.mutation.TriggerAt(); !ok {
 		return &ValidationError{Name: "trigger_at", err: errors.New(`ent: missing required field "Report.trigger_at"`)}
 	}
-	if _, ok := rc.mutation.RelatedArticleIds(); !ok {
-		return &ValidationError{Name: "related_article_ids", err: errors.New(`ent: missing required field "Report.related_article_ids"`)}
-	}
 	if _, ok := rc.mutation.Content(); !ok {
 		return &ValidationError{Name: "content", err: errors.New(`ent: missing required field "Report.content"`)}
-	}
-	if _, ok := rc.mutation.Reason(); !ok {
-		return &ValidationError{Name: "reason", err: errors.New(`ent: missing required field "Report.reason"`)}
 	}
 	if _, ok := rc.mutation.GeneratedAt(); !ok {
 		return &ValidationError{Name: "generated_at", err: errors.New(`ent: missing required field "Report.generated_at"`)}
@@ -242,17 +208,9 @@ func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 		_spec.SetField(report.FieldTriggerAt, field.TypeTime, value)
 		_node.TriggerAt = value
 	}
-	if value, ok := rc.mutation.RelatedArticleIds(); ok {
-		_spec.SetField(report.FieldRelatedArticleIds, field.TypeJSON, value)
-		_node.RelatedArticleIds = value
-	}
 	if value, ok := rc.mutation.Content(); ok {
 		_spec.SetField(report.FieldContent, field.TypeString, value)
 		_node.Content = value
-	}
-	if value, ok := rc.mutation.Reason(); ok {
-		_spec.SetField(report.FieldReason, field.TypeString, value)
-		_node.Reason = value
 	}
 	if value, ok := rc.mutation.GeneratedAt(); ok {
 		_spec.SetField(report.FieldGeneratedAt, field.TypeTime, value)
@@ -322,18 +280,6 @@ func (u *ReportUpsert) UpdateContent() *ReportUpsert {
 	return u
 }
 
-// SetReason sets the "reason" field.
-func (u *ReportUpsert) SetReason(v string) *ReportUpsert {
-	u.Set(report.FieldReason, v)
-	return u
-}
-
-// UpdateReason sets the "reason" field to the value that was provided on create.
-func (u *ReportUpsert) UpdateReason() *ReportUpsert {
-	u.SetExcluded(report.FieldReason)
-	return u
-}
-
 // SetGeneratedAt sets the "generated_at" field.
 func (u *ReportUpsert) SetGeneratedAt(v time.Time) *ReportUpsert {
 	u.Set(report.FieldGeneratedAt, v)
@@ -374,9 +320,6 @@ func (u *ReportUpsertOne) UpdateNewValues() *ReportUpsertOne {
 		}
 		if _, exists := u.create.mutation.TriggerAt(); exists {
 			s.SetIgnore(report.FieldTriggerAt)
-		}
-		if _, exists := u.create.mutation.RelatedArticleIds(); exists {
-			s.SetIgnore(report.FieldRelatedArticleIds)
 		}
 	}))
 	return u
@@ -420,20 +363,6 @@ func (u *ReportUpsertOne) SetContent(v string) *ReportUpsertOne {
 func (u *ReportUpsertOne) UpdateContent() *ReportUpsertOne {
 	return u.Update(func(s *ReportUpsert) {
 		s.UpdateContent()
-	})
-}
-
-// SetReason sets the "reason" field.
-func (u *ReportUpsertOne) SetReason(v string) *ReportUpsertOne {
-	return u.Update(func(s *ReportUpsert) {
-		s.SetReason(v)
-	})
-}
-
-// UpdateReason sets the "reason" field to the value that was provided on create.
-func (u *ReportUpsertOne) UpdateReason() *ReportUpsertOne {
-	return u.Update(func(s *ReportUpsert) {
-		s.UpdateReason()
 	})
 }
 
@@ -646,9 +575,6 @@ func (u *ReportUpsertBulk) UpdateNewValues() *ReportUpsertBulk {
 			if _, exists := b.mutation.TriggerAt(); exists {
 				s.SetIgnore(report.FieldTriggerAt)
 			}
-			if _, exists := b.mutation.RelatedArticleIds(); exists {
-				s.SetIgnore(report.FieldRelatedArticleIds)
-			}
 		}
 	}))
 	return u
@@ -692,20 +618,6 @@ func (u *ReportUpsertBulk) SetContent(v string) *ReportUpsertBulk {
 func (u *ReportUpsertBulk) UpdateContent() *ReportUpsertBulk {
 	return u.Update(func(s *ReportUpsert) {
 		s.UpdateContent()
-	})
-}
-
-// SetReason sets the "reason" field.
-func (u *ReportUpsertBulk) SetReason(v string) *ReportUpsertBulk {
-	return u.Update(func(s *ReportUpsert) {
-		s.SetReason(v)
-	})
-}
-
-// UpdateReason sets the "reason" field to the value that was provided on create.
-func (u *ReportUpsertBulk) UpdateReason() *ReportUpsertBulk {
-	return u.Update(func(s *ReportUpsert) {
-		s.UpdateReason()
 	})
 }
 

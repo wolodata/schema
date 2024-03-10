@@ -22,9 +22,7 @@ func (Report) Fields() []ent.Field {
 		field.String("trigger_user_id").Optional().Immutable(),
 		field.Time("date").Immutable().SchemaType(map[string]string{dialect.MySQL: "date"}),
 		field.Time("trigger_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
-		field.JSON("related_article_ids", []string{}).Default([]string{}).Immutable(),
 		field.Text("content").Default(""),
-		field.Text("reason").Default(""),
 		field.Time("generated_at").SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
 	}
 }

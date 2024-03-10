@@ -139,20 +139,12 @@ func init() {
 	reportDescReportType := reportFields[1].Descriptor()
 	// report.ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	report.ReportTypeValidator = reportDescReportType.Validators[0].(func(string) error)
-	// reportDescRelatedArticleIds is the schema descriptor for related_article_ids field.
-	reportDescRelatedArticleIds := reportFields[5].Descriptor()
-	// report.DefaultRelatedArticleIds holds the default value on creation for the related_article_ids field.
-	report.DefaultRelatedArticleIds = reportDescRelatedArticleIds.Default.([]string)
 	// reportDescContent is the schema descriptor for content field.
-	reportDescContent := reportFields[6].Descriptor()
+	reportDescContent := reportFields[5].Descriptor()
 	// report.DefaultContent holds the default value on creation for the content field.
 	report.DefaultContent = reportDescContent.Default.(string)
-	// reportDescReason is the schema descriptor for reason field.
-	reportDescReason := reportFields[7].Descriptor()
-	// report.DefaultReason holds the default value on creation for the reason field.
-	report.DefaultReason = reportDescReason.Default.(string)
 	// reportDescGeneratedAt is the schema descriptor for generated_at field.
-	reportDescGeneratedAt := reportFields[8].Descriptor()
+	reportDescGeneratedAt := reportFields[6].Descriptor()
 	// report.DefaultGeneratedAt holds the default value on creation for the generated_at field.
 	report.DefaultGeneratedAt = reportDescGeneratedAt.Default.(func() time.Time)
 	topicFields := schema.Topic{}.Fields()
