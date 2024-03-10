@@ -64,11 +64,6 @@ func IsChinese(v bool) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldIsChinese, v))
 }
 
-// OriginType applies equality check predicate on the "origin_type" field. It's identical to OriginTypeEQ.
-func OriginType(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldOriginType, v))
-}
-
 // URL applies equality check predicate on the "url" field. It's identical to URLEQ.
 func URL(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldURL, v))
@@ -82,11 +77,6 @@ func TitleChinese(v string) predicate.Article {
 // TitleEnglish applies equality check predicate on the "title_english" field. It's identical to TitleEnglishEQ.
 func TitleEnglish(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldTitleEnglish, v))
-}
-
-// Author applies equality check predicate on the "author" field. It's identical to AuthorEQ.
-func Author(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAuthor, v))
 }
 
 // PublishedAt applies equality check predicate on the "published_at" field. It's identical to PublishedAtEQ.
@@ -207,71 +197,6 @@ func IsChineseEQ(v bool) predicate.Article {
 // IsChineseNEQ applies the NEQ predicate on the "is_chinese" field.
 func IsChineseNEQ(v bool) predicate.Article {
 	return predicate.Article(sql.FieldNEQ(FieldIsChinese, v))
-}
-
-// OriginTypeEQ applies the EQ predicate on the "origin_type" field.
-func OriginTypeEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldOriginType, v))
-}
-
-// OriginTypeNEQ applies the NEQ predicate on the "origin_type" field.
-func OriginTypeNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldOriginType, v))
-}
-
-// OriginTypeIn applies the In predicate on the "origin_type" field.
-func OriginTypeIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldOriginType, vs...))
-}
-
-// OriginTypeNotIn applies the NotIn predicate on the "origin_type" field.
-func OriginTypeNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldOriginType, vs...))
-}
-
-// OriginTypeGT applies the GT predicate on the "origin_type" field.
-func OriginTypeGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldOriginType, v))
-}
-
-// OriginTypeGTE applies the GTE predicate on the "origin_type" field.
-func OriginTypeGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldOriginType, v))
-}
-
-// OriginTypeLT applies the LT predicate on the "origin_type" field.
-func OriginTypeLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldOriginType, v))
-}
-
-// OriginTypeLTE applies the LTE predicate on the "origin_type" field.
-func OriginTypeLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldOriginType, v))
-}
-
-// OriginTypeContains applies the Contains predicate on the "origin_type" field.
-func OriginTypeContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldOriginType, v))
-}
-
-// OriginTypeHasPrefix applies the HasPrefix predicate on the "origin_type" field.
-func OriginTypeHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldOriginType, v))
-}
-
-// OriginTypeHasSuffix applies the HasSuffix predicate on the "origin_type" field.
-func OriginTypeHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldOriginType, v))
-}
-
-// OriginTypeEqualFold applies the EqualFold predicate on the "origin_type" field.
-func OriginTypeEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldOriginType, v))
-}
-
-// OriginTypeContainsFold applies the ContainsFold predicate on the "origin_type" field.
-func OriginTypeContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldOriginType, v))
 }
 
 // URLEQ applies the EQ predicate on the "url" field.
@@ -467,71 +392,6 @@ func TitleEnglishEqualFold(v string) predicate.Article {
 // TitleEnglishContainsFold applies the ContainsFold predicate on the "title_english" field.
 func TitleEnglishContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldTitleEnglish, v))
-}
-
-// AuthorEQ applies the EQ predicate on the "author" field.
-func AuthorEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAuthor, v))
-}
-
-// AuthorNEQ applies the NEQ predicate on the "author" field.
-func AuthorNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldAuthor, v))
-}
-
-// AuthorIn applies the In predicate on the "author" field.
-func AuthorIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldAuthor, vs...))
-}
-
-// AuthorNotIn applies the NotIn predicate on the "author" field.
-func AuthorNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldAuthor, vs...))
-}
-
-// AuthorGT applies the GT predicate on the "author" field.
-func AuthorGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldAuthor, v))
-}
-
-// AuthorGTE applies the GTE predicate on the "author" field.
-func AuthorGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldAuthor, v))
-}
-
-// AuthorLT applies the LT predicate on the "author" field.
-func AuthorLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldAuthor, v))
-}
-
-// AuthorLTE applies the LTE predicate on the "author" field.
-func AuthorLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldAuthor, v))
-}
-
-// AuthorContains applies the Contains predicate on the "author" field.
-func AuthorContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldAuthor, v))
-}
-
-// AuthorHasPrefix applies the HasPrefix predicate on the "author" field.
-func AuthorHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldAuthor, v))
-}
-
-// AuthorHasSuffix applies the HasSuffix predicate on the "author" field.
-func AuthorHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldAuthor, v))
-}
-
-// AuthorEqualFold applies the EqualFold predicate on the "author" field.
-func AuthorEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldAuthor, v))
-}
-
-// AuthorContainsFold applies the ContainsFold predicate on the "author" field.
-func AuthorContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldAuthor, v))
 }
 
 // PublishedAtEQ applies the EQ predicate on the "published_at" field.

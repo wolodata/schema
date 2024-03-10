@@ -42,12 +42,6 @@ func (ac *ArticleCreate) SetNillableIsChinese(b *bool) *ArticleCreate {
 	return ac
 }
 
-// SetOriginType sets the "origin_type" field.
-func (ac *ArticleCreate) SetOriginType(s string) *ArticleCreate {
-	ac.mutation.SetOriginType(s)
-	return ac
-}
-
 // SetURL sets the "url" field.
 func (ac *ArticleCreate) SetURL(s string) *ArticleCreate {
 	ac.mutation.SetURL(s)
@@ -83,16 +77,8 @@ func (ac *ArticleCreate) SetNillableTitleEnglish(s *string) *ArticleCreate {
 }
 
 // SetAuthor sets the "author" field.
-func (ac *ArticleCreate) SetAuthor(s string) *ArticleCreate {
+func (ac *ArticleCreate) SetAuthor(s []string) *ArticleCreate {
 	ac.mutation.SetAuthor(s)
-	return ac
-}
-
-// SetNillableAuthor sets the "author" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableAuthor(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetAuthor(*s)
-	}
 	return ac
 }
 
@@ -328,9 +314,6 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.IsChinese(); !ok {
 		return &ValidationError{Name: "is_chinese", err: errors.New(`ent: missing required field "Article.is_chinese"`)}
 	}
-	if _, ok := ac.mutation.OriginType(); !ok {
-		return &ValidationError{Name: "origin_type", err: errors.New(`ent: missing required field "Article.origin_type"`)}
-	}
 	if _, ok := ac.mutation.URL(); !ok {
 		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "Article.url"`)}
 	}
@@ -419,10 +402,6 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldIsChinese, field.TypeBool, value)
 		_node.IsChinese = value
 	}
-	if value, ok := ac.mutation.OriginType(); ok {
-		_spec.SetField(article.FieldOriginType, field.TypeString, value)
-		_node.OriginType = value
-	}
 	if value, ok := ac.mutation.URL(); ok {
 		_spec.SetField(article.FieldURL, field.TypeString, value)
 		_node.URL = value
@@ -436,7 +415,7 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_node.TitleEnglish = value
 	}
 	if value, ok := ac.mutation.Author(); ok {
-		_spec.SetField(article.FieldAuthor, field.TypeString, value)
+		_spec.SetField(article.FieldAuthor, field.TypeJSON, value)
 		_node.Author = value
 	}
 	if value, ok := ac.mutation.PublishedAt(); ok {
@@ -556,7 +535,7 @@ func (u *ArticleUpsert) UpdateTitleEnglish() *ArticleUpsert {
 }
 
 // SetAuthor sets the "author" field.
-func (u *ArticleUpsert) SetAuthor(v string) *ArticleUpsert {
+func (u *ArticleUpsert) SetAuthor(v []string) *ArticleUpsert {
 	u.Set(article.FieldAuthor, v)
 	return u
 }
@@ -698,9 +677,6 @@ func (u *ArticleUpsertOne) UpdateNewValues() *ArticleUpsertOne {
 		if _, exists := u.create.mutation.IsChinese(); exists {
 			s.SetIgnore(article.FieldIsChinese)
 		}
-		if _, exists := u.create.mutation.OriginType(); exists {
-			s.SetIgnore(article.FieldOriginType)
-		}
 		if _, exists := u.create.mutation.URL(); exists {
 			s.SetIgnore(article.FieldURL)
 		}
@@ -767,7 +743,7 @@ func (u *ArticleUpsertOne) UpdateTitleEnglish() *ArticleUpsertOne {
 }
 
 // SetAuthor sets the "author" field.
-func (u *ArticleUpsertOne) SetAuthor(v string) *ArticleUpsertOne {
+func (u *ArticleUpsertOne) SetAuthor(v []string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.SetAuthor(v)
 	})
@@ -1094,9 +1070,6 @@ func (u *ArticleUpsertBulk) UpdateNewValues() *ArticleUpsertBulk {
 			if _, exists := b.mutation.IsChinese(); exists {
 				s.SetIgnore(article.FieldIsChinese)
 			}
-			if _, exists := b.mutation.OriginType(); exists {
-				s.SetIgnore(article.FieldOriginType)
-			}
 			if _, exists := b.mutation.URL(); exists {
 				s.SetIgnore(article.FieldURL)
 			}
@@ -1164,7 +1137,7 @@ func (u *ArticleUpsertBulk) UpdateTitleEnglish() *ArticleUpsertBulk {
 }
 
 // SetAuthor sets the "author" field.
-func (u *ArticleUpsertBulk) SetAuthor(v string) *ArticleUpsertBulk {
+func (u *ArticleUpsertBulk) SetAuthor(v []string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.SetAuthor(v)
 	})

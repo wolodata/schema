@@ -43,11 +43,11 @@ type ArticleMutation struct {
 	id                           *uint64
 	origin_short_id              *string
 	is_chinese                   *bool
-	origin_type                  *string
 	url                          *string
 	title_chinese                *string
 	title_english                *string
-	author                       *string
+	author                       *[]string
+	appendauthor                 []string
 	published_at                 *time.Time
 	html_chinese                 *string
 	html_english                 *string
@@ -241,42 +241,6 @@ func (m *ArticleMutation) ResetIsChinese() {
 	m.is_chinese = nil
 }
 
-// SetOriginType sets the "origin_type" field.
-func (m *ArticleMutation) SetOriginType(s string) {
-	m.origin_type = &s
-}
-
-// OriginType returns the value of the "origin_type" field in the mutation.
-func (m *ArticleMutation) OriginType() (r string, exists bool) {
-	v := m.origin_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldOriginType returns the old "origin_type" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldOriginType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOriginType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOriginType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOriginType: %w", err)
-	}
-	return oldValue.OriginType, nil
-}
-
-// ResetOriginType resets all changes to the "origin_type" field.
-func (m *ArticleMutation) ResetOriginType() {
-	m.origin_type = nil
-}
-
 // SetURL sets the "url" field.
 func (m *ArticleMutation) SetURL(s string) {
 	m.url = &s
@@ -386,12 +350,13 @@ func (m *ArticleMutation) ResetTitleEnglish() {
 }
 
 // SetAuthor sets the "author" field.
-func (m *ArticleMutation) SetAuthor(s string) {
+func (m *ArticleMutation) SetAuthor(s []string) {
 	m.author = &s
+	m.appendauthor = nil
 }
 
 // Author returns the value of the "author" field in the mutation.
-func (m *ArticleMutation) Author() (r string, exists bool) {
+func (m *ArticleMutation) Author() (r []string, exists bool) {
 	v := m.author
 	if v == nil {
 		return
@@ -402,7 +367,7 @@ func (m *ArticleMutation) Author() (r string, exists bool) {
 // OldAuthor returns the old "author" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldAuthor(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldAuthor(ctx context.Context) (v []string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAuthor is only allowed on UpdateOne operations")
 	}
@@ -416,9 +381,23 @@ func (m *ArticleMutation) OldAuthor(ctx context.Context) (v string, err error) {
 	return oldValue.Author, nil
 }
 
+// AppendAuthor adds s to the "author" field.
+func (m *ArticleMutation) AppendAuthor(s []string) {
+	m.appendauthor = append(m.appendauthor, s...)
+}
+
+// AppendedAuthor returns the list of values that were appended to the "author" field in this mutation.
+func (m *ArticleMutation) AppendedAuthor() ([]string, bool) {
+	if len(m.appendauthor) == 0 {
+		return nil, false
+	}
+	return m.appendauthor, true
+}
+
 // ResetAuthor resets all changes to the "author" field.
 func (m *ArticleMutation) ResetAuthor() {
 	m.author = nil
+	m.appendauthor = nil
 }
 
 // SetPublishedAt sets the "published_at" field.
@@ -830,15 +809,12 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 17)
+	fields := make([]string, 0, 16)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
 	if m.is_chinese != nil {
 		fields = append(fields, article.FieldIsChinese)
-	}
-	if m.origin_type != nil {
-		fields = append(fields, article.FieldOriginType)
 	}
 	if m.url != nil {
 		fields = append(fields, article.FieldURL)
@@ -894,8 +870,6 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.OriginShortID()
 	case article.FieldIsChinese:
 		return m.IsChinese()
-	case article.FieldOriginType:
-		return m.OriginType()
 	case article.FieldURL:
 		return m.URL()
 	case article.FieldTitleChinese:
@@ -937,8 +911,6 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldOriginShortID(ctx)
 	case article.FieldIsChinese:
 		return m.OldIsChinese(ctx)
-	case article.FieldOriginType:
-		return m.OldOriginType(ctx)
 	case article.FieldURL:
 		return m.OldURL(ctx)
 	case article.FieldTitleChinese:
@@ -990,13 +962,6 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetIsChinese(v)
 		return nil
-	case article.FieldOriginType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetOriginType(v)
-		return nil
 	case article.FieldURL:
 		v, ok := value.(string)
 		if !ok {
@@ -1019,7 +984,7 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		m.SetTitleEnglish(v)
 		return nil
 	case article.FieldAuthor:
-		v, ok := value.(string)
+		v, ok := value.([]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1149,9 +1114,6 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldIsChinese:
 		m.ResetIsChinese()
-		return nil
-	case article.FieldOriginType:
-		m.ResetOriginType()
 		return nil
 	case article.FieldURL:
 		m.ResetURL()

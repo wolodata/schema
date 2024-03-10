@@ -57,16 +57,14 @@ func (au *ArticleUpdate) SetNillableTitleEnglish(s *string) *ArticleUpdate {
 }
 
 // SetAuthor sets the "author" field.
-func (au *ArticleUpdate) SetAuthor(s string) *ArticleUpdate {
+func (au *ArticleUpdate) SetAuthor(s []string) *ArticleUpdate {
 	au.mutation.SetAuthor(s)
 	return au
 }
 
-// SetNillableAuthor sets the "author" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableAuthor(s *string) *ArticleUpdate {
-	if s != nil {
-		au.SetAuthor(*s)
-	}
+// AppendAuthor appends s to the "author" field.
+func (au *ArticleUpdate) AppendAuthor(s []string) *ArticleUpdate {
+	au.mutation.AppendAuthor(s)
 	return au
 }
 
@@ -242,7 +240,12 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(article.FieldTitleEnglish, field.TypeString, value)
 	}
 	if value, ok := au.mutation.Author(); ok {
-		_spec.SetField(article.FieldAuthor, field.TypeString, value)
+		_spec.SetField(article.FieldAuthor, field.TypeJSON, value)
+	}
+	if value, ok := au.mutation.AppendedAuthor(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldAuthor, value)
+		})
 	}
 	if value, ok := au.mutation.HTMLChinese(); ok {
 		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)
@@ -325,16 +328,14 @@ func (auo *ArticleUpdateOne) SetNillableTitleEnglish(s *string) *ArticleUpdateOn
 }
 
 // SetAuthor sets the "author" field.
-func (auo *ArticleUpdateOne) SetAuthor(s string) *ArticleUpdateOne {
+func (auo *ArticleUpdateOne) SetAuthor(s []string) *ArticleUpdateOne {
 	auo.mutation.SetAuthor(s)
 	return auo
 }
 
-// SetNillableAuthor sets the "author" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableAuthor(s *string) *ArticleUpdateOne {
-	if s != nil {
-		auo.SetAuthor(*s)
-	}
+// AppendAuthor appends s to the "author" field.
+func (auo *ArticleUpdateOne) AppendAuthor(s []string) *ArticleUpdateOne {
+	auo.mutation.AppendAuthor(s)
 	return auo
 }
 
@@ -540,7 +541,12 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 		_spec.SetField(article.FieldTitleEnglish, field.TypeString, value)
 	}
 	if value, ok := auo.mutation.Author(); ok {
-		_spec.SetField(article.FieldAuthor, field.TypeString, value)
+		_spec.SetField(article.FieldAuthor, field.TypeJSON, value)
+	}
+	if value, ok := auo.mutation.AppendedAuthor(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldAuthor, value)
+		})
 	}
 	if value, ok := auo.mutation.HTMLChinese(); ok {
 		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)

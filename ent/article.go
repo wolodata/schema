@@ -22,8 +22,6 @@ type Article struct {
 	OriginShortID string `json:"origin_short_id,omitempty"`
 	// IsChinese holds the value of the "is_chinese" field.
 	IsChinese bool `json:"is_chinese,omitempty"`
-	// OriginType holds the value of the "origin_type" field.
-	OriginType string `json:"origin_type,omitempty"`
 	// URL holds the value of the "url" field.
 	URL string `json:"url,omitempty"`
 	// TitleChinese holds the value of the "title_chinese" field.
@@ -31,7 +29,7 @@ type Article struct {
 	// TitleEnglish holds the value of the "title_english" field.
 	TitleEnglish string `json:"title_english,omitempty"`
 	// Author holds the value of the "author" field.
-	Author string `json:"author,omitempty"`
+	Author []string `json:"author,omitempty"`
 	// PublishedAt holds the value of the "published_at" field.
 	PublishedAt time.Time `json:"published_at,omitempty"`
 	// HTMLChinese holds the value of the "html_chinese" field.
@@ -60,13 +58,13 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldChinaRelatedKeywords:
+		case article.FieldAuthor, article.FieldChinaRelatedKeywords:
 			values[i] = new([]byte)
 		case article.FieldIsChinese, article.FieldIsChinaRelated, article.FieldIsChinaStrongRelated:
 			values[i] = new(sql.NullBool)
 		case article.FieldID:
 			values[i] = new(sql.NullInt64)
-		case article.FieldOriginShortID, article.FieldOriginType, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldAuthor, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldChinaRelatedCategory, article.FieldSummaryChinese:
+		case article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldChinaRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -103,12 +101,6 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.IsChinese = value.Bool
 			}
-		case article.FieldOriginType:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field origin_type", values[i])
-			} else if value.Valid {
-				a.OriginType = value.String
-			}
 		case article.FieldURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field url", values[i])
@@ -128,10 +120,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 				a.TitleEnglish = value.String
 			}
 		case article.FieldAuthor:
-			if value, ok := values[i].(*sql.NullString); !ok {
+			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field author", values[i])
-			} else if value.Valid {
-				a.Author = value.String
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &a.Author); err != nil {
+					return fmt.Errorf("unmarshal field author: %w", err)
+				}
 			}
 		case article.FieldPublishedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -237,9 +231,6 @@ func (a *Article) String() string {
 	builder.WriteString("is_chinese=")
 	builder.WriteString(fmt.Sprintf("%v", a.IsChinese))
 	builder.WriteString(", ")
-	builder.WriteString("origin_type=")
-	builder.WriteString(a.OriginType)
-	builder.WriteString(", ")
 	builder.WriteString("url=")
 	builder.WriteString(a.URL)
 	builder.WriteString(", ")
@@ -250,7 +241,7 @@ func (a *Article) String() string {
 	builder.WriteString(a.TitleEnglish)
 	builder.WriteString(", ")
 	builder.WriteString("author=")
-	builder.WriteString(a.Author)
+	builder.WriteString(fmt.Sprintf("%v", a.Author))
 	builder.WriteString(", ")
 	builder.WriteString("published_at=")
 	builder.WriteString(a.PublishedAt.Format(time.ANSIC))

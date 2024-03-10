@@ -14,11 +14,10 @@ var (
 		{Name: "id", Type: field.TypeUint64, Increment: true},
 		{Name: "origin_short_id", Type: field.TypeString},
 		{Name: "is_chinese", Type: field.TypeBool, Default: false},
-		{Name: "origin_type", Type: field.TypeString},
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
 		{Name: "title_chinese", Type: field.TypeString, Default: ""},
 		{Name: "title_english", Type: field.TypeString, Default: ""},
-		{Name: "author", Type: field.TypeString, Default: ""},
+		{Name: "author", Type: field.TypeJSON},
 		{Name: "published_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "html_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "html_english", Type: field.TypeString, Size: 2147483647, Default: ""},
@@ -44,12 +43,12 @@ var (
 			{
 				Name:    "article_title_chinese",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[5]},
+				Columns: []*schema.Column{TArticleColumns[4]},
 			},
 			{
 				Name:    "article_title_english",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[6]},
+				Columns: []*schema.Column{TArticleColumns[5]},
 			},
 			{
 				Name:    "article_origin_short_id",
@@ -57,24 +56,19 @@ var (
 				Columns: []*schema.Column{TArticleColumns[1]},
 			},
 			{
-				Name:    "article_origin_type",
-				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[3]},
-			},
-			{
 				Name:    "article_is_china_related",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[13]},
+				Columns: []*schema.Column{TArticleColumns[12]},
 			},
 			{
 				Name:    "article_is_china_strong_related",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[15]},
+				Columns: []*schema.Column{TArticleColumns[14]},
 			},
 			{
 				Name:    "article_china_related_category",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[16]},
+				Columns: []*schema.Column{TArticleColumns[15]},
 			},
 		},
 	}

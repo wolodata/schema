@@ -15,8 +15,6 @@ const (
 	FieldOriginShortID = "origin_short_id"
 	// FieldIsChinese holds the string denoting the is_chinese field in the database.
 	FieldIsChinese = "is_chinese"
-	// FieldOriginType holds the string denoting the origin_type field in the database.
-	FieldOriginType = "origin_type"
 	// FieldURL holds the string denoting the url field in the database.
 	FieldURL = "url"
 	// FieldTitleChinese holds the string denoting the title_chinese field in the database.
@@ -54,7 +52,6 @@ var Columns = []string{
 	FieldID,
 	FieldOriginShortID,
 	FieldIsChinese,
-	FieldOriginType,
 	FieldURL,
 	FieldTitleChinese,
 	FieldTitleEnglish,
@@ -93,7 +90,7 @@ var (
 	// DefaultTitleEnglish holds the default value on creation for the "title_english" field.
 	DefaultTitleEnglish string
 	// DefaultAuthor holds the default value on creation for the "author" field.
-	DefaultAuthor string
+	DefaultAuthor []string
 	// DefaultHTMLChinese holds the default value on creation for the "html_chinese" field.
 	DefaultHTMLChinese string
 	// DefaultHTMLEnglish holds the default value on creation for the "html_english" field.
@@ -132,11 +129,6 @@ func ByIsChinese(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsChinese, opts...).ToFunc()
 }
 
-// ByOriginType orders the results by the origin_type field.
-func ByOriginType(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOriginType, opts...).ToFunc()
-}
-
 // ByURL orders the results by the url field.
 func ByURL(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldURL, opts...).ToFunc()
@@ -150,11 +142,6 @@ func ByTitleChinese(opts ...sql.OrderTermOption) OrderOption {
 // ByTitleEnglish orders the results by the title_english field.
 func ByTitleEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTitleEnglish, opts...).ToFunc()
-}
-
-// ByAuthor orders the results by the author field.
-func ByAuthor(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAuthor, opts...).ToFunc()
 }
 
 // ByPublishedAt orders the results by the published_at field.
