@@ -1258,6 +1258,7 @@ type HTMLMutation struct {
 	url             *string
 	html            *string
 	crawled_at      *time.Time
+	analyzed_at     *time.Time
 	clearedFields   map[string]struct{}
 	done            bool
 	oldValue        func(context.Context) (*Html, error)
@@ -1548,6 +1549,55 @@ func (m *HTMLMutation) ResetCrawledAt() {
 	m.crawled_at = nil
 }
 
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (m *HTMLMutation) SetAnalyzedAt(t time.Time) {
+	m.analyzed_at = &t
+}
+
+// AnalyzedAt returns the value of the "analyzed_at" field in the mutation.
+func (m *HTMLMutation) AnalyzedAt() (r time.Time, exists bool) {
+	v := m.analyzed_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAnalyzedAt returns the old "analyzed_at" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldAnalyzedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAnalyzedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAnalyzedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAnalyzedAt: %w", err)
+	}
+	return oldValue.AnalyzedAt, nil
+}
+
+// ClearAnalyzedAt clears the value of the "analyzed_at" field.
+func (m *HTMLMutation) ClearAnalyzedAt() {
+	m.analyzed_at = nil
+	m.clearedFields[html.FieldAnalyzedAt] = struct{}{}
+}
+
+// AnalyzedAtCleared returns if the "analyzed_at" field was cleared in this mutation.
+func (m *HTMLMutation) AnalyzedAtCleared() bool {
+	_, ok := m.clearedFields[html.FieldAnalyzedAt]
+	return ok
+}
+
+// ResetAnalyzedAt resets all changes to the "analyzed_at" field.
+func (m *HTMLMutation) ResetAnalyzedAt() {
+	m.analyzed_at = nil
+	delete(m.clearedFields, html.FieldAnalyzedAt)
+}
+
 // Where appends a list predicates to the HTMLMutation builder.
 func (m *HTMLMutation) Where(ps ...predicate.Html) {
 	m.predicates = append(m.predicates, ps...)
@@ -1582,7 +1632,7 @@ func (m *HTMLMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *HTMLMutation) Fields() []string {
-	fields := make([]string, 0, 5)
+	fields := make([]string, 0, 6)
 	if m.origin_short_id != nil {
 		fields = append(fields, html.FieldOriginShortID)
 	}
@@ -1597,6 +1647,9 @@ func (m *HTMLMutation) Fields() []string {
 	}
 	if m.crawled_at != nil {
 		fields = append(fields, html.FieldCrawledAt)
+	}
+	if m.analyzed_at != nil {
+		fields = append(fields, html.FieldAnalyzedAt)
 	}
 	return fields
 }
@@ -1616,6 +1669,8 @@ func (m *HTMLMutation) Field(name string) (ent.Value, bool) {
 		return m.HTML()
 	case html.FieldCrawledAt:
 		return m.CrawledAt()
+	case html.FieldAnalyzedAt:
+		return m.AnalyzedAt()
 	}
 	return nil, false
 }
@@ -1635,6 +1690,8 @@ func (m *HTMLMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldHTML(ctx)
 	case html.FieldCrawledAt:
 		return m.OldCrawledAt(ctx)
+	case html.FieldAnalyzedAt:
+		return m.OldAnalyzedAt(ctx)
 	}
 	return nil, fmt.Errorf("unknown Html field %s", name)
 }
@@ -1679,6 +1736,13 @@ func (m *HTMLMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCrawledAt(v)
 		return nil
+	case html.FieldAnalyzedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAnalyzedAt(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Html field %s", name)
 }
@@ -1708,7 +1772,11 @@ func (m *HTMLMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *HTMLMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(html.FieldAnalyzedAt) {
+		fields = append(fields, html.FieldAnalyzedAt)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -1721,6 +1789,11 @@ func (m *HTMLMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *HTMLMutation) ClearField(name string) error {
+	switch name {
+	case html.FieldAnalyzedAt:
+		m.ClearAnalyzedAt()
+		return nil
+	}
 	return fmt.Errorf("unknown Html nullable field %s", name)
 }
 
@@ -1742,6 +1815,9 @@ func (m *HTMLMutation) ResetField(name string) error {
 		return nil
 	case html.FieldCrawledAt:
 		m.ResetCrawledAt()
+		return nil
+	case html.FieldAnalyzedAt:
+		m.ResetAnalyzedAt()
 		return nil
 	}
 	return fmt.Errorf("unknown Html field %s", name)

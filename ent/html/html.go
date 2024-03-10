@@ -23,6 +23,8 @@ const (
 	FieldHTML = "html"
 	// FieldCrawledAt holds the string denoting the crawled_at field in the database.
 	FieldCrawledAt = "crawled_at"
+	// FieldAnalyzedAt holds the string denoting the analyzed_at field in the database.
+	FieldAnalyzedAt = "analyzed_at"
 	// Table holds the table name of the html in the database.
 	Table = "t_html"
 )
@@ -35,6 +37,7 @@ var Columns = []string{
 	FieldURL,
 	FieldHTML,
 	FieldCrawledAt,
+	FieldAnalyzedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -91,4 +94,9 @@ func ByHTML(opts ...sql.OrderTermOption) OrderOption {
 // ByCrawledAt orders the results by the crawled_at field.
 func ByCrawledAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCrawledAt, opts...).ToFunc()
+}
+
+// ByAnalyzedAt orders the results by the analyzed_at field.
+func ByAnalyzedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAnalyzedAt, opts...).ToFunc()
 }

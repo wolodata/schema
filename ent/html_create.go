@@ -68,6 +68,20 @@ func (hc *HTMLCreate) SetNillableCrawledAt(t *time.Time) *HTMLCreate {
 	return hc
 }
 
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (hc *HTMLCreate) SetAnalyzedAt(t time.Time) *HTMLCreate {
+	hc.mutation.SetAnalyzedAt(t)
+	return hc
+}
+
+// SetNillableAnalyzedAt sets the "analyzed_at" field if the given value is not nil.
+func (hc *HTMLCreate) SetNillableAnalyzedAt(t *time.Time) *HTMLCreate {
+	if t != nil {
+		hc.SetAnalyzedAt(*t)
+	}
+	return hc
+}
+
 // SetID sets the "id" field.
 func (hc *HTMLCreate) SetID(u uint64) *HTMLCreate {
 	hc.mutation.SetID(u)
@@ -204,6 +218,10 @@ func (hc *HTMLCreate) createSpec() (*Html, *sqlgraph.CreateSpec) {
 		_spec.SetField(html.FieldCrawledAt, field.TypeTime, value)
 		_node.CrawledAt = value
 	}
+	if value, ok := hc.mutation.AnalyzedAt(); ok {
+		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)
+		_node.AnalyzedAt = value
+	}
 	return _node, _spec
 }
 
@@ -255,6 +273,24 @@ type (
 		*sql.UpdateSet
 	}
 )
+
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (u *HtmlUpsert) SetAnalyzedAt(v time.Time) *HtmlUpsert {
+	u.Set(html.FieldAnalyzedAt, v)
+	return u
+}
+
+// UpdateAnalyzedAt sets the "analyzed_at" field to the value that was provided on create.
+func (u *HtmlUpsert) UpdateAnalyzedAt() *HtmlUpsert {
+	u.SetExcluded(html.FieldAnalyzedAt)
+	return u
+}
+
+// ClearAnalyzedAt clears the value of the "analyzed_at" field.
+func (u *HtmlUpsert) ClearAnalyzedAt() *HtmlUpsert {
+	u.SetNull(html.FieldAnalyzedAt)
+	return u
+}
 
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
@@ -317,6 +353,27 @@ func (u *HtmlUpsertOne) Update(set func(*HtmlUpsert)) *HtmlUpsertOne {
 		set(&HtmlUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (u *HtmlUpsertOne) SetAnalyzedAt(v time.Time) *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.SetAnalyzedAt(v)
+	})
+}
+
+// UpdateAnalyzedAt sets the "analyzed_at" field to the value that was provided on create.
+func (u *HtmlUpsertOne) UpdateAnalyzedAt() *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.UpdateAnalyzedAt()
+	})
+}
+
+// ClearAnalyzedAt clears the value of the "analyzed_at" field.
+func (u *HtmlUpsertOne) ClearAnalyzedAt() *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.ClearAnalyzedAt()
+	})
 }
 
 // Exec executes the query.
@@ -546,6 +603,27 @@ func (u *HtmlUpsertBulk) Update(set func(*HtmlUpsert)) *HtmlUpsertBulk {
 		set(&HtmlUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (u *HtmlUpsertBulk) SetAnalyzedAt(v time.Time) *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.SetAnalyzedAt(v)
+	})
+}
+
+// UpdateAnalyzedAt sets the "analyzed_at" field to the value that was provided on create.
+func (u *HtmlUpsertBulk) UpdateAnalyzedAt() *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.UpdateAnalyzedAt()
+	})
+}
+
+// ClearAnalyzedAt clears the value of the "analyzed_at" field.
+func (u *HtmlUpsertBulk) ClearAnalyzedAt() *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.ClearAnalyzedAt()
+	})
 }
 
 // Exec executes the query.

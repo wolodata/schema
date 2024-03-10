@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -24,6 +25,26 @@ type HTMLUpdate struct {
 // Where appends a list predicates to the HTMLUpdate builder.
 func (hu *HTMLUpdate) Where(ps ...predicate.Html) *HTMLUpdate {
 	hu.mutation.Where(ps...)
+	return hu
+}
+
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (hu *HTMLUpdate) SetAnalyzedAt(t time.Time) *HTMLUpdate {
+	hu.mutation.SetAnalyzedAt(t)
+	return hu
+}
+
+// SetNillableAnalyzedAt sets the "analyzed_at" field if the given value is not nil.
+func (hu *HTMLUpdate) SetNillableAnalyzedAt(t *time.Time) *HTMLUpdate {
+	if t != nil {
+		hu.SetAnalyzedAt(*t)
+	}
+	return hu
+}
+
+// ClearAnalyzedAt clears the value of the "analyzed_at" field.
+func (hu *HTMLUpdate) ClearAnalyzedAt() *HTMLUpdate {
+	hu.mutation.ClearAnalyzedAt()
 	return hu
 }
 
@@ -68,6 +89,12 @@ func (hu *HTMLUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := hu.mutation.AnalyzedAt(); ok {
+		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)
+	}
+	if hu.mutation.AnalyzedAtCleared() {
+		_spec.ClearField(html.FieldAnalyzedAt, field.TypeTime)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, hu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{html.Label}
@@ -86,6 +113,26 @@ type HTMLUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *HTMLMutation
+}
+
+// SetAnalyzedAt sets the "analyzed_at" field.
+func (huo *HTMLUpdateOne) SetAnalyzedAt(t time.Time) *HTMLUpdateOne {
+	huo.mutation.SetAnalyzedAt(t)
+	return huo
+}
+
+// SetNillableAnalyzedAt sets the "analyzed_at" field if the given value is not nil.
+func (huo *HTMLUpdateOne) SetNillableAnalyzedAt(t *time.Time) *HTMLUpdateOne {
+	if t != nil {
+		huo.SetAnalyzedAt(*t)
+	}
+	return huo
+}
+
+// ClearAnalyzedAt clears the value of the "analyzed_at" field.
+func (huo *HTMLUpdateOne) ClearAnalyzedAt() *HTMLUpdateOne {
+	huo.mutation.ClearAnalyzedAt()
+	return huo
 }
 
 // Mutation returns the HTMLMutation object of the builder.
@@ -158,6 +205,12 @@ func (huo *HTMLUpdateOne) sqlSave(ctx context.Context) (_node *Html, err error) 
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := huo.mutation.AnalyzedAt(); ok {
+		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)
+	}
+	if huo.mutation.AnalyzedAtCleared() {
+		_spec.ClearField(html.FieldAnalyzedAt, field.TypeTime)
 	}
 	_node = &Html{config: huo.config}
 	_spec.Assign = _node.assignValues

@@ -86,6 +86,7 @@ var (
 		{Name: "url", Type: field.TypeString, Unique: true, Size: 768},
 		{Name: "html", Type: field.TypeString, Size: 2147483647},
 		{Name: "crawled_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "analyzed_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
 	}
 	// THTMLTable holds the schema information for the "t_html" table.
 	THTMLTable = &schema.Table{
@@ -107,6 +108,11 @@ var (
 				Name:    "html_crawled_at",
 				Unique:  false,
 				Columns: []*schema.Column{THTMLColumns[5]},
+			},
+			{
+				Name:    "html_analyzed_at",
+				Unique:  false,
+				Columns: []*schema.Column{THTMLColumns[6]},
 			},
 		},
 	}
