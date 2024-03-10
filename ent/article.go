@@ -17,7 +17,7 @@ import (
 type Article struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID uint64 `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 	// OriginShortID holds the value of the "origin_short_id" field.
 	OriginShortID string `json:"origin_short_id,omitempty"`
 	// IsChinese holds the value of the "is_chinese" field.
@@ -62,9 +62,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case article.FieldIsChinese, article.FieldIsChinaRelated, article.FieldIsChinaStrongRelated:
 			values[i] = new(sql.NullBool)
-		case article.FieldID:
-			values[i] = new(sql.NullInt64)
-		case article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldChinaRelatedCategory, article.FieldSummaryChinese:
+		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldChinaRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -84,11 +82,11 @@ func (a *Article) assignValues(columns []string, values []any) error {
 	for i := range columns {
 		switch columns[i] {
 		case article.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value.Valid {
+				a.ID = value.String
 			}
-			a.ID = uint64(value.Int64)
 		case article.FieldOriginShortID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field origin_short_id", values[i])

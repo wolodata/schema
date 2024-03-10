@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -83,8 +84,8 @@ func (hc *HTMLCreate) SetNillableAnalyzedAt(t *time.Time) *HTMLCreate {
 }
 
 // SetID sets the "id" field.
-func (hc *HTMLCreate) SetID(u uint64) *HTMLCreate {
-	hc.mutation.SetID(u)
+func (hc *HTMLCreate) SetID(s string) *HTMLCreate {
+	hc.mutation.SetID(s)
 	return hc
 }
 
@@ -179,9 +180,12 @@ func (hc *HTMLCreate) sqlSave(ctx context.Context) (*Html, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = uint64(id)
+	if _spec.ID.Value != nil {
+		if id, ok := _spec.ID.Value.(string); ok {
+			_node.ID = id
+		} else {
+			return nil, fmt.Errorf("unexpected Html.ID type: %T", _spec.ID.Value)
+		}
 	}
 	hc.mutation.id = &_node.ID
 	hc.mutation.done = true
@@ -191,7 +195,7 @@ func (hc *HTMLCreate) sqlSave(ctx context.Context) (*Html, error) {
 func (hc *HTMLCreate) createSpec() (*Html, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Html{config: hc.config}
-		_spec = sqlgraph.NewCreateSpec(html.Table, sqlgraph.NewFieldSpec(html.FieldID, field.TypeUint64))
+		_spec = sqlgraph.NewCreateSpec(html.Table, sqlgraph.NewFieldSpec(html.FieldID, field.TypeString))
 	)
 	_spec.OnConflict = hc.conflict
 	if id, ok := hc.mutation.ID(); ok {
@@ -392,7 +396,12 @@ func (u *HtmlUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *HtmlUpsertOne) ID(ctx context.Context) (id uint64, err error) {
+func (u *HtmlUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: HtmlUpsertOne.ID is not supported by MySQL driver. Use HtmlUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -401,7 +410,7 @@ func (u *HtmlUpsertOne) ID(ctx context.Context) (id uint64, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *HtmlUpsertOne) IDX(ctx context.Context) uint64 {
+func (u *HtmlUpsertOne) IDX(ctx context.Context) string {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -456,10 +465,6 @@ func (hcb *HTMLCreateBulk) Save(ctx context.Context) ([]*Html, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint64(id)
-				}
 				mutation.done = true
 				return nodes[i], nil
 			})

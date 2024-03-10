@@ -14,8 +14,8 @@ type Topic struct {
 
 func (Topic) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint64("id").Immutable(),
-		field.Uint64("user_id").Immutable(),
+		field.String("id").Immutable(),
+		field.String("user_id").Immutable(),
 		field.String("keyword").NotEmpty(),
 		field.Bool("follow_title").Default(false),
 		field.Bool("follow_content").Default(false),

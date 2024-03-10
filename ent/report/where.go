@@ -10,48 +10,58 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id uint64) predicate.Report {
+func ID(id string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id uint64) predicate.Report {
+func IDEQ(id string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id uint64) predicate.Report {
+func IDNEQ(id string) predicate.Report {
 	return predicate.Report(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...uint64) predicate.Report {
+func IDIn(ids ...string) predicate.Report {
 	return predicate.Report(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...uint64) predicate.Report {
+func IDNotIn(ids ...string) predicate.Report {
 	return predicate.Report(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id uint64) predicate.Report {
+func IDGT(id string) predicate.Report {
 	return predicate.Report(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id uint64) predicate.Report {
+func IDGTE(id string) predicate.Report {
 	return predicate.Report(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id uint64) predicate.Report {
+func IDLT(id string) predicate.Report {
 	return predicate.Report(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id uint64) predicate.Report {
+func IDLTE(id string) predicate.Report {
 	return predicate.Report(sql.FieldLTE(FieldID, id))
+}
+
+// IDEqualFold applies the EqualFold predicate on the ID field.
+func IDEqualFold(id string) predicate.Report {
+	return predicate.Report(sql.FieldEqualFold(FieldID, id))
+}
+
+// IDContainsFold applies the ContainsFold predicate on the ID field.
+func IDContainsFold(id string) predicate.Report {
+	return predicate.Report(sql.FieldContainsFold(FieldID, id))
 }
 
 // ReportType applies equality check predicate on the "report_type" field. It's identical to ReportTypeEQ.
@@ -60,7 +70,7 @@ func ReportType(v string) predicate.Report {
 }
 
 // TriggerUserID applies equality check predicate on the "trigger_user_id" field. It's identical to TriggerUserIDEQ.
-func TriggerUserID(v uint64) predicate.Report {
+func TriggerUserID(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerUserID, v))
 }
 
@@ -150,43 +160,58 @@ func ReportTypeContainsFold(v string) predicate.Report {
 }
 
 // TriggerUserIDEQ applies the EQ predicate on the "trigger_user_id" field.
-func TriggerUserIDEQ(v uint64) predicate.Report {
+func TriggerUserIDEQ(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerUserID, v))
 }
 
 // TriggerUserIDNEQ applies the NEQ predicate on the "trigger_user_id" field.
-func TriggerUserIDNEQ(v uint64) predicate.Report {
+func TriggerUserIDNEQ(v string) predicate.Report {
 	return predicate.Report(sql.FieldNEQ(FieldTriggerUserID, v))
 }
 
 // TriggerUserIDIn applies the In predicate on the "trigger_user_id" field.
-func TriggerUserIDIn(vs ...uint64) predicate.Report {
+func TriggerUserIDIn(vs ...string) predicate.Report {
 	return predicate.Report(sql.FieldIn(FieldTriggerUserID, vs...))
 }
 
 // TriggerUserIDNotIn applies the NotIn predicate on the "trigger_user_id" field.
-func TriggerUserIDNotIn(vs ...uint64) predicate.Report {
+func TriggerUserIDNotIn(vs ...string) predicate.Report {
 	return predicate.Report(sql.FieldNotIn(FieldTriggerUserID, vs...))
 }
 
 // TriggerUserIDGT applies the GT predicate on the "trigger_user_id" field.
-func TriggerUserIDGT(v uint64) predicate.Report {
+func TriggerUserIDGT(v string) predicate.Report {
 	return predicate.Report(sql.FieldGT(FieldTriggerUserID, v))
 }
 
 // TriggerUserIDGTE applies the GTE predicate on the "trigger_user_id" field.
-func TriggerUserIDGTE(v uint64) predicate.Report {
+func TriggerUserIDGTE(v string) predicate.Report {
 	return predicate.Report(sql.FieldGTE(FieldTriggerUserID, v))
 }
 
 // TriggerUserIDLT applies the LT predicate on the "trigger_user_id" field.
-func TriggerUserIDLT(v uint64) predicate.Report {
+func TriggerUserIDLT(v string) predicate.Report {
 	return predicate.Report(sql.FieldLT(FieldTriggerUserID, v))
 }
 
 // TriggerUserIDLTE applies the LTE predicate on the "trigger_user_id" field.
-func TriggerUserIDLTE(v uint64) predicate.Report {
+func TriggerUserIDLTE(v string) predicate.Report {
 	return predicate.Report(sql.FieldLTE(FieldTriggerUserID, v))
+}
+
+// TriggerUserIDContains applies the Contains predicate on the "trigger_user_id" field.
+func TriggerUserIDContains(v string) predicate.Report {
+	return predicate.Report(sql.FieldContains(FieldTriggerUserID, v))
+}
+
+// TriggerUserIDHasPrefix applies the HasPrefix predicate on the "trigger_user_id" field.
+func TriggerUserIDHasPrefix(v string) predicate.Report {
+	return predicate.Report(sql.FieldHasPrefix(FieldTriggerUserID, v))
+}
+
+// TriggerUserIDHasSuffix applies the HasSuffix predicate on the "trigger_user_id" field.
+func TriggerUserIDHasSuffix(v string) predicate.Report {
+	return predicate.Report(sql.FieldHasSuffix(FieldTriggerUserID, v))
 }
 
 // TriggerUserIDIsNil applies the IsNil predicate on the "trigger_user_id" field.
@@ -197,6 +222,16 @@ func TriggerUserIDIsNil() predicate.Report {
 // TriggerUserIDNotNil applies the NotNil predicate on the "trigger_user_id" field.
 func TriggerUserIDNotNil() predicate.Report {
 	return predicate.Report(sql.FieldNotNull(FieldTriggerUserID))
+}
+
+// TriggerUserIDEqualFold applies the EqualFold predicate on the "trigger_user_id" field.
+func TriggerUserIDEqualFold(v string) predicate.Report {
+	return predicate.Report(sql.FieldEqualFold(FieldTriggerUserID, v))
+}
+
+// TriggerUserIDContainsFold applies the ContainsFold predicate on the "trigger_user_id" field.
+func TriggerUserIDContainsFold(v string) predicate.Report {
+	return predicate.Report(sql.FieldContainsFold(FieldTriggerUserID, v))
 }
 
 // TriggerAtEQ applies the EQ predicate on the "trigger_at" field.

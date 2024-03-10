@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -29,15 +30,15 @@ func (rc *ReportCreate) SetReportType(s string) *ReportCreate {
 }
 
 // SetTriggerUserID sets the "trigger_user_id" field.
-func (rc *ReportCreate) SetTriggerUserID(u uint64) *ReportCreate {
-	rc.mutation.SetTriggerUserID(u)
+func (rc *ReportCreate) SetTriggerUserID(s string) *ReportCreate {
+	rc.mutation.SetTriggerUserID(s)
 	return rc
 }
 
 // SetNillableTriggerUserID sets the "trigger_user_id" field if the given value is not nil.
-func (rc *ReportCreate) SetNillableTriggerUserID(u *uint64) *ReportCreate {
-	if u != nil {
-		rc.SetTriggerUserID(*u)
+func (rc *ReportCreate) SetNillableTriggerUserID(s *string) *ReportCreate {
+	if s != nil {
+		rc.SetTriggerUserID(*s)
 	}
 	return rc
 }
@@ -49,8 +50,8 @@ func (rc *ReportCreate) SetTriggerAt(t time.Time) *ReportCreate {
 }
 
 // SetRelatedArticleIds sets the "related_article_ids" field.
-func (rc *ReportCreate) SetRelatedArticleIds(u []uint64) *ReportCreate {
-	rc.mutation.SetRelatedArticleIds(u)
+func (rc *ReportCreate) SetRelatedArticleIds(s []string) *ReportCreate {
+	rc.mutation.SetRelatedArticleIds(s)
 	return rc
 }
 
@@ -97,8 +98,8 @@ func (rc *ReportCreate) SetNillableGeneratedAt(t *time.Time) *ReportCreate {
 }
 
 // SetID sets the "id" field.
-func (rc *ReportCreate) SetID(u uint64) *ReportCreate {
-	rc.mutation.SetID(u)
+func (rc *ReportCreate) SetID(s string) *ReportCreate {
+	rc.mutation.SetID(s)
 	return rc
 }
 
@@ -194,9 +195,12 @@ func (rc *ReportCreate) sqlSave(ctx context.Context) (*Report, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = uint64(id)
+	if _spec.ID.Value != nil {
+		if id, ok := _spec.ID.Value.(string); ok {
+			_node.ID = id
+		} else {
+			return nil, fmt.Errorf("unexpected Report.ID type: %T", _spec.ID.Value)
+		}
 	}
 	rc.mutation.id = &_node.ID
 	rc.mutation.done = true
@@ -206,7 +210,7 @@ func (rc *ReportCreate) sqlSave(ctx context.Context) (*Report, error) {
 func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Report{config: rc.config}
-		_spec = sqlgraph.NewCreateSpec(report.Table, sqlgraph.NewFieldSpec(report.FieldID, field.TypeUint64))
+		_spec = sqlgraph.NewCreateSpec(report.Table, sqlgraph.NewFieldSpec(report.FieldID, field.TypeString))
 	)
 	_spec.OnConflict = rc.conflict
 	if id, ok := rc.mutation.ID(); ok {
@@ -218,7 +222,7 @@ func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 		_node.ReportType = value
 	}
 	if value, ok := rc.mutation.TriggerUserID(); ok {
-		_spec.SetField(report.FieldTriggerUserID, field.TypeUint64, value)
+		_spec.SetField(report.FieldTriggerUserID, field.TypeString, value)
 		_node.TriggerUserID = value
 	}
 	if value, ok := rc.mutation.TriggerAt(); ok {
@@ -447,7 +451,12 @@ func (u *ReportUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *ReportUpsertOne) ID(ctx context.Context) (id uint64, err error) {
+func (u *ReportUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: ReportUpsertOne.ID is not supported by MySQL driver. Use ReportUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -456,7 +465,7 @@ func (u *ReportUpsertOne) ID(ctx context.Context) (id uint64, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *ReportUpsertOne) IDX(ctx context.Context) uint64 {
+func (u *ReportUpsertOne) IDX(ctx context.Context) string {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -511,10 +520,6 @@ func (rcb *ReportCreateBulk) Save(ctx context.Context) ([]*Report, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint64(id)
-				}
 				mutation.done = true
 				return nodes[i], nil
 			})

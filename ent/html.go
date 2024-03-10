@@ -16,7 +16,7 @@ import (
 type Html struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID uint64 `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 	// OriginShortID holds the value of the "origin_short_id" field.
 	OriginShortID string `json:"origin_short_id,omitempty"`
 	// IsChinese holds the value of the "is_chinese" field.
@@ -39,9 +39,7 @@ func (*Html) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case html.FieldIsChinese:
 			values[i] = new(sql.NullBool)
-		case html.FieldID:
-			values[i] = new(sql.NullInt64)
-		case html.FieldOriginShortID, html.FieldURL, html.FieldHTML:
+		case html.FieldID, html.FieldOriginShortID, html.FieldURL, html.FieldHTML:
 			values[i] = new(sql.NullString)
 		case html.FieldCrawledAt, html.FieldAnalyzedAt:
 			values[i] = new(sql.NullTime)
@@ -61,11 +59,11 @@ func (h *Html) assignValues(columns []string, values []any) error {
 	for i := range columns {
 		switch columns[i] {
 		case html.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value.Valid {
+				h.ID = value.String
 			}
-			h.ID = uint64(value.Int64)
 		case html.FieldOriginShortID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field origin_short_id", values[i])

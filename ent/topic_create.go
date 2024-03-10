@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -22,8 +23,8 @@ type TopicCreate struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (tc *TopicCreate) SetUserID(u uint64) *TopicCreate {
-	tc.mutation.SetUserID(u)
+func (tc *TopicCreate) SetUserID(s string) *TopicCreate {
+	tc.mutation.SetUserID(s)
 	return tc
 }
 
@@ -62,8 +63,8 @@ func (tc *TopicCreate) SetNillableFollowContent(b *bool) *TopicCreate {
 }
 
 // SetID sets the "id" field.
-func (tc *TopicCreate) SetID(u uint64) *TopicCreate {
-	tc.mutation.SetID(u)
+func (tc *TopicCreate) SetID(s string) *TopicCreate {
+	tc.mutation.SetID(s)
 	return tc
 }
 
@@ -145,9 +146,12 @@ func (tc *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = uint64(id)
+	if _spec.ID.Value != nil {
+		if id, ok := _spec.ID.Value.(string); ok {
+			_node.ID = id
+		} else {
+			return nil, fmt.Errorf("unexpected Topic.ID type: %T", _spec.ID.Value)
+		}
 	}
 	tc.mutation.id = &_node.ID
 	tc.mutation.done = true
@@ -157,7 +161,7 @@ func (tc *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
 func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Topic{config: tc.config}
-		_spec = sqlgraph.NewCreateSpec(topic.Table, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeUint64))
+		_spec = sqlgraph.NewCreateSpec(topic.Table, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
 	)
 	_spec.OnConflict = tc.conflict
 	if id, ok := tc.mutation.ID(); ok {
@@ -165,7 +169,7 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_spec.ID.Value = id
 	}
 	if value, ok := tc.mutation.UserID(); ok {
-		_spec.SetField(topic.FieldUserID, field.TypeUint64, value)
+		_spec.SetField(topic.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
 	if value, ok := tc.mutation.Keyword(); ok {
@@ -377,7 +381,12 @@ func (u *TopicUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *TopicUpsertOne) ID(ctx context.Context) (id uint64, err error) {
+func (u *TopicUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: TopicUpsertOne.ID is not supported by MySQL driver. Use TopicUpsertOne.Exec instead")
+	}
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -386,7 +395,7 @@ func (u *TopicUpsertOne) ID(ctx context.Context) (id uint64, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *TopicUpsertOne) IDX(ctx context.Context) uint64 {
+func (u *TopicUpsertOne) IDX(ctx context.Context) string {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -441,10 +450,6 @@ func (tcb *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint64(id)
-				}
 				mutation.done = true
 				return nodes[i], nil
 			})

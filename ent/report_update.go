@@ -103,7 +103,7 @@ func (ru *ReportUpdate) ExecX(ctx context.Context) {
 }
 
 func (ru *ReportUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeString))
 	if ps := ru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -112,7 +112,7 @@ func (ru *ReportUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 	}
 	if ru.mutation.TriggerUserIDCleared() {
-		_spec.ClearField(report.FieldTriggerUserID, field.TypeUint64)
+		_spec.ClearField(report.FieldTriggerUserID, field.TypeString)
 	}
 	if value, ok := ru.mutation.Content(); ok {
 		_spec.SetField(report.FieldContent, field.TypeString, value)
@@ -231,7 +231,7 @@ func (ruo *ReportUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (ruo *ReportUpdateOne) sqlSave(ctx context.Context) (_node *Report, err error) {
-	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewUpdateSpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeString))
 	id, ok := ruo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Report.id" for update`)}
@@ -257,7 +257,7 @@ func (ruo *ReportUpdateOne) sqlSave(ctx context.Context) (_node *Report, err err
 		}
 	}
 	if ruo.mutation.TriggerUserIDCleared() {
-		_spec.ClearField(report.FieldTriggerUserID, field.TypeUint64)
+		_spec.ClearField(report.FieldTriggerUserID, field.TypeString)
 	}
 	if value, ok := ruo.mutation.Content(); ok {
 		_spec.SetField(report.FieldContent, field.TypeString, value)

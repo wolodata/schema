@@ -10,48 +10,58 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id uint64) predicate.Article {
+func ID(id string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id uint64) predicate.Article {
+func IDEQ(id string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id uint64) predicate.Article {
+func IDNEQ(id string) predicate.Article {
 	return predicate.Article(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...uint64) predicate.Article {
+func IDIn(ids ...string) predicate.Article {
 	return predicate.Article(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...uint64) predicate.Article {
+func IDNotIn(ids ...string) predicate.Article {
 	return predicate.Article(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id uint64) predicate.Article {
+func IDGT(id string) predicate.Article {
 	return predicate.Article(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id uint64) predicate.Article {
+func IDGTE(id string) predicate.Article {
 	return predicate.Article(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id uint64) predicate.Article {
+func IDLT(id string) predicate.Article {
 	return predicate.Article(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id uint64) predicate.Article {
+func IDLTE(id string) predicate.Article {
 	return predicate.Article(sql.FieldLTE(FieldID, id))
+}
+
+// IDEqualFold applies the EqualFold predicate on the ID field.
+func IDEqualFold(id string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldID, id))
+}
+
+// IDContainsFold applies the ContainsFold predicate on the ID field.
+func IDContainsFold(id string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldID, id))
 }
 
 // OriginShortID applies equality check predicate on the "origin_short_id" field. It's identical to OriginShortIDEQ.

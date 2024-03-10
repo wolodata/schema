@@ -81,8 +81,8 @@ func (rq *ReportQuery) FirstX(ctx context.Context) *Report {
 
 // FirstID returns the first Report ID from the query.
 // Returns a *NotFoundError when no Report ID was found.
-func (rq *ReportQuery) FirstID(ctx context.Context) (id uint64, err error) {
-	var ids []uint64
+func (rq *ReportQuery) FirstID(ctx context.Context) (id string, err error) {
+	var ids []string
 	if ids, err = rq.Limit(1).IDs(setContextOp(ctx, rq.ctx, "FirstID")); err != nil {
 		return
 	}
@@ -94,7 +94,7 @@ func (rq *ReportQuery) FirstID(ctx context.Context) (id uint64, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (rq *ReportQuery) FirstIDX(ctx context.Context) uint64 {
+func (rq *ReportQuery) FirstIDX(ctx context.Context) string {
 	id, err := rq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -132,8 +132,8 @@ func (rq *ReportQuery) OnlyX(ctx context.Context) *Report {
 // OnlyID is like Only, but returns the only Report ID in the query.
 // Returns a *NotSingularError when more than one Report ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (rq *ReportQuery) OnlyID(ctx context.Context) (id uint64, err error) {
-	var ids []uint64
+func (rq *ReportQuery) OnlyID(ctx context.Context) (id string, err error) {
+	var ids []string
 	if ids, err = rq.Limit(2).IDs(setContextOp(ctx, rq.ctx, "OnlyID")); err != nil {
 		return
 	}
@@ -149,7 +149,7 @@ func (rq *ReportQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (rq *ReportQuery) OnlyIDX(ctx context.Context) uint64 {
+func (rq *ReportQuery) OnlyIDX(ctx context.Context) string {
 	id, err := rq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -177,7 +177,7 @@ func (rq *ReportQuery) AllX(ctx context.Context) []*Report {
 }
 
 // IDs executes the query and returns a list of Report IDs.
-func (rq *ReportQuery) IDs(ctx context.Context) (ids []uint64, err error) {
+func (rq *ReportQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if rq.ctx.Unique == nil && rq.path != nil {
 		rq.Unique(true)
 	}
@@ -189,7 +189,7 @@ func (rq *ReportQuery) IDs(ctx context.Context) (ids []uint64, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (rq *ReportQuery) IDsX(ctx context.Context) []uint64 {
+func (rq *ReportQuery) IDsX(ctx context.Context) []string {
 	ids, err := rq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -364,7 +364,7 @@ func (rq *ReportQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (rq *ReportQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewQuerySpec(report.Table, report.Columns, sqlgraph.NewFieldSpec(report.FieldID, field.TypeString))
 	_spec.From = rq.sql
 	if unique := rq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

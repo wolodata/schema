@@ -17,15 +17,15 @@ import (
 type Report struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID uint64 `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 	// ReportType holds the value of the "report_type" field.
 	ReportType string `json:"report_type,omitempty"`
 	// TriggerUserID holds the value of the "trigger_user_id" field.
-	TriggerUserID uint64 `json:"trigger_user_id,omitempty"`
+	TriggerUserID string `json:"trigger_user_id,omitempty"`
 	// TriggerAt holds the value of the "trigger_at" field.
 	TriggerAt time.Time `json:"trigger_at,omitempty"`
 	// RelatedArticleIds holds the value of the "related_article_ids" field.
-	RelatedArticleIds []uint64 `json:"related_article_ids,omitempty"`
+	RelatedArticleIds []string `json:"related_article_ids,omitempty"`
 	// Content holds the value of the "content" field.
 	Content string `json:"content,omitempty"`
 	// Reason holds the value of the "reason" field.
@@ -42,9 +42,7 @@ func (*Report) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case report.FieldRelatedArticleIds:
 			values[i] = new([]byte)
-		case report.FieldID, report.FieldTriggerUserID:
-			values[i] = new(sql.NullInt64)
-		case report.FieldReportType, report.FieldContent, report.FieldReason:
+		case report.FieldID, report.FieldReportType, report.FieldTriggerUserID, report.FieldContent, report.FieldReason:
 			values[i] = new(sql.NullString)
 		case report.FieldTriggerAt, report.FieldGeneratedAt:
 			values[i] = new(sql.NullTime)
@@ -64,11 +62,11 @@ func (r *Report) assignValues(columns []string, values []any) error {
 	for i := range columns {
 		switch columns[i] {
 		case report.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value.Valid {
+				r.ID = value.String
 			}
-			r.ID = uint64(value.Int64)
 		case report.FieldReportType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field report_type", values[i])
@@ -76,10 +74,10 @@ func (r *Report) assignValues(columns []string, values []any) error {
 				r.ReportType = value.String
 			}
 		case report.FieldTriggerUserID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field trigger_user_id", values[i])
 			} else if value.Valid {
-				r.TriggerUserID = uint64(value.Int64)
+				r.TriggerUserID = value.String
 			}
 		case report.FieldTriggerAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -153,7 +151,7 @@ func (r *Report) String() string {
 	builder.WriteString(r.ReportType)
 	builder.WriteString(", ")
 	builder.WriteString("trigger_user_id=")
-	builder.WriteString(fmt.Sprintf("%v", r.TriggerUserID))
+	builder.WriteString(r.TriggerUserID)
 	builder.WriteString(", ")
 	builder.WriteString("trigger_at=")
 	builder.WriteString(r.TriggerAt.Format(time.ANSIC))

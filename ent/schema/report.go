@@ -17,11 +17,11 @@ type Report struct {
 
 func (Report) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint64("id").Immutable(),
+		field.String("id").Immutable(),
 		field.String("report_type").NotEmpty().Immutable(),
-		field.Uint64("trigger_user_id").Optional().Immutable(),
+		field.String("trigger_user_id").Optional().Immutable(),
 		field.Time("trigger_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
-		field.JSON("related_article_ids", []uint64{}).Default([]uint64{}).Immutable(),
+		field.JSON("related_article_ids", []string{}).Default([]string{}).Immutable(),
 		field.Text("content").Default(""),
 		field.Text("reason").Default(""),
 		field.Time("generated_at").SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),

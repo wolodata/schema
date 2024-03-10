@@ -81,8 +81,8 @@ func (tq *TopicQuery) FirstX(ctx context.Context) *Topic {
 
 // FirstID returns the first Topic ID from the query.
 // Returns a *NotFoundError when no Topic ID was found.
-func (tq *TopicQuery) FirstID(ctx context.Context) (id uint64, err error) {
-	var ids []uint64
+func (tq *TopicQuery) FirstID(ctx context.Context) (id string, err error) {
+	var ids []string
 	if ids, err = tq.Limit(1).IDs(setContextOp(ctx, tq.ctx, "FirstID")); err != nil {
 		return
 	}
@@ -94,7 +94,7 @@ func (tq *TopicQuery) FirstID(ctx context.Context) (id uint64, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (tq *TopicQuery) FirstIDX(ctx context.Context) uint64 {
+func (tq *TopicQuery) FirstIDX(ctx context.Context) string {
 	id, err := tq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -132,8 +132,8 @@ func (tq *TopicQuery) OnlyX(ctx context.Context) *Topic {
 // OnlyID is like Only, but returns the only Topic ID in the query.
 // Returns a *NotSingularError when more than one Topic ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (tq *TopicQuery) OnlyID(ctx context.Context) (id uint64, err error) {
-	var ids []uint64
+func (tq *TopicQuery) OnlyID(ctx context.Context) (id string, err error) {
+	var ids []string
 	if ids, err = tq.Limit(2).IDs(setContextOp(ctx, tq.ctx, "OnlyID")); err != nil {
 		return
 	}
@@ -149,7 +149,7 @@ func (tq *TopicQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (tq *TopicQuery) OnlyIDX(ctx context.Context) uint64 {
+func (tq *TopicQuery) OnlyIDX(ctx context.Context) string {
 	id, err := tq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -177,7 +177,7 @@ func (tq *TopicQuery) AllX(ctx context.Context) []*Topic {
 }
 
 // IDs executes the query and returns a list of Topic IDs.
-func (tq *TopicQuery) IDs(ctx context.Context) (ids []uint64, err error) {
+func (tq *TopicQuery) IDs(ctx context.Context) (ids []string, err error) {
 	if tq.ctx.Unique == nil && tq.path != nil {
 		tq.Unique(true)
 	}
@@ -189,7 +189,7 @@ func (tq *TopicQuery) IDs(ctx context.Context) (ids []uint64, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (tq *TopicQuery) IDsX(ctx context.Context) []uint64 {
+func (tq *TopicQuery) IDsX(ctx context.Context) []string {
 	ids, err := tq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -261,7 +261,7 @@ func (tq *TopicQuery) Clone() *TopicQuery {
 // Example:
 //
 //	var v []struct {
-//		UserID uint64 `json:"user_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -284,7 +284,7 @@ func (tq *TopicQuery) GroupBy(field string, fields ...string) *TopicGroupBy {
 // Example:
 //
 //	var v []struct {
-//		UserID uint64 `json:"user_id,omitempty"`
+//		UserID string `json:"user_id,omitempty"`
 //	}
 //
 //	client.Topic.Query().
@@ -364,7 +364,7 @@ func (tq *TopicQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (tq *TopicQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(topic.Table, topic.Columns, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewQuerySpec(topic.Table, topic.Columns, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
 	_spec.From = tq.sql
 	if unique := tq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

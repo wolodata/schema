@@ -81,7 +81,7 @@ func (hu *HTMLUpdate) ExecX(ctx context.Context) {
 }
 
 func (hu *HTMLUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(html.Table, html.Columns, sqlgraph.NewFieldSpec(html.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewUpdateSpec(html.Table, html.Columns, sqlgraph.NewFieldSpec(html.FieldID, field.TypeString))
 	if ps := hu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -181,7 +181,7 @@ func (huo *HTMLUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (huo *HTMLUpdateOne) sqlSave(ctx context.Context) (_node *Html, err error) {
-	_spec := sqlgraph.NewUpdateSpec(html.Table, html.Columns, sqlgraph.NewFieldSpec(html.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewUpdateSpec(html.Table, html.Columns, sqlgraph.NewFieldSpec(html.FieldID, field.TypeString))
 	id, ok := huo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Html.id" for update`)}

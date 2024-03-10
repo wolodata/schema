@@ -15,7 +15,7 @@ type Article struct {
 
 func (Article) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint64("id").Immutable(),
+		field.String("id").Immutable(),
 		field.String("origin_short_id").NotEmpty().Immutable(),
 		field.Bool("is_chinese").Default(false).Immutable(),
 		field.String("url").MaxLen(768).NotEmpty().Unique().Immutable(),

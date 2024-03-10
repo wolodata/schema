@@ -57,7 +57,7 @@ var (
 	// ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	ReportTypeValidator func(string) error
 	// DefaultRelatedArticleIds holds the default value on creation for the "related_article_ids" field.
-	DefaultRelatedArticleIds []uint64
+	DefaultRelatedArticleIds []string
 	// DefaultContent holds the default value on creation for the "content" field.
 	DefaultContent string
 	// DefaultReason holds the default value on creation for the "reason" field.
