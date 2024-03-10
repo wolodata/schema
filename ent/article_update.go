@@ -124,6 +124,18 @@ func (au *ArticleUpdate) SetNillableTextEnglish(s *string) *ArticleUpdate {
 	return au
 }
 
+// SetImages sets the "images" field.
+func (au *ArticleUpdate) SetImages(s []string) *ArticleUpdate {
+	au.mutation.SetImages(s)
+	return au
+}
+
+// AppendImages appends s to the "images" field.
+func (au *ArticleUpdate) AppendImages(s []string) *ArticleUpdate {
+	au.mutation.AppendImages(s)
+	return au
+}
+
 // SetIsChinaRelated sets the "is_china_related" field.
 func (au *ArticleUpdate) SetIsChinaRelated(b bool) *ArticleUpdate {
 	au.mutation.SetIsChinaRelated(b)
@@ -259,6 +271,14 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := au.mutation.TextEnglish(); ok {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
 	}
+	if value, ok := au.mutation.Images(); ok {
+		_spec.SetField(article.FieldImages, field.TypeJSON, value)
+	}
+	if value, ok := au.mutation.AppendedImages(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldImages, value)
+		})
+	}
 	if value, ok := au.mutation.IsChinaRelated(); ok {
 		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
 	}
@@ -392,6 +412,18 @@ func (auo *ArticleUpdateOne) SetNillableTextEnglish(s *string) *ArticleUpdateOne
 	if s != nil {
 		auo.SetTextEnglish(*s)
 	}
+	return auo
+}
+
+// SetImages sets the "images" field.
+func (auo *ArticleUpdateOne) SetImages(s []string) *ArticleUpdateOne {
+	auo.mutation.SetImages(s)
+	return auo
+}
+
+// AppendImages appends s to the "images" field.
+func (auo *ArticleUpdateOne) AppendImages(s []string) *ArticleUpdateOne {
+	auo.mutation.AppendImages(s)
 	return auo
 }
 
@@ -559,6 +591,14 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	}
 	if value, ok := auo.mutation.TextEnglish(); ok {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.Images(); ok {
+		_spec.SetField(article.FieldImages, field.TypeJSON, value)
+	}
+	if value, ok := auo.mutation.AppendedImages(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldImages, value)
+		})
 	}
 	if value, ok := auo.mutation.IsChinaRelated(); ok {
 		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)

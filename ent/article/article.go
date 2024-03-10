@@ -33,6 +33,8 @@ const (
 	FieldTextChinese = "text_chinese"
 	// FieldTextEnglish holds the string denoting the text_english field in the database.
 	FieldTextEnglish = "text_english"
+	// FieldImages holds the string denoting the images field in the database.
+	FieldImages = "images"
 	// FieldIsChinaRelated holds the string denoting the is_china_related field in the database.
 	FieldIsChinaRelated = "is_china_related"
 	// FieldChinaRelatedKeywords holds the string denoting the china_related_keywords field in the database.
@@ -61,6 +63,7 @@ var Columns = []string{
 	FieldHTMLEnglish,
 	FieldTextChinese,
 	FieldTextEnglish,
+	FieldImages,
 	FieldIsChinaRelated,
 	FieldChinaRelatedKeywords,
 	FieldIsChinaStrongRelated,
@@ -99,6 +102,8 @@ var (
 	DefaultTextChinese string
 	// DefaultTextEnglish holds the default value on creation for the "text_english" field.
 	DefaultTextEnglish string
+	// DefaultImages holds the default value on creation for the "images" field.
+	DefaultImages []string
 	// DefaultIsChinaRelated holds the default value on creation for the "is_china_related" field.
 	DefaultIsChinaRelated bool
 	// DefaultChinaRelatedKeywords holds the default value on creation for the "china_related_keywords" field.

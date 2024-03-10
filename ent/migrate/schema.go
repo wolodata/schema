@@ -23,6 +23,7 @@ var (
 		{Name: "html_english", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "text_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "text_english", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "images", Type: field.TypeJSON},
 		{Name: "is_china_related", Type: field.TypeBool, Default: false},
 		{Name: "china_related_keywords", Type: field.TypeJSON},
 		{Name: "is_china_strong_related", Type: field.TypeBool, Default: false},
@@ -58,17 +59,17 @@ var (
 			{
 				Name:    "article_is_china_related",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[12]},
+				Columns: []*schema.Column{TArticleColumns[13]},
 			},
 			{
 				Name:    "article_is_china_strong_related",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[14]},
+				Columns: []*schema.Column{TArticleColumns[15]},
 			},
 			{
 				Name:    "article_china_related_category",
 				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[15]},
+				Columns: []*schema.Column{TArticleColumns[16]},
 			},
 		},
 	}

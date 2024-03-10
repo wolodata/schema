@@ -27,6 +27,7 @@ func (Article) Fields() []ent.Field {
 		field.Text("html_english").Default(""),
 		field.Text("text_chinese").Default(""),
 		field.Text("text_english").Default(""),
+		field.Strings("images").Default([]string{}),
 		field.Bool("is_china_related").Default(false),
 		field.Strings("china_related_keywords").Default([]string{}),
 		field.Bool("is_china_strong_related").Default(false),

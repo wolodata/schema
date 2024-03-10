@@ -145,6 +145,12 @@ func (ac *ArticleCreate) SetNillableTextEnglish(s *string) *ArticleCreate {
 	return ac
 }
 
+// SetImages sets the "images" field.
+func (ac *ArticleCreate) SetImages(s []string) *ArticleCreate {
+	ac.mutation.SetImages(s)
+	return ac
+}
+
 // SetIsChinaRelated sets the "is_china_related" field.
 func (ac *ArticleCreate) SetIsChinaRelated(b bool) *ArticleCreate {
 	ac.mutation.SetIsChinaRelated(b)
@@ -280,6 +286,10 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultTextEnglish
 		ac.mutation.SetTextEnglish(v)
 	}
+	if _, ok := ac.mutation.Images(); !ok {
+		v := article.DefaultImages
+		ac.mutation.SetImages(v)
+	}
 	if _, ok := ac.mutation.IsChinaRelated(); !ok {
 		v := article.DefaultIsChinaRelated
 		ac.mutation.SetIsChinaRelated(v)
@@ -346,6 +356,9 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.TextEnglish(); !ok {
 		return &ValidationError{Name: "text_english", err: errors.New(`ent: missing required field "Article.text_english"`)}
+	}
+	if _, ok := ac.mutation.Images(); !ok {
+		return &ValidationError{Name: "images", err: errors.New(`ent: missing required field "Article.images"`)}
 	}
 	if _, ok := ac.mutation.IsChinaRelated(); !ok {
 		return &ValidationError{Name: "is_china_related", err: errors.New(`ent: missing required field "Article.is_china_related"`)}
@@ -441,6 +454,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.TextEnglish(); ok {
 		_spec.SetField(article.FieldTextEnglish, field.TypeString, value)
 		_node.TextEnglish = value
+	}
+	if value, ok := ac.mutation.Images(); ok {
+		_spec.SetField(article.FieldImages, field.TypeJSON, value)
+		_node.Images = value
 	}
 	if value, ok := ac.mutation.IsChinaRelated(); ok {
 		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
@@ -595,6 +612,18 @@ func (u *ArticleUpsert) SetTextEnglish(v string) *ArticleUpsert {
 // UpdateTextEnglish sets the "text_english" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateTextEnglish() *ArticleUpsert {
 	u.SetExcluded(article.FieldTextEnglish)
+	return u
+}
+
+// SetImages sets the "images" field.
+func (u *ArticleUpsert) SetImages(v []string) *ArticleUpsert {
+	u.Set(article.FieldImages, v)
+	return u
+}
+
+// UpdateImages sets the "images" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateImages() *ArticleUpsert {
+	u.SetExcluded(article.FieldImages)
 	return u
 }
 
@@ -813,6 +842,20 @@ func (u *ArticleUpsertOne) SetTextEnglish(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateTextEnglish() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateTextEnglish()
+	})
+}
+
+// SetImages sets the "images" field.
+func (u *ArticleUpsertOne) SetImages(v []string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetImages(v)
+	})
+}
+
+// UpdateImages sets the "images" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateImages() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateImages()
 	})
 }
 
@@ -1208,6 +1251,20 @@ func (u *ArticleUpsertBulk) SetTextEnglish(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateTextEnglish() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateTextEnglish()
+	})
+}
+
+// SetImages sets the "images" field.
+func (u *ArticleUpsertBulk) SetImages(v []string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetImages(v)
+	})
+}
+
+// UpdateImages sets the "images" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateImages() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateImages()
 	})
 }
 

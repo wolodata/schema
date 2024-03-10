@@ -53,6 +53,8 @@ type ArticleMutation struct {
 	html_english                 *string
 	text_chinese                 *string
 	text_english                 *string
+	images                       *[]string
+	appendimages                 []string
 	is_china_related             *bool
 	china_related_keywords       *[]string
 	appendchina_related_keywords []string
@@ -580,6 +582,57 @@ func (m *ArticleMutation) ResetTextEnglish() {
 	m.text_english = nil
 }
 
+// SetImages sets the "images" field.
+func (m *ArticleMutation) SetImages(s []string) {
+	m.images = &s
+	m.appendimages = nil
+}
+
+// Images returns the value of the "images" field in the mutation.
+func (m *ArticleMutation) Images() (r []string, exists bool) {
+	v := m.images
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldImages returns the old "images" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldImages(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldImages is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldImages requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldImages: %w", err)
+	}
+	return oldValue.Images, nil
+}
+
+// AppendImages adds s to the "images" field.
+func (m *ArticleMutation) AppendImages(s []string) {
+	m.appendimages = append(m.appendimages, s...)
+}
+
+// AppendedImages returns the list of values that were appended to the "images" field in this mutation.
+func (m *ArticleMutation) AppendedImages() ([]string, bool) {
+	if len(m.appendimages) == 0 {
+		return nil, false
+	}
+	return m.appendimages, true
+}
+
+// ResetImages resets all changes to the "images" field.
+func (m *ArticleMutation) ResetImages() {
+	m.images = nil
+	m.appendimages = nil
+}
+
 // SetIsChinaRelated sets the "is_china_related" field.
 func (m *ArticleMutation) SetIsChinaRelated(b bool) {
 	m.is_china_related = &b
@@ -809,7 +862,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 17)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -842,6 +895,9 @@ func (m *ArticleMutation) Fields() []string {
 	}
 	if m.text_english != nil {
 		fields = append(fields, article.FieldTextEnglish)
+	}
+	if m.images != nil {
+		fields = append(fields, article.FieldImages)
 	}
 	if m.is_china_related != nil {
 		fields = append(fields, article.FieldIsChinaRelated)
@@ -888,6 +944,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.TextChinese()
 	case article.FieldTextEnglish:
 		return m.TextEnglish()
+	case article.FieldImages:
+		return m.Images()
 	case article.FieldIsChinaRelated:
 		return m.IsChinaRelated()
 	case article.FieldChinaRelatedKeywords:
@@ -929,6 +987,8 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldTextChinese(ctx)
 	case article.FieldTextEnglish:
 		return m.OldTextEnglish(ctx)
+	case article.FieldImages:
+		return m.OldImages(ctx)
 	case article.FieldIsChinaRelated:
 		return m.OldIsChinaRelated(ctx)
 	case article.FieldChinaRelatedKeywords:
@@ -1024,6 +1084,13 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTextEnglish(v)
+		return nil
+	case article.FieldImages:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetImages(v)
 		return nil
 	case article.FieldIsChinaRelated:
 		v, ok := value.(bool)
@@ -1141,6 +1208,9 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldTextEnglish:
 		m.ResetTextEnglish()
+		return nil
+	case article.FieldImages:
+		m.ResetImages()
 		return nil
 	case article.FieldIsChinaRelated:
 		m.ResetIsChinaRelated()

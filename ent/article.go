@@ -40,6 +40,8 @@ type Article struct {
 	TextChinese string `json:"text_chinese,omitempty"`
 	// TextEnglish holds the value of the "text_english" field.
 	TextEnglish string `json:"text_english,omitempty"`
+	// Images holds the value of the "images" field.
+	Images []string `json:"images,omitempty"`
 	// IsChinaRelated holds the value of the "is_china_related" field.
 	IsChinaRelated bool `json:"is_china_related,omitempty"`
 	// ChinaRelatedKeywords holds the value of the "china_related_keywords" field.
@@ -58,7 +60,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldAuthor, article.FieldChinaRelatedKeywords:
+		case article.FieldAuthor, article.FieldImages, article.FieldChinaRelatedKeywords:
 			values[i] = new([]byte)
 		case article.FieldIsChinese, article.FieldIsChinaRelated, article.FieldIsChinaStrongRelated:
 			values[i] = new(sql.NullBool)
@@ -154,6 +156,14 @@ func (a *Article) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field text_english", values[i])
 			} else if value.Valid {
 				a.TextEnglish = value.String
+			}
+		case article.FieldImages:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field images", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &a.Images); err != nil {
+					return fmt.Errorf("unmarshal field images: %w", err)
+				}
 			}
 		case article.FieldIsChinaRelated:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -255,6 +265,9 @@ func (a *Article) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("text_english=")
 	builder.WriteString(a.TextEnglish)
+	builder.WriteString(", ")
+	builder.WriteString("images=")
+	builder.WriteString(fmt.Sprintf("%v", a.Images))
 	builder.WriteString(", ")
 	builder.WriteString("is_china_related=")
 	builder.WriteString(fmt.Sprintf("%v", a.IsChinaRelated))
