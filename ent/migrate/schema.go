@@ -116,6 +116,7 @@ var (
 		{Name: "id", Type: field.TypeString},
 		{Name: "report_type", Type: field.TypeString},
 		{Name: "trigger_user_id", Type: field.TypeString, Nullable: true},
+		{Name: "date", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "date"}},
 		{Name: "trigger_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "related_article_ids", Type: field.TypeJSON},
 		{Name: "content", Type: field.TypeString, Size: 2147483647, Default: ""},
@@ -141,12 +142,12 @@ var (
 			{
 				Name:    "report_trigger_at",
 				Unique:  false,
-				Columns: []*schema.Column{TReportColumns[3]},
+				Columns: []*schema.Column{TReportColumns[4]},
 			},
 			{
 				Name:    "report_generated_at",
 				Unique:  false,
-				Columns: []*schema.Column{TReportColumns[7]},
+				Columns: []*schema.Column{TReportColumns[8]},
 			},
 		},
 	}

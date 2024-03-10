@@ -1911,6 +1911,7 @@ type ReportMutation struct {
 	id                        *string
 	report_type               *string
 	trigger_user_id           *string
+	date                      *time.Time
 	trigger_at                *time.Time
 	related_article_ids       *[]string
 	appendrelated_article_ids []string
@@ -2110,6 +2111,42 @@ func (m *ReportMutation) TriggerUserIDCleared() bool {
 func (m *ReportMutation) ResetTriggerUserID() {
 	m.trigger_user_id = nil
 	delete(m.clearedFields, report.FieldTriggerUserID)
+}
+
+// SetDate sets the "date" field.
+func (m *ReportMutation) SetDate(t time.Time) {
+	m.date = &t
+}
+
+// Date returns the value of the "date" field in the mutation.
+func (m *ReportMutation) Date() (r time.Time, exists bool) {
+	v := m.date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDate returns the old "date" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDate: %w", err)
+	}
+	return oldValue.Date, nil
+}
+
+// ResetDate resets all changes to the "date" field.
+func (m *ReportMutation) ResetDate() {
+	m.date = nil
 }
 
 // SetTriggerAt sets the "trigger_at" field.
@@ -2341,12 +2378,15 @@ func (m *ReportMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ReportMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.report_type != nil {
 		fields = append(fields, report.FieldReportType)
 	}
 	if m.trigger_user_id != nil {
 		fields = append(fields, report.FieldTriggerUserID)
+	}
+	if m.date != nil {
+		fields = append(fields, report.FieldDate)
 	}
 	if m.trigger_at != nil {
 		fields = append(fields, report.FieldTriggerAt)
@@ -2375,6 +2415,8 @@ func (m *ReportMutation) Field(name string) (ent.Value, bool) {
 		return m.ReportType()
 	case report.FieldTriggerUserID:
 		return m.TriggerUserID()
+	case report.FieldDate:
+		return m.Date()
 	case report.FieldTriggerAt:
 		return m.TriggerAt()
 	case report.FieldRelatedArticleIds:
@@ -2398,6 +2440,8 @@ func (m *ReportMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldReportType(ctx)
 	case report.FieldTriggerUserID:
 		return m.OldTriggerUserID(ctx)
+	case report.FieldDate:
+		return m.OldDate(ctx)
 	case report.FieldTriggerAt:
 		return m.OldTriggerAt(ctx)
 	case report.FieldRelatedArticleIds:
@@ -2430,6 +2474,13 @@ func (m *ReportMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTriggerUserID(v)
+		return nil
+	case report.FieldDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDate(v)
 		return nil
 	case report.FieldTriggerAt:
 		v, ok := value.(time.Time)
@@ -2529,6 +2580,9 @@ func (m *ReportMutation) ResetField(name string) error {
 		return nil
 	case report.FieldTriggerUserID:
 		m.ResetTriggerUserID()
+		return nil
+	case report.FieldDate:
+		m.ResetDate()
 		return nil
 	case report.FieldTriggerAt:
 		m.ResetTriggerAt()

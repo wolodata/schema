@@ -74,6 +74,11 @@ func TriggerUserID(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerUserID, v))
 }
 
+// Date applies equality check predicate on the "date" field. It's identical to DateEQ.
+func Date(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldDate, v))
+}
+
 // TriggerAt applies equality check predicate on the "trigger_at" field. It's identical to TriggerAtEQ.
 func TriggerAt(v time.Time) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerAt, v))
@@ -232,6 +237,46 @@ func TriggerUserIDEqualFold(v string) predicate.Report {
 // TriggerUserIDContainsFold applies the ContainsFold predicate on the "trigger_user_id" field.
 func TriggerUserIDContainsFold(v string) predicate.Report {
 	return predicate.Report(sql.FieldContainsFold(FieldTriggerUserID, v))
+}
+
+// DateEQ applies the EQ predicate on the "date" field.
+func DateEQ(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldDate, v))
+}
+
+// DateNEQ applies the NEQ predicate on the "date" field.
+func DateNEQ(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldNEQ(FieldDate, v))
+}
+
+// DateIn applies the In predicate on the "date" field.
+func DateIn(vs ...time.Time) predicate.Report {
+	return predicate.Report(sql.FieldIn(FieldDate, vs...))
+}
+
+// DateNotIn applies the NotIn predicate on the "date" field.
+func DateNotIn(vs ...time.Time) predicate.Report {
+	return predicate.Report(sql.FieldNotIn(FieldDate, vs...))
+}
+
+// DateGT applies the GT predicate on the "date" field.
+func DateGT(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldGT(FieldDate, v))
+}
+
+// DateGTE applies the GTE predicate on the "date" field.
+func DateGTE(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldGTE(FieldDate, v))
+}
+
+// DateLT applies the LT predicate on the "date" field.
+func DateLT(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldLT(FieldDate, v))
+}
+
+// DateLTE applies the LTE predicate on the "date" field.
+func DateLTE(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldLTE(FieldDate, v))
 }
 
 // TriggerAtEQ applies the EQ predicate on the "trigger_at" field.

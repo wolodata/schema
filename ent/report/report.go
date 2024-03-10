@@ -17,6 +17,8 @@ const (
 	FieldReportType = "report_type"
 	// FieldTriggerUserID holds the string denoting the trigger_user_id field in the database.
 	FieldTriggerUserID = "trigger_user_id"
+	// FieldDate holds the string denoting the date field in the database.
+	FieldDate = "date"
 	// FieldTriggerAt holds the string denoting the trigger_at field in the database.
 	FieldTriggerAt = "trigger_at"
 	// FieldRelatedArticleIds holds the string denoting the related_article_ids field in the database.
@@ -36,6 +38,7 @@ var Columns = []string{
 	FieldID,
 	FieldReportType,
 	FieldTriggerUserID,
+	FieldDate,
 	FieldTriggerAt,
 	FieldRelatedArticleIds,
 	FieldContent,
@@ -82,6 +85,11 @@ func ByReportType(opts ...sql.OrderTermOption) OrderOption {
 // ByTriggerUserID orders the results by the trigger_user_id field.
 func ByTriggerUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTriggerUserID, opts...).ToFunc()
+}
+
+// ByDate orders the results by the date field.
+func ByDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDate, opts...).ToFunc()
 }
 
 // ByTriggerAt orders the results by the trigger_at field.

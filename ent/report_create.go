@@ -43,6 +43,12 @@ func (rc *ReportCreate) SetNillableTriggerUserID(s *string) *ReportCreate {
 	return rc
 }
 
+// SetDate sets the "date" field.
+func (rc *ReportCreate) SetDate(t time.Time) *ReportCreate {
+	rc.mutation.SetDate(t)
+	return rc
+}
+
 // SetTriggerAt sets the "trigger_at" field.
 func (rc *ReportCreate) SetTriggerAt(t time.Time) *ReportCreate {
 	rc.mutation.SetTriggerAt(t)
@@ -166,6 +172,9 @@ func (rc *ReportCreate) check() error {
 			return &ValidationError{Name: "report_type", err: fmt.Errorf(`ent: validator failed for field "Report.report_type": %w`, err)}
 		}
 	}
+	if _, ok := rc.mutation.Date(); !ok {
+		return &ValidationError{Name: "date", err: errors.New(`ent: missing required field "Report.date"`)}
+	}
 	if _, ok := rc.mutation.TriggerAt(); !ok {
 		return &ValidationError{Name: "trigger_at", err: errors.New(`ent: missing required field "Report.trigger_at"`)}
 	}
@@ -224,6 +233,10 @@ func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.TriggerUserID(); ok {
 		_spec.SetField(report.FieldTriggerUserID, field.TypeString, value)
 		_node.TriggerUserID = value
+	}
+	if value, ok := rc.mutation.Date(); ok {
+		_spec.SetField(report.FieldDate, field.TypeTime, value)
+		_node.Date = value
 	}
 	if value, ok := rc.mutation.TriggerAt(); ok {
 		_spec.SetField(report.FieldTriggerAt, field.TypeTime, value)
@@ -355,6 +368,9 @@ func (u *ReportUpsertOne) UpdateNewValues() *ReportUpsertOne {
 		}
 		if _, exists := u.create.mutation.TriggerUserID(); exists {
 			s.SetIgnore(report.FieldTriggerUserID)
+		}
+		if _, exists := u.create.mutation.Date(); exists {
+			s.SetIgnore(report.FieldDate)
 		}
 		if _, exists := u.create.mutation.TriggerAt(); exists {
 			s.SetIgnore(report.FieldTriggerAt)
@@ -623,6 +639,9 @@ func (u *ReportUpsertBulk) UpdateNewValues() *ReportUpsertBulk {
 			}
 			if _, exists := b.mutation.TriggerUserID(); exists {
 				s.SetIgnore(report.FieldTriggerUserID)
+			}
+			if _, exists := b.mutation.Date(); exists {
+				s.SetIgnore(report.FieldDate)
 			}
 			if _, exists := b.mutation.TriggerAt(); exists {
 				s.SetIgnore(report.FieldTriggerAt)
