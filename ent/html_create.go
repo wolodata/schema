@@ -83,6 +83,20 @@ func (hc *HTMLCreate) SetNillableAnalyzedAt(t *time.Time) *HTMLCreate {
 	return hc
 }
 
+// SetReason sets the "reason" field.
+func (hc *HTMLCreate) SetReason(s string) *HTMLCreate {
+	hc.mutation.SetReason(s)
+	return hc
+}
+
+// SetNillableReason sets the "reason" field if the given value is not nil.
+func (hc *HTMLCreate) SetNillableReason(s *string) *HTMLCreate {
+	if s != nil {
+		hc.SetReason(*s)
+	}
+	return hc
+}
+
 // SetID sets the "id" field.
 func (hc *HTMLCreate) SetID(s string) *HTMLCreate {
 	hc.mutation.SetID(s)
@@ -131,6 +145,10 @@ func (hc *HTMLCreate) defaults() {
 	if _, ok := hc.mutation.CrawledAt(); !ok {
 		v := html.DefaultCrawledAt()
 		hc.mutation.SetCrawledAt(v)
+	}
+	if _, ok := hc.mutation.Reason(); !ok {
+		v := html.DefaultReason
+		hc.mutation.SetReason(v)
 	}
 }
 
@@ -226,6 +244,10 @@ func (hc *HTMLCreate) createSpec() (*Html, *sqlgraph.CreateSpec) {
 		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)
 		_node.AnalyzedAt = value
 	}
+	if value, ok := hc.mutation.Reason(); ok {
+		_spec.SetField(html.FieldReason, field.TypeString, value)
+		_node.Reason = value
+	}
 	return _node, _spec
 }
 
@@ -293,6 +315,24 @@ func (u *HtmlUpsert) UpdateAnalyzedAt() *HtmlUpsert {
 // ClearAnalyzedAt clears the value of the "analyzed_at" field.
 func (u *HtmlUpsert) ClearAnalyzedAt() *HtmlUpsert {
 	u.SetNull(html.FieldAnalyzedAt)
+	return u
+}
+
+// SetReason sets the "reason" field.
+func (u *HtmlUpsert) SetReason(v string) *HtmlUpsert {
+	u.Set(html.FieldReason, v)
+	return u
+}
+
+// UpdateReason sets the "reason" field to the value that was provided on create.
+func (u *HtmlUpsert) UpdateReason() *HtmlUpsert {
+	u.SetExcluded(html.FieldReason)
+	return u
+}
+
+// ClearReason clears the value of the "reason" field.
+func (u *HtmlUpsert) ClearReason() *HtmlUpsert {
+	u.SetNull(html.FieldReason)
 	return u
 }
 
@@ -377,6 +417,27 @@ func (u *HtmlUpsertOne) UpdateAnalyzedAt() *HtmlUpsertOne {
 func (u *HtmlUpsertOne) ClearAnalyzedAt() *HtmlUpsertOne {
 	return u.Update(func(s *HtmlUpsert) {
 		s.ClearAnalyzedAt()
+	})
+}
+
+// SetReason sets the "reason" field.
+func (u *HtmlUpsertOne) SetReason(v string) *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.SetReason(v)
+	})
+}
+
+// UpdateReason sets the "reason" field to the value that was provided on create.
+func (u *HtmlUpsertOne) UpdateReason() *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.UpdateReason()
+	})
+}
+
+// ClearReason clears the value of the "reason" field.
+func (u *HtmlUpsertOne) ClearReason() *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.ClearReason()
 	})
 }
 
@@ -628,6 +689,27 @@ func (u *HtmlUpsertBulk) UpdateAnalyzedAt() *HtmlUpsertBulk {
 func (u *HtmlUpsertBulk) ClearAnalyzedAt() *HtmlUpsertBulk {
 	return u.Update(func(s *HtmlUpsert) {
 		s.ClearAnalyzedAt()
+	})
+}
+
+// SetReason sets the "reason" field.
+func (u *HtmlUpsertBulk) SetReason(v string) *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.SetReason(v)
+	})
+}
+
+// UpdateReason sets the "reason" field to the value that was provided on create.
+func (u *HtmlUpsertBulk) UpdateReason() *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.UpdateReason()
+	})
+}
+
+// ClearReason clears the value of the "reason" field.
+func (u *HtmlUpsertBulk) ClearReason() *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.ClearReason()
 	})
 }
 

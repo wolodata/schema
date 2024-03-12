@@ -48,6 +48,26 @@ func (hu *HTMLUpdate) ClearAnalyzedAt() *HTMLUpdate {
 	return hu
 }
 
+// SetReason sets the "reason" field.
+func (hu *HTMLUpdate) SetReason(s string) *HTMLUpdate {
+	hu.mutation.SetReason(s)
+	return hu
+}
+
+// SetNillableReason sets the "reason" field if the given value is not nil.
+func (hu *HTMLUpdate) SetNillableReason(s *string) *HTMLUpdate {
+	if s != nil {
+		hu.SetReason(*s)
+	}
+	return hu
+}
+
+// ClearReason clears the value of the "reason" field.
+func (hu *HTMLUpdate) ClearReason() *HTMLUpdate {
+	hu.mutation.ClearReason()
+	return hu
+}
+
 // Mutation returns the HTMLMutation object of the builder.
 func (hu *HTMLUpdate) Mutation() *HTMLMutation {
 	return hu.mutation
@@ -95,6 +115,12 @@ func (hu *HTMLUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if hu.mutation.AnalyzedAtCleared() {
 		_spec.ClearField(html.FieldAnalyzedAt, field.TypeTime)
 	}
+	if value, ok := hu.mutation.Reason(); ok {
+		_spec.SetField(html.FieldReason, field.TypeString, value)
+	}
+	if hu.mutation.ReasonCleared() {
+		_spec.ClearField(html.FieldReason, field.TypeString)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, hu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{html.Label}
@@ -132,6 +158,26 @@ func (huo *HTMLUpdateOne) SetNillableAnalyzedAt(t *time.Time) *HTMLUpdateOne {
 // ClearAnalyzedAt clears the value of the "analyzed_at" field.
 func (huo *HTMLUpdateOne) ClearAnalyzedAt() *HTMLUpdateOne {
 	huo.mutation.ClearAnalyzedAt()
+	return huo
+}
+
+// SetReason sets the "reason" field.
+func (huo *HTMLUpdateOne) SetReason(s string) *HTMLUpdateOne {
+	huo.mutation.SetReason(s)
+	return huo
+}
+
+// SetNillableReason sets the "reason" field if the given value is not nil.
+func (huo *HTMLUpdateOne) SetNillableReason(s *string) *HTMLUpdateOne {
+	if s != nil {
+		huo.SetReason(*s)
+	}
+	return huo
+}
+
+// ClearReason clears the value of the "reason" field.
+func (huo *HTMLUpdateOne) ClearReason() *HTMLUpdateOne {
+	huo.mutation.ClearReason()
 	return huo
 }
 
@@ -211,6 +257,12 @@ func (huo *HTMLUpdateOne) sqlSave(ctx context.Context) (_node *Html, err error) 
 	}
 	if huo.mutation.AnalyzedAtCleared() {
 		_spec.ClearField(html.FieldAnalyzedAt, field.TypeTime)
+	}
+	if value, ok := huo.mutation.Reason(); ok {
+		_spec.SetField(html.FieldReason, field.TypeString, value)
+	}
+	if huo.mutation.ReasonCleared() {
+		_spec.ClearField(html.FieldReason, field.TypeString)
 	}
 	_node = &Html{config: huo.config}
 	_spec.Assign = _node.assignValues

@@ -1291,6 +1291,7 @@ type HTMLMutation struct {
 	html            *string
 	crawled_at      *time.Time
 	analyzed_at     *time.Time
+	reason          *string
 	clearedFields   map[string]struct{}
 	done            bool
 	oldValue        func(context.Context) (*Html, error)
@@ -1630,6 +1631,55 @@ func (m *HTMLMutation) ResetAnalyzedAt() {
 	delete(m.clearedFields, html.FieldAnalyzedAt)
 }
 
+// SetReason sets the "reason" field.
+func (m *HTMLMutation) SetReason(s string) {
+	m.reason = &s
+}
+
+// Reason returns the value of the "reason" field in the mutation.
+func (m *HTMLMutation) Reason() (r string, exists bool) {
+	v := m.reason
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReason returns the old "reason" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldReason(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReason is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReason requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReason: %w", err)
+	}
+	return oldValue.Reason, nil
+}
+
+// ClearReason clears the value of the "reason" field.
+func (m *HTMLMutation) ClearReason() {
+	m.reason = nil
+	m.clearedFields[html.FieldReason] = struct{}{}
+}
+
+// ReasonCleared returns if the "reason" field was cleared in this mutation.
+func (m *HTMLMutation) ReasonCleared() bool {
+	_, ok := m.clearedFields[html.FieldReason]
+	return ok
+}
+
+// ResetReason resets all changes to the "reason" field.
+func (m *HTMLMutation) ResetReason() {
+	m.reason = nil
+	delete(m.clearedFields, html.FieldReason)
+}
+
 // Where appends a list predicates to the HTMLMutation builder.
 func (m *HTMLMutation) Where(ps ...predicate.Html) {
 	m.predicates = append(m.predicates, ps...)
@@ -1664,7 +1714,7 @@ func (m *HTMLMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *HTMLMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.origin_short_id != nil {
 		fields = append(fields, html.FieldOriginShortID)
 	}
@@ -1682,6 +1732,9 @@ func (m *HTMLMutation) Fields() []string {
 	}
 	if m.analyzed_at != nil {
 		fields = append(fields, html.FieldAnalyzedAt)
+	}
+	if m.reason != nil {
+		fields = append(fields, html.FieldReason)
 	}
 	return fields
 }
@@ -1703,6 +1756,8 @@ func (m *HTMLMutation) Field(name string) (ent.Value, bool) {
 		return m.CrawledAt()
 	case html.FieldAnalyzedAt:
 		return m.AnalyzedAt()
+	case html.FieldReason:
+		return m.Reason()
 	}
 	return nil, false
 }
@@ -1724,6 +1779,8 @@ func (m *HTMLMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldCrawledAt(ctx)
 	case html.FieldAnalyzedAt:
 		return m.OldAnalyzedAt(ctx)
+	case html.FieldReason:
+		return m.OldReason(ctx)
 	}
 	return nil, fmt.Errorf("unknown Html field %s", name)
 }
@@ -1775,6 +1832,13 @@ func (m *HTMLMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetAnalyzedAt(v)
 		return nil
+	case html.FieldReason:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReason(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Html field %s", name)
 }
@@ -1808,6 +1872,9 @@ func (m *HTMLMutation) ClearedFields() []string {
 	if m.FieldCleared(html.FieldAnalyzedAt) {
 		fields = append(fields, html.FieldAnalyzedAt)
 	}
+	if m.FieldCleared(html.FieldReason) {
+		fields = append(fields, html.FieldReason)
+	}
 	return fields
 }
 
@@ -1824,6 +1891,9 @@ func (m *HTMLMutation) ClearField(name string) error {
 	switch name {
 	case html.FieldAnalyzedAt:
 		m.ClearAnalyzedAt()
+		return nil
+	case html.FieldReason:
+		m.ClearReason()
 		return nil
 	}
 	return fmt.Errorf("unknown Html nullable field %s", name)
@@ -1850,6 +1920,9 @@ func (m *HTMLMutation) ResetField(name string) error {
 		return nil
 	case html.FieldAnalyzedAt:
 		m.ResetAnalyzedAt()
+		return nil
+	case html.FieldReason:
+		m.ResetReason()
 		return nil
 	}
 	return fmt.Errorf("unknown Html field %s", name)

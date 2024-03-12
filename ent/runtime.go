@@ -133,6 +133,10 @@ func init() {
 	htmlDescCrawledAt := htmlFields[5].Descriptor()
 	// html.DefaultCrawledAt holds the default value on creation for the crawled_at field.
 	html.DefaultCrawledAt = htmlDescCrawledAt.Default.(func() time.Time)
+	// htmlDescReason is the schema descriptor for reason field.
+	htmlDescReason := htmlFields[7].Descriptor()
+	// html.DefaultReason holds the default value on creation for the reason field.
+	html.DefaultReason = htmlDescReason.Default.(string)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.

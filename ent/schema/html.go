@@ -24,6 +24,7 @@ func (Html) Fields() []ent.Field {
 		field.Text("html").NotEmpty().Immutable(),
 		field.Time("crawled_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
 		field.Time("analyzed_at").SchemaType(map[string]string{dialect.MySQL: "datetime"}).Optional(),
+		field.Text("reason").Default("").Optional(),
 	}
 }
 

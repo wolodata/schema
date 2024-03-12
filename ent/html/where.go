@@ -94,6 +94,11 @@ func AnalyzedAt(v time.Time) predicate.Html {
 	return predicate.Html(sql.FieldEQ(FieldAnalyzedAt, v))
 }
 
+// Reason applies equality check predicate on the "reason" field. It's identical to ReasonEQ.
+func Reason(v string) predicate.Html {
+	return predicate.Html(sql.FieldEQ(FieldReason, v))
+}
+
 // OriginShortIDEQ applies the EQ predicate on the "origin_short_id" field.
 func OriginShortIDEQ(v string) predicate.Html {
 	return predicate.Html(sql.FieldEQ(FieldOriginShortID, v))
@@ -387,6 +392,81 @@ func AnalyzedAtIsNil() predicate.Html {
 // AnalyzedAtNotNil applies the NotNil predicate on the "analyzed_at" field.
 func AnalyzedAtNotNil() predicate.Html {
 	return predicate.Html(sql.FieldNotNull(FieldAnalyzedAt))
+}
+
+// ReasonEQ applies the EQ predicate on the "reason" field.
+func ReasonEQ(v string) predicate.Html {
+	return predicate.Html(sql.FieldEQ(FieldReason, v))
+}
+
+// ReasonNEQ applies the NEQ predicate on the "reason" field.
+func ReasonNEQ(v string) predicate.Html {
+	return predicate.Html(sql.FieldNEQ(FieldReason, v))
+}
+
+// ReasonIn applies the In predicate on the "reason" field.
+func ReasonIn(vs ...string) predicate.Html {
+	return predicate.Html(sql.FieldIn(FieldReason, vs...))
+}
+
+// ReasonNotIn applies the NotIn predicate on the "reason" field.
+func ReasonNotIn(vs ...string) predicate.Html {
+	return predicate.Html(sql.FieldNotIn(FieldReason, vs...))
+}
+
+// ReasonGT applies the GT predicate on the "reason" field.
+func ReasonGT(v string) predicate.Html {
+	return predicate.Html(sql.FieldGT(FieldReason, v))
+}
+
+// ReasonGTE applies the GTE predicate on the "reason" field.
+func ReasonGTE(v string) predicate.Html {
+	return predicate.Html(sql.FieldGTE(FieldReason, v))
+}
+
+// ReasonLT applies the LT predicate on the "reason" field.
+func ReasonLT(v string) predicate.Html {
+	return predicate.Html(sql.FieldLT(FieldReason, v))
+}
+
+// ReasonLTE applies the LTE predicate on the "reason" field.
+func ReasonLTE(v string) predicate.Html {
+	return predicate.Html(sql.FieldLTE(FieldReason, v))
+}
+
+// ReasonContains applies the Contains predicate on the "reason" field.
+func ReasonContains(v string) predicate.Html {
+	return predicate.Html(sql.FieldContains(FieldReason, v))
+}
+
+// ReasonHasPrefix applies the HasPrefix predicate on the "reason" field.
+func ReasonHasPrefix(v string) predicate.Html {
+	return predicate.Html(sql.FieldHasPrefix(FieldReason, v))
+}
+
+// ReasonHasSuffix applies the HasSuffix predicate on the "reason" field.
+func ReasonHasSuffix(v string) predicate.Html {
+	return predicate.Html(sql.FieldHasSuffix(FieldReason, v))
+}
+
+// ReasonIsNil applies the IsNil predicate on the "reason" field.
+func ReasonIsNil() predicate.Html {
+	return predicate.Html(sql.FieldIsNull(FieldReason))
+}
+
+// ReasonNotNil applies the NotNil predicate on the "reason" field.
+func ReasonNotNil() predicate.Html {
+	return predicate.Html(sql.FieldNotNull(FieldReason))
+}
+
+// ReasonEqualFold applies the EqualFold predicate on the "reason" field.
+func ReasonEqualFold(v string) predicate.Html {
+	return predicate.Html(sql.FieldEqualFold(FieldReason, v))
+}
+
+// ReasonContainsFold applies the ContainsFold predicate on the "reason" field.
+func ReasonContainsFold(v string) predicate.Html {
+	return predicate.Html(sql.FieldContainsFold(FieldReason, v))
 }
 
 // And groups predicates with the AND operator between them.

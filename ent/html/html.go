@@ -25,6 +25,8 @@ const (
 	FieldCrawledAt = "crawled_at"
 	// FieldAnalyzedAt holds the string denoting the analyzed_at field in the database.
 	FieldAnalyzedAt = "analyzed_at"
+	// FieldReason holds the string denoting the reason field in the database.
+	FieldReason = "reason"
 	// Table holds the table name of the html in the database.
 	Table = "t_html"
 )
@@ -38,6 +40,7 @@ var Columns = []string{
 	FieldHTML,
 	FieldCrawledAt,
 	FieldAnalyzedAt,
+	FieldReason,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -61,6 +64,8 @@ var (
 	HTMLValidator func(string) error
 	// DefaultCrawledAt holds the default value on creation for the "crawled_at" field.
 	DefaultCrawledAt func() time.Time
+	// DefaultReason holds the default value on creation for the "reason" field.
+	DefaultReason string
 )
 
 // OrderOption defines the ordering options for the Html queries.
@@ -99,4 +104,9 @@ func ByCrawledAt(opts ...sql.OrderTermOption) OrderOption {
 // ByAnalyzedAt orders the results by the analyzed_at field.
 func ByAnalyzedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAnalyzedAt, opts...).ToFunc()
+}
+
+// ByReason orders the results by the reason field.
+func ByReason(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldReason, opts...).ToFunc()
 }
