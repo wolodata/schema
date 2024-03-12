@@ -28,6 +28,26 @@ func (hu *HTMLUpdate) Where(ps ...predicate.Html) *HTMLUpdate {
 	return hu
 }
 
+// SetParsedAt sets the "parsed_at" field.
+func (hu *HTMLUpdate) SetParsedAt(t time.Time) *HTMLUpdate {
+	hu.mutation.SetParsedAt(t)
+	return hu
+}
+
+// SetNillableParsedAt sets the "parsed_at" field if the given value is not nil.
+func (hu *HTMLUpdate) SetNillableParsedAt(t *time.Time) *HTMLUpdate {
+	if t != nil {
+		hu.SetParsedAt(*t)
+	}
+	return hu
+}
+
+// ClearParsedAt clears the value of the "parsed_at" field.
+func (hu *HTMLUpdate) ClearParsedAt() *HTMLUpdate {
+	hu.mutation.ClearParsedAt()
+	return hu
+}
+
 // SetAnalyzedAt sets the "analyzed_at" field.
 func (hu *HTMLUpdate) SetAnalyzedAt(t time.Time) *HTMLUpdate {
 	hu.mutation.SetAnalyzedAt(t)
@@ -109,6 +129,12 @@ func (hu *HTMLUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := hu.mutation.ParsedAt(); ok {
+		_spec.SetField(html.FieldParsedAt, field.TypeTime, value)
+	}
+	if hu.mutation.ParsedAtCleared() {
+		_spec.ClearField(html.FieldParsedAt, field.TypeTime)
+	}
 	if value, ok := hu.mutation.AnalyzedAt(); ok {
 		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)
 	}
@@ -139,6 +165,26 @@ type HTMLUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *HTMLMutation
+}
+
+// SetParsedAt sets the "parsed_at" field.
+func (huo *HTMLUpdateOne) SetParsedAt(t time.Time) *HTMLUpdateOne {
+	huo.mutation.SetParsedAt(t)
+	return huo
+}
+
+// SetNillableParsedAt sets the "parsed_at" field if the given value is not nil.
+func (huo *HTMLUpdateOne) SetNillableParsedAt(t *time.Time) *HTMLUpdateOne {
+	if t != nil {
+		huo.SetParsedAt(*t)
+	}
+	return huo
+}
+
+// ClearParsedAt clears the value of the "parsed_at" field.
+func (huo *HTMLUpdateOne) ClearParsedAt() *HTMLUpdateOne {
+	huo.mutation.ClearParsedAt()
+	return huo
 }
 
 // SetAnalyzedAt sets the "analyzed_at" field.
@@ -251,6 +297,12 @@ func (huo *HTMLUpdateOne) sqlSave(ctx context.Context) (_node *Html, err error) 
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := huo.mutation.ParsedAt(); ok {
+		_spec.SetField(html.FieldParsedAt, field.TypeTime, value)
+	}
+	if huo.mutation.ParsedAtCleared() {
+		_spec.ClearField(html.FieldParsedAt, field.TypeTime)
 	}
 	if value, ok := huo.mutation.AnalyzedAt(); ok {
 		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)

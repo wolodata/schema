@@ -1290,6 +1290,7 @@ type HTMLMutation struct {
 	url             *string
 	html            *string
 	crawled_at      *time.Time
+	parsed_at       *time.Time
 	analyzed_at     *time.Time
 	reason          *string
 	clearedFields   map[string]struct{}
@@ -1582,6 +1583,55 @@ func (m *HTMLMutation) ResetCrawledAt() {
 	m.crawled_at = nil
 }
 
+// SetParsedAt sets the "parsed_at" field.
+func (m *HTMLMutation) SetParsedAt(t time.Time) {
+	m.parsed_at = &t
+}
+
+// ParsedAt returns the value of the "parsed_at" field in the mutation.
+func (m *HTMLMutation) ParsedAt() (r time.Time, exists bool) {
+	v := m.parsed_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldParsedAt returns the old "parsed_at" field's value of the Html entity.
+// If the Html object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *HTMLMutation) OldParsedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldParsedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldParsedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldParsedAt: %w", err)
+	}
+	return oldValue.ParsedAt, nil
+}
+
+// ClearParsedAt clears the value of the "parsed_at" field.
+func (m *HTMLMutation) ClearParsedAt() {
+	m.parsed_at = nil
+	m.clearedFields[html.FieldParsedAt] = struct{}{}
+}
+
+// ParsedAtCleared returns if the "parsed_at" field was cleared in this mutation.
+func (m *HTMLMutation) ParsedAtCleared() bool {
+	_, ok := m.clearedFields[html.FieldParsedAt]
+	return ok
+}
+
+// ResetParsedAt resets all changes to the "parsed_at" field.
+func (m *HTMLMutation) ResetParsedAt() {
+	m.parsed_at = nil
+	delete(m.clearedFields, html.FieldParsedAt)
+}
+
 // SetAnalyzedAt sets the "analyzed_at" field.
 func (m *HTMLMutation) SetAnalyzedAt(t time.Time) {
 	m.analyzed_at = &t
@@ -1714,7 +1764,7 @@ func (m *HTMLMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *HTMLMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.origin_short_id != nil {
 		fields = append(fields, html.FieldOriginShortID)
 	}
@@ -1729,6 +1779,9 @@ func (m *HTMLMutation) Fields() []string {
 	}
 	if m.crawled_at != nil {
 		fields = append(fields, html.FieldCrawledAt)
+	}
+	if m.parsed_at != nil {
+		fields = append(fields, html.FieldParsedAt)
 	}
 	if m.analyzed_at != nil {
 		fields = append(fields, html.FieldAnalyzedAt)
@@ -1754,6 +1807,8 @@ func (m *HTMLMutation) Field(name string) (ent.Value, bool) {
 		return m.HTML()
 	case html.FieldCrawledAt:
 		return m.CrawledAt()
+	case html.FieldParsedAt:
+		return m.ParsedAt()
 	case html.FieldAnalyzedAt:
 		return m.AnalyzedAt()
 	case html.FieldReason:
@@ -1777,6 +1832,8 @@ func (m *HTMLMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldHTML(ctx)
 	case html.FieldCrawledAt:
 		return m.OldCrawledAt(ctx)
+	case html.FieldParsedAt:
+		return m.OldParsedAt(ctx)
 	case html.FieldAnalyzedAt:
 		return m.OldAnalyzedAt(ctx)
 	case html.FieldReason:
@@ -1825,6 +1882,13 @@ func (m *HTMLMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCrawledAt(v)
 		return nil
+	case html.FieldParsedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetParsedAt(v)
+		return nil
 	case html.FieldAnalyzedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -1869,6 +1933,9 @@ func (m *HTMLMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *HTMLMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(html.FieldParsedAt) {
+		fields = append(fields, html.FieldParsedAt)
+	}
 	if m.FieldCleared(html.FieldAnalyzedAt) {
 		fields = append(fields, html.FieldAnalyzedAt)
 	}
@@ -1889,6 +1956,9 @@ func (m *HTMLMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *HTMLMutation) ClearField(name string) error {
 	switch name {
+	case html.FieldParsedAt:
+		m.ClearParsedAt()
+		return nil
 	case html.FieldAnalyzedAt:
 		m.ClearAnalyzedAt()
 		return nil
@@ -1917,6 +1987,9 @@ func (m *HTMLMutation) ResetField(name string) error {
 		return nil
 	case html.FieldCrawledAt:
 		m.ResetCrawledAt()
+		return nil
+	case html.FieldParsedAt:
+		m.ResetParsedAt()
 		return nil
 	case html.FieldAnalyzedAt:
 		m.ResetAnalyzedAt()

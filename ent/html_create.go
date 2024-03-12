@@ -69,6 +69,20 @@ func (hc *HTMLCreate) SetNillableCrawledAt(t *time.Time) *HTMLCreate {
 	return hc
 }
 
+// SetParsedAt sets the "parsed_at" field.
+func (hc *HTMLCreate) SetParsedAt(t time.Time) *HTMLCreate {
+	hc.mutation.SetParsedAt(t)
+	return hc
+}
+
+// SetNillableParsedAt sets the "parsed_at" field if the given value is not nil.
+func (hc *HTMLCreate) SetNillableParsedAt(t *time.Time) *HTMLCreate {
+	if t != nil {
+		hc.SetParsedAt(*t)
+	}
+	return hc
+}
+
 // SetAnalyzedAt sets the "analyzed_at" field.
 func (hc *HTMLCreate) SetAnalyzedAt(t time.Time) *HTMLCreate {
 	hc.mutation.SetAnalyzedAt(t)
@@ -240,6 +254,10 @@ func (hc *HTMLCreate) createSpec() (*Html, *sqlgraph.CreateSpec) {
 		_spec.SetField(html.FieldCrawledAt, field.TypeTime, value)
 		_node.CrawledAt = value
 	}
+	if value, ok := hc.mutation.ParsedAt(); ok {
+		_spec.SetField(html.FieldParsedAt, field.TypeTime, value)
+		_node.ParsedAt = value
+	}
 	if value, ok := hc.mutation.AnalyzedAt(); ok {
 		_spec.SetField(html.FieldAnalyzedAt, field.TypeTime, value)
 		_node.AnalyzedAt = value
@@ -299,6 +317,24 @@ type (
 		*sql.UpdateSet
 	}
 )
+
+// SetParsedAt sets the "parsed_at" field.
+func (u *HtmlUpsert) SetParsedAt(v time.Time) *HtmlUpsert {
+	u.Set(html.FieldParsedAt, v)
+	return u
+}
+
+// UpdateParsedAt sets the "parsed_at" field to the value that was provided on create.
+func (u *HtmlUpsert) UpdateParsedAt() *HtmlUpsert {
+	u.SetExcluded(html.FieldParsedAt)
+	return u
+}
+
+// ClearParsedAt clears the value of the "parsed_at" field.
+func (u *HtmlUpsert) ClearParsedAt() *HtmlUpsert {
+	u.SetNull(html.FieldParsedAt)
+	return u
+}
 
 // SetAnalyzedAt sets the "analyzed_at" field.
 func (u *HtmlUpsert) SetAnalyzedAt(v time.Time) *HtmlUpsert {
@@ -397,6 +433,27 @@ func (u *HtmlUpsertOne) Update(set func(*HtmlUpsert)) *HtmlUpsertOne {
 		set(&HtmlUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetParsedAt sets the "parsed_at" field.
+func (u *HtmlUpsertOne) SetParsedAt(v time.Time) *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.SetParsedAt(v)
+	})
+}
+
+// UpdateParsedAt sets the "parsed_at" field to the value that was provided on create.
+func (u *HtmlUpsertOne) UpdateParsedAt() *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.UpdateParsedAt()
+	})
+}
+
+// ClearParsedAt clears the value of the "parsed_at" field.
+func (u *HtmlUpsertOne) ClearParsedAt() *HtmlUpsertOne {
+	return u.Update(func(s *HtmlUpsert) {
+		s.ClearParsedAt()
+	})
 }
 
 // SetAnalyzedAt sets the "analyzed_at" field.
@@ -669,6 +726,27 @@ func (u *HtmlUpsertBulk) Update(set func(*HtmlUpsert)) *HtmlUpsertBulk {
 		set(&HtmlUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetParsedAt sets the "parsed_at" field.
+func (u *HtmlUpsertBulk) SetParsedAt(v time.Time) *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.SetParsedAt(v)
+	})
+}
+
+// UpdateParsedAt sets the "parsed_at" field to the value that was provided on create.
+func (u *HtmlUpsertBulk) UpdateParsedAt() *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.UpdateParsedAt()
+	})
+}
+
+// ClearParsedAt clears the value of the "parsed_at" field.
+func (u *HtmlUpsertBulk) ClearParsedAt() *HtmlUpsertBulk {
+	return u.Update(func(s *HtmlUpsert) {
+		s.ClearParsedAt()
+	})
 }
 
 // SetAnalyzedAt sets the "analyzed_at" field.

@@ -23,6 +23,7 @@ func (Html) Fields() []ent.Field {
 		field.String("url").MaxLen(768).NotEmpty().Unique().Immutable(),
 		field.Text("html").NotEmpty().Immutable(),
 		field.Time("crawled_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
+		field.Time("parsed_at").SchemaType(map[string]string{dialect.MySQL: "datetime"}).Optional(),
 		field.Time("analyzed_at").SchemaType(map[string]string{dialect.MySQL: "datetime"}).Optional(),
 		field.Text("reason").Default("").Optional(),
 	}
@@ -33,6 +34,7 @@ func (Html) Indexes() []ent.Index {
 		index.Fields("origin_short_id"),
 		index.Fields("is_chinese"),
 		index.Fields("crawled_at"),
+		index.Fields("parsed_at"),
 		index.Fields("analyzed_at"),
 	}
 }

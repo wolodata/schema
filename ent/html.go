@@ -27,6 +27,8 @@ type Html struct {
 	HTML string `json:"html,omitempty"`
 	// CrawledAt holds the value of the "crawled_at" field.
 	CrawledAt time.Time `json:"crawled_at,omitempty"`
+	// ParsedAt holds the value of the "parsed_at" field.
+	ParsedAt time.Time `json:"parsed_at,omitempty"`
 	// AnalyzedAt holds the value of the "analyzed_at" field.
 	AnalyzedAt time.Time `json:"analyzed_at,omitempty"`
 	// Reason holds the value of the "reason" field.
@@ -43,7 +45,7 @@ func (*Html) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case html.FieldID, html.FieldOriginShortID, html.FieldURL, html.FieldHTML, html.FieldReason:
 			values[i] = new(sql.NullString)
-		case html.FieldCrawledAt, html.FieldAnalyzedAt:
+		case html.FieldCrawledAt, html.FieldParsedAt, html.FieldAnalyzedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -95,6 +97,12 @@ func (h *Html) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field crawled_at", values[i])
 			} else if value.Valid {
 				h.CrawledAt = value.Time
+			}
+		case html.FieldParsedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field parsed_at", values[i])
+			} else if value.Valid {
+				h.ParsedAt = value.Time
 			}
 		case html.FieldAnalyzedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -158,6 +166,9 @@ func (h *Html) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("crawled_at=")
 	builder.WriteString(h.CrawledAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("parsed_at=")
+	builder.WriteString(h.ParsedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("analyzed_at=")
 	builder.WriteString(h.AnalyzedAt.Format(time.ANSIC))

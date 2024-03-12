@@ -23,6 +23,8 @@ const (
 	FieldHTML = "html"
 	// FieldCrawledAt holds the string denoting the crawled_at field in the database.
 	FieldCrawledAt = "crawled_at"
+	// FieldParsedAt holds the string denoting the parsed_at field in the database.
+	FieldParsedAt = "parsed_at"
 	// FieldAnalyzedAt holds the string denoting the analyzed_at field in the database.
 	FieldAnalyzedAt = "analyzed_at"
 	// FieldReason holds the string denoting the reason field in the database.
@@ -39,6 +41,7 @@ var Columns = []string{
 	FieldURL,
 	FieldHTML,
 	FieldCrawledAt,
+	FieldParsedAt,
 	FieldAnalyzedAt,
 	FieldReason,
 }
@@ -99,6 +102,11 @@ func ByHTML(opts ...sql.OrderTermOption) OrderOption {
 // ByCrawledAt orders the results by the crawled_at field.
 func ByCrawledAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCrawledAt, opts...).ToFunc()
+}
+
+// ByParsedAt orders the results by the parsed_at field.
+func ByParsedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldParsedAt, opts...).ToFunc()
 }
 
 // ByAnalyzedAt orders the results by the analyzed_at field.

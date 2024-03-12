@@ -89,6 +89,11 @@ func CrawledAt(v time.Time) predicate.Html {
 	return predicate.Html(sql.FieldEQ(FieldCrawledAt, v))
 }
 
+// ParsedAt applies equality check predicate on the "parsed_at" field. It's identical to ParsedAtEQ.
+func ParsedAt(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldEQ(FieldParsedAt, v))
+}
+
 // AnalyzedAt applies equality check predicate on the "analyzed_at" field. It's identical to AnalyzedAtEQ.
 func AnalyzedAt(v time.Time) predicate.Html {
 	return predicate.Html(sql.FieldEQ(FieldAnalyzedAt, v))
@@ -342,6 +347,56 @@ func CrawledAtLT(v time.Time) predicate.Html {
 // CrawledAtLTE applies the LTE predicate on the "crawled_at" field.
 func CrawledAtLTE(v time.Time) predicate.Html {
 	return predicate.Html(sql.FieldLTE(FieldCrawledAt, v))
+}
+
+// ParsedAtEQ applies the EQ predicate on the "parsed_at" field.
+func ParsedAtEQ(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldEQ(FieldParsedAt, v))
+}
+
+// ParsedAtNEQ applies the NEQ predicate on the "parsed_at" field.
+func ParsedAtNEQ(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldNEQ(FieldParsedAt, v))
+}
+
+// ParsedAtIn applies the In predicate on the "parsed_at" field.
+func ParsedAtIn(vs ...time.Time) predicate.Html {
+	return predicate.Html(sql.FieldIn(FieldParsedAt, vs...))
+}
+
+// ParsedAtNotIn applies the NotIn predicate on the "parsed_at" field.
+func ParsedAtNotIn(vs ...time.Time) predicate.Html {
+	return predicate.Html(sql.FieldNotIn(FieldParsedAt, vs...))
+}
+
+// ParsedAtGT applies the GT predicate on the "parsed_at" field.
+func ParsedAtGT(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldGT(FieldParsedAt, v))
+}
+
+// ParsedAtGTE applies the GTE predicate on the "parsed_at" field.
+func ParsedAtGTE(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldGTE(FieldParsedAt, v))
+}
+
+// ParsedAtLT applies the LT predicate on the "parsed_at" field.
+func ParsedAtLT(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldLT(FieldParsedAt, v))
+}
+
+// ParsedAtLTE applies the LTE predicate on the "parsed_at" field.
+func ParsedAtLTE(v time.Time) predicate.Html {
+	return predicate.Html(sql.FieldLTE(FieldParsedAt, v))
+}
+
+// ParsedAtIsNil applies the IsNil predicate on the "parsed_at" field.
+func ParsedAtIsNil() predicate.Html {
+	return predicate.Html(sql.FieldIsNull(FieldParsedAt))
+}
+
+// ParsedAtNotNil applies the NotNil predicate on the "parsed_at" field.
+func ParsedAtNotNil() predicate.Html {
+	return predicate.Html(sql.FieldNotNull(FieldParsedAt))
 }
 
 // AnalyzedAtEQ applies the EQ predicate on the "analyzed_at" field.
