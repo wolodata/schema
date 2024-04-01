@@ -7,6 +7,7 @@ import (
 
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
+	"github.com/wolodata/schema/ent/keyword"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/topic"
@@ -137,6 +138,20 @@ func init() {
 	htmlDescReason := htmlFields[8].Descriptor()
 	// html.DefaultReason holds the default value on creation for the reason field.
 	html.DefaultReason = htmlDescReason.Default.(string)
+	keywordFields := schema.Keyword{}.Fields()
+	_ = keywordFields
+	// keywordDescWords is the schema descriptor for words field.
+	keywordDescWords := keywordFields[2].Descriptor()
+	// keyword.DefaultWords holds the default value on creation for the words field.
+	keyword.DefaultWords = keywordDescWords.Default.([]string)
+	// keywordDescColor is the schema descriptor for color field.
+	keywordDescColor := keywordFields[3].Descriptor()
+	// keyword.DefaultColor holds the default value on creation for the color field.
+	keyword.DefaultColor = keywordDescColor.Default.(string)
+	// keywordDescOrder is the schema descriptor for order field.
+	keywordDescOrder := keywordFields[4].Descriptor()
+	// keyword.DefaultOrder holds the default value on creation for the order field.
+	keyword.DefaultOrder = keywordDescOrder.Default.(uint64)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.

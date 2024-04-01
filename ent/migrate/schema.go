@@ -118,6 +118,27 @@ var (
 			},
 		},
 	}
+	// TKeywordColumns holds the columns for the "t_keyword" table.
+	TKeywordColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
+		{Name: "words", Type: field.TypeJSON},
+		{Name: "color", Type: field.TypeString, Default: ""},
+		{Name: "order", Type: field.TypeUint64, Default: 0},
+	}
+	// TKeywordTable holds the schema information for the "t_keyword" table.
+	TKeywordTable = &schema.Table{
+		Name:       "t_keyword",
+		Columns:    TKeywordColumns,
+		PrimaryKey: []*schema.Column{TKeywordColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "keyword_order",
+				Unique:  false,
+				Columns: []*schema.Column{TKeywordColumns[4]},
+			},
+		},
+	}
 	// TReportColumns holds the columns for the "t_report" table.
 	TReportColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
@@ -216,6 +237,7 @@ var (
 	Tables = []*schema.Table{
 		TArticleTable,
 		THTMLTable,
+		TKeywordTable,
 		TReportTable,
 		TTopicTable,
 		TUserTable,
@@ -230,6 +252,11 @@ func init() {
 	}
 	THTMLTable.Annotation = &entsql.Annotation{
 		Table:     "t_html",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TKeywordTable.Annotation = &entsql.Annotation{
+		Table:     "t_keyword",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

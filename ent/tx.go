@@ -16,6 +16,8 @@ type Tx struct {
 	Article *ArticleClient
 	// Html is the client for interacting with the Html builders.
 	Html *HTMLClient
+	// Keyword is the client for interacting with the Keyword builders.
+	Keyword *KeywordClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// Topic is the client for interacting with the Topic builders.
@@ -155,6 +157,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Article = NewArticleClient(tx.config)
 	tx.Html = NewHTMLClient(tx.config)
+	tx.Keyword = NewKeywordClient(tx.config)
 	tx.Report = NewReportClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)

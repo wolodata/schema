@@ -16,6 +16,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
+	"github.com/wolodata/schema/ent/keyword"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/topic"
 	"github.com/wolodata/schema/ent/user"
@@ -30,6 +31,8 @@ type Client struct {
 	Article *ArticleClient
 	// Html is the client for interacting with the Html builders.
 	Html *HTMLClient
+	// Keyword is the client for interacting with the Keyword builders.
+	Keyword *KeywordClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// Topic is the client for interacting with the Topic builders.
@@ -49,6 +52,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Article = NewArticleClient(c.config)
 	c.Html = NewHTMLClient(c.config)
+	c.Keyword = NewKeywordClient(c.config)
 	c.Report = NewReportClient(c.config)
 	c.Topic = NewTopicClient(c.config)
 	c.User = NewUserClient(c.config)
@@ -146,6 +150,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:  cfg,
 		Article: NewArticleClient(cfg),
 		Html:    NewHTMLClient(cfg),
+		Keyword: NewKeywordClient(cfg),
 		Report:  NewReportClient(cfg),
 		Topic:   NewTopicClient(cfg),
 		User:    NewUserClient(cfg),
@@ -170,6 +175,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:  cfg,
 		Article: NewArticleClient(cfg),
 		Html:    NewHTMLClient(cfg),
+		Keyword: NewKeywordClient(cfg),
 		Report:  NewReportClient(cfg),
 		Topic:   NewTopicClient(cfg),
 		User:    NewUserClient(cfg),
@@ -201,21 +207,21 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Article.Use(hooks...)
-	c.Html.Use(hooks...)
-	c.Report.Use(hooks...)
-	c.Topic.Use(hooks...)
-	c.User.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.Article, c.Html, c.Keyword, c.Report, c.Topic, c.User,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Article.Intercept(interceptors...)
-	c.Html.Intercept(interceptors...)
-	c.Report.Intercept(interceptors...)
-	c.Topic.Intercept(interceptors...)
-	c.User.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.Article, c.Html, c.Keyword, c.Report, c.Topic, c.User,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -225,6 +231,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Article.mutate(ctx, m)
 	case *HTMLMutation:
 		return c.Html.mutate(ctx, m)
+	case *KeywordMutation:
+		return c.Keyword.mutate(ctx, m)
 	case *ReportMutation:
 		return c.Report.mutate(ctx, m)
 	case *TopicMutation:
@@ -499,6 +507,139 @@ func (c *HTMLClient) mutate(ctx context.Context, m *HTMLMutation) (Value, error)
 		return (&HTMLDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Html mutation op: %q", m.Op())
+	}
+}
+
+// KeywordClient is a client for the Keyword schema.
+type KeywordClient struct {
+	config
+}
+
+// NewKeywordClient returns a client for the Keyword from the given config.
+func NewKeywordClient(c config) *KeywordClient {
+	return &KeywordClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `keyword.Hooks(f(g(h())))`.
+func (c *KeywordClient) Use(hooks ...Hook) {
+	c.hooks.Keyword = append(c.hooks.Keyword, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `keyword.Intercept(f(g(h())))`.
+func (c *KeywordClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Keyword = append(c.inters.Keyword, interceptors...)
+}
+
+// Create returns a builder for creating a Keyword entity.
+func (c *KeywordClient) Create() *KeywordCreate {
+	mutation := newKeywordMutation(c.config, OpCreate)
+	return &KeywordCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Keyword entities.
+func (c *KeywordClient) CreateBulk(builders ...*KeywordCreate) *KeywordCreateBulk {
+	return &KeywordCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *KeywordClient) MapCreateBulk(slice any, setFunc func(*KeywordCreate, int)) *KeywordCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &KeywordCreateBulk{err: fmt.Errorf("calling to KeywordClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*KeywordCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &KeywordCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Keyword.
+func (c *KeywordClient) Update() *KeywordUpdate {
+	mutation := newKeywordMutation(c.config, OpUpdate)
+	return &KeywordUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *KeywordClient) UpdateOne(k *Keyword) *KeywordUpdateOne {
+	mutation := newKeywordMutation(c.config, OpUpdateOne, withKeyword(k))
+	return &KeywordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *KeywordClient) UpdateOneID(id string) *KeywordUpdateOne {
+	mutation := newKeywordMutation(c.config, OpUpdateOne, withKeywordID(id))
+	return &KeywordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Keyword.
+func (c *KeywordClient) Delete() *KeywordDelete {
+	mutation := newKeywordMutation(c.config, OpDelete)
+	return &KeywordDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *KeywordClient) DeleteOne(k *Keyword) *KeywordDeleteOne {
+	return c.DeleteOneID(k.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *KeywordClient) DeleteOneID(id string) *KeywordDeleteOne {
+	builder := c.Delete().Where(keyword.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &KeywordDeleteOne{builder}
+}
+
+// Query returns a query builder for Keyword.
+func (c *KeywordClient) Query() *KeywordQuery {
+	return &KeywordQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeKeyword},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Keyword entity by its id.
+func (c *KeywordClient) Get(ctx context.Context, id string) (*Keyword, error) {
+	return c.Query().Where(keyword.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *KeywordClient) GetX(ctx context.Context, id string) *Keyword {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *KeywordClient) Hooks() []Hook {
+	return c.hooks.Keyword
+}
+
+// Interceptors returns the client interceptors.
+func (c *KeywordClient) Interceptors() []Interceptor {
+	return c.inters.Keyword
+}
+
+func (c *KeywordClient) mutate(ctx context.Context, m *KeywordMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&KeywordCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&KeywordUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&KeywordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&KeywordDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Keyword mutation op: %q", m.Op())
 	}
 }
 
@@ -904,9 +1045,9 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Article, Html, Report, Topic, User []ent.Hook
+		Article, Html, Keyword, Report, Topic, User []ent.Hook
 	}
 	inters struct {
-		Article, Html, Report, Topic, User []ent.Interceptor
+		Article, Html, Keyword, Report, Topic, User []ent.Interceptor
 	}
 )

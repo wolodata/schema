@@ -33,6 +33,18 @@ func (f HtmlFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.HTMLMutation", m)
 }
 
+// The KeywordFunc type is an adapter to allow the use of ordinary
+// function as Keyword mutator.
+type KeywordFunc func(context.Context, *ent.KeywordMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f KeywordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.KeywordMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KeywordMutation", m)
+}
+
 // The ReportFunc type is an adapter to allow the use of ordinary
 // function as Report mutator.
 type ReportFunc func(context.Context, *ent.ReportMutation) (ent.Value, error)
