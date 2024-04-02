@@ -64,6 +64,11 @@ func IDContainsFold(id string) predicate.Keyword {
 	return predicate.Keyword(sql.FieldContainsFold(FieldID, id))
 }
 
+// Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
+func Category(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldCategory, v))
+}
+
 // Word applies equality check predicate on the "word" field. It's identical to WordEQ.
 func Word(v string) predicate.Keyword {
 	return predicate.Keyword(sql.FieldEQ(FieldWord, v))
@@ -89,14 +94,49 @@ func SubWordCount(v uint64) predicate.Keyword {
 	return predicate.Keyword(sql.FieldEQ(FieldSubWordCount, v))
 }
 
-// Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
-func Category(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldCategory, v))
-}
-
 // UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
 func UpdatedAt(v time.Time) predicate.Keyword {
 	return predicate.Keyword(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// CategoryEQ applies the EQ predicate on the "category" field.
+func CategoryEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldCategory, v))
+}
+
+// CategoryNEQ applies the NEQ predicate on the "category" field.
+func CategoryNEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldCategory, v))
+}
+
+// CategoryIn applies the In predicate on the "category" field.
+func CategoryIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldCategory, vs...))
+}
+
+// CategoryNotIn applies the NotIn predicate on the "category" field.
+func CategoryNotIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldCategory, vs...))
+}
+
+// CategoryGT applies the GT predicate on the "category" field.
+func CategoryGT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldCategory, v))
+}
+
+// CategoryGTE applies the GTE predicate on the "category" field.
+func CategoryGTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldCategory, v))
+}
+
+// CategoryLT applies the LT predicate on the "category" field.
+func CategoryLT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldCategory, v))
+}
+
+// CategoryLTE applies the LTE predicate on the "category" field.
+func CategoryLTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldCategory, v))
 }
 
 // WordEQ applies the EQ predicate on the "word" field.
@@ -347,46 +387,6 @@ func SubWordCountLT(v uint64) predicate.Keyword {
 // SubWordCountLTE applies the LTE predicate on the "sub_word_count" field.
 func SubWordCountLTE(v uint64) predicate.Keyword {
 	return predicate.Keyword(sql.FieldLTE(FieldSubWordCount, v))
-}
-
-// CategoryEQ applies the EQ predicate on the "category" field.
-func CategoryEQ(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldCategory, v))
-}
-
-// CategoryNEQ applies the NEQ predicate on the "category" field.
-func CategoryNEQ(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNEQ(FieldCategory, v))
-}
-
-// CategoryIn applies the In predicate on the "category" field.
-func CategoryIn(vs ...uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldIn(FieldCategory, vs...))
-}
-
-// CategoryNotIn applies the NotIn predicate on the "category" field.
-func CategoryNotIn(vs ...uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNotIn(FieldCategory, vs...))
-}
-
-// CategoryGT applies the GT predicate on the "category" field.
-func CategoryGT(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGT(FieldCategory, v))
-}
-
-// CategoryGTE applies the GTE predicate on the "category" field.
-func CategoryGTE(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGTE(FieldCategory, v))
-}
-
-// CategoryLT applies the LT predicate on the "category" field.
-func CategoryLT(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLT(FieldCategory, v))
-}
-
-// CategoryLTE applies the LTE predicate on the "category" field.
-func CategoryLTE(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLTE(FieldCategory, v))
 }
 
 // UpdatedAtEQ applies the EQ predicate on the "updated_at" field.

@@ -13,6 +13,8 @@ const (
 	Label = "keyword"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
 	// FieldWord holds the string denoting the word field in the database.
 	FieldWord = "word"
 	// FieldChinaWeakRelatedCount holds the string denoting the china_weak_related_count field in the database.
@@ -23,8 +25,6 @@ const (
 	FieldSubWord = "sub_word"
 	// FieldSubWordCount holds the string denoting the sub_word_count field in the database.
 	FieldSubWordCount = "sub_word_count"
-	// FieldCategory holds the string denoting the category field in the database.
-	FieldCategory = "category"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the keyword in the database.
@@ -34,12 +34,12 @@ const (
 // Columns holds all SQL columns for keyword fields.
 var Columns = []string{
 	FieldID,
+	FieldCategory,
 	FieldWord,
 	FieldChinaWeakRelatedCount,
 	FieldChinaStrongRelatedCount,
 	FieldSubWord,
 	FieldSubWordCount,
-	FieldCategory,
 	FieldUpdatedAt,
 }
 
@@ -72,6 +72,11 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
+// ByCategory orders the results by the category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
+}
+
 // ByWord orders the results by the word field.
 func ByWord(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldWord, opts...).ToFunc()
@@ -95,11 +100,6 @@ func BySubWord(opts ...sql.OrderTermOption) OrderOption {
 // BySubWordCount orders the results by the sub_word_count field.
 func BySubWordCount(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSubWordCount, opts...).ToFunc()
-}
-
-// ByCategory orders the results by the category field.
-func ByCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCategory, opts...).ToFunc()
 }
 
 // ByUpdatedAt orders the results by the updated_at field.

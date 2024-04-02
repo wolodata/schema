@@ -141,11 +141,11 @@ func init() {
 	keywordFields := schema.Keyword{}.Fields()
 	_ = keywordFields
 	// keywordDescSubWord is the schema descriptor for sub_word field.
-	keywordDescSubWord := keywordFields[4].Descriptor()
+	keywordDescSubWord := keywordFields[5].Descriptor()
 	// keyword.DefaultSubWord holds the default value on creation for the sub_word field.
 	keyword.DefaultSubWord = keywordDescSubWord.Default.(string)
 	// keywordDescSubWordCount is the schema descriptor for sub_word_count field.
-	keywordDescSubWordCount := keywordFields[5].Descriptor()
+	keywordDescSubWordCount := keywordFields[6].Descriptor()
 	// keyword.DefaultSubWordCount holds the default value on creation for the sub_word_count field.
 	keyword.DefaultSubWordCount = keywordDescSubWordCount.Default.(uint64)
 	// keywordDescUpdatedAt is the schema descriptor for updated_at field.

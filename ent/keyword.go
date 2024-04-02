@@ -17,6 +17,8 @@ type Keyword struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID string `json:"id,omitempty"`
+	// Category holds the value of the "category" field.
+	Category uint64 `json:"category,omitempty"`
 	// Word holds the value of the "word" field.
 	Word string `json:"word,omitempty"`
 	// ChinaWeakRelatedCount holds the value of the "china_weak_related_count" field.
@@ -27,8 +29,6 @@ type Keyword struct {
 	SubWord string `json:"sub_word,omitempty"`
 	// SubWordCount holds the value of the "sub_word_count" field.
 	SubWordCount uint64 `json:"sub_word_count,omitempty"`
-	// Category holds the value of the "category" field.
-	Category uint64 `json:"category,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
 	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
@@ -39,7 +39,7 @@ func (*Keyword) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case keyword.FieldChinaWeakRelatedCount, keyword.FieldChinaStrongRelatedCount, keyword.FieldSubWordCount, keyword.FieldCategory:
+		case keyword.FieldCategory, keyword.FieldChinaWeakRelatedCount, keyword.FieldChinaStrongRelatedCount, keyword.FieldSubWordCount:
 			values[i] = new(sql.NullInt64)
 		case keyword.FieldID, keyword.FieldWord, keyword.FieldSubWord:
 			values[i] = new(sql.NullString)
@@ -65,6 +65,12 @@ func (k *Keyword) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				k.ID = value.String
+			}
+		case keyword.FieldCategory:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field category", values[i])
+			} else if value.Valid {
+				k.Category = uint64(value.Int64)
 			}
 		case keyword.FieldWord:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -95,12 +101,6 @@ func (k *Keyword) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field sub_word_count", values[i])
 			} else if value.Valid {
 				k.SubWordCount = uint64(value.Int64)
-			}
-		case keyword.FieldCategory:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field category", values[i])
-			} else if value.Valid {
-				k.Category = uint64(value.Int64)
 			}
 		case keyword.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -144,6 +144,9 @@ func (k *Keyword) String() string {
 	var builder strings.Builder
 	builder.WriteString("Keyword(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", k.ID))
+	builder.WriteString("category=")
+	builder.WriteString(fmt.Sprintf("%v", k.Category))
+	builder.WriteString(", ")
 	builder.WriteString("word=")
 	builder.WriteString(k.Word)
 	builder.WriteString(", ")
@@ -158,9 +161,6 @@ func (k *Keyword) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("sub_word_count=")
 	builder.WriteString(fmt.Sprintf("%v", k.SubWordCount))
-	builder.WriteString(", ")
-	builder.WriteString("category=")
-	builder.WriteString(fmt.Sprintf("%v", k.Category))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(k.UpdatedAt.Format(time.ANSIC))

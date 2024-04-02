@@ -28,6 +28,27 @@ func (ku *KeywordUpdate) Where(ps ...predicate.Keyword) *KeywordUpdate {
 	return ku
 }
 
+// SetCategory sets the "category" field.
+func (ku *KeywordUpdate) SetCategory(u uint64) *KeywordUpdate {
+	ku.mutation.ResetCategory()
+	ku.mutation.SetCategory(u)
+	return ku
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableCategory(u *uint64) *KeywordUpdate {
+	if u != nil {
+		ku.SetCategory(*u)
+	}
+	return ku
+}
+
+// AddCategory adds u to the "category" field.
+func (ku *KeywordUpdate) AddCategory(u int64) *KeywordUpdate {
+	ku.mutation.AddCategory(u)
+	return ku
+}
+
 // SetWord sets the "word" field.
 func (ku *KeywordUpdate) SetWord(s string) *KeywordUpdate {
 	ku.mutation.SetWord(s)
@@ -119,27 +140,6 @@ func (ku *KeywordUpdate) AddSubWordCount(u int64) *KeywordUpdate {
 	return ku
 }
 
-// SetCategory sets the "category" field.
-func (ku *KeywordUpdate) SetCategory(u uint64) *KeywordUpdate {
-	ku.mutation.ResetCategory()
-	ku.mutation.SetCategory(u)
-	return ku
-}
-
-// SetNillableCategory sets the "category" field if the given value is not nil.
-func (ku *KeywordUpdate) SetNillableCategory(u *uint64) *KeywordUpdate {
-	if u != nil {
-		ku.SetCategory(*u)
-	}
-	return ku
-}
-
-// AddCategory adds u to the "category" field.
-func (ku *KeywordUpdate) AddCategory(u int64) *KeywordUpdate {
-	ku.mutation.AddCategory(u)
-	return ku
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (ku *KeywordUpdate) SetUpdatedAt(t time.Time) *KeywordUpdate {
 	ku.mutation.SetUpdatedAt(t)
@@ -196,6 +196,12 @@ func (ku *KeywordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := ku.mutation.Category(); ok {
+		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
+	}
+	if value, ok := ku.mutation.AddedCategory(); ok {
+		_spec.AddField(keyword.FieldCategory, field.TypeUint64, value)
+	}
 	if value, ok := ku.mutation.Word(); ok {
 		_spec.SetField(keyword.FieldWord, field.TypeString, value)
 	}
@@ -220,12 +226,6 @@ func (ku *KeywordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := ku.mutation.AddedSubWordCount(); ok {
 		_spec.AddField(keyword.FieldSubWordCount, field.TypeUint64, value)
 	}
-	if value, ok := ku.mutation.Category(); ok {
-		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
-	}
-	if value, ok := ku.mutation.AddedCategory(); ok {
-		_spec.AddField(keyword.FieldCategory, field.TypeUint64, value)
-	}
 	if value, ok := ku.mutation.UpdatedAt(); ok {
 		_spec.SetField(keyword.FieldUpdatedAt, field.TypeTime, value)
 	}
@@ -247,6 +247,27 @@ type KeywordUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *KeywordMutation
+}
+
+// SetCategory sets the "category" field.
+func (kuo *KeywordUpdateOne) SetCategory(u uint64) *KeywordUpdateOne {
+	kuo.mutation.ResetCategory()
+	kuo.mutation.SetCategory(u)
+	return kuo
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableCategory(u *uint64) *KeywordUpdateOne {
+	if u != nil {
+		kuo.SetCategory(*u)
+	}
+	return kuo
+}
+
+// AddCategory adds u to the "category" field.
+func (kuo *KeywordUpdateOne) AddCategory(u int64) *KeywordUpdateOne {
+	kuo.mutation.AddCategory(u)
+	return kuo
 }
 
 // SetWord sets the "word" field.
@@ -340,27 +361,6 @@ func (kuo *KeywordUpdateOne) AddSubWordCount(u int64) *KeywordUpdateOne {
 	return kuo
 }
 
-// SetCategory sets the "category" field.
-func (kuo *KeywordUpdateOne) SetCategory(u uint64) *KeywordUpdateOne {
-	kuo.mutation.ResetCategory()
-	kuo.mutation.SetCategory(u)
-	return kuo
-}
-
-// SetNillableCategory sets the "category" field if the given value is not nil.
-func (kuo *KeywordUpdateOne) SetNillableCategory(u *uint64) *KeywordUpdateOne {
-	if u != nil {
-		kuo.SetCategory(*u)
-	}
-	return kuo
-}
-
-// AddCategory adds u to the "category" field.
-func (kuo *KeywordUpdateOne) AddCategory(u int64) *KeywordUpdateOne {
-	kuo.mutation.AddCategory(u)
-	return kuo
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (kuo *KeywordUpdateOne) SetUpdatedAt(t time.Time) *KeywordUpdateOne {
 	kuo.mutation.SetUpdatedAt(t)
@@ -447,6 +447,12 @@ func (kuo *KeywordUpdateOne) sqlSave(ctx context.Context) (_node *Keyword, err e
 			}
 		}
 	}
+	if value, ok := kuo.mutation.Category(); ok {
+		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
+	}
+	if value, ok := kuo.mutation.AddedCategory(); ok {
+		_spec.AddField(keyword.FieldCategory, field.TypeUint64, value)
+	}
 	if value, ok := kuo.mutation.Word(); ok {
 		_spec.SetField(keyword.FieldWord, field.TypeString, value)
 	}
@@ -470,12 +476,6 @@ func (kuo *KeywordUpdateOne) sqlSave(ctx context.Context) (_node *Keyword, err e
 	}
 	if value, ok := kuo.mutation.AddedSubWordCount(); ok {
 		_spec.AddField(keyword.FieldSubWordCount, field.TypeUint64, value)
-	}
-	if value, ok := kuo.mutation.Category(); ok {
-		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
-	}
-	if value, ok := kuo.mutation.AddedCategory(); ok {
-		_spec.AddField(keyword.FieldCategory, field.TypeUint64, value)
 	}
 	if value, ok := kuo.mutation.UpdatedAt(); ok {
 		_spec.SetField(keyword.FieldUpdatedAt, field.TypeTime, value)

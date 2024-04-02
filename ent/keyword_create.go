@@ -23,6 +23,12 @@ type KeywordCreate struct {
 	conflict []sql.ConflictOption
 }
 
+// SetCategory sets the "category" field.
+func (kc *KeywordCreate) SetCategory(u uint64) *KeywordCreate {
+	kc.mutation.SetCategory(u)
+	return kc
+}
+
 // SetWord sets the "word" field.
 func (kc *KeywordCreate) SetWord(s string) *KeywordCreate {
 	kc.mutation.SetWord(s)
@@ -66,12 +72,6 @@ func (kc *KeywordCreate) SetNillableSubWordCount(u *uint64) *KeywordCreate {
 	if u != nil {
 		kc.SetSubWordCount(*u)
 	}
-	return kc
-}
-
-// SetCategory sets the "category" field.
-func (kc *KeywordCreate) SetCategory(u uint64) *KeywordCreate {
-	kc.mutation.SetCategory(u)
 	return kc
 }
 
@@ -146,6 +146,9 @@ func (kc *KeywordCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (kc *KeywordCreate) check() error {
+	if _, ok := kc.mutation.Category(); !ok {
+		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "Keyword.category"`)}
+	}
 	if _, ok := kc.mutation.Word(); !ok {
 		return &ValidationError{Name: "word", err: errors.New(`ent: missing required field "Keyword.word"`)}
 	}
@@ -160,9 +163,6 @@ func (kc *KeywordCreate) check() error {
 	}
 	if _, ok := kc.mutation.SubWordCount(); !ok {
 		return &ValidationError{Name: "sub_word_count", err: errors.New(`ent: missing required field "Keyword.sub_word_count"`)}
-	}
-	if _, ok := kc.mutation.Category(); !ok {
-		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "Keyword.category"`)}
 	}
 	if _, ok := kc.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Keyword.updated_at"`)}
@@ -203,6 +203,10 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
+	if value, ok := kc.mutation.Category(); ok {
+		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
+		_node.Category = value
+	}
 	if value, ok := kc.mutation.Word(); ok {
 		_spec.SetField(keyword.FieldWord, field.TypeString, value)
 		_node.Word = value
@@ -223,10 +227,6 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 		_spec.SetField(keyword.FieldSubWordCount, field.TypeUint64, value)
 		_node.SubWordCount = value
 	}
-	if value, ok := kc.mutation.Category(); ok {
-		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
-		_node.Category = value
-	}
 	if value, ok := kc.mutation.UpdatedAt(); ok {
 		_spec.SetField(keyword.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
@@ -238,7 +238,7 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Keyword.Create().
-//		SetWord(v).
+//		SetCategory(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -247,7 +247,7 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.KeywordUpsert) {
-//			SetWord(v+v).
+//			SetCategory(v+v).
 //		}).
 //		Exec(ctx)
 func (kc *KeywordCreate) OnConflict(opts ...sql.ConflictOption) *KeywordUpsertOne {
@@ -282,6 +282,24 @@ type (
 		*sql.UpdateSet
 	}
 )
+
+// SetCategory sets the "category" field.
+func (u *KeywordUpsert) SetCategory(v uint64) *KeywordUpsert {
+	u.Set(keyword.FieldCategory, v)
+	return u
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateCategory() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldCategory)
+	return u
+}
+
+// AddCategory adds v to the "category" field.
+func (u *KeywordUpsert) AddCategory(v uint64) *KeywordUpsert {
+	u.Add(keyword.FieldCategory, v)
+	return u
+}
 
 // SetWord sets the "word" field.
 func (u *KeywordUpsert) SetWord(v string) *KeywordUpsert {
@@ -361,24 +379,6 @@ func (u *KeywordUpsert) AddSubWordCount(v uint64) *KeywordUpsert {
 	return u
 }
 
-// SetCategory sets the "category" field.
-func (u *KeywordUpsert) SetCategory(v uint64) *KeywordUpsert {
-	u.Set(keyword.FieldCategory, v)
-	return u
-}
-
-// UpdateCategory sets the "category" field to the value that was provided on create.
-func (u *KeywordUpsert) UpdateCategory() *KeywordUpsert {
-	u.SetExcluded(keyword.FieldCategory)
-	return u
-}
-
-// AddCategory adds v to the "category" field.
-func (u *KeywordUpsert) AddCategory(v uint64) *KeywordUpsert {
-	u.Add(keyword.FieldCategory, v)
-	return u
-}
-
 // SetUpdatedAt sets the "updated_at" field.
 func (u *KeywordUpsert) SetUpdatedAt(v time.Time) *KeywordUpsert {
 	u.Set(keyword.FieldUpdatedAt, v)
@@ -437,6 +437,27 @@ func (u *KeywordUpsertOne) Update(set func(*KeywordUpsert)) *KeywordUpsertOne {
 		set(&KeywordUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *KeywordUpsertOne) SetCategory(v uint64) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// AddCategory adds v to the "category" field.
+func (u *KeywordUpsertOne) AddCategory(v uint64) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.AddCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateCategory() *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateCategory()
+	})
 }
 
 // SetWord sets the "word" field.
@@ -527,27 +548,6 @@ func (u *KeywordUpsertOne) AddSubWordCount(v uint64) *KeywordUpsertOne {
 func (u *KeywordUpsertOne) UpdateSubWordCount() *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
 		s.UpdateSubWordCount()
-	})
-}
-
-// SetCategory sets the "category" field.
-func (u *KeywordUpsertOne) SetCategory(v uint64) *KeywordUpsertOne {
-	return u.Update(func(s *KeywordUpsert) {
-		s.SetCategory(v)
-	})
-}
-
-// AddCategory adds v to the "category" field.
-func (u *KeywordUpsertOne) AddCategory(v uint64) *KeywordUpsertOne {
-	return u.Update(func(s *KeywordUpsert) {
-		s.AddCategory(v)
-	})
-}
-
-// UpdateCategory sets the "category" field to the value that was provided on create.
-func (u *KeywordUpsertOne) UpdateCategory() *KeywordUpsertOne {
-	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateCategory()
 	})
 }
 
@@ -701,7 +701,7 @@ func (kcb *KeywordCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.KeywordUpsert) {
-//			SetWord(v+v).
+//			SetCategory(v+v).
 //		}).
 //		Exec(ctx)
 func (kcb *KeywordCreateBulk) OnConflict(opts ...sql.ConflictOption) *KeywordUpsertBulk {
@@ -778,6 +778,27 @@ func (u *KeywordUpsertBulk) Update(set func(*KeywordUpsert)) *KeywordUpsertBulk 
 		set(&KeywordUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *KeywordUpsertBulk) SetCategory(v uint64) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// AddCategory adds v to the "category" field.
+func (u *KeywordUpsertBulk) AddCategory(v uint64) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.AddCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateCategory() *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateCategory()
+	})
 }
 
 // SetWord sets the "word" field.
@@ -868,27 +889,6 @@ func (u *KeywordUpsertBulk) AddSubWordCount(v uint64) *KeywordUpsertBulk {
 func (u *KeywordUpsertBulk) UpdateSubWordCount() *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
 		s.UpdateSubWordCount()
-	})
-}
-
-// SetCategory sets the "category" field.
-func (u *KeywordUpsertBulk) SetCategory(v uint64) *KeywordUpsertBulk {
-	return u.Update(func(s *KeywordUpsert) {
-		s.SetCategory(v)
-	})
-}
-
-// AddCategory adds v to the "category" field.
-func (u *KeywordUpsertBulk) AddCategory(v uint64) *KeywordUpsertBulk {
-	return u.Update(func(s *KeywordUpsert) {
-		s.AddCategory(v)
-	})
-}
-
-// UpdateCategory sets the "category" field to the value that was provided on create.
-func (u *KeywordUpsertBulk) UpdateCategory() *KeywordUpsertBulk {
-	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateCategory()
 	})
 }
 

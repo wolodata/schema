@@ -16,12 +16,12 @@ type Keyword struct {
 func (Keyword) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").Immutable(),
+		field.Uint64("category"),
 		field.String("word").Unique(),
 		field.Uint64("china_weak_related_count"),
 		field.Uint64("china_strong_related_count"),
 		field.String("sub_word").Default(""),
 		field.Uint64("sub_word_count").Default(0),
-		field.Uint64("category"),
 		field.Time("updated_at").SchemaType(map[string]string{"mysql": "datetime"}).Default(time.Now).UpdateDefault(time.Now),
 	}
 }
