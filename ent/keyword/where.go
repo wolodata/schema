@@ -3,6 +3,8 @@
 package keyword
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/predicate"
 )
@@ -62,189 +64,369 @@ func IDContainsFold(id string) predicate.Keyword {
 	return predicate.Keyword(sql.FieldContainsFold(FieldID, id))
 }
 
-// Name applies equality check predicate on the "name" field. It's identical to NameEQ.
-func Name(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldName, v))
+// Word applies equality check predicate on the "word" field. It's identical to WordEQ.
+func Word(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldWord, v))
 }
 
-// Color applies equality check predicate on the "color" field. It's identical to ColorEQ.
-func Color(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldColor, v))
+// ChinaWeakRelatedCount applies equality check predicate on the "china_weak_related_count" field. It's identical to ChinaWeakRelatedCountEQ.
+func ChinaWeakRelatedCount(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldChinaWeakRelatedCount, v))
 }
 
-// Order applies equality check predicate on the "order" field. It's identical to OrderEQ.
-func Order(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldOrder, v))
+// ChinaStrongRelatedCount applies equality check predicate on the "china_strong_related_count" field. It's identical to ChinaStrongRelatedCountEQ.
+func ChinaStrongRelatedCount(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldChinaStrongRelatedCount, v))
 }
 
-// NameEQ applies the EQ predicate on the "name" field.
-func NameEQ(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldName, v))
+// SubWord applies equality check predicate on the "sub_word" field. It's identical to SubWordEQ.
+func SubWord(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldSubWord, v))
 }
 
-// NameNEQ applies the NEQ predicate on the "name" field.
-func NameNEQ(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNEQ(FieldName, v))
+// SubWordCount applies equality check predicate on the "sub_word_count" field. It's identical to SubWordCountEQ.
+func SubWordCount(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldSubWordCount, v))
 }
 
-// NameIn applies the In predicate on the "name" field.
-func NameIn(vs ...string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldIn(FieldName, vs...))
+// Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
+func Category(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldCategory, v))
 }
 
-// NameNotIn applies the NotIn predicate on the "name" field.
-func NameNotIn(vs ...string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNotIn(FieldName, vs...))
+// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// NameGT applies the GT predicate on the "name" field.
-func NameGT(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGT(FieldName, v))
+// WordEQ applies the EQ predicate on the "word" field.
+func WordEQ(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldWord, v))
 }
 
-// NameGTE applies the GTE predicate on the "name" field.
-func NameGTE(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGTE(FieldName, v))
+// WordNEQ applies the NEQ predicate on the "word" field.
+func WordNEQ(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldWord, v))
 }
 
-// NameLT applies the LT predicate on the "name" field.
-func NameLT(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLT(FieldName, v))
+// WordIn applies the In predicate on the "word" field.
+func WordIn(vs ...string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldWord, vs...))
 }
 
-// NameLTE applies the LTE predicate on the "name" field.
-func NameLTE(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLTE(FieldName, v))
+// WordNotIn applies the NotIn predicate on the "word" field.
+func WordNotIn(vs ...string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldWord, vs...))
 }
 
-// NameContains applies the Contains predicate on the "name" field.
-func NameContains(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldContains(FieldName, v))
+// WordGT applies the GT predicate on the "word" field.
+func WordGT(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldWord, v))
 }
 
-// NameHasPrefix applies the HasPrefix predicate on the "name" field.
-func NameHasPrefix(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldHasPrefix(FieldName, v))
+// WordGTE applies the GTE predicate on the "word" field.
+func WordGTE(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldWord, v))
 }
 
-// NameHasSuffix applies the HasSuffix predicate on the "name" field.
-func NameHasSuffix(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldHasSuffix(FieldName, v))
+// WordLT applies the LT predicate on the "word" field.
+func WordLT(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldWord, v))
 }
 
-// NameEqualFold applies the EqualFold predicate on the "name" field.
-func NameEqualFold(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEqualFold(FieldName, v))
+// WordLTE applies the LTE predicate on the "word" field.
+func WordLTE(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldWord, v))
 }
 
-// NameContainsFold applies the ContainsFold predicate on the "name" field.
-func NameContainsFold(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldContainsFold(FieldName, v))
+// WordContains applies the Contains predicate on the "word" field.
+func WordContains(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldContains(FieldWord, v))
 }
 
-// ColorEQ applies the EQ predicate on the "color" field.
-func ColorEQ(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldColor, v))
+// WordHasPrefix applies the HasPrefix predicate on the "word" field.
+func WordHasPrefix(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldHasPrefix(FieldWord, v))
 }
 
-// ColorNEQ applies the NEQ predicate on the "color" field.
-func ColorNEQ(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNEQ(FieldColor, v))
+// WordHasSuffix applies the HasSuffix predicate on the "word" field.
+func WordHasSuffix(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldHasSuffix(FieldWord, v))
 }
 
-// ColorIn applies the In predicate on the "color" field.
-func ColorIn(vs ...string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldIn(FieldColor, vs...))
+// WordEqualFold applies the EqualFold predicate on the "word" field.
+func WordEqualFold(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEqualFold(FieldWord, v))
 }
 
-// ColorNotIn applies the NotIn predicate on the "color" field.
-func ColorNotIn(vs ...string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNotIn(FieldColor, vs...))
+// WordContainsFold applies the ContainsFold predicate on the "word" field.
+func WordContainsFold(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldContainsFold(FieldWord, v))
 }
 
-// ColorGT applies the GT predicate on the "color" field.
-func ColorGT(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGT(FieldColor, v))
+// ChinaWeakRelatedCountEQ applies the EQ predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldChinaWeakRelatedCount, v))
 }
 
-// ColorGTE applies the GTE predicate on the "color" field.
-func ColorGTE(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGTE(FieldColor, v))
+// ChinaWeakRelatedCountNEQ applies the NEQ predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountNEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldChinaWeakRelatedCount, v))
 }
 
-// ColorLT applies the LT predicate on the "color" field.
-func ColorLT(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLT(FieldColor, v))
+// ChinaWeakRelatedCountIn applies the In predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldChinaWeakRelatedCount, vs...))
 }
 
-// ColorLTE applies the LTE predicate on the "color" field.
-func ColorLTE(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLTE(FieldColor, v))
+// ChinaWeakRelatedCountNotIn applies the NotIn predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountNotIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldChinaWeakRelatedCount, vs...))
 }
 
-// ColorContains applies the Contains predicate on the "color" field.
-func ColorContains(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldContains(FieldColor, v))
+// ChinaWeakRelatedCountGT applies the GT predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountGT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldChinaWeakRelatedCount, v))
 }
 
-// ColorHasPrefix applies the HasPrefix predicate on the "color" field.
-func ColorHasPrefix(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldHasPrefix(FieldColor, v))
+// ChinaWeakRelatedCountGTE applies the GTE predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountGTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldChinaWeakRelatedCount, v))
 }
 
-// ColorHasSuffix applies the HasSuffix predicate on the "color" field.
-func ColorHasSuffix(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldHasSuffix(FieldColor, v))
+// ChinaWeakRelatedCountLT applies the LT predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountLT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldChinaWeakRelatedCount, v))
 }
 
-// ColorEqualFold applies the EqualFold predicate on the "color" field.
-func ColorEqualFold(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEqualFold(FieldColor, v))
+// ChinaWeakRelatedCountLTE applies the LTE predicate on the "china_weak_related_count" field.
+func ChinaWeakRelatedCountLTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldChinaWeakRelatedCount, v))
 }
 
-// ColorContainsFold applies the ContainsFold predicate on the "color" field.
-func ColorContainsFold(v string) predicate.Keyword {
-	return predicate.Keyword(sql.FieldContainsFold(FieldColor, v))
+// ChinaStrongRelatedCountEQ applies the EQ predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldChinaStrongRelatedCount, v))
 }
 
-// OrderEQ applies the EQ predicate on the "order" field.
-func OrderEQ(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldEQ(FieldOrder, v))
+// ChinaStrongRelatedCountNEQ applies the NEQ predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountNEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldChinaStrongRelatedCount, v))
 }
 
-// OrderNEQ applies the NEQ predicate on the "order" field.
-func OrderNEQ(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNEQ(FieldOrder, v))
+// ChinaStrongRelatedCountIn applies the In predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldChinaStrongRelatedCount, vs...))
 }
 
-// OrderIn applies the In predicate on the "order" field.
-func OrderIn(vs ...uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldIn(FieldOrder, vs...))
+// ChinaStrongRelatedCountNotIn applies the NotIn predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountNotIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldChinaStrongRelatedCount, vs...))
 }
 
-// OrderNotIn applies the NotIn predicate on the "order" field.
-func OrderNotIn(vs ...uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldNotIn(FieldOrder, vs...))
+// ChinaStrongRelatedCountGT applies the GT predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountGT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldChinaStrongRelatedCount, v))
 }
 
-// OrderGT applies the GT predicate on the "order" field.
-func OrderGT(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGT(FieldOrder, v))
+// ChinaStrongRelatedCountGTE applies the GTE predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountGTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldChinaStrongRelatedCount, v))
 }
 
-// OrderGTE applies the GTE predicate on the "order" field.
-func OrderGTE(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldGTE(FieldOrder, v))
+// ChinaStrongRelatedCountLT applies the LT predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountLT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldChinaStrongRelatedCount, v))
 }
 
-// OrderLT applies the LT predicate on the "order" field.
-func OrderLT(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLT(FieldOrder, v))
+// ChinaStrongRelatedCountLTE applies the LTE predicate on the "china_strong_related_count" field.
+func ChinaStrongRelatedCountLTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldChinaStrongRelatedCount, v))
 }
 
-// OrderLTE applies the LTE predicate on the "order" field.
-func OrderLTE(v uint64) predicate.Keyword {
-	return predicate.Keyword(sql.FieldLTE(FieldOrder, v))
+// SubWordEQ applies the EQ predicate on the "sub_word" field.
+func SubWordEQ(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldSubWord, v))
+}
+
+// SubWordNEQ applies the NEQ predicate on the "sub_word" field.
+func SubWordNEQ(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldSubWord, v))
+}
+
+// SubWordIn applies the In predicate on the "sub_word" field.
+func SubWordIn(vs ...string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldSubWord, vs...))
+}
+
+// SubWordNotIn applies the NotIn predicate on the "sub_word" field.
+func SubWordNotIn(vs ...string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldSubWord, vs...))
+}
+
+// SubWordGT applies the GT predicate on the "sub_word" field.
+func SubWordGT(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldSubWord, v))
+}
+
+// SubWordGTE applies the GTE predicate on the "sub_word" field.
+func SubWordGTE(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldSubWord, v))
+}
+
+// SubWordLT applies the LT predicate on the "sub_word" field.
+func SubWordLT(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldSubWord, v))
+}
+
+// SubWordLTE applies the LTE predicate on the "sub_word" field.
+func SubWordLTE(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldSubWord, v))
+}
+
+// SubWordContains applies the Contains predicate on the "sub_word" field.
+func SubWordContains(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldContains(FieldSubWord, v))
+}
+
+// SubWordHasPrefix applies the HasPrefix predicate on the "sub_word" field.
+func SubWordHasPrefix(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldHasPrefix(FieldSubWord, v))
+}
+
+// SubWordHasSuffix applies the HasSuffix predicate on the "sub_word" field.
+func SubWordHasSuffix(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldHasSuffix(FieldSubWord, v))
+}
+
+// SubWordEqualFold applies the EqualFold predicate on the "sub_word" field.
+func SubWordEqualFold(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEqualFold(FieldSubWord, v))
+}
+
+// SubWordContainsFold applies the ContainsFold predicate on the "sub_word" field.
+func SubWordContainsFold(v string) predicate.Keyword {
+	return predicate.Keyword(sql.FieldContainsFold(FieldSubWord, v))
+}
+
+// SubWordCountEQ applies the EQ predicate on the "sub_word_count" field.
+func SubWordCountEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldSubWordCount, v))
+}
+
+// SubWordCountNEQ applies the NEQ predicate on the "sub_word_count" field.
+func SubWordCountNEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldSubWordCount, v))
+}
+
+// SubWordCountIn applies the In predicate on the "sub_word_count" field.
+func SubWordCountIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldSubWordCount, vs...))
+}
+
+// SubWordCountNotIn applies the NotIn predicate on the "sub_word_count" field.
+func SubWordCountNotIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldSubWordCount, vs...))
+}
+
+// SubWordCountGT applies the GT predicate on the "sub_word_count" field.
+func SubWordCountGT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldSubWordCount, v))
+}
+
+// SubWordCountGTE applies the GTE predicate on the "sub_word_count" field.
+func SubWordCountGTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldSubWordCount, v))
+}
+
+// SubWordCountLT applies the LT predicate on the "sub_word_count" field.
+func SubWordCountLT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldSubWordCount, v))
+}
+
+// SubWordCountLTE applies the LTE predicate on the "sub_word_count" field.
+func SubWordCountLTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldSubWordCount, v))
+}
+
+// CategoryEQ applies the EQ predicate on the "category" field.
+func CategoryEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldCategory, v))
+}
+
+// CategoryNEQ applies the NEQ predicate on the "category" field.
+func CategoryNEQ(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldCategory, v))
+}
+
+// CategoryIn applies the In predicate on the "category" field.
+func CategoryIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldCategory, vs...))
+}
+
+// CategoryNotIn applies the NotIn predicate on the "category" field.
+func CategoryNotIn(vs ...uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldCategory, vs...))
+}
+
+// CategoryGT applies the GT predicate on the "category" field.
+func CategoryGT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldCategory, v))
+}
+
+// CategoryGTE applies the GTE predicate on the "category" field.
+func CategoryGTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldCategory, v))
+}
+
+// CategoryLT applies the LT predicate on the "category" field.
+func CategoryLT(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldCategory, v))
+}
+
+// CategoryLTE applies the LTE predicate on the "category" field.
+func CategoryLTE(v uint64) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldCategory, v))
+}
+
+// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+func UpdatedAtEQ(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+func UpdatedAtNEQ(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNEQ(FieldUpdatedAt, v))
+}
+
+// UpdatedAtIn applies the In predicate on the "updated_at" field.
+func UpdatedAtIn(vs ...time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldNotIn(FieldUpdatedAt, vs...))
+}
+
+// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+func UpdatedAtGT(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+func UpdatedAtGTE(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldGTE(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+func UpdatedAtLT(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLT(FieldUpdatedAt, v))
+}
+
+// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+func UpdatedAtLTE(v time.Time) predicate.Keyword {
+	return predicate.Keyword(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
 // And groups predicates with the AND operator between them.

@@ -140,18 +140,20 @@ func init() {
 	html.DefaultReason = htmlDescReason.Default.(string)
 	keywordFields := schema.Keyword{}.Fields()
 	_ = keywordFields
-	// keywordDescWords is the schema descriptor for words field.
-	keywordDescWords := keywordFields[2].Descriptor()
-	// keyword.DefaultWords holds the default value on creation for the words field.
-	keyword.DefaultWords = keywordDescWords.Default.([]string)
-	// keywordDescColor is the schema descriptor for color field.
-	keywordDescColor := keywordFields[3].Descriptor()
-	// keyword.DefaultColor holds the default value on creation for the color field.
-	keyword.DefaultColor = keywordDescColor.Default.(string)
-	// keywordDescOrder is the schema descriptor for order field.
-	keywordDescOrder := keywordFields[4].Descriptor()
-	// keyword.DefaultOrder holds the default value on creation for the order field.
-	keyword.DefaultOrder = keywordDescOrder.Default.(uint64)
+	// keywordDescSubWord is the schema descriptor for sub_word field.
+	keywordDescSubWord := keywordFields[4].Descriptor()
+	// keyword.DefaultSubWord holds the default value on creation for the sub_word field.
+	keyword.DefaultSubWord = keywordDescSubWord.Default.(string)
+	// keywordDescSubWordCount is the schema descriptor for sub_word_count field.
+	keywordDescSubWordCount := keywordFields[5].Descriptor()
+	// keyword.DefaultSubWordCount holds the default value on creation for the sub_word_count field.
+	keyword.DefaultSubWordCount = keywordDescSubWordCount.Default.(uint64)
+	// keywordDescUpdatedAt is the schema descriptor for updated_at field.
+	keywordDescUpdatedAt := keywordFields[7].Descriptor()
+	// keyword.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	keyword.DefaultUpdatedAt = keywordDescUpdatedAt.Default.(func() time.Time)
+	// keyword.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	keyword.UpdateDefaultUpdatedAt = keywordDescUpdatedAt.UpdateDefault.(func() time.Time)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.

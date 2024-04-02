@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -22,42 +23,68 @@ type KeywordCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetName sets the "name" field.
-func (kc *KeywordCreate) SetName(s string) *KeywordCreate {
-	kc.mutation.SetName(s)
+// SetWord sets the "word" field.
+func (kc *KeywordCreate) SetWord(s string) *KeywordCreate {
+	kc.mutation.SetWord(s)
 	return kc
 }
 
-// SetWords sets the "words" field.
-func (kc *KeywordCreate) SetWords(s []string) *KeywordCreate {
-	kc.mutation.SetWords(s)
+// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
+func (kc *KeywordCreate) SetChinaWeakRelatedCount(u uint64) *KeywordCreate {
+	kc.mutation.SetChinaWeakRelatedCount(u)
 	return kc
 }
 
-// SetColor sets the "color" field.
-func (kc *KeywordCreate) SetColor(s string) *KeywordCreate {
-	kc.mutation.SetColor(s)
+// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
+func (kc *KeywordCreate) SetChinaStrongRelatedCount(u uint64) *KeywordCreate {
+	kc.mutation.SetChinaStrongRelatedCount(u)
 	return kc
 }
 
-// SetNillableColor sets the "color" field if the given value is not nil.
-func (kc *KeywordCreate) SetNillableColor(s *string) *KeywordCreate {
+// SetSubWord sets the "sub_word" field.
+func (kc *KeywordCreate) SetSubWord(s string) *KeywordCreate {
+	kc.mutation.SetSubWord(s)
+	return kc
+}
+
+// SetNillableSubWord sets the "sub_word" field if the given value is not nil.
+func (kc *KeywordCreate) SetNillableSubWord(s *string) *KeywordCreate {
 	if s != nil {
-		kc.SetColor(*s)
+		kc.SetSubWord(*s)
 	}
 	return kc
 }
 
-// SetOrder sets the "order" field.
-func (kc *KeywordCreate) SetOrder(u uint64) *KeywordCreate {
-	kc.mutation.SetOrder(u)
+// SetSubWordCount sets the "sub_word_count" field.
+func (kc *KeywordCreate) SetSubWordCount(u uint64) *KeywordCreate {
+	kc.mutation.SetSubWordCount(u)
 	return kc
 }
 
-// SetNillableOrder sets the "order" field if the given value is not nil.
-func (kc *KeywordCreate) SetNillableOrder(u *uint64) *KeywordCreate {
+// SetNillableSubWordCount sets the "sub_word_count" field if the given value is not nil.
+func (kc *KeywordCreate) SetNillableSubWordCount(u *uint64) *KeywordCreate {
 	if u != nil {
-		kc.SetOrder(*u)
+		kc.SetSubWordCount(*u)
+	}
+	return kc
+}
+
+// SetCategory sets the "category" field.
+func (kc *KeywordCreate) SetCategory(u uint64) *KeywordCreate {
+	kc.mutation.SetCategory(u)
+	return kc
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (kc *KeywordCreate) SetUpdatedAt(t time.Time) *KeywordCreate {
+	kc.mutation.SetUpdatedAt(t)
+	return kc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (kc *KeywordCreate) SetNillableUpdatedAt(t *time.Time) *KeywordCreate {
+	if t != nil {
+		kc.SetUpdatedAt(*t)
 	}
 	return kc
 }
@@ -103,33 +130,42 @@ func (kc *KeywordCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (kc *KeywordCreate) defaults() {
-	if _, ok := kc.mutation.Words(); !ok {
-		v := keyword.DefaultWords
-		kc.mutation.SetWords(v)
+	if _, ok := kc.mutation.SubWord(); !ok {
+		v := keyword.DefaultSubWord
+		kc.mutation.SetSubWord(v)
 	}
-	if _, ok := kc.mutation.Color(); !ok {
-		v := keyword.DefaultColor
-		kc.mutation.SetColor(v)
+	if _, ok := kc.mutation.SubWordCount(); !ok {
+		v := keyword.DefaultSubWordCount
+		kc.mutation.SetSubWordCount(v)
 	}
-	if _, ok := kc.mutation.Order(); !ok {
-		v := keyword.DefaultOrder
-		kc.mutation.SetOrder(v)
+	if _, ok := kc.mutation.UpdatedAt(); !ok {
+		v := keyword.DefaultUpdatedAt()
+		kc.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (kc *KeywordCreate) check() error {
-	if _, ok := kc.mutation.Name(); !ok {
-		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Keyword.name"`)}
+	if _, ok := kc.mutation.Word(); !ok {
+		return &ValidationError{Name: "word", err: errors.New(`ent: missing required field "Keyword.word"`)}
 	}
-	if _, ok := kc.mutation.Words(); !ok {
-		return &ValidationError{Name: "words", err: errors.New(`ent: missing required field "Keyword.words"`)}
+	if _, ok := kc.mutation.ChinaWeakRelatedCount(); !ok {
+		return &ValidationError{Name: "china_weak_related_count", err: errors.New(`ent: missing required field "Keyword.china_weak_related_count"`)}
 	}
-	if _, ok := kc.mutation.Color(); !ok {
-		return &ValidationError{Name: "color", err: errors.New(`ent: missing required field "Keyword.color"`)}
+	if _, ok := kc.mutation.ChinaStrongRelatedCount(); !ok {
+		return &ValidationError{Name: "china_strong_related_count", err: errors.New(`ent: missing required field "Keyword.china_strong_related_count"`)}
 	}
-	if _, ok := kc.mutation.Order(); !ok {
-		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "Keyword.order"`)}
+	if _, ok := kc.mutation.SubWord(); !ok {
+		return &ValidationError{Name: "sub_word", err: errors.New(`ent: missing required field "Keyword.sub_word"`)}
+	}
+	if _, ok := kc.mutation.SubWordCount(); !ok {
+		return &ValidationError{Name: "sub_word_count", err: errors.New(`ent: missing required field "Keyword.sub_word_count"`)}
+	}
+	if _, ok := kc.mutation.Category(); !ok {
+		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "Keyword.category"`)}
+	}
+	if _, ok := kc.mutation.UpdatedAt(); !ok {
+		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Keyword.updated_at"`)}
 	}
 	return nil
 }
@@ -167,21 +203,33 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := kc.mutation.Name(); ok {
-		_spec.SetField(keyword.FieldName, field.TypeString, value)
-		_node.Name = value
+	if value, ok := kc.mutation.Word(); ok {
+		_spec.SetField(keyword.FieldWord, field.TypeString, value)
+		_node.Word = value
 	}
-	if value, ok := kc.mutation.Words(); ok {
-		_spec.SetField(keyword.FieldWords, field.TypeJSON, value)
-		_node.Words = value
+	if value, ok := kc.mutation.ChinaWeakRelatedCount(); ok {
+		_spec.SetField(keyword.FieldChinaWeakRelatedCount, field.TypeUint64, value)
+		_node.ChinaWeakRelatedCount = value
 	}
-	if value, ok := kc.mutation.Color(); ok {
-		_spec.SetField(keyword.FieldColor, field.TypeString, value)
-		_node.Color = value
+	if value, ok := kc.mutation.ChinaStrongRelatedCount(); ok {
+		_spec.SetField(keyword.FieldChinaStrongRelatedCount, field.TypeUint64, value)
+		_node.ChinaStrongRelatedCount = value
 	}
-	if value, ok := kc.mutation.Order(); ok {
-		_spec.SetField(keyword.FieldOrder, field.TypeUint64, value)
-		_node.Order = value
+	if value, ok := kc.mutation.SubWord(); ok {
+		_spec.SetField(keyword.FieldSubWord, field.TypeString, value)
+		_node.SubWord = value
+	}
+	if value, ok := kc.mutation.SubWordCount(); ok {
+		_spec.SetField(keyword.FieldSubWordCount, field.TypeUint64, value)
+		_node.SubWordCount = value
+	}
+	if value, ok := kc.mutation.Category(); ok {
+		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
+		_node.Category = value
+	}
+	if value, ok := kc.mutation.UpdatedAt(); ok {
+		_spec.SetField(keyword.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = value
 	}
 	return _node, _spec
 }
@@ -190,7 +238,7 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Keyword.Create().
-//		SetName(v).
+//		SetWord(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -199,7 +247,7 @@ func (kc *KeywordCreate) createSpec() (*Keyword, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.KeywordUpsert) {
-//			SetName(v+v).
+//			SetWord(v+v).
 //		}).
 //		Exec(ctx)
 func (kc *KeywordCreate) OnConflict(opts ...sql.ConflictOption) *KeywordUpsertOne {
@@ -235,57 +283,111 @@ type (
 	}
 )
 
-// SetName sets the "name" field.
-func (u *KeywordUpsert) SetName(v string) *KeywordUpsert {
-	u.Set(keyword.FieldName, v)
+// SetWord sets the "word" field.
+func (u *KeywordUpsert) SetWord(v string) *KeywordUpsert {
+	u.Set(keyword.FieldWord, v)
 	return u
 }
 
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *KeywordUpsert) UpdateName() *KeywordUpsert {
-	u.SetExcluded(keyword.FieldName)
+// UpdateWord sets the "word" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateWord() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldWord)
 	return u
 }
 
-// SetWords sets the "words" field.
-func (u *KeywordUpsert) SetWords(v []string) *KeywordUpsert {
-	u.Set(keyword.FieldWords, v)
+// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
+func (u *KeywordUpsert) SetChinaWeakRelatedCount(v uint64) *KeywordUpsert {
+	u.Set(keyword.FieldChinaWeakRelatedCount, v)
 	return u
 }
 
-// UpdateWords sets the "words" field to the value that was provided on create.
-func (u *KeywordUpsert) UpdateWords() *KeywordUpsert {
-	u.SetExcluded(keyword.FieldWords)
+// UpdateChinaWeakRelatedCount sets the "china_weak_related_count" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateChinaWeakRelatedCount() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldChinaWeakRelatedCount)
 	return u
 }
 
-// SetColor sets the "color" field.
-func (u *KeywordUpsert) SetColor(v string) *KeywordUpsert {
-	u.Set(keyword.FieldColor, v)
+// AddChinaWeakRelatedCount adds v to the "china_weak_related_count" field.
+func (u *KeywordUpsert) AddChinaWeakRelatedCount(v uint64) *KeywordUpsert {
+	u.Add(keyword.FieldChinaWeakRelatedCount, v)
 	return u
 }
 
-// UpdateColor sets the "color" field to the value that was provided on create.
-func (u *KeywordUpsert) UpdateColor() *KeywordUpsert {
-	u.SetExcluded(keyword.FieldColor)
+// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
+func (u *KeywordUpsert) SetChinaStrongRelatedCount(v uint64) *KeywordUpsert {
+	u.Set(keyword.FieldChinaStrongRelatedCount, v)
 	return u
 }
 
-// SetOrder sets the "order" field.
-func (u *KeywordUpsert) SetOrder(v uint64) *KeywordUpsert {
-	u.Set(keyword.FieldOrder, v)
+// UpdateChinaStrongRelatedCount sets the "china_strong_related_count" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateChinaStrongRelatedCount() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldChinaStrongRelatedCount)
 	return u
 }
 
-// UpdateOrder sets the "order" field to the value that was provided on create.
-func (u *KeywordUpsert) UpdateOrder() *KeywordUpsert {
-	u.SetExcluded(keyword.FieldOrder)
+// AddChinaStrongRelatedCount adds v to the "china_strong_related_count" field.
+func (u *KeywordUpsert) AddChinaStrongRelatedCount(v uint64) *KeywordUpsert {
+	u.Add(keyword.FieldChinaStrongRelatedCount, v)
 	return u
 }
 
-// AddOrder adds v to the "order" field.
-func (u *KeywordUpsert) AddOrder(v uint64) *KeywordUpsert {
-	u.Add(keyword.FieldOrder, v)
+// SetSubWord sets the "sub_word" field.
+func (u *KeywordUpsert) SetSubWord(v string) *KeywordUpsert {
+	u.Set(keyword.FieldSubWord, v)
+	return u
+}
+
+// UpdateSubWord sets the "sub_word" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateSubWord() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldSubWord)
+	return u
+}
+
+// SetSubWordCount sets the "sub_word_count" field.
+func (u *KeywordUpsert) SetSubWordCount(v uint64) *KeywordUpsert {
+	u.Set(keyword.FieldSubWordCount, v)
+	return u
+}
+
+// UpdateSubWordCount sets the "sub_word_count" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateSubWordCount() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldSubWordCount)
+	return u
+}
+
+// AddSubWordCount adds v to the "sub_word_count" field.
+func (u *KeywordUpsert) AddSubWordCount(v uint64) *KeywordUpsert {
+	u.Add(keyword.FieldSubWordCount, v)
+	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *KeywordUpsert) SetCategory(v uint64) *KeywordUpsert {
+	u.Set(keyword.FieldCategory, v)
+	return u
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateCategory() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldCategory)
+	return u
+}
+
+// AddCategory adds v to the "category" field.
+func (u *KeywordUpsert) AddCategory(v uint64) *KeywordUpsert {
+	u.Add(keyword.FieldCategory, v)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *KeywordUpsert) SetUpdatedAt(v time.Time) *KeywordUpsert {
+	u.Set(keyword.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *KeywordUpsert) UpdateUpdatedAt() *KeywordUpsert {
+	u.SetExcluded(keyword.FieldUpdatedAt)
 	return u
 }
 
@@ -337,66 +439,129 @@ func (u *KeywordUpsertOne) Update(set func(*KeywordUpsert)) *KeywordUpsertOne {
 	return u
 }
 
-// SetName sets the "name" field.
-func (u *KeywordUpsertOne) SetName(v string) *KeywordUpsertOne {
+// SetWord sets the "word" field.
+func (u *KeywordUpsertOne) SetWord(v string) *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetName(v)
+		s.SetWord(v)
 	})
 }
 
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *KeywordUpsertOne) UpdateName() *KeywordUpsertOne {
+// UpdateWord sets the "word" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateWord() *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateName()
+		s.UpdateWord()
 	})
 }
 
-// SetWords sets the "words" field.
-func (u *KeywordUpsertOne) SetWords(v []string) *KeywordUpsertOne {
+// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
+func (u *KeywordUpsertOne) SetChinaWeakRelatedCount(v uint64) *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetWords(v)
+		s.SetChinaWeakRelatedCount(v)
 	})
 }
 
-// UpdateWords sets the "words" field to the value that was provided on create.
-func (u *KeywordUpsertOne) UpdateWords() *KeywordUpsertOne {
+// AddChinaWeakRelatedCount adds v to the "china_weak_related_count" field.
+func (u *KeywordUpsertOne) AddChinaWeakRelatedCount(v uint64) *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateWords()
+		s.AddChinaWeakRelatedCount(v)
 	})
 }
 
-// SetColor sets the "color" field.
-func (u *KeywordUpsertOne) SetColor(v string) *KeywordUpsertOne {
+// UpdateChinaWeakRelatedCount sets the "china_weak_related_count" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateChinaWeakRelatedCount() *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetColor(v)
+		s.UpdateChinaWeakRelatedCount()
 	})
 }
 
-// UpdateColor sets the "color" field to the value that was provided on create.
-func (u *KeywordUpsertOne) UpdateColor() *KeywordUpsertOne {
+// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
+func (u *KeywordUpsertOne) SetChinaStrongRelatedCount(v uint64) *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateColor()
+		s.SetChinaStrongRelatedCount(v)
 	})
 }
 
-// SetOrder sets the "order" field.
-func (u *KeywordUpsertOne) SetOrder(v uint64) *KeywordUpsertOne {
+// AddChinaStrongRelatedCount adds v to the "china_strong_related_count" field.
+func (u *KeywordUpsertOne) AddChinaStrongRelatedCount(v uint64) *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetOrder(v)
+		s.AddChinaStrongRelatedCount(v)
 	})
 }
 
-// AddOrder adds v to the "order" field.
-func (u *KeywordUpsertOne) AddOrder(v uint64) *KeywordUpsertOne {
+// UpdateChinaStrongRelatedCount sets the "china_strong_related_count" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateChinaStrongRelatedCount() *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.AddOrder(v)
+		s.UpdateChinaStrongRelatedCount()
 	})
 }
 
-// UpdateOrder sets the "order" field to the value that was provided on create.
-func (u *KeywordUpsertOne) UpdateOrder() *KeywordUpsertOne {
+// SetSubWord sets the "sub_word" field.
+func (u *KeywordUpsertOne) SetSubWord(v string) *KeywordUpsertOne {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateOrder()
+		s.SetSubWord(v)
+	})
+}
+
+// UpdateSubWord sets the "sub_word" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateSubWord() *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateSubWord()
+	})
+}
+
+// SetSubWordCount sets the "sub_word_count" field.
+func (u *KeywordUpsertOne) SetSubWordCount(v uint64) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetSubWordCount(v)
+	})
+}
+
+// AddSubWordCount adds v to the "sub_word_count" field.
+func (u *KeywordUpsertOne) AddSubWordCount(v uint64) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.AddSubWordCount(v)
+	})
+}
+
+// UpdateSubWordCount sets the "sub_word_count" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateSubWordCount() *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateSubWordCount()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *KeywordUpsertOne) SetCategory(v uint64) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// AddCategory adds v to the "category" field.
+func (u *KeywordUpsertOne) AddCategory(v uint64) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.AddCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateCategory() *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *KeywordUpsertOne) SetUpdatedAt(v time.Time) *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *KeywordUpsertOne) UpdateUpdatedAt() *KeywordUpsertOne {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateUpdatedAt()
 	})
 }
 
@@ -536,7 +701,7 @@ func (kcb *KeywordCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.KeywordUpsert) {
-//			SetName(v+v).
+//			SetWord(v+v).
 //		}).
 //		Exec(ctx)
 func (kcb *KeywordCreateBulk) OnConflict(opts ...sql.ConflictOption) *KeywordUpsertBulk {
@@ -615,66 +780,129 @@ func (u *KeywordUpsertBulk) Update(set func(*KeywordUpsert)) *KeywordUpsertBulk 
 	return u
 }
 
-// SetName sets the "name" field.
-func (u *KeywordUpsertBulk) SetName(v string) *KeywordUpsertBulk {
+// SetWord sets the "word" field.
+func (u *KeywordUpsertBulk) SetWord(v string) *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetName(v)
+		s.SetWord(v)
 	})
 }
 
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *KeywordUpsertBulk) UpdateName() *KeywordUpsertBulk {
+// UpdateWord sets the "word" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateWord() *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateName()
+		s.UpdateWord()
 	})
 }
 
-// SetWords sets the "words" field.
-func (u *KeywordUpsertBulk) SetWords(v []string) *KeywordUpsertBulk {
+// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
+func (u *KeywordUpsertBulk) SetChinaWeakRelatedCount(v uint64) *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetWords(v)
+		s.SetChinaWeakRelatedCount(v)
 	})
 }
 
-// UpdateWords sets the "words" field to the value that was provided on create.
-func (u *KeywordUpsertBulk) UpdateWords() *KeywordUpsertBulk {
+// AddChinaWeakRelatedCount adds v to the "china_weak_related_count" field.
+func (u *KeywordUpsertBulk) AddChinaWeakRelatedCount(v uint64) *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateWords()
+		s.AddChinaWeakRelatedCount(v)
 	})
 }
 
-// SetColor sets the "color" field.
-func (u *KeywordUpsertBulk) SetColor(v string) *KeywordUpsertBulk {
+// UpdateChinaWeakRelatedCount sets the "china_weak_related_count" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateChinaWeakRelatedCount() *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetColor(v)
+		s.UpdateChinaWeakRelatedCount()
 	})
 }
 
-// UpdateColor sets the "color" field to the value that was provided on create.
-func (u *KeywordUpsertBulk) UpdateColor() *KeywordUpsertBulk {
+// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
+func (u *KeywordUpsertBulk) SetChinaStrongRelatedCount(v uint64) *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateColor()
+		s.SetChinaStrongRelatedCount(v)
 	})
 }
 
-// SetOrder sets the "order" field.
-func (u *KeywordUpsertBulk) SetOrder(v uint64) *KeywordUpsertBulk {
+// AddChinaStrongRelatedCount adds v to the "china_strong_related_count" field.
+func (u *KeywordUpsertBulk) AddChinaStrongRelatedCount(v uint64) *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.SetOrder(v)
+		s.AddChinaStrongRelatedCount(v)
 	})
 }
 
-// AddOrder adds v to the "order" field.
-func (u *KeywordUpsertBulk) AddOrder(v uint64) *KeywordUpsertBulk {
+// UpdateChinaStrongRelatedCount sets the "china_strong_related_count" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateChinaStrongRelatedCount() *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.AddOrder(v)
+		s.UpdateChinaStrongRelatedCount()
 	})
 }
 
-// UpdateOrder sets the "order" field to the value that was provided on create.
-func (u *KeywordUpsertBulk) UpdateOrder() *KeywordUpsertBulk {
+// SetSubWord sets the "sub_word" field.
+func (u *KeywordUpsertBulk) SetSubWord(v string) *KeywordUpsertBulk {
 	return u.Update(func(s *KeywordUpsert) {
-		s.UpdateOrder()
+		s.SetSubWord(v)
+	})
+}
+
+// UpdateSubWord sets the "sub_word" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateSubWord() *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateSubWord()
+	})
+}
+
+// SetSubWordCount sets the "sub_word_count" field.
+func (u *KeywordUpsertBulk) SetSubWordCount(v uint64) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetSubWordCount(v)
+	})
+}
+
+// AddSubWordCount adds v to the "sub_word_count" field.
+func (u *KeywordUpsertBulk) AddSubWordCount(v uint64) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.AddSubWordCount(v)
+	})
+}
+
+// UpdateSubWordCount sets the "sub_word_count" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateSubWordCount() *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateSubWordCount()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *KeywordUpsertBulk) SetCategory(v uint64) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// AddCategory adds v to the "category" field.
+func (u *KeywordUpsertBulk) AddCategory(v uint64) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.AddCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateCategory() *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *KeywordUpsertBulk) SetUpdatedAt(v time.Time) *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *KeywordUpsertBulk) UpdateUpdatedAt() *KeywordUpsertBulk {
+	return u.Update(func(s *KeywordUpsert) {
+		s.UpdateUpdatedAt()
 	})
 }
 

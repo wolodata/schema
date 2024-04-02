@@ -121,10 +121,13 @@ var (
 	// TKeywordColumns holds the columns for the "t_keyword" table.
 	TKeywordColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
-		{Name: "name", Type: field.TypeString, Unique: true},
-		{Name: "words", Type: field.TypeJSON},
-		{Name: "color", Type: field.TypeString, Default: ""},
-		{Name: "order", Type: field.TypeUint64, Default: 0},
+		{Name: "word", Type: field.TypeString, Unique: true},
+		{Name: "china_weak_related_count", Type: field.TypeUint64},
+		{Name: "china_strong_related_count", Type: field.TypeUint64},
+		{Name: "sub_word", Type: field.TypeString, Default: ""},
+		{Name: "sub_word_count", Type: field.TypeUint64, Default: 0},
+		{Name: "category", Type: field.TypeUint64},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 	}
 	// TKeywordTable holds the schema information for the "t_keyword" table.
 	TKeywordTable = &schema.Table{
@@ -133,9 +136,9 @@ var (
 		PrimaryKey: []*schema.Column{TKeywordColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "keyword_order",
+				Name:    "keyword_category",
 				Unique:  false,
-				Columns: []*schema.Column{TKeywordColumns[4]},
+				Columns: []*schema.Column{TKeywordColumns[6]},
 			},
 		},
 	}

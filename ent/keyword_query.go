@@ -261,12 +261,12 @@ func (kq *KeywordQuery) Clone() *KeywordQuery {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		Word string `json:"word,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Keyword.Query().
-//		GroupBy(keyword.FieldName).
+//		GroupBy(keyword.FieldWord).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (kq *KeywordQuery) GroupBy(field string, fields ...string) *KeywordGroupBy {
@@ -284,11 +284,11 @@ func (kq *KeywordQuery) GroupBy(field string, fields ...string) *KeywordGroupBy 
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		Word string `json:"word,omitempty"`
 //	}
 //
 //	client.Keyword.Query().
-//		Select(keyword.FieldName).
+//		Select(keyword.FieldWord).
 //		Scan(ctx, &v)
 func (kq *KeywordQuery) Select(fields ...string) *KeywordSelect {
 	kq.ctx.Fields = append(kq.ctx.Fields, fields...)

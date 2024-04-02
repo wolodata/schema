@@ -3,6 +3,8 @@
 package keyword
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -11,14 +13,20 @@ const (
 	Label = "keyword"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldName holds the string denoting the name field in the database.
-	FieldName = "name"
-	// FieldWords holds the string denoting the words field in the database.
-	FieldWords = "words"
-	// FieldColor holds the string denoting the color field in the database.
-	FieldColor = "color"
-	// FieldOrder holds the string denoting the order field in the database.
-	FieldOrder = "order"
+	// FieldWord holds the string denoting the word field in the database.
+	FieldWord = "word"
+	// FieldChinaWeakRelatedCount holds the string denoting the china_weak_related_count field in the database.
+	FieldChinaWeakRelatedCount = "china_weak_related_count"
+	// FieldChinaStrongRelatedCount holds the string denoting the china_strong_related_count field in the database.
+	FieldChinaStrongRelatedCount = "china_strong_related_count"
+	// FieldSubWord holds the string denoting the sub_word field in the database.
+	FieldSubWord = "sub_word"
+	// FieldSubWordCount holds the string denoting the sub_word_count field in the database.
+	FieldSubWordCount = "sub_word_count"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
+	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the keyword in the database.
 	Table = "t_keyword"
 )
@@ -26,10 +34,13 @@ const (
 // Columns holds all SQL columns for keyword fields.
 var Columns = []string{
 	FieldID,
-	FieldName,
-	FieldWords,
-	FieldColor,
-	FieldOrder,
+	FieldWord,
+	FieldChinaWeakRelatedCount,
+	FieldChinaStrongRelatedCount,
+	FieldSubWord,
+	FieldSubWordCount,
+	FieldCategory,
+	FieldUpdatedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -43,12 +54,14 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultWords holds the default value on creation for the "words" field.
-	DefaultWords []string
-	// DefaultColor holds the default value on creation for the "color" field.
-	DefaultColor string
-	// DefaultOrder holds the default value on creation for the "order" field.
-	DefaultOrder uint64
+	// DefaultSubWord holds the default value on creation for the "sub_word" field.
+	DefaultSubWord string
+	// DefaultSubWordCount holds the default value on creation for the "sub_word_count" field.
+	DefaultSubWordCount uint64
+	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	DefaultUpdatedAt func() time.Time
+	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
+	UpdateDefaultUpdatedAt func() time.Time
 )
 
 // OrderOption defines the ordering options for the Keyword queries.
@@ -59,17 +72,37 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByName orders the results by the name field.
-func ByName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldName, opts...).ToFunc()
+// ByWord orders the results by the word field.
+func ByWord(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWord, opts...).ToFunc()
 }
 
-// ByColor orders the results by the color field.
-func ByColor(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldColor, opts...).ToFunc()
+// ByChinaWeakRelatedCount orders the results by the china_weak_related_count field.
+func ByChinaWeakRelatedCount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChinaWeakRelatedCount, opts...).ToFunc()
 }
 
-// ByOrder orders the results by the order field.
-func ByOrder(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOrder, opts...).ToFunc()
+// ByChinaStrongRelatedCount orders the results by the china_strong_related_count field.
+func ByChinaStrongRelatedCount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldChinaStrongRelatedCount, opts...).ToFunc()
+}
+
+// BySubWord orders the results by the sub_word field.
+func BySubWord(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSubWord, opts...).ToFunc()
+}
+
+// BySubWordCount orders the results by the sub_word_count field.
+func BySubWordCount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSubWordCount, opts...).ToFunc()
+}
+
+// ByCategory orders the results by the category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
+}
+
+// ByUpdatedAt orders the results by the updated_at field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }

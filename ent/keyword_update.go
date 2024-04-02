@@ -6,10 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 	"github.com/wolodata/schema/ent/keyword"
 	"github.com/wolodata/schema/ent/predicate"
@@ -28,64 +28,121 @@ func (ku *KeywordUpdate) Where(ps ...predicate.Keyword) *KeywordUpdate {
 	return ku
 }
 
-// SetName sets the "name" field.
-func (ku *KeywordUpdate) SetName(s string) *KeywordUpdate {
-	ku.mutation.SetName(s)
+// SetWord sets the "word" field.
+func (ku *KeywordUpdate) SetWord(s string) *KeywordUpdate {
+	ku.mutation.SetWord(s)
 	return ku
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (ku *KeywordUpdate) SetNillableName(s *string) *KeywordUpdate {
+// SetNillableWord sets the "word" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableWord(s *string) *KeywordUpdate {
 	if s != nil {
-		ku.SetName(*s)
+		ku.SetWord(*s)
 	}
 	return ku
 }
 
-// SetWords sets the "words" field.
-func (ku *KeywordUpdate) SetWords(s []string) *KeywordUpdate {
-	ku.mutation.SetWords(s)
+// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
+func (ku *KeywordUpdate) SetChinaWeakRelatedCount(u uint64) *KeywordUpdate {
+	ku.mutation.ResetChinaWeakRelatedCount()
+	ku.mutation.SetChinaWeakRelatedCount(u)
 	return ku
 }
 
-// AppendWords appends s to the "words" field.
-func (ku *KeywordUpdate) AppendWords(s []string) *KeywordUpdate {
-	ku.mutation.AppendWords(s)
-	return ku
-}
-
-// SetColor sets the "color" field.
-func (ku *KeywordUpdate) SetColor(s string) *KeywordUpdate {
-	ku.mutation.SetColor(s)
-	return ku
-}
-
-// SetNillableColor sets the "color" field if the given value is not nil.
-func (ku *KeywordUpdate) SetNillableColor(s *string) *KeywordUpdate {
-	if s != nil {
-		ku.SetColor(*s)
-	}
-	return ku
-}
-
-// SetOrder sets the "order" field.
-func (ku *KeywordUpdate) SetOrder(u uint64) *KeywordUpdate {
-	ku.mutation.ResetOrder()
-	ku.mutation.SetOrder(u)
-	return ku
-}
-
-// SetNillableOrder sets the "order" field if the given value is not nil.
-func (ku *KeywordUpdate) SetNillableOrder(u *uint64) *KeywordUpdate {
+// SetNillableChinaWeakRelatedCount sets the "china_weak_related_count" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableChinaWeakRelatedCount(u *uint64) *KeywordUpdate {
 	if u != nil {
-		ku.SetOrder(*u)
+		ku.SetChinaWeakRelatedCount(*u)
 	}
 	return ku
 }
 
-// AddOrder adds u to the "order" field.
-func (ku *KeywordUpdate) AddOrder(u int64) *KeywordUpdate {
-	ku.mutation.AddOrder(u)
+// AddChinaWeakRelatedCount adds u to the "china_weak_related_count" field.
+func (ku *KeywordUpdate) AddChinaWeakRelatedCount(u int64) *KeywordUpdate {
+	ku.mutation.AddChinaWeakRelatedCount(u)
+	return ku
+}
+
+// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
+func (ku *KeywordUpdate) SetChinaStrongRelatedCount(u uint64) *KeywordUpdate {
+	ku.mutation.ResetChinaStrongRelatedCount()
+	ku.mutation.SetChinaStrongRelatedCount(u)
+	return ku
+}
+
+// SetNillableChinaStrongRelatedCount sets the "china_strong_related_count" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableChinaStrongRelatedCount(u *uint64) *KeywordUpdate {
+	if u != nil {
+		ku.SetChinaStrongRelatedCount(*u)
+	}
+	return ku
+}
+
+// AddChinaStrongRelatedCount adds u to the "china_strong_related_count" field.
+func (ku *KeywordUpdate) AddChinaStrongRelatedCount(u int64) *KeywordUpdate {
+	ku.mutation.AddChinaStrongRelatedCount(u)
+	return ku
+}
+
+// SetSubWord sets the "sub_word" field.
+func (ku *KeywordUpdate) SetSubWord(s string) *KeywordUpdate {
+	ku.mutation.SetSubWord(s)
+	return ku
+}
+
+// SetNillableSubWord sets the "sub_word" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableSubWord(s *string) *KeywordUpdate {
+	if s != nil {
+		ku.SetSubWord(*s)
+	}
+	return ku
+}
+
+// SetSubWordCount sets the "sub_word_count" field.
+func (ku *KeywordUpdate) SetSubWordCount(u uint64) *KeywordUpdate {
+	ku.mutation.ResetSubWordCount()
+	ku.mutation.SetSubWordCount(u)
+	return ku
+}
+
+// SetNillableSubWordCount sets the "sub_word_count" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableSubWordCount(u *uint64) *KeywordUpdate {
+	if u != nil {
+		ku.SetSubWordCount(*u)
+	}
+	return ku
+}
+
+// AddSubWordCount adds u to the "sub_word_count" field.
+func (ku *KeywordUpdate) AddSubWordCount(u int64) *KeywordUpdate {
+	ku.mutation.AddSubWordCount(u)
+	return ku
+}
+
+// SetCategory sets the "category" field.
+func (ku *KeywordUpdate) SetCategory(u uint64) *KeywordUpdate {
+	ku.mutation.ResetCategory()
+	ku.mutation.SetCategory(u)
+	return ku
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (ku *KeywordUpdate) SetNillableCategory(u *uint64) *KeywordUpdate {
+	if u != nil {
+		ku.SetCategory(*u)
+	}
+	return ku
+}
+
+// AddCategory adds u to the "category" field.
+func (ku *KeywordUpdate) AddCategory(u int64) *KeywordUpdate {
+	ku.mutation.AddCategory(u)
+	return ku
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (ku *KeywordUpdate) SetUpdatedAt(t time.Time) *KeywordUpdate {
+	ku.mutation.SetUpdatedAt(t)
 	return ku
 }
 
@@ -96,6 +153,7 @@ func (ku *KeywordUpdate) Mutation() *KeywordMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (ku *KeywordUpdate) Save(ctx context.Context) (int, error) {
+	ku.defaults()
 	return withHooks(ctx, ku.sqlSave, ku.mutation, ku.hooks)
 }
 
@@ -121,6 +179,14 @@ func (ku *KeywordUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (ku *KeywordUpdate) defaults() {
+	if _, ok := ku.mutation.UpdatedAt(); !ok {
+		v := keyword.UpdateDefaultUpdatedAt()
+		ku.mutation.SetUpdatedAt(v)
+	}
+}
+
 func (ku *KeywordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(keyword.Table, keyword.Columns, sqlgraph.NewFieldSpec(keyword.FieldID, field.TypeString))
 	if ps := ku.mutation.predicates; len(ps) > 0 {
@@ -130,25 +196,38 @@ func (ku *KeywordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := ku.mutation.Name(); ok {
-		_spec.SetField(keyword.FieldName, field.TypeString, value)
+	if value, ok := ku.mutation.Word(); ok {
+		_spec.SetField(keyword.FieldWord, field.TypeString, value)
 	}
-	if value, ok := ku.mutation.Words(); ok {
-		_spec.SetField(keyword.FieldWords, field.TypeJSON, value)
+	if value, ok := ku.mutation.ChinaWeakRelatedCount(); ok {
+		_spec.SetField(keyword.FieldChinaWeakRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := ku.mutation.AppendedWords(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, keyword.FieldWords, value)
-		})
+	if value, ok := ku.mutation.AddedChinaWeakRelatedCount(); ok {
+		_spec.AddField(keyword.FieldChinaWeakRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := ku.mutation.Color(); ok {
-		_spec.SetField(keyword.FieldColor, field.TypeString, value)
+	if value, ok := ku.mutation.ChinaStrongRelatedCount(); ok {
+		_spec.SetField(keyword.FieldChinaStrongRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := ku.mutation.Order(); ok {
-		_spec.SetField(keyword.FieldOrder, field.TypeUint64, value)
+	if value, ok := ku.mutation.AddedChinaStrongRelatedCount(); ok {
+		_spec.AddField(keyword.FieldChinaStrongRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := ku.mutation.AddedOrder(); ok {
-		_spec.AddField(keyword.FieldOrder, field.TypeUint64, value)
+	if value, ok := ku.mutation.SubWord(); ok {
+		_spec.SetField(keyword.FieldSubWord, field.TypeString, value)
+	}
+	if value, ok := ku.mutation.SubWordCount(); ok {
+		_spec.SetField(keyword.FieldSubWordCount, field.TypeUint64, value)
+	}
+	if value, ok := ku.mutation.AddedSubWordCount(); ok {
+		_spec.AddField(keyword.FieldSubWordCount, field.TypeUint64, value)
+	}
+	if value, ok := ku.mutation.Category(); ok {
+		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
+	}
+	if value, ok := ku.mutation.AddedCategory(); ok {
+		_spec.AddField(keyword.FieldCategory, field.TypeUint64, value)
+	}
+	if value, ok := ku.mutation.UpdatedAt(); ok {
+		_spec.SetField(keyword.FieldUpdatedAt, field.TypeTime, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ku.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -170,64 +249,121 @@ type KeywordUpdateOne struct {
 	mutation *KeywordMutation
 }
 
-// SetName sets the "name" field.
-func (kuo *KeywordUpdateOne) SetName(s string) *KeywordUpdateOne {
-	kuo.mutation.SetName(s)
+// SetWord sets the "word" field.
+func (kuo *KeywordUpdateOne) SetWord(s string) *KeywordUpdateOne {
+	kuo.mutation.SetWord(s)
 	return kuo
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (kuo *KeywordUpdateOne) SetNillableName(s *string) *KeywordUpdateOne {
+// SetNillableWord sets the "word" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableWord(s *string) *KeywordUpdateOne {
 	if s != nil {
-		kuo.SetName(*s)
+		kuo.SetWord(*s)
 	}
 	return kuo
 }
 
-// SetWords sets the "words" field.
-func (kuo *KeywordUpdateOne) SetWords(s []string) *KeywordUpdateOne {
-	kuo.mutation.SetWords(s)
+// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
+func (kuo *KeywordUpdateOne) SetChinaWeakRelatedCount(u uint64) *KeywordUpdateOne {
+	kuo.mutation.ResetChinaWeakRelatedCount()
+	kuo.mutation.SetChinaWeakRelatedCount(u)
 	return kuo
 }
 
-// AppendWords appends s to the "words" field.
-func (kuo *KeywordUpdateOne) AppendWords(s []string) *KeywordUpdateOne {
-	kuo.mutation.AppendWords(s)
-	return kuo
-}
-
-// SetColor sets the "color" field.
-func (kuo *KeywordUpdateOne) SetColor(s string) *KeywordUpdateOne {
-	kuo.mutation.SetColor(s)
-	return kuo
-}
-
-// SetNillableColor sets the "color" field if the given value is not nil.
-func (kuo *KeywordUpdateOne) SetNillableColor(s *string) *KeywordUpdateOne {
-	if s != nil {
-		kuo.SetColor(*s)
-	}
-	return kuo
-}
-
-// SetOrder sets the "order" field.
-func (kuo *KeywordUpdateOne) SetOrder(u uint64) *KeywordUpdateOne {
-	kuo.mutation.ResetOrder()
-	kuo.mutation.SetOrder(u)
-	return kuo
-}
-
-// SetNillableOrder sets the "order" field if the given value is not nil.
-func (kuo *KeywordUpdateOne) SetNillableOrder(u *uint64) *KeywordUpdateOne {
+// SetNillableChinaWeakRelatedCount sets the "china_weak_related_count" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableChinaWeakRelatedCount(u *uint64) *KeywordUpdateOne {
 	if u != nil {
-		kuo.SetOrder(*u)
+		kuo.SetChinaWeakRelatedCount(*u)
 	}
 	return kuo
 }
 
-// AddOrder adds u to the "order" field.
-func (kuo *KeywordUpdateOne) AddOrder(u int64) *KeywordUpdateOne {
-	kuo.mutation.AddOrder(u)
+// AddChinaWeakRelatedCount adds u to the "china_weak_related_count" field.
+func (kuo *KeywordUpdateOne) AddChinaWeakRelatedCount(u int64) *KeywordUpdateOne {
+	kuo.mutation.AddChinaWeakRelatedCount(u)
+	return kuo
+}
+
+// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
+func (kuo *KeywordUpdateOne) SetChinaStrongRelatedCount(u uint64) *KeywordUpdateOne {
+	kuo.mutation.ResetChinaStrongRelatedCount()
+	kuo.mutation.SetChinaStrongRelatedCount(u)
+	return kuo
+}
+
+// SetNillableChinaStrongRelatedCount sets the "china_strong_related_count" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableChinaStrongRelatedCount(u *uint64) *KeywordUpdateOne {
+	if u != nil {
+		kuo.SetChinaStrongRelatedCount(*u)
+	}
+	return kuo
+}
+
+// AddChinaStrongRelatedCount adds u to the "china_strong_related_count" field.
+func (kuo *KeywordUpdateOne) AddChinaStrongRelatedCount(u int64) *KeywordUpdateOne {
+	kuo.mutation.AddChinaStrongRelatedCount(u)
+	return kuo
+}
+
+// SetSubWord sets the "sub_word" field.
+func (kuo *KeywordUpdateOne) SetSubWord(s string) *KeywordUpdateOne {
+	kuo.mutation.SetSubWord(s)
+	return kuo
+}
+
+// SetNillableSubWord sets the "sub_word" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableSubWord(s *string) *KeywordUpdateOne {
+	if s != nil {
+		kuo.SetSubWord(*s)
+	}
+	return kuo
+}
+
+// SetSubWordCount sets the "sub_word_count" field.
+func (kuo *KeywordUpdateOne) SetSubWordCount(u uint64) *KeywordUpdateOne {
+	kuo.mutation.ResetSubWordCount()
+	kuo.mutation.SetSubWordCount(u)
+	return kuo
+}
+
+// SetNillableSubWordCount sets the "sub_word_count" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableSubWordCount(u *uint64) *KeywordUpdateOne {
+	if u != nil {
+		kuo.SetSubWordCount(*u)
+	}
+	return kuo
+}
+
+// AddSubWordCount adds u to the "sub_word_count" field.
+func (kuo *KeywordUpdateOne) AddSubWordCount(u int64) *KeywordUpdateOne {
+	kuo.mutation.AddSubWordCount(u)
+	return kuo
+}
+
+// SetCategory sets the "category" field.
+func (kuo *KeywordUpdateOne) SetCategory(u uint64) *KeywordUpdateOne {
+	kuo.mutation.ResetCategory()
+	kuo.mutation.SetCategory(u)
+	return kuo
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (kuo *KeywordUpdateOne) SetNillableCategory(u *uint64) *KeywordUpdateOne {
+	if u != nil {
+		kuo.SetCategory(*u)
+	}
+	return kuo
+}
+
+// AddCategory adds u to the "category" field.
+func (kuo *KeywordUpdateOne) AddCategory(u int64) *KeywordUpdateOne {
+	kuo.mutation.AddCategory(u)
+	return kuo
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (kuo *KeywordUpdateOne) SetUpdatedAt(t time.Time) *KeywordUpdateOne {
+	kuo.mutation.SetUpdatedAt(t)
 	return kuo
 }
 
@@ -251,6 +387,7 @@ func (kuo *KeywordUpdateOne) Select(field string, fields ...string) *KeywordUpda
 
 // Save executes the query and returns the updated Keyword entity.
 func (kuo *KeywordUpdateOne) Save(ctx context.Context) (*Keyword, error) {
+	kuo.defaults()
 	return withHooks(ctx, kuo.sqlSave, kuo.mutation, kuo.hooks)
 }
 
@@ -273,6 +410,14 @@ func (kuo *KeywordUpdateOne) Exec(ctx context.Context) error {
 func (kuo *KeywordUpdateOne) ExecX(ctx context.Context) {
 	if err := kuo.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (kuo *KeywordUpdateOne) defaults() {
+	if _, ok := kuo.mutation.UpdatedAt(); !ok {
+		v := keyword.UpdateDefaultUpdatedAt()
+		kuo.mutation.SetUpdatedAt(v)
 	}
 }
 
@@ -302,25 +447,38 @@ func (kuo *KeywordUpdateOne) sqlSave(ctx context.Context) (_node *Keyword, err e
 			}
 		}
 	}
-	if value, ok := kuo.mutation.Name(); ok {
-		_spec.SetField(keyword.FieldName, field.TypeString, value)
+	if value, ok := kuo.mutation.Word(); ok {
+		_spec.SetField(keyword.FieldWord, field.TypeString, value)
 	}
-	if value, ok := kuo.mutation.Words(); ok {
-		_spec.SetField(keyword.FieldWords, field.TypeJSON, value)
+	if value, ok := kuo.mutation.ChinaWeakRelatedCount(); ok {
+		_spec.SetField(keyword.FieldChinaWeakRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := kuo.mutation.AppendedWords(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, keyword.FieldWords, value)
-		})
+	if value, ok := kuo.mutation.AddedChinaWeakRelatedCount(); ok {
+		_spec.AddField(keyword.FieldChinaWeakRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := kuo.mutation.Color(); ok {
-		_spec.SetField(keyword.FieldColor, field.TypeString, value)
+	if value, ok := kuo.mutation.ChinaStrongRelatedCount(); ok {
+		_spec.SetField(keyword.FieldChinaStrongRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := kuo.mutation.Order(); ok {
-		_spec.SetField(keyword.FieldOrder, field.TypeUint64, value)
+	if value, ok := kuo.mutation.AddedChinaStrongRelatedCount(); ok {
+		_spec.AddField(keyword.FieldChinaStrongRelatedCount, field.TypeUint64, value)
 	}
-	if value, ok := kuo.mutation.AddedOrder(); ok {
-		_spec.AddField(keyword.FieldOrder, field.TypeUint64, value)
+	if value, ok := kuo.mutation.SubWord(); ok {
+		_spec.SetField(keyword.FieldSubWord, field.TypeString, value)
+	}
+	if value, ok := kuo.mutation.SubWordCount(); ok {
+		_spec.SetField(keyword.FieldSubWordCount, field.TypeUint64, value)
+	}
+	if value, ok := kuo.mutation.AddedSubWordCount(); ok {
+		_spec.AddField(keyword.FieldSubWordCount, field.TypeUint64, value)
+	}
+	if value, ok := kuo.mutation.Category(); ok {
+		_spec.SetField(keyword.FieldCategory, field.TypeUint64, value)
+	}
+	if value, ok := kuo.mutation.AddedCategory(); ok {
+		_spec.AddField(keyword.FieldCategory, field.TypeUint64, value)
+	}
+	if value, ok := kuo.mutation.UpdatedAt(); ok {
+		_spec.SetField(keyword.FieldUpdatedAt, field.TypeTime, value)
 	}
 	_node = &Keyword{config: kuo.config}
 	_spec.Assign = _node.assignValues

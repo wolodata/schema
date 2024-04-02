@@ -3,9 +3,9 @@
 package ent
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -17,14 +17,20 @@ type Keyword struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID string `json:"id,omitempty"`
-	// Name holds the value of the "name" field.
-	Name string `json:"name,omitempty"`
-	// Words holds the value of the "words" field.
-	Words []string `json:"words,omitempty"`
-	// Color holds the value of the "color" field.
-	Color string `json:"color,omitempty"`
-	// Order holds the value of the "order" field.
-	Order        uint64 `json:"order,omitempty"`
+	// Word holds the value of the "word" field.
+	Word string `json:"word,omitempty"`
+	// ChinaWeakRelatedCount holds the value of the "china_weak_related_count" field.
+	ChinaWeakRelatedCount uint64 `json:"china_weak_related_count,omitempty"`
+	// ChinaStrongRelatedCount holds the value of the "china_strong_related_count" field.
+	ChinaStrongRelatedCount uint64 `json:"china_strong_related_count,omitempty"`
+	// SubWord holds the value of the "sub_word" field.
+	SubWord string `json:"sub_word,omitempty"`
+	// SubWordCount holds the value of the "sub_word_count" field.
+	SubWordCount uint64 `json:"sub_word_count,omitempty"`
+	// Category holds the value of the "category" field.
+	Category uint64 `json:"category,omitempty"`
+	// UpdatedAt holds the value of the "updated_at" field.
+	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -33,12 +39,12 @@ func (*Keyword) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case keyword.FieldWords:
-			values[i] = new([]byte)
-		case keyword.FieldOrder:
+		case keyword.FieldChinaWeakRelatedCount, keyword.FieldChinaStrongRelatedCount, keyword.FieldSubWordCount, keyword.FieldCategory:
 			values[i] = new(sql.NullInt64)
-		case keyword.FieldID, keyword.FieldName, keyword.FieldColor:
+		case keyword.FieldID, keyword.FieldWord, keyword.FieldSubWord:
 			values[i] = new(sql.NullString)
+		case keyword.FieldUpdatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -60,31 +66,47 @@ func (k *Keyword) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				k.ID = value.String
 			}
-		case keyword.FieldName:
+		case keyword.FieldWord:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field name", values[i])
+				return fmt.Errorf("unexpected type %T for field word", values[i])
 			} else if value.Valid {
-				k.Name = value.String
+				k.Word = value.String
 			}
-		case keyword.FieldWords:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field words", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &k.Words); err != nil {
-					return fmt.Errorf("unmarshal field words: %w", err)
-				}
-			}
-		case keyword.FieldColor:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field color", values[i])
-			} else if value.Valid {
-				k.Color = value.String
-			}
-		case keyword.FieldOrder:
+		case keyword.FieldChinaWeakRelatedCount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field order", values[i])
+				return fmt.Errorf("unexpected type %T for field china_weak_related_count", values[i])
 			} else if value.Valid {
-				k.Order = uint64(value.Int64)
+				k.ChinaWeakRelatedCount = uint64(value.Int64)
+			}
+		case keyword.FieldChinaStrongRelatedCount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field china_strong_related_count", values[i])
+			} else if value.Valid {
+				k.ChinaStrongRelatedCount = uint64(value.Int64)
+			}
+		case keyword.FieldSubWord:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field sub_word", values[i])
+			} else if value.Valid {
+				k.SubWord = value.String
+			}
+		case keyword.FieldSubWordCount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field sub_word_count", values[i])
+			} else if value.Valid {
+				k.SubWordCount = uint64(value.Int64)
+			}
+		case keyword.FieldCategory:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field category", values[i])
+			} else if value.Valid {
+				k.Category = uint64(value.Int64)
+			}
+		case keyword.FieldUpdatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+			} else if value.Valid {
+				k.UpdatedAt = value.Time
 			}
 		default:
 			k.selectValues.Set(columns[i], values[i])
@@ -122,17 +144,26 @@ func (k *Keyword) String() string {
 	var builder strings.Builder
 	builder.WriteString("Keyword(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", k.ID))
-	builder.WriteString("name=")
-	builder.WriteString(k.Name)
+	builder.WriteString("word=")
+	builder.WriteString(k.Word)
 	builder.WriteString(", ")
-	builder.WriteString("words=")
-	builder.WriteString(fmt.Sprintf("%v", k.Words))
+	builder.WriteString("china_weak_related_count=")
+	builder.WriteString(fmt.Sprintf("%v", k.ChinaWeakRelatedCount))
 	builder.WriteString(", ")
-	builder.WriteString("color=")
-	builder.WriteString(k.Color)
+	builder.WriteString("china_strong_related_count=")
+	builder.WriteString(fmt.Sprintf("%v", k.ChinaStrongRelatedCount))
 	builder.WriteString(", ")
-	builder.WriteString("order=")
-	builder.WriteString(fmt.Sprintf("%v", k.Order))
+	builder.WriteString("sub_word=")
+	builder.WriteString(k.SubWord)
+	builder.WriteString(", ")
+	builder.WriteString("sub_word_count=")
+	builder.WriteString(fmt.Sprintf("%v", k.SubWordCount))
+	builder.WriteString(", ")
+	builder.WriteString("category=")
+	builder.WriteString(fmt.Sprintf("%v", k.Category))
+	builder.WriteString(", ")
+	builder.WriteString("updated_at=")
+	builder.WriteString(k.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
