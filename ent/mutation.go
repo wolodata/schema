@@ -3476,6 +3476,7 @@ type SystemConfigMutation struct {
 	id            *string
 	name          *string
 	description   *string
+	api_model     *string
 	api_url       *string
 	api_key       *string
 	prompt_system *string
@@ -3662,6 +3663,42 @@ func (m *SystemConfigMutation) ResetDescription() {
 	m.description = nil
 }
 
+// SetAPIModel sets the "api_model" field.
+func (m *SystemConfigMutation) SetAPIModel(s string) {
+	m.api_model = &s
+}
+
+// APIModel returns the value of the "api_model" field in the mutation.
+func (m *SystemConfigMutation) APIModel() (r string, exists bool) {
+	v := m.api_model
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAPIModel returns the old "api_model" field's value of the SystemConfig entity.
+// If the SystemConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *SystemConfigMutation) OldAPIModel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAPIModel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAPIModel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAPIModel: %w", err)
+	}
+	return oldValue.APIModel, nil
+}
+
+// ResetAPIModel resets all changes to the "api_model" field.
+func (m *SystemConfigMutation) ResetAPIModel() {
+	m.api_model = nil
+}
+
 // SetAPIURL sets the "api_url" field.
 func (m *SystemConfigMutation) SetAPIURL(s string) {
 	m.api_url = &s
@@ -3840,12 +3877,15 @@ func (m *SystemConfigMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *SystemConfigMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.name != nil {
 		fields = append(fields, systemconfig.FieldName)
 	}
 	if m.description != nil {
 		fields = append(fields, systemconfig.FieldDescription)
+	}
+	if m.api_model != nil {
+		fields = append(fields, systemconfig.FieldAPIModel)
 	}
 	if m.api_url != nil {
 		fields = append(fields, systemconfig.FieldAPIURL)
@@ -3871,6 +3911,8 @@ func (m *SystemConfigMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case systemconfig.FieldDescription:
 		return m.Description()
+	case systemconfig.FieldAPIModel:
+		return m.APIModel()
 	case systemconfig.FieldAPIURL:
 		return m.APIURL()
 	case systemconfig.FieldAPIKey:
@@ -3892,6 +3934,8 @@ func (m *SystemConfigMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldName(ctx)
 	case systemconfig.FieldDescription:
 		return m.OldDescription(ctx)
+	case systemconfig.FieldAPIModel:
+		return m.OldAPIModel(ctx)
 	case systemconfig.FieldAPIURL:
 		return m.OldAPIURL(ctx)
 	case systemconfig.FieldAPIKey:
@@ -3922,6 +3966,13 @@ func (m *SystemConfigMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDescription(v)
+		return nil
+	case systemconfig.FieldAPIModel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAPIModel(v)
 		return nil
 	case systemconfig.FieldAPIURL:
 		v, ok := value.(string)
@@ -4005,6 +4056,9 @@ func (m *SystemConfigMutation) ResetField(name string) error {
 		return nil
 	case systemconfig.FieldDescription:
 		m.ResetDescription()
+		return nil
+	case systemconfig.FieldAPIModel:
+		m.ResetAPIModel()
 		return nil
 	case systemconfig.FieldAPIURL:
 		m.ResetAPIURL()

@@ -41,6 +41,20 @@ func (scu *SystemConfigUpdate) SetNillableDescription(s *string) *SystemConfigUp
 	return scu
 }
 
+// SetAPIModel sets the "api_model" field.
+func (scu *SystemConfigUpdate) SetAPIModel(s string) *SystemConfigUpdate {
+	scu.mutation.SetAPIModel(s)
+	return scu
+}
+
+// SetNillableAPIModel sets the "api_model" field if the given value is not nil.
+func (scu *SystemConfigUpdate) SetNillableAPIModel(s *string) *SystemConfigUpdate {
+	if s != nil {
+		scu.SetAPIModel(*s)
+	}
+	return scu
+}
+
 // SetAPIURL sets the "api_url" field.
 func (scu *SystemConfigUpdate) SetAPIURL(s string) *SystemConfigUpdate {
 	scu.mutation.SetAPIURL(s)
@@ -141,6 +155,9 @@ func (scu *SystemConfigUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := scu.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
 	}
+	if value, ok := scu.mutation.APIModel(); ok {
+		_spec.SetField(systemconfig.FieldAPIModel, field.TypeString, value)
+	}
 	if value, ok := scu.mutation.APIURL(); ok {
 		_spec.SetField(systemconfig.FieldAPIURL, field.TypeString, value)
 	}
@@ -183,6 +200,20 @@ func (scuo *SystemConfigUpdateOne) SetDescription(s string) *SystemConfigUpdateO
 func (scuo *SystemConfigUpdateOne) SetNillableDescription(s *string) *SystemConfigUpdateOne {
 	if s != nil {
 		scuo.SetDescription(*s)
+	}
+	return scuo
+}
+
+// SetAPIModel sets the "api_model" field.
+func (scuo *SystemConfigUpdateOne) SetAPIModel(s string) *SystemConfigUpdateOne {
+	scuo.mutation.SetAPIModel(s)
+	return scuo
+}
+
+// SetNillableAPIModel sets the "api_model" field if the given value is not nil.
+func (scuo *SystemConfigUpdateOne) SetNillableAPIModel(s *string) *SystemConfigUpdateOne {
+	if s != nil {
+		scuo.SetAPIModel(*s)
 	}
 	return scuo
 }
@@ -316,6 +347,9 @@ func (scuo *SystemConfigUpdateOne) sqlSave(ctx context.Context) (_node *SystemCo
 	}
 	if value, ok := scuo.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
+	}
+	if value, ok := scuo.mutation.APIModel(); ok {
+		_spec.SetField(systemconfig.FieldAPIModel, field.TypeString, value)
 	}
 	if value, ok := scuo.mutation.APIURL(); ok {
 		_spec.SetField(systemconfig.FieldAPIURL, field.TypeString, value)

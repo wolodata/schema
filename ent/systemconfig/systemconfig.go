@@ -15,6 +15,8 @@ const (
 	FieldName = "name"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
+	// FieldAPIModel holds the string denoting the api_model field in the database.
+	FieldAPIModel = "api_model"
 	// FieldAPIURL holds the string denoting the api_url field in the database.
 	FieldAPIURL = "api_url"
 	// FieldAPIKey holds the string denoting the api_key field in the database.
@@ -32,6 +34,7 @@ var Columns = []string{
 	FieldID,
 	FieldName,
 	FieldDescription,
+	FieldAPIModel,
 	FieldAPIURL,
 	FieldAPIKey,
 	FieldPromptSystem,
@@ -51,6 +54,8 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultDescription holds the default value on creation for the "description" field.
 	DefaultDescription string
+	// DefaultAPIModel holds the default value on creation for the "api_model" field.
+	DefaultAPIModel string
 	// DefaultAPIURL holds the default value on creation for the "api_url" field.
 	DefaultAPIURL string
 	// DefaultAPIKey holds the default value on creation for the "api_key" field.
@@ -77,6 +82,11 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 // ByDescription orders the results by the description field.
 func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+}
+
+// ByAPIModel orders the results by the api_model field.
+func ByAPIModel(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAPIModel, opts...).ToFunc()
 }
 
 // ByAPIURL orders the results by the api_url field.

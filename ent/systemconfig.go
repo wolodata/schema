@@ -20,6 +20,8 @@ type SystemConfig struct {
 	Name string `json:"name,omitempty"`
 	// Description holds the value of the "description" field.
 	Description string `json:"description,omitempty"`
+	// APIModel holds the value of the "api_model" field.
+	APIModel string `json:"api_model,omitempty"`
 	// APIURL holds the value of the "api_url" field.
 	APIURL string `json:"api_url,omitempty"`
 	// APIKey holds the value of the "api_key" field.
@@ -36,7 +38,7 @@ func (*SystemConfig) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case systemconfig.FieldID, systemconfig.FieldName, systemconfig.FieldDescription, systemconfig.FieldAPIURL, systemconfig.FieldAPIKey, systemconfig.FieldPromptSystem, systemconfig.FieldPromptUser:
+		case systemconfig.FieldID, systemconfig.FieldName, systemconfig.FieldDescription, systemconfig.FieldAPIModel, systemconfig.FieldAPIURL, systemconfig.FieldAPIKey, systemconfig.FieldPromptSystem, systemconfig.FieldPromptUser:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -70,6 +72,12 @@ func (sc *SystemConfig) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
 				sc.Description = value.String
+			}
+		case systemconfig.FieldAPIModel:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field api_model", values[i])
+			} else if value.Valid {
+				sc.APIModel = value.String
 			}
 		case systemconfig.FieldAPIURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -136,6 +144,9 @@ func (sc *SystemConfig) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("description=")
 	builder.WriteString(sc.Description)
+	builder.WriteString(", ")
+	builder.WriteString("api_model=")
+	builder.WriteString(sc.APIModel)
 	builder.WriteString(", ")
 	builder.WriteString("api_url=")
 	builder.WriteString(sc.APIURL)

@@ -185,6 +185,7 @@ var (
 		{Name: "id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "description", Type: field.TypeString, Default: ""},
+		{Name: "api_model", Type: field.TypeString, Default: ""},
 		{Name: "api_url", Type: field.TypeString, Default: ""},
 		{Name: "api_key", Type: field.TypeString, Default: ""},
 		{Name: "prompt_system", Type: field.TypeString, Default: ""},

@@ -16,6 +16,7 @@ func (SystemConfig) Fields() []ent.Field {
 		field.String("id").Immutable(),
 		field.String("name").Unique().Immutable(),
 		field.String("description").Default(""),
+		field.String("api_model").Default(""),
 		field.String("api_url").Default(""),
 		field.String("api_key").Default(""),
 		field.String("prompt_system").Default(""),

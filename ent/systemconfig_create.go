@@ -42,6 +42,20 @@ func (scc *SystemConfigCreate) SetNillableDescription(s *string) *SystemConfigCr
 	return scc
 }
 
+// SetAPIModel sets the "api_model" field.
+func (scc *SystemConfigCreate) SetAPIModel(s string) *SystemConfigCreate {
+	scc.mutation.SetAPIModel(s)
+	return scc
+}
+
+// SetNillableAPIModel sets the "api_model" field if the given value is not nil.
+func (scc *SystemConfigCreate) SetNillableAPIModel(s *string) *SystemConfigCreate {
+	if s != nil {
+		scc.SetAPIModel(*s)
+	}
+	return scc
+}
+
 // SetAPIURL sets the "api_url" field.
 func (scc *SystemConfigCreate) SetAPIURL(s string) *SystemConfigCreate {
 	scc.mutation.SetAPIURL(s)
@@ -143,6 +157,10 @@ func (scc *SystemConfigCreate) defaults() {
 		v := systemconfig.DefaultDescription
 		scc.mutation.SetDescription(v)
 	}
+	if _, ok := scc.mutation.APIModel(); !ok {
+		v := systemconfig.DefaultAPIModel
+		scc.mutation.SetAPIModel(v)
+	}
 	if _, ok := scc.mutation.APIURL(); !ok {
 		v := systemconfig.DefaultAPIURL
 		scc.mutation.SetAPIURL(v)
@@ -168,6 +186,9 @@ func (scc *SystemConfigCreate) check() error {
 	}
 	if _, ok := scc.mutation.Description(); !ok {
 		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "SystemConfig.description"`)}
+	}
+	if _, ok := scc.mutation.APIModel(); !ok {
+		return &ValidationError{Name: "api_model", err: errors.New(`ent: missing required field "SystemConfig.api_model"`)}
 	}
 	if _, ok := scc.mutation.APIURL(); !ok {
 		return &ValidationError{Name: "api_url", err: errors.New(`ent: missing required field "SystemConfig.api_url"`)}
@@ -224,6 +245,10 @@ func (scc *SystemConfigCreate) createSpec() (*SystemConfig, *sqlgraph.CreateSpec
 	if value, ok := scc.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
 		_node.Description = value
+	}
+	if value, ok := scc.mutation.APIModel(); ok {
+		_spec.SetField(systemconfig.FieldAPIModel, field.TypeString, value)
+		_node.APIModel = value
 	}
 	if value, ok := scc.mutation.APIURL(); ok {
 		_spec.SetField(systemconfig.FieldAPIURL, field.TypeString, value)
@@ -302,6 +327,18 @@ func (u *SystemConfigUpsert) SetDescription(v string) *SystemConfigUpsert {
 // UpdateDescription sets the "description" field to the value that was provided on create.
 func (u *SystemConfigUpsert) UpdateDescription() *SystemConfigUpsert {
 	u.SetExcluded(systemconfig.FieldDescription)
+	return u
+}
+
+// SetAPIModel sets the "api_model" field.
+func (u *SystemConfigUpsert) SetAPIModel(v string) *SystemConfigUpsert {
+	u.Set(systemconfig.FieldAPIModel, v)
+	return u
+}
+
+// UpdateAPIModel sets the "api_model" field to the value that was provided on create.
+func (u *SystemConfigUpsert) UpdateAPIModel() *SystemConfigUpsert {
+	u.SetExcluded(systemconfig.FieldAPIModel)
 	return u
 }
 
@@ -415,6 +452,20 @@ func (u *SystemConfigUpsertOne) SetDescription(v string) *SystemConfigUpsertOne 
 func (u *SystemConfigUpsertOne) UpdateDescription() *SystemConfigUpsertOne {
 	return u.Update(func(s *SystemConfigUpsert) {
 		s.UpdateDescription()
+	})
+}
+
+// SetAPIModel sets the "api_model" field.
+func (u *SystemConfigUpsertOne) SetAPIModel(v string) *SystemConfigUpsertOne {
+	return u.Update(func(s *SystemConfigUpsert) {
+		s.SetAPIModel(v)
+	})
+}
+
+// UpdateAPIModel sets the "api_model" field to the value that was provided on create.
+func (u *SystemConfigUpsertOne) UpdateAPIModel() *SystemConfigUpsertOne {
+	return u.Update(func(s *SystemConfigUpsert) {
+		s.UpdateAPIModel()
 	})
 }
 
@@ -703,6 +754,20 @@ func (u *SystemConfigUpsertBulk) SetDescription(v string) *SystemConfigUpsertBul
 func (u *SystemConfigUpsertBulk) UpdateDescription() *SystemConfigUpsertBulk {
 	return u.Update(func(s *SystemConfigUpsert) {
 		s.UpdateDescription()
+	})
+}
+
+// SetAPIModel sets the "api_model" field.
+func (u *SystemConfigUpsertBulk) SetAPIModel(v string) *SystemConfigUpsertBulk {
+	return u.Update(func(s *SystemConfigUpsert) {
+		s.SetAPIModel(v)
+	})
+}
+
+// UpdateAPIModel sets the "api_model" field to the value that was provided on create.
+func (u *SystemConfigUpsertBulk) UpdateAPIModel() *SystemConfigUpsertBulk {
+	return u.Update(func(s *SystemConfigUpsert) {
+		s.UpdateAPIModel()
 	})
 }
 

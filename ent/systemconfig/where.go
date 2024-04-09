@@ -72,6 +72,11 @@ func Description(v string) predicate.SystemConfig {
 	return predicate.SystemConfig(sql.FieldEQ(FieldDescription, v))
 }
 
+// APIModel applies equality check predicate on the "api_model" field. It's identical to APIModelEQ.
+func APIModel(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldEQ(FieldAPIModel, v))
+}
+
 // APIURL applies equality check predicate on the "api_url" field. It's identical to APIURLEQ.
 func APIURL(v string) predicate.SystemConfig {
 	return predicate.SystemConfig(sql.FieldEQ(FieldAPIURL, v))
@@ -220,6 +225,71 @@ func DescriptionEqualFold(v string) predicate.SystemConfig {
 // DescriptionContainsFold applies the ContainsFold predicate on the "description" field.
 func DescriptionContainsFold(v string) predicate.SystemConfig {
 	return predicate.SystemConfig(sql.FieldContainsFold(FieldDescription, v))
+}
+
+// APIModelEQ applies the EQ predicate on the "api_model" field.
+func APIModelEQ(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldEQ(FieldAPIModel, v))
+}
+
+// APIModelNEQ applies the NEQ predicate on the "api_model" field.
+func APIModelNEQ(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldNEQ(FieldAPIModel, v))
+}
+
+// APIModelIn applies the In predicate on the "api_model" field.
+func APIModelIn(vs ...string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldIn(FieldAPIModel, vs...))
+}
+
+// APIModelNotIn applies the NotIn predicate on the "api_model" field.
+func APIModelNotIn(vs ...string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldNotIn(FieldAPIModel, vs...))
+}
+
+// APIModelGT applies the GT predicate on the "api_model" field.
+func APIModelGT(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldGT(FieldAPIModel, v))
+}
+
+// APIModelGTE applies the GTE predicate on the "api_model" field.
+func APIModelGTE(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldGTE(FieldAPIModel, v))
+}
+
+// APIModelLT applies the LT predicate on the "api_model" field.
+func APIModelLT(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldLT(FieldAPIModel, v))
+}
+
+// APIModelLTE applies the LTE predicate on the "api_model" field.
+func APIModelLTE(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldLTE(FieldAPIModel, v))
+}
+
+// APIModelContains applies the Contains predicate on the "api_model" field.
+func APIModelContains(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldContains(FieldAPIModel, v))
+}
+
+// APIModelHasPrefix applies the HasPrefix predicate on the "api_model" field.
+func APIModelHasPrefix(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldHasPrefix(FieldAPIModel, v))
+}
+
+// APIModelHasSuffix applies the HasSuffix predicate on the "api_model" field.
+func APIModelHasSuffix(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldHasSuffix(FieldAPIModel, v))
+}
+
+// APIModelEqualFold applies the EqualFold predicate on the "api_model" field.
+func APIModelEqualFold(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldEqualFold(FieldAPIModel, v))
+}
+
+// APIModelContainsFold applies the ContainsFold predicate on the "api_model" field.
+func APIModelContainsFold(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldContainsFold(FieldAPIModel, v))
 }
 
 // APIURLEQ applies the EQ predicate on the "api_url" field.
