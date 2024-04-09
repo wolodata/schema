@@ -293,18 +293,6 @@ type (
 	}
 )
 
-// SetName sets the "name" field.
-func (u *SystemConfigUpsert) SetName(v string) *SystemConfigUpsert {
-	u.Set(systemconfig.FieldName, v)
-	return u
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *SystemConfigUpsert) UpdateName() *SystemConfigUpsert {
-	u.SetExcluded(systemconfig.FieldName)
-	return u
-}
-
 // SetDescription sets the "description" field.
 func (u *SystemConfigUpsert) SetDescription(v string) *SystemConfigUpsert {
 	u.Set(systemconfig.FieldDescription, v)
@@ -382,6 +370,9 @@ func (u *SystemConfigUpsertOne) UpdateNewValues() *SystemConfigUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(systemconfig.FieldID)
 		}
+		if _, exists := u.create.mutation.Name(); exists {
+			s.SetIgnore(systemconfig.FieldName)
+		}
 	}))
 	return u
 }
@@ -411,20 +402,6 @@ func (u *SystemConfigUpsertOne) Update(set func(*SystemConfigUpsert)) *SystemCon
 		set(&SystemConfigUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetName sets the "name" field.
-func (u *SystemConfigUpsertOne) SetName(v string) *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *SystemConfigUpsertOne) UpdateName() *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateName()
-	})
 }
 
 // SetDescription sets the "description" field.
@@ -680,6 +657,9 @@ func (u *SystemConfigUpsertBulk) UpdateNewValues() *SystemConfigUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(systemconfig.FieldID)
 			}
+			if _, exists := b.mutation.Name(); exists {
+				s.SetIgnore(systemconfig.FieldName)
+			}
 		}
 	}))
 	return u
@@ -710,20 +690,6 @@ func (u *SystemConfigUpsertBulk) Update(set func(*SystemConfigUpsert)) *SystemCo
 		set(&SystemConfigUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetName sets the "name" field.
-func (u *SystemConfigUpsertBulk) SetName(v string) *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *SystemConfigUpsertBulk) UpdateName() *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateName()
-	})
 }
 
 // SetDescription sets the "description" field.

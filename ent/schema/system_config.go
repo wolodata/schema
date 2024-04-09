@@ -14,7 +14,7 @@ type SystemConfig struct {
 func (SystemConfig) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").Immutable(),
-		field.String("name").Unique(),
+		field.String("name").Unique().Immutable(),
 		field.String("description").Default(""),
 		field.String("api_url").Default(""),
 		field.String("api_key").Default(""),

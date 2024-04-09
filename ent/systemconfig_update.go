@@ -27,20 +27,6 @@ func (scu *SystemConfigUpdate) Where(ps ...predicate.SystemConfig) *SystemConfig
 	return scu
 }
 
-// SetName sets the "name" field.
-func (scu *SystemConfigUpdate) SetName(s string) *SystemConfigUpdate {
-	scu.mutation.SetName(s)
-	return scu
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (scu *SystemConfigUpdate) SetNillableName(s *string) *SystemConfigUpdate {
-	if s != nil {
-		scu.SetName(*s)
-	}
-	return scu
-}
-
 // SetDescription sets the "description" field.
 func (scu *SystemConfigUpdate) SetDescription(s string) *SystemConfigUpdate {
 	scu.mutation.SetDescription(s)
@@ -152,9 +138,6 @@ func (scu *SystemConfigUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := scu.mutation.Name(); ok {
-		_spec.SetField(systemconfig.FieldName, field.TypeString, value)
-	}
 	if value, ok := scu.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
 	}
@@ -188,20 +171,6 @@ type SystemConfigUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *SystemConfigMutation
-}
-
-// SetName sets the "name" field.
-func (scuo *SystemConfigUpdateOne) SetName(s string) *SystemConfigUpdateOne {
-	scuo.mutation.SetName(s)
-	return scuo
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (scuo *SystemConfigUpdateOne) SetNillableName(s *string) *SystemConfigUpdateOne {
-	if s != nil {
-		scuo.SetName(*s)
-	}
-	return scuo
 }
 
 // SetDescription sets the "description" field.
@@ -344,9 +313,6 @@ func (scuo *SystemConfigUpdateOne) sqlSave(ctx context.Context) (_node *SystemCo
 				ps[i](selector)
 			}
 		}
-	}
-	if value, ok := scuo.mutation.Name(); ok {
-		_spec.SetField(systemconfig.FieldName, field.TypeString, value)
 	}
 	if value, ok := scuo.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
