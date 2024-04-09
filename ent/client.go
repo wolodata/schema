@@ -16,7 +16,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
-	"github.com/wolodata/schema/ent/keyword"
+	"github.com/wolodata/schema/ent/keywordstrong"
+	"github.com/wolodata/schema/ent/keywordweak"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/systemconfig"
 	"github.com/wolodata/schema/ent/topic"
@@ -32,8 +33,10 @@ type Client struct {
 	Article *ArticleClient
 	// Html is the client for interacting with the Html builders.
 	Html *HTMLClient
-	// Keyword is the client for interacting with the Keyword builders.
-	Keyword *KeywordClient
+	// KeywordStrong is the client for interacting with the KeywordStrong builders.
+	KeywordStrong *KeywordStrongClient
+	// KeywordWeak is the client for interacting with the KeywordWeak builders.
+	KeywordWeak *KeywordWeakClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// SystemConfig is the client for interacting with the SystemConfig builders.
@@ -55,7 +58,8 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Article = NewArticleClient(c.config)
 	c.Html = NewHTMLClient(c.config)
-	c.Keyword = NewKeywordClient(c.config)
+	c.KeywordStrong = NewKeywordStrongClient(c.config)
+	c.KeywordWeak = NewKeywordWeakClient(c.config)
 	c.Report = NewReportClient(c.config)
 	c.SystemConfig = NewSystemConfigClient(c.config)
 	c.Topic = NewTopicClient(c.config)
@@ -150,15 +154,16 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:          ctx,
-		config:       cfg,
-		Article:      NewArticleClient(cfg),
-		Html:         NewHTMLClient(cfg),
-		Keyword:      NewKeywordClient(cfg),
-		Report:       NewReportClient(cfg),
-		SystemConfig: NewSystemConfigClient(cfg),
-		Topic:        NewTopicClient(cfg),
-		User:         NewUserClient(cfg),
+		ctx:           ctx,
+		config:        cfg,
+		Article:       NewArticleClient(cfg),
+		Html:          NewHTMLClient(cfg),
+		KeywordStrong: NewKeywordStrongClient(cfg),
+		KeywordWeak:   NewKeywordWeakClient(cfg),
+		Report:        NewReportClient(cfg),
+		SystemConfig:  NewSystemConfigClient(cfg),
+		Topic:         NewTopicClient(cfg),
+		User:          NewUserClient(cfg),
 	}, nil
 }
 
@@ -176,15 +181,16 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:          ctx,
-		config:       cfg,
-		Article:      NewArticleClient(cfg),
-		Html:         NewHTMLClient(cfg),
-		Keyword:      NewKeywordClient(cfg),
-		Report:       NewReportClient(cfg),
-		SystemConfig: NewSystemConfigClient(cfg),
-		Topic:        NewTopicClient(cfg),
-		User:         NewUserClient(cfg),
+		ctx:           ctx,
+		config:        cfg,
+		Article:       NewArticleClient(cfg),
+		Html:          NewHTMLClient(cfg),
+		KeywordStrong: NewKeywordStrongClient(cfg),
+		KeywordWeak:   NewKeywordWeakClient(cfg),
+		Report:        NewReportClient(cfg),
+		SystemConfig:  NewSystemConfigClient(cfg),
+		Topic:         NewTopicClient(cfg),
+		User:          NewUserClient(cfg),
 	}, nil
 }
 
@@ -214,7 +220,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Article, c.Html, c.Keyword, c.Report, c.SystemConfig, c.Topic, c.User,
+		c.Article, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report, c.SystemConfig,
+		c.Topic, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -224,7 +231,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Article, c.Html, c.Keyword, c.Report, c.SystemConfig, c.Topic, c.User,
+		c.Article, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report, c.SystemConfig,
+		c.Topic, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -237,8 +245,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Article.mutate(ctx, m)
 	case *HTMLMutation:
 		return c.Html.mutate(ctx, m)
-	case *KeywordMutation:
-		return c.Keyword.mutate(ctx, m)
+	case *KeywordStrongMutation:
+		return c.KeywordStrong.mutate(ctx, m)
+	case *KeywordWeakMutation:
+		return c.KeywordWeak.mutate(ctx, m)
 	case *ReportMutation:
 		return c.Report.mutate(ctx, m)
 	case *SystemConfigMutation:
@@ -518,107 +528,107 @@ func (c *HTMLClient) mutate(ctx context.Context, m *HTMLMutation) (Value, error)
 	}
 }
 
-// KeywordClient is a client for the Keyword schema.
-type KeywordClient struct {
+// KeywordStrongClient is a client for the KeywordStrong schema.
+type KeywordStrongClient struct {
 	config
 }
 
-// NewKeywordClient returns a client for the Keyword from the given config.
-func NewKeywordClient(c config) *KeywordClient {
-	return &KeywordClient{config: c}
+// NewKeywordStrongClient returns a client for the KeywordStrong from the given config.
+func NewKeywordStrongClient(c config) *KeywordStrongClient {
+	return &KeywordStrongClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `keyword.Hooks(f(g(h())))`.
-func (c *KeywordClient) Use(hooks ...Hook) {
-	c.hooks.Keyword = append(c.hooks.Keyword, hooks...)
+// A call to `Use(f, g, h)` equals to `keywordstrong.Hooks(f(g(h())))`.
+func (c *KeywordStrongClient) Use(hooks ...Hook) {
+	c.hooks.KeywordStrong = append(c.hooks.KeywordStrong, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `keyword.Intercept(f(g(h())))`.
-func (c *KeywordClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Keyword = append(c.inters.Keyword, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `keywordstrong.Intercept(f(g(h())))`.
+func (c *KeywordStrongClient) Intercept(interceptors ...Interceptor) {
+	c.inters.KeywordStrong = append(c.inters.KeywordStrong, interceptors...)
 }
 
-// Create returns a builder for creating a Keyword entity.
-func (c *KeywordClient) Create() *KeywordCreate {
-	mutation := newKeywordMutation(c.config, OpCreate)
-	return &KeywordCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a KeywordStrong entity.
+func (c *KeywordStrongClient) Create() *KeywordStrongCreate {
+	mutation := newKeywordStrongMutation(c.config, OpCreate)
+	return &KeywordStrongCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of Keyword entities.
-func (c *KeywordClient) CreateBulk(builders ...*KeywordCreate) *KeywordCreateBulk {
-	return &KeywordCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of KeywordStrong entities.
+func (c *KeywordStrongClient) CreateBulk(builders ...*KeywordStrongCreate) *KeywordStrongCreateBulk {
+	return &KeywordStrongCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *KeywordClient) MapCreateBulk(slice any, setFunc func(*KeywordCreate, int)) *KeywordCreateBulk {
+func (c *KeywordStrongClient) MapCreateBulk(slice any, setFunc func(*KeywordStrongCreate, int)) *KeywordStrongCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &KeywordCreateBulk{err: fmt.Errorf("calling to KeywordClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &KeywordStrongCreateBulk{err: fmt.Errorf("calling to KeywordStrongClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*KeywordCreate, rv.Len())
+	builders := make([]*KeywordStrongCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &KeywordCreateBulk{config: c.config, builders: builders}
+	return &KeywordStrongCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for Keyword.
-func (c *KeywordClient) Update() *KeywordUpdate {
-	mutation := newKeywordMutation(c.config, OpUpdate)
-	return &KeywordUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for KeywordStrong.
+func (c *KeywordStrongClient) Update() *KeywordStrongUpdate {
+	mutation := newKeywordStrongMutation(c.config, OpUpdate)
+	return &KeywordStrongUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *KeywordClient) UpdateOne(k *Keyword) *KeywordUpdateOne {
-	mutation := newKeywordMutation(c.config, OpUpdateOne, withKeyword(k))
-	return &KeywordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *KeywordStrongClient) UpdateOne(ks *KeywordStrong) *KeywordStrongUpdateOne {
+	mutation := newKeywordStrongMutation(c.config, OpUpdateOne, withKeywordStrong(ks))
+	return &KeywordStrongUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *KeywordClient) UpdateOneID(id string) *KeywordUpdateOne {
-	mutation := newKeywordMutation(c.config, OpUpdateOne, withKeywordID(id))
-	return &KeywordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *KeywordStrongClient) UpdateOneID(id string) *KeywordStrongUpdateOne {
+	mutation := newKeywordStrongMutation(c.config, OpUpdateOne, withKeywordStrongID(id))
+	return &KeywordStrongUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for Keyword.
-func (c *KeywordClient) Delete() *KeywordDelete {
-	mutation := newKeywordMutation(c.config, OpDelete)
-	return &KeywordDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for KeywordStrong.
+func (c *KeywordStrongClient) Delete() *KeywordStrongDelete {
+	mutation := newKeywordStrongMutation(c.config, OpDelete)
+	return &KeywordStrongDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *KeywordClient) DeleteOne(k *Keyword) *KeywordDeleteOne {
-	return c.DeleteOneID(k.ID)
+func (c *KeywordStrongClient) DeleteOne(ks *KeywordStrong) *KeywordStrongDeleteOne {
+	return c.DeleteOneID(ks.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *KeywordClient) DeleteOneID(id string) *KeywordDeleteOne {
-	builder := c.Delete().Where(keyword.ID(id))
+func (c *KeywordStrongClient) DeleteOneID(id string) *KeywordStrongDeleteOne {
+	builder := c.Delete().Where(keywordstrong.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &KeywordDeleteOne{builder}
+	return &KeywordStrongDeleteOne{builder}
 }
 
-// Query returns a query builder for Keyword.
-func (c *KeywordClient) Query() *KeywordQuery {
-	return &KeywordQuery{
+// Query returns a query builder for KeywordStrong.
+func (c *KeywordStrongClient) Query() *KeywordStrongQuery {
+	return &KeywordStrongQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeKeyword},
+		ctx:    &QueryContext{Type: TypeKeywordStrong},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a Keyword entity by its id.
-func (c *KeywordClient) Get(ctx context.Context, id string) (*Keyword, error) {
-	return c.Query().Where(keyword.ID(id)).Only(ctx)
+// Get returns a KeywordStrong entity by its id.
+func (c *KeywordStrongClient) Get(ctx context.Context, id string) (*KeywordStrong, error) {
+	return c.Query().Where(keywordstrong.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *KeywordClient) GetX(ctx context.Context, id string) *Keyword {
+func (c *KeywordStrongClient) GetX(ctx context.Context, id string) *KeywordStrong {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -627,27 +637,160 @@ func (c *KeywordClient) GetX(ctx context.Context, id string) *Keyword {
 }
 
 // Hooks returns the client hooks.
-func (c *KeywordClient) Hooks() []Hook {
-	return c.hooks.Keyword
+func (c *KeywordStrongClient) Hooks() []Hook {
+	return c.hooks.KeywordStrong
 }
 
 // Interceptors returns the client interceptors.
-func (c *KeywordClient) Interceptors() []Interceptor {
-	return c.inters.Keyword
+func (c *KeywordStrongClient) Interceptors() []Interceptor {
+	return c.inters.KeywordStrong
 }
 
-func (c *KeywordClient) mutate(ctx context.Context, m *KeywordMutation) (Value, error) {
+func (c *KeywordStrongClient) mutate(ctx context.Context, m *KeywordStrongMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&KeywordCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&KeywordStrongCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&KeywordUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&KeywordStrongUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&KeywordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&KeywordStrongUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&KeywordDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&KeywordStrongDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown Keyword mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown KeywordStrong mutation op: %q", m.Op())
+	}
+}
+
+// KeywordWeakClient is a client for the KeywordWeak schema.
+type KeywordWeakClient struct {
+	config
+}
+
+// NewKeywordWeakClient returns a client for the KeywordWeak from the given config.
+func NewKeywordWeakClient(c config) *KeywordWeakClient {
+	return &KeywordWeakClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `keywordweak.Hooks(f(g(h())))`.
+func (c *KeywordWeakClient) Use(hooks ...Hook) {
+	c.hooks.KeywordWeak = append(c.hooks.KeywordWeak, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `keywordweak.Intercept(f(g(h())))`.
+func (c *KeywordWeakClient) Intercept(interceptors ...Interceptor) {
+	c.inters.KeywordWeak = append(c.inters.KeywordWeak, interceptors...)
+}
+
+// Create returns a builder for creating a KeywordWeak entity.
+func (c *KeywordWeakClient) Create() *KeywordWeakCreate {
+	mutation := newKeywordWeakMutation(c.config, OpCreate)
+	return &KeywordWeakCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of KeywordWeak entities.
+func (c *KeywordWeakClient) CreateBulk(builders ...*KeywordWeakCreate) *KeywordWeakCreateBulk {
+	return &KeywordWeakCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *KeywordWeakClient) MapCreateBulk(slice any, setFunc func(*KeywordWeakCreate, int)) *KeywordWeakCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &KeywordWeakCreateBulk{err: fmt.Errorf("calling to KeywordWeakClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*KeywordWeakCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &KeywordWeakCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for KeywordWeak.
+func (c *KeywordWeakClient) Update() *KeywordWeakUpdate {
+	mutation := newKeywordWeakMutation(c.config, OpUpdate)
+	return &KeywordWeakUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *KeywordWeakClient) UpdateOne(kw *KeywordWeak) *KeywordWeakUpdateOne {
+	mutation := newKeywordWeakMutation(c.config, OpUpdateOne, withKeywordWeak(kw))
+	return &KeywordWeakUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *KeywordWeakClient) UpdateOneID(id string) *KeywordWeakUpdateOne {
+	mutation := newKeywordWeakMutation(c.config, OpUpdateOne, withKeywordWeakID(id))
+	return &KeywordWeakUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for KeywordWeak.
+func (c *KeywordWeakClient) Delete() *KeywordWeakDelete {
+	mutation := newKeywordWeakMutation(c.config, OpDelete)
+	return &KeywordWeakDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *KeywordWeakClient) DeleteOne(kw *KeywordWeak) *KeywordWeakDeleteOne {
+	return c.DeleteOneID(kw.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *KeywordWeakClient) DeleteOneID(id string) *KeywordWeakDeleteOne {
+	builder := c.Delete().Where(keywordweak.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &KeywordWeakDeleteOne{builder}
+}
+
+// Query returns a query builder for KeywordWeak.
+func (c *KeywordWeakClient) Query() *KeywordWeakQuery {
+	return &KeywordWeakQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeKeywordWeak},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a KeywordWeak entity by its id.
+func (c *KeywordWeakClient) Get(ctx context.Context, id string) (*KeywordWeak, error) {
+	return c.Query().Where(keywordweak.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *KeywordWeakClient) GetX(ctx context.Context, id string) *KeywordWeak {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *KeywordWeakClient) Hooks() []Hook {
+	return c.hooks.KeywordWeak
+}
+
+// Interceptors returns the client interceptors.
+func (c *KeywordWeakClient) Interceptors() []Interceptor {
+	return c.inters.KeywordWeak
+}
+
+func (c *KeywordWeakClient) mutate(ctx context.Context, m *KeywordWeakMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&KeywordWeakCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&KeywordWeakUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&KeywordWeakUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&KeywordWeakDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown KeywordWeak mutation op: %q", m.Op())
 	}
 }
 
@@ -1186,9 +1329,11 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Article, Html, Keyword, Report, SystemConfig, Topic, User []ent.Hook
+		Article, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
+		User []ent.Hook
 	}
 	inters struct {
-		Article, Html, Keyword, Report, SystemConfig, Topic, User []ent.Interceptor
+		Article, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
+		User []ent.Interceptor
 	}
 )

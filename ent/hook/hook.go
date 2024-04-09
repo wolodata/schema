@@ -33,16 +33,28 @@ func (f HtmlFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.HTMLMutation", m)
 }
 
-// The KeywordFunc type is an adapter to allow the use of ordinary
-// function as Keyword mutator.
-type KeywordFunc func(context.Context, *ent.KeywordMutation) (ent.Value, error)
+// The KeywordStrongFunc type is an adapter to allow the use of ordinary
+// function as KeywordStrong mutator.
+type KeywordStrongFunc func(context.Context, *ent.KeywordStrongMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f KeywordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.KeywordMutation); ok {
+func (f KeywordStrongFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.KeywordStrongMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KeywordMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KeywordStrongMutation", m)
+}
+
+// The KeywordWeakFunc type is an adapter to allow the use of ordinary
+// function as KeywordWeak mutator.
+type KeywordWeakFunc func(context.Context, *ent.KeywordWeakMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f KeywordWeakFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.KeywordWeakMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KeywordWeakMutation", m)
 }
 
 // The ReportFunc type is an adapter to allow the use of ordinary

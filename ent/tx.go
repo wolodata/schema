@@ -16,8 +16,10 @@ type Tx struct {
 	Article *ArticleClient
 	// Html is the client for interacting with the Html builders.
 	Html *HTMLClient
-	// Keyword is the client for interacting with the Keyword builders.
-	Keyword *KeywordClient
+	// KeywordStrong is the client for interacting with the KeywordStrong builders.
+	KeywordStrong *KeywordStrongClient
+	// KeywordWeak is the client for interacting with the KeywordWeak builders.
+	KeywordWeak *KeywordWeakClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// SystemConfig is the client for interacting with the SystemConfig builders.
@@ -159,7 +161,8 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.Article = NewArticleClient(tx.config)
 	tx.Html = NewHTMLClient(tx.config)
-	tx.Keyword = NewKeywordClient(tx.config)
+	tx.KeywordStrong = NewKeywordStrongClient(tx.config)
+	tx.KeywordWeak = NewKeywordWeakClient(tx.config)
 	tx.Report = NewReportClient(tx.config)
 	tx.SystemConfig = NewSystemConfigClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)

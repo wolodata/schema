@@ -15,10 +15,12 @@ const (
 	FieldID = "id"
 	// FieldReportType holds the string denoting the report_type field in the database.
 	FieldReportType = "report_type"
+	// FieldStartTime holds the string denoting the start_time field in the database.
+	FieldStartTime = "start_time"
+	// FieldEndTime holds the string denoting the end_time field in the database.
+	FieldEndTime = "end_time"
 	// FieldTriggerUserID holds the string denoting the trigger_user_id field in the database.
 	FieldTriggerUserID = "trigger_user_id"
-	// FieldDate holds the string denoting the date field in the database.
-	FieldDate = "date"
 	// FieldTriggerAt holds the string denoting the trigger_at field in the database.
 	FieldTriggerAt = "trigger_at"
 	// FieldContent holds the string denoting the content field in the database.
@@ -33,8 +35,9 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldReportType,
+	FieldStartTime,
+	FieldEndTime,
 	FieldTriggerUserID,
-	FieldDate,
 	FieldTriggerAt,
 	FieldContent,
 	FieldGeneratedAt,
@@ -72,14 +75,19 @@ func ByReportType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldReportType, opts...).ToFunc()
 }
 
+// ByStartTime orders the results by the start_time field.
+func ByStartTime(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStartTime, opts...).ToFunc()
+}
+
+// ByEndTime orders the results by the end_time field.
+func ByEndTime(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldEndTime, opts...).ToFunc()
+}
+
 // ByTriggerUserID orders the results by the trigger_user_id field.
 func ByTriggerUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTriggerUserID, opts...).ToFunc()
-}
-
-// ByDate orders the results by the date field.
-func ByDate(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDate, opts...).ToFunc()
 }
 
 // ByTriggerAt orders the results by the trigger_at field.

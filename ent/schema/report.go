@@ -19,9 +19,11 @@ func (Report) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").Immutable(),
 		field.String("report_type").NotEmpty().Immutable(),
+		field.Time("start_time").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
+		field.Time("end_time").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
 		field.String("trigger_user_id").Optional().Immutable(),
-		field.Time("date").Immutable().SchemaType(map[string]string{dialect.MySQL: "date"}),
 		field.Time("trigger_at").Immutable().SchemaType(map[string]string{dialect.MySQL: "datetime"}),
+
 		field.Text("content").Default(""),
 		field.Time("generated_at").SchemaType(map[string]string{dialect.MySQL: "datetime"}).Default(time.Now).Annotations(entsql.Default("CURRENT_TIMESTAMP")),
 	}

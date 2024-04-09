@@ -12,8 +12,11 @@ type Article func(*sql.Selector)
 // Html is the predicate function for html builders.
 type Html func(*sql.Selector)
 
-// Keyword is the predicate function for keyword builders.
-type Keyword func(*sql.Selector)
+// KeywordStrong is the predicate function for keywordstrong builders.
+type KeywordStrong func(*sql.Selector)
+
+// KeywordWeak is the predicate function for keywordweak builders.
+type KeywordWeak func(*sql.Selector)
 
 // Report is the predicate function for report builders.
 type Report func(*sql.Selector)

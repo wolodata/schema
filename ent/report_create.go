@@ -29,6 +29,18 @@ func (rc *ReportCreate) SetReportType(s string) *ReportCreate {
 	return rc
 }
 
+// SetStartTime sets the "start_time" field.
+func (rc *ReportCreate) SetStartTime(t time.Time) *ReportCreate {
+	rc.mutation.SetStartTime(t)
+	return rc
+}
+
+// SetEndTime sets the "end_time" field.
+func (rc *ReportCreate) SetEndTime(t time.Time) *ReportCreate {
+	rc.mutation.SetEndTime(t)
+	return rc
+}
+
 // SetTriggerUserID sets the "trigger_user_id" field.
 func (rc *ReportCreate) SetTriggerUserID(s string) *ReportCreate {
 	rc.mutation.SetTriggerUserID(s)
@@ -40,12 +52,6 @@ func (rc *ReportCreate) SetNillableTriggerUserID(s *string) *ReportCreate {
 	if s != nil {
 		rc.SetTriggerUserID(*s)
 	}
-	return rc
-}
-
-// SetDate sets the "date" field.
-func (rc *ReportCreate) SetDate(t time.Time) *ReportCreate {
-	rc.mutation.SetDate(t)
 	return rc
 }
 
@@ -144,8 +150,11 @@ func (rc *ReportCreate) check() error {
 			return &ValidationError{Name: "report_type", err: fmt.Errorf(`ent: validator failed for field "Report.report_type": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.Date(); !ok {
-		return &ValidationError{Name: "date", err: errors.New(`ent: missing required field "Report.date"`)}
+	if _, ok := rc.mutation.StartTime(); !ok {
+		return &ValidationError{Name: "start_time", err: errors.New(`ent: missing required field "Report.start_time"`)}
+	}
+	if _, ok := rc.mutation.EndTime(); !ok {
+		return &ValidationError{Name: "end_time", err: errors.New(`ent: missing required field "Report.end_time"`)}
 	}
 	if _, ok := rc.mutation.TriggerAt(); !ok {
 		return &ValidationError{Name: "trigger_at", err: errors.New(`ent: missing required field "Report.trigger_at"`)}
@@ -196,13 +205,17 @@ func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 		_spec.SetField(report.FieldReportType, field.TypeString, value)
 		_node.ReportType = value
 	}
+	if value, ok := rc.mutation.StartTime(); ok {
+		_spec.SetField(report.FieldStartTime, field.TypeTime, value)
+		_node.StartTime = value
+	}
+	if value, ok := rc.mutation.EndTime(); ok {
+		_spec.SetField(report.FieldEndTime, field.TypeTime, value)
+		_node.EndTime = value
+	}
 	if value, ok := rc.mutation.TriggerUserID(); ok {
 		_spec.SetField(report.FieldTriggerUserID, field.TypeString, value)
 		_node.TriggerUserID = value
-	}
-	if value, ok := rc.mutation.Date(); ok {
-		_spec.SetField(report.FieldDate, field.TypeTime, value)
-		_node.Date = value
 	}
 	if value, ok := rc.mutation.TriggerAt(); ok {
 		_spec.SetField(report.FieldTriggerAt, field.TypeTime, value)
@@ -312,11 +325,14 @@ func (u *ReportUpsertOne) UpdateNewValues() *ReportUpsertOne {
 		if _, exists := u.create.mutation.ReportType(); exists {
 			s.SetIgnore(report.FieldReportType)
 		}
+		if _, exists := u.create.mutation.StartTime(); exists {
+			s.SetIgnore(report.FieldStartTime)
+		}
+		if _, exists := u.create.mutation.EndTime(); exists {
+			s.SetIgnore(report.FieldEndTime)
+		}
 		if _, exists := u.create.mutation.TriggerUserID(); exists {
 			s.SetIgnore(report.FieldTriggerUserID)
-		}
-		if _, exists := u.create.mutation.Date(); exists {
-			s.SetIgnore(report.FieldDate)
 		}
 		if _, exists := u.create.mutation.TriggerAt(); exists {
 			s.SetIgnore(report.FieldTriggerAt)
@@ -566,11 +582,14 @@ func (u *ReportUpsertBulk) UpdateNewValues() *ReportUpsertBulk {
 			if _, exists := b.mutation.ReportType(); exists {
 				s.SetIgnore(report.FieldReportType)
 			}
+			if _, exists := b.mutation.StartTime(); exists {
+				s.SetIgnore(report.FieldStartTime)
+			}
+			if _, exists := b.mutation.EndTime(); exists {
+				s.SetIgnore(report.FieldEndTime)
+			}
 			if _, exists := b.mutation.TriggerUserID(); exists {
 				s.SetIgnore(report.FieldTriggerUserID)
-			}
-			if _, exists := b.mutation.Date(); exists {
-				s.SetIgnore(report.FieldDate)
 			}
 			if _, exists := b.mutation.TriggerAt(); exists {
 				s.SetIgnore(report.FieldTriggerAt)

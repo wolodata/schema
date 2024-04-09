@@ -7,7 +7,7 @@ import (
 
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
-	"github.com/wolodata/schema/ent/keyword"
+	"github.com/wolodata/schema/ent/keywordstrong"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/systemconfig"
@@ -139,22 +139,20 @@ func init() {
 	htmlDescReason := htmlFields[8].Descriptor()
 	// html.DefaultReason holds the default value on creation for the reason field.
 	html.DefaultReason = htmlDescReason.Default.(string)
-	keywordFields := schema.Keyword{}.Fields()
-	_ = keywordFields
-	// keywordDescSubWord is the schema descriptor for sub_word field.
-	keywordDescSubWord := keywordFields[5].Descriptor()
-	// keyword.DefaultSubWord holds the default value on creation for the sub_word field.
-	keyword.DefaultSubWord = keywordDescSubWord.Default.(string)
-	// keywordDescSubWordCount is the schema descriptor for sub_word_count field.
-	keywordDescSubWordCount := keywordFields[6].Descriptor()
-	// keyword.DefaultSubWordCount holds the default value on creation for the sub_word_count field.
-	keyword.DefaultSubWordCount = keywordDescSubWordCount.Default.(uint64)
-	// keywordDescUpdatedAt is the schema descriptor for updated_at field.
-	keywordDescUpdatedAt := keywordFields[7].Descriptor()
-	// keyword.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	keyword.DefaultUpdatedAt = keywordDescUpdatedAt.Default.(func() time.Time)
-	// keyword.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	keyword.UpdateDefaultUpdatedAt = keywordDescUpdatedAt.UpdateDefault.(func() time.Time)
+	keywordstrongFields := schema.KeywordStrong{}.Fields()
+	_ = keywordstrongFields
+	// keywordstrongDescMainCount is the schema descriptor for main_count field.
+	keywordstrongDescMainCount := keywordstrongFields[3].Descriptor()
+	// keywordstrong.DefaultMainCount holds the default value on creation for the main_count field.
+	keywordstrong.DefaultMainCount = keywordstrongDescMainCount.Default.(uint64)
+	// keywordstrongDescSub is the schema descriptor for sub field.
+	keywordstrongDescSub := keywordstrongFields[4].Descriptor()
+	// keywordstrong.DefaultSub holds the default value on creation for the sub field.
+	keywordstrong.DefaultSub = keywordstrongDescSub.Default.(string)
+	// keywordstrongDescSubCount is the schema descriptor for sub_count field.
+	keywordstrongDescSubCount := keywordstrongFields[5].Descriptor()
+	// keywordstrong.DefaultSubCount holds the default value on creation for the sub_count field.
+	keywordstrong.DefaultSubCount = keywordstrongDescSubCount.Default.(uint64)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.
@@ -162,11 +160,11 @@ func init() {
 	// report.ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	report.ReportTypeValidator = reportDescReportType.Validators[0].(func(string) error)
 	// reportDescContent is the schema descriptor for content field.
-	reportDescContent := reportFields[5].Descriptor()
+	reportDescContent := reportFields[6].Descriptor()
 	// report.DefaultContent holds the default value on creation for the content field.
 	report.DefaultContent = reportDescContent.Default.(string)
 	// reportDescGeneratedAt is the schema descriptor for generated_at field.
-	reportDescGeneratedAt := reportFields[6].Descriptor()
+	reportDescGeneratedAt := reportFields[7].Descriptor()
 	// report.DefaultGeneratedAt holds the default value on creation for the generated_at field.
 	report.DefaultGeneratedAt = reportDescGeneratedAt.Default.(func() time.Time)
 	systemconfigFields := schema.SystemConfig{}.Fields()

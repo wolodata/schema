@@ -13,7 +13,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
-	"github.com/wolodata/schema/ent/keyword"
+	"github.com/wolodata/schema/ent/keywordstrong"
+	"github.com/wolodata/schema/ent/keywordweak"
 	"github.com/wolodata/schema/ent/predicate"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/systemconfig"
@@ -30,13 +31,14 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeArticle      = "Article"
-	TypeHTML         = "Html"
-	TypeKeyword      = "Keyword"
-	TypeReport       = "Report"
-	TypeSystemConfig = "SystemConfig"
-	TypeTopic        = "Topic"
-	TypeUser         = "User"
+	TypeArticle       = "Article"
+	TypeHTML          = "Html"
+	TypeKeywordStrong = "KeywordStrong"
+	TypeKeywordWeak   = "KeywordWeak"
+	TypeReport        = "Report"
+	TypeSystemConfig  = "SystemConfig"
+	TypeTopic         = "Topic"
+	TypeUser          = "User"
 )
 
 // ArticleMutation represents an operation that mutates the Article nodes in the graph.
@@ -2053,40 +2055,37 @@ func (m *HTMLMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Html edge %s", name)
 }
 
-// KeywordMutation represents an operation that mutates the Keyword nodes in the graph.
-type KeywordMutation struct {
+// KeywordStrongMutation represents an operation that mutates the KeywordStrong nodes in the graph.
+type KeywordStrongMutation struct {
 	config
-	op                            Op
-	typ                           string
-	id                            *string
-	category                      *uint64
-	addcategory                   *int64
-	word                          *string
-	china_weak_related_count      *uint64
-	addchina_weak_related_count   *int64
-	china_strong_related_count    *uint64
-	addchina_strong_related_count *int64
-	sub_word                      *string
-	sub_word_count                *uint64
-	addsub_word_count             *int64
-	updated_at                    *time.Time
-	clearedFields                 map[string]struct{}
-	done                          bool
-	oldValue                      func(context.Context) (*Keyword, error)
-	predicates                    []predicate.Keyword
+	op            Op
+	typ           string
+	id            *string
+	category      *uint64
+	addcategory   *int64
+	main          *string
+	main_count    *uint64
+	addmain_count *int64
+	sub           *string
+	sub_count     *uint64
+	addsub_count  *int64
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*KeywordStrong, error)
+	predicates    []predicate.KeywordStrong
 }
 
-var _ ent.Mutation = (*KeywordMutation)(nil)
+var _ ent.Mutation = (*KeywordStrongMutation)(nil)
 
-// keywordOption allows management of the mutation configuration using functional options.
-type keywordOption func(*KeywordMutation)
+// keywordstrongOption allows management of the mutation configuration using functional options.
+type keywordstrongOption func(*KeywordStrongMutation)
 
-// newKeywordMutation creates new mutation for the Keyword entity.
-func newKeywordMutation(c config, op Op, opts ...keywordOption) *KeywordMutation {
-	m := &KeywordMutation{
+// newKeywordStrongMutation creates new mutation for the KeywordStrong entity.
+func newKeywordStrongMutation(c config, op Op, opts ...keywordstrongOption) *KeywordStrongMutation {
+	m := &KeywordStrongMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeKeyword,
+		typ:           TypeKeywordStrong,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -2095,20 +2094,20 @@ func newKeywordMutation(c config, op Op, opts ...keywordOption) *KeywordMutation
 	return m
 }
 
-// withKeywordID sets the ID field of the mutation.
-func withKeywordID(id string) keywordOption {
-	return func(m *KeywordMutation) {
+// withKeywordStrongID sets the ID field of the mutation.
+func withKeywordStrongID(id string) keywordstrongOption {
+	return func(m *KeywordStrongMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *Keyword
+			value *KeywordStrong
 		)
-		m.oldValue = func(ctx context.Context) (*Keyword, error) {
+		m.oldValue = func(ctx context.Context) (*KeywordStrong, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().Keyword.Get(ctx, id)
+					value, err = m.Client().KeywordStrong.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -2117,10 +2116,10 @@ func withKeywordID(id string) keywordOption {
 	}
 }
 
-// withKeyword sets the old Keyword of the mutation.
-func withKeyword(node *Keyword) keywordOption {
-	return func(m *KeywordMutation) {
-		m.oldValue = func(context.Context) (*Keyword, error) {
+// withKeywordStrong sets the old KeywordStrong of the mutation.
+func withKeywordStrong(node *KeywordStrong) keywordstrongOption {
+	return func(m *KeywordStrongMutation) {
+		m.oldValue = func(context.Context) (*KeywordStrong, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -2129,7 +2128,7 @@ func withKeyword(node *Keyword) keywordOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m KeywordMutation) Client() *Client {
+func (m KeywordStrongMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -2137,7 +2136,7 @@ func (m KeywordMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m KeywordMutation) Tx() (*Tx, error) {
+func (m KeywordStrongMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
@@ -2147,14 +2146,14 @@ func (m KeywordMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of Keyword entities.
-func (m *KeywordMutation) SetID(id string) {
+// operation is only accepted on creation of KeywordStrong entities.
+func (m *KeywordStrongMutation) SetID(id string) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *KeywordMutation) ID() (id string, exists bool) {
+func (m *KeywordStrongMutation) ID() (id string, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -2165,7 +2164,7 @@ func (m *KeywordMutation) ID() (id string, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *KeywordMutation) IDs(ctx context.Context) ([]string, error) {
+func (m *KeywordStrongMutation) IDs(ctx context.Context) ([]string, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -2174,20 +2173,20 @@ func (m *KeywordMutation) IDs(ctx context.Context) ([]string, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().Keyword.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().KeywordStrong.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetCategory sets the "category" field.
-func (m *KeywordMutation) SetCategory(u uint64) {
+func (m *KeywordStrongMutation) SetCategory(u uint64) {
 	m.category = &u
 	m.addcategory = nil
 }
 
 // Category returns the value of the "category" field in the mutation.
-func (m *KeywordMutation) Category() (r uint64, exists bool) {
+func (m *KeywordStrongMutation) Category() (r uint64, exists bool) {
 	v := m.category
 	if v == nil {
 		return
@@ -2195,10 +2194,10 @@ func (m *KeywordMutation) Category() (r uint64, exists bool) {
 	return *v, true
 }
 
-// OldCategory returns the old "category" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
+// OldCategory returns the old "category" field's value of the KeywordStrong entity.
+// If the KeywordStrong object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldCategory(ctx context.Context) (v uint64, err error) {
+func (m *KeywordStrongMutation) OldCategory(ctx context.Context) (v uint64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
 	}
@@ -2213,7 +2212,7 @@ func (m *KeywordMutation) OldCategory(ctx context.Context) (v uint64, err error)
 }
 
 // AddCategory adds u to the "category" field.
-func (m *KeywordMutation) AddCategory(u int64) {
+func (m *KeywordStrongMutation) AddCategory(u int64) {
 	if m.addcategory != nil {
 		*m.addcategory += u
 	} else {
@@ -2222,7 +2221,7 @@ func (m *KeywordMutation) AddCategory(u int64) {
 }
 
 // AddedCategory returns the value that was added to the "category" field in this mutation.
-func (m *KeywordMutation) AddedCategory() (r int64, exists bool) {
+func (m *KeywordStrongMutation) AddedCategory() (r int64, exists bool) {
 	v := m.addcategory
 	if v == nil {
 		return
@@ -2231,18 +2230,663 @@ func (m *KeywordMutation) AddedCategory() (r int64, exists bool) {
 }
 
 // ResetCategory resets all changes to the "category" field.
-func (m *KeywordMutation) ResetCategory() {
+func (m *KeywordStrongMutation) ResetCategory() {
+	m.category = nil
+	m.addcategory = nil
+}
+
+// SetMain sets the "main" field.
+func (m *KeywordStrongMutation) SetMain(s string) {
+	m.main = &s
+}
+
+// Main returns the value of the "main" field in the mutation.
+func (m *KeywordStrongMutation) Main() (r string, exists bool) {
+	v := m.main
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMain returns the old "main" field's value of the KeywordStrong entity.
+// If the KeywordStrong object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KeywordStrongMutation) OldMain(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMain is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMain requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMain: %w", err)
+	}
+	return oldValue.Main, nil
+}
+
+// ResetMain resets all changes to the "main" field.
+func (m *KeywordStrongMutation) ResetMain() {
+	m.main = nil
+}
+
+// SetMainCount sets the "main_count" field.
+func (m *KeywordStrongMutation) SetMainCount(u uint64) {
+	m.main_count = &u
+	m.addmain_count = nil
+}
+
+// MainCount returns the value of the "main_count" field in the mutation.
+func (m *KeywordStrongMutation) MainCount() (r uint64, exists bool) {
+	v := m.main_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMainCount returns the old "main_count" field's value of the KeywordStrong entity.
+// If the KeywordStrong object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KeywordStrongMutation) OldMainCount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMainCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMainCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMainCount: %w", err)
+	}
+	return oldValue.MainCount, nil
+}
+
+// AddMainCount adds u to the "main_count" field.
+func (m *KeywordStrongMutation) AddMainCount(u int64) {
+	if m.addmain_count != nil {
+		*m.addmain_count += u
+	} else {
+		m.addmain_count = &u
+	}
+}
+
+// AddedMainCount returns the value that was added to the "main_count" field in this mutation.
+func (m *KeywordStrongMutation) AddedMainCount() (r int64, exists bool) {
+	v := m.addmain_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetMainCount resets all changes to the "main_count" field.
+func (m *KeywordStrongMutation) ResetMainCount() {
+	m.main_count = nil
+	m.addmain_count = nil
+}
+
+// SetSub sets the "sub" field.
+func (m *KeywordStrongMutation) SetSub(s string) {
+	m.sub = &s
+}
+
+// Sub returns the value of the "sub" field in the mutation.
+func (m *KeywordStrongMutation) Sub() (r string, exists bool) {
+	v := m.sub
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSub returns the old "sub" field's value of the KeywordStrong entity.
+// If the KeywordStrong object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KeywordStrongMutation) OldSub(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSub is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSub requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSub: %w", err)
+	}
+	return oldValue.Sub, nil
+}
+
+// ResetSub resets all changes to the "sub" field.
+func (m *KeywordStrongMutation) ResetSub() {
+	m.sub = nil
+}
+
+// SetSubCount sets the "sub_count" field.
+func (m *KeywordStrongMutation) SetSubCount(u uint64) {
+	m.sub_count = &u
+	m.addsub_count = nil
+}
+
+// SubCount returns the value of the "sub_count" field in the mutation.
+func (m *KeywordStrongMutation) SubCount() (r uint64, exists bool) {
+	v := m.sub_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSubCount returns the old "sub_count" field's value of the KeywordStrong entity.
+// If the KeywordStrong object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KeywordStrongMutation) OldSubCount(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSubCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSubCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSubCount: %w", err)
+	}
+	return oldValue.SubCount, nil
+}
+
+// AddSubCount adds u to the "sub_count" field.
+func (m *KeywordStrongMutation) AddSubCount(u int64) {
+	if m.addsub_count != nil {
+		*m.addsub_count += u
+	} else {
+		m.addsub_count = &u
+	}
+}
+
+// AddedSubCount returns the value that was added to the "sub_count" field in this mutation.
+func (m *KeywordStrongMutation) AddedSubCount() (r int64, exists bool) {
+	v := m.addsub_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetSubCount resets all changes to the "sub_count" field.
+func (m *KeywordStrongMutation) ResetSubCount() {
+	m.sub_count = nil
+	m.addsub_count = nil
+}
+
+// Where appends a list predicates to the KeywordStrongMutation builder.
+func (m *KeywordStrongMutation) Where(ps ...predicate.KeywordStrong) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the KeywordStrongMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *KeywordStrongMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.KeywordStrong, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *KeywordStrongMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *KeywordStrongMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (KeywordStrong).
+func (m *KeywordStrongMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *KeywordStrongMutation) Fields() []string {
+	fields := make([]string, 0, 5)
+	if m.category != nil {
+		fields = append(fields, keywordstrong.FieldCategory)
+	}
+	if m.main != nil {
+		fields = append(fields, keywordstrong.FieldMain)
+	}
+	if m.main_count != nil {
+		fields = append(fields, keywordstrong.FieldMainCount)
+	}
+	if m.sub != nil {
+		fields = append(fields, keywordstrong.FieldSub)
+	}
+	if m.sub_count != nil {
+		fields = append(fields, keywordstrong.FieldSubCount)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *KeywordStrongMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case keywordstrong.FieldCategory:
+		return m.Category()
+	case keywordstrong.FieldMain:
+		return m.Main()
+	case keywordstrong.FieldMainCount:
+		return m.MainCount()
+	case keywordstrong.FieldSub:
+		return m.Sub()
+	case keywordstrong.FieldSubCount:
+		return m.SubCount()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *KeywordStrongMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case keywordstrong.FieldCategory:
+		return m.OldCategory(ctx)
+	case keywordstrong.FieldMain:
+		return m.OldMain(ctx)
+	case keywordstrong.FieldMainCount:
+		return m.OldMainCount(ctx)
+	case keywordstrong.FieldSub:
+		return m.OldSub(ctx)
+	case keywordstrong.FieldSubCount:
+		return m.OldSubCount(ctx)
+	}
+	return nil, fmt.Errorf("unknown KeywordStrong field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *KeywordStrongMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case keywordstrong.FieldCategory:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
+	case keywordstrong.FieldMain:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMain(v)
+		return nil
+	case keywordstrong.FieldMainCount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMainCount(v)
+		return nil
+	case keywordstrong.FieldSub:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSub(v)
+		return nil
+	case keywordstrong.FieldSubCount:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSubCount(v)
+		return nil
+	}
+	return fmt.Errorf("unknown KeywordStrong field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *KeywordStrongMutation) AddedFields() []string {
+	var fields []string
+	if m.addcategory != nil {
+		fields = append(fields, keywordstrong.FieldCategory)
+	}
+	if m.addmain_count != nil {
+		fields = append(fields, keywordstrong.FieldMainCount)
+	}
+	if m.addsub_count != nil {
+		fields = append(fields, keywordstrong.FieldSubCount)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *KeywordStrongMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case keywordstrong.FieldCategory:
+		return m.AddedCategory()
+	case keywordstrong.FieldMainCount:
+		return m.AddedMainCount()
+	case keywordstrong.FieldSubCount:
+		return m.AddedSubCount()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *KeywordStrongMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case keywordstrong.FieldCategory:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCategory(v)
+		return nil
+	case keywordstrong.FieldMainCount:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddMainCount(v)
+		return nil
+	case keywordstrong.FieldSubCount:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSubCount(v)
+		return nil
+	}
+	return fmt.Errorf("unknown KeywordStrong numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *KeywordStrongMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *KeywordStrongMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *KeywordStrongMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown KeywordStrong nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *KeywordStrongMutation) ResetField(name string) error {
+	switch name {
+	case keywordstrong.FieldCategory:
+		m.ResetCategory()
+		return nil
+	case keywordstrong.FieldMain:
+		m.ResetMain()
+		return nil
+	case keywordstrong.FieldMainCount:
+		m.ResetMainCount()
+		return nil
+	case keywordstrong.FieldSub:
+		m.ResetSub()
+		return nil
+	case keywordstrong.FieldSubCount:
+		m.ResetSubCount()
+		return nil
+	}
+	return fmt.Errorf("unknown KeywordStrong field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *KeywordStrongMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *KeywordStrongMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *KeywordStrongMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *KeywordStrongMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *KeywordStrongMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *KeywordStrongMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *KeywordStrongMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown KeywordStrong unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *KeywordStrongMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown KeywordStrong edge %s", name)
+}
+
+// KeywordWeakMutation represents an operation that mutates the KeywordWeak nodes in the graph.
+type KeywordWeakMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *string
+	category      *uint64
+	addcategory   *int64
+	word          *string
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*KeywordWeak, error)
+	predicates    []predicate.KeywordWeak
+}
+
+var _ ent.Mutation = (*KeywordWeakMutation)(nil)
+
+// keywordweakOption allows management of the mutation configuration using functional options.
+type keywordweakOption func(*KeywordWeakMutation)
+
+// newKeywordWeakMutation creates new mutation for the KeywordWeak entity.
+func newKeywordWeakMutation(c config, op Op, opts ...keywordweakOption) *KeywordWeakMutation {
+	m := &KeywordWeakMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeKeywordWeak,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withKeywordWeakID sets the ID field of the mutation.
+func withKeywordWeakID(id string) keywordweakOption {
+	return func(m *KeywordWeakMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *KeywordWeak
+		)
+		m.oldValue = func(ctx context.Context) (*KeywordWeak, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().KeywordWeak.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withKeywordWeak sets the old KeywordWeak of the mutation.
+func withKeywordWeak(node *KeywordWeak) keywordweakOption {
+	return func(m *KeywordWeakMutation) {
+		m.oldValue = func(context.Context) (*KeywordWeak, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m KeywordWeakMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m KeywordWeakMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of KeywordWeak entities.
+func (m *KeywordWeakMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *KeywordWeakMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *KeywordWeakMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().KeywordWeak.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCategory sets the "category" field.
+func (m *KeywordWeakMutation) SetCategory(u uint64) {
+	m.category = &u
+	m.addcategory = nil
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *KeywordWeakMutation) Category() (r uint64, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the KeywordWeak entity.
+// If the KeywordWeak object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KeywordWeakMutation) OldCategory(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// AddCategory adds u to the "category" field.
+func (m *KeywordWeakMutation) AddCategory(u int64) {
+	if m.addcategory != nil {
+		*m.addcategory += u
+	} else {
+		m.addcategory = &u
+	}
+}
+
+// AddedCategory returns the value that was added to the "category" field in this mutation.
+func (m *KeywordWeakMutation) AddedCategory() (r int64, exists bool) {
+	v := m.addcategory
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *KeywordWeakMutation) ResetCategory() {
 	m.category = nil
 	m.addcategory = nil
 }
 
 // SetWord sets the "word" field.
-func (m *KeywordMutation) SetWord(s string) {
+func (m *KeywordWeakMutation) SetWord(s string) {
 	m.word = &s
 }
 
 // Word returns the value of the "word" field in the mutation.
-func (m *KeywordMutation) Word() (r string, exists bool) {
+func (m *KeywordWeakMutation) Word() (r string, exists bool) {
 	v := m.word
 	if v == nil {
 		return
@@ -2250,10 +2894,10 @@ func (m *KeywordMutation) Word() (r string, exists bool) {
 	return *v, true
 }
 
-// OldWord returns the old "word" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
+// OldWord returns the old "word" field's value of the KeywordWeak entity.
+// If the KeywordWeak object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldWord(ctx context.Context) (v string, err error) {
+func (m *KeywordWeakMutation) OldWord(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldWord is only allowed on UpdateOne operations")
 	}
@@ -2268,259 +2912,19 @@ func (m *KeywordMutation) OldWord(ctx context.Context) (v string, err error) {
 }
 
 // ResetWord resets all changes to the "word" field.
-func (m *KeywordMutation) ResetWord() {
+func (m *KeywordWeakMutation) ResetWord() {
 	m.word = nil
 }
 
-// SetChinaWeakRelatedCount sets the "china_weak_related_count" field.
-func (m *KeywordMutation) SetChinaWeakRelatedCount(u uint64) {
-	m.china_weak_related_count = &u
-	m.addchina_weak_related_count = nil
-}
-
-// ChinaWeakRelatedCount returns the value of the "china_weak_related_count" field in the mutation.
-func (m *KeywordMutation) ChinaWeakRelatedCount() (r uint64, exists bool) {
-	v := m.china_weak_related_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldChinaWeakRelatedCount returns the old "china_weak_related_count" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldChinaWeakRelatedCount(ctx context.Context) (v uint64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldChinaWeakRelatedCount is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldChinaWeakRelatedCount requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldChinaWeakRelatedCount: %w", err)
-	}
-	return oldValue.ChinaWeakRelatedCount, nil
-}
-
-// AddChinaWeakRelatedCount adds u to the "china_weak_related_count" field.
-func (m *KeywordMutation) AddChinaWeakRelatedCount(u int64) {
-	if m.addchina_weak_related_count != nil {
-		*m.addchina_weak_related_count += u
-	} else {
-		m.addchina_weak_related_count = &u
-	}
-}
-
-// AddedChinaWeakRelatedCount returns the value that was added to the "china_weak_related_count" field in this mutation.
-func (m *KeywordMutation) AddedChinaWeakRelatedCount() (r int64, exists bool) {
-	v := m.addchina_weak_related_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetChinaWeakRelatedCount resets all changes to the "china_weak_related_count" field.
-func (m *KeywordMutation) ResetChinaWeakRelatedCount() {
-	m.china_weak_related_count = nil
-	m.addchina_weak_related_count = nil
-}
-
-// SetChinaStrongRelatedCount sets the "china_strong_related_count" field.
-func (m *KeywordMutation) SetChinaStrongRelatedCount(u uint64) {
-	m.china_strong_related_count = &u
-	m.addchina_strong_related_count = nil
-}
-
-// ChinaStrongRelatedCount returns the value of the "china_strong_related_count" field in the mutation.
-func (m *KeywordMutation) ChinaStrongRelatedCount() (r uint64, exists bool) {
-	v := m.china_strong_related_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldChinaStrongRelatedCount returns the old "china_strong_related_count" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldChinaStrongRelatedCount(ctx context.Context) (v uint64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldChinaStrongRelatedCount is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldChinaStrongRelatedCount requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldChinaStrongRelatedCount: %w", err)
-	}
-	return oldValue.ChinaStrongRelatedCount, nil
-}
-
-// AddChinaStrongRelatedCount adds u to the "china_strong_related_count" field.
-func (m *KeywordMutation) AddChinaStrongRelatedCount(u int64) {
-	if m.addchina_strong_related_count != nil {
-		*m.addchina_strong_related_count += u
-	} else {
-		m.addchina_strong_related_count = &u
-	}
-}
-
-// AddedChinaStrongRelatedCount returns the value that was added to the "china_strong_related_count" field in this mutation.
-func (m *KeywordMutation) AddedChinaStrongRelatedCount() (r int64, exists bool) {
-	v := m.addchina_strong_related_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetChinaStrongRelatedCount resets all changes to the "china_strong_related_count" field.
-func (m *KeywordMutation) ResetChinaStrongRelatedCount() {
-	m.china_strong_related_count = nil
-	m.addchina_strong_related_count = nil
-}
-
-// SetSubWord sets the "sub_word" field.
-func (m *KeywordMutation) SetSubWord(s string) {
-	m.sub_word = &s
-}
-
-// SubWord returns the value of the "sub_word" field in the mutation.
-func (m *KeywordMutation) SubWord() (r string, exists bool) {
-	v := m.sub_word
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSubWord returns the old "sub_word" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldSubWord(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSubWord is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSubWord requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSubWord: %w", err)
-	}
-	return oldValue.SubWord, nil
-}
-
-// ResetSubWord resets all changes to the "sub_word" field.
-func (m *KeywordMutation) ResetSubWord() {
-	m.sub_word = nil
-}
-
-// SetSubWordCount sets the "sub_word_count" field.
-func (m *KeywordMutation) SetSubWordCount(u uint64) {
-	m.sub_word_count = &u
-	m.addsub_word_count = nil
-}
-
-// SubWordCount returns the value of the "sub_word_count" field in the mutation.
-func (m *KeywordMutation) SubWordCount() (r uint64, exists bool) {
-	v := m.sub_word_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSubWordCount returns the old "sub_word_count" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldSubWordCount(ctx context.Context) (v uint64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSubWordCount is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSubWordCount requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSubWordCount: %w", err)
-	}
-	return oldValue.SubWordCount, nil
-}
-
-// AddSubWordCount adds u to the "sub_word_count" field.
-func (m *KeywordMutation) AddSubWordCount(u int64) {
-	if m.addsub_word_count != nil {
-		*m.addsub_word_count += u
-	} else {
-		m.addsub_word_count = &u
-	}
-}
-
-// AddedSubWordCount returns the value that was added to the "sub_word_count" field in this mutation.
-func (m *KeywordMutation) AddedSubWordCount() (r int64, exists bool) {
-	v := m.addsub_word_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetSubWordCount resets all changes to the "sub_word_count" field.
-func (m *KeywordMutation) ResetSubWordCount() {
-	m.sub_word_count = nil
-	m.addsub_word_count = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *KeywordMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *KeywordMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the Keyword entity.
-// If the Keyword object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KeywordMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *KeywordMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// Where appends a list predicates to the KeywordMutation builder.
-func (m *KeywordMutation) Where(ps ...predicate.Keyword) {
+// Where appends a list predicates to the KeywordWeakMutation builder.
+func (m *KeywordWeakMutation) Where(ps ...predicate.KeywordWeak) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the KeywordMutation builder. Using this method,
+// WhereP appends storage-level predicates to the KeywordWeakMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *KeywordMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.Keyword, len(ps))
+func (m *KeywordWeakMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.KeywordWeak, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -2528,45 +2932,30 @@ func (m *KeywordMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *KeywordMutation) Op() Op {
+func (m *KeywordWeakMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *KeywordMutation) SetOp(op Op) {
+func (m *KeywordWeakMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (Keyword).
-func (m *KeywordMutation) Type() string {
+// Type returns the node type of this mutation (KeywordWeak).
+func (m *KeywordWeakMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *KeywordMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+func (m *KeywordWeakMutation) Fields() []string {
+	fields := make([]string, 0, 2)
 	if m.category != nil {
-		fields = append(fields, keyword.FieldCategory)
+		fields = append(fields, keywordweak.FieldCategory)
 	}
 	if m.word != nil {
-		fields = append(fields, keyword.FieldWord)
-	}
-	if m.china_weak_related_count != nil {
-		fields = append(fields, keyword.FieldChinaWeakRelatedCount)
-	}
-	if m.china_strong_related_count != nil {
-		fields = append(fields, keyword.FieldChinaStrongRelatedCount)
-	}
-	if m.sub_word != nil {
-		fields = append(fields, keyword.FieldSubWord)
-	}
-	if m.sub_word_count != nil {
-		fields = append(fields, keyword.FieldSubWordCount)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, keyword.FieldUpdatedAt)
+		fields = append(fields, keywordweak.FieldWord)
 	}
 	return fields
 }
@@ -2574,22 +2963,12 @@ func (m *KeywordMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *KeywordMutation) Field(name string) (ent.Value, bool) {
+func (m *KeywordWeakMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case keyword.FieldCategory:
+	case keywordweak.FieldCategory:
 		return m.Category()
-	case keyword.FieldWord:
+	case keywordweak.FieldWord:
 		return m.Word()
-	case keyword.FieldChinaWeakRelatedCount:
-		return m.ChinaWeakRelatedCount()
-	case keyword.FieldChinaStrongRelatedCount:
-		return m.ChinaStrongRelatedCount()
-	case keyword.FieldSubWord:
-		return m.SubWord()
-	case keyword.FieldSubWordCount:
-		return m.SubWordCount()
-	case keyword.FieldUpdatedAt:
-		return m.UpdatedAt()
 	}
 	return nil, false
 }
@@ -2597,99 +2976,45 @@ func (m *KeywordMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *KeywordMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *KeywordWeakMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case keyword.FieldCategory:
+	case keywordweak.FieldCategory:
 		return m.OldCategory(ctx)
-	case keyword.FieldWord:
+	case keywordweak.FieldWord:
 		return m.OldWord(ctx)
-	case keyword.FieldChinaWeakRelatedCount:
-		return m.OldChinaWeakRelatedCount(ctx)
-	case keyword.FieldChinaStrongRelatedCount:
-		return m.OldChinaStrongRelatedCount(ctx)
-	case keyword.FieldSubWord:
-		return m.OldSubWord(ctx)
-	case keyword.FieldSubWordCount:
-		return m.OldSubWordCount(ctx)
-	case keyword.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
 	}
-	return nil, fmt.Errorf("unknown Keyword field %s", name)
+	return nil, fmt.Errorf("unknown KeywordWeak field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *KeywordMutation) SetField(name string, value ent.Value) error {
+func (m *KeywordWeakMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case keyword.FieldCategory:
+	case keywordweak.FieldCategory:
 		v, ok := value.(uint64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCategory(v)
 		return nil
-	case keyword.FieldWord:
+	case keywordweak.FieldWord:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWord(v)
 		return nil
-	case keyword.FieldChinaWeakRelatedCount:
-		v, ok := value.(uint64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetChinaWeakRelatedCount(v)
-		return nil
-	case keyword.FieldChinaStrongRelatedCount:
-		v, ok := value.(uint64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetChinaStrongRelatedCount(v)
-		return nil
-	case keyword.FieldSubWord:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSubWord(v)
-		return nil
-	case keyword.FieldSubWordCount:
-		v, ok := value.(uint64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSubWordCount(v)
-		return nil
-	case keyword.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
 	}
-	return fmt.Errorf("unknown Keyword field %s", name)
+	return fmt.Errorf("unknown KeywordWeak field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *KeywordMutation) AddedFields() []string {
+func (m *KeywordWeakMutation) AddedFields() []string {
 	var fields []string
 	if m.addcategory != nil {
-		fields = append(fields, keyword.FieldCategory)
-	}
-	if m.addchina_weak_related_count != nil {
-		fields = append(fields, keyword.FieldChinaWeakRelatedCount)
-	}
-	if m.addchina_strong_related_count != nil {
-		fields = append(fields, keyword.FieldChinaStrongRelatedCount)
-	}
-	if m.addsub_word_count != nil {
-		fields = append(fields, keyword.FieldSubWordCount)
+		fields = append(fields, keywordweak.FieldCategory)
 	}
 	return fields
 }
@@ -2697,16 +3022,10 @@ func (m *KeywordMutation) AddedFields() []string {
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *KeywordMutation) AddedField(name string) (ent.Value, bool) {
+func (m *KeywordWeakMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case keyword.FieldCategory:
+	case keywordweak.FieldCategory:
 		return m.AddedCategory()
-	case keyword.FieldChinaWeakRelatedCount:
-		return m.AddedChinaWeakRelatedCount()
-	case keyword.FieldChinaStrongRelatedCount:
-		return m.AddedChinaStrongRelatedCount()
-	case keyword.FieldSubWordCount:
-		return m.AddedSubWordCount()
 	}
 	return nil, false
 }
@@ -2714,134 +3033,98 @@ func (m *KeywordMutation) AddedField(name string) (ent.Value, bool) {
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *KeywordMutation) AddField(name string, value ent.Value) error {
+func (m *KeywordWeakMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case keyword.FieldCategory:
+	case keywordweak.FieldCategory:
 		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCategory(v)
 		return nil
-	case keyword.FieldChinaWeakRelatedCount:
-		v, ok := value.(int64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddChinaWeakRelatedCount(v)
-		return nil
-	case keyword.FieldChinaStrongRelatedCount:
-		v, ok := value.(int64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddChinaStrongRelatedCount(v)
-		return nil
-	case keyword.FieldSubWordCount:
-		v, ok := value.(int64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddSubWordCount(v)
-		return nil
 	}
-	return fmt.Errorf("unknown Keyword numeric field %s", name)
+	return fmt.Errorf("unknown KeywordWeak numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *KeywordMutation) ClearedFields() []string {
+func (m *KeywordWeakMutation) ClearedFields() []string {
 	return nil
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *KeywordMutation) FieldCleared(name string) bool {
+func (m *KeywordWeakMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *KeywordMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown Keyword nullable field %s", name)
+func (m *KeywordWeakMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown KeywordWeak nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *KeywordMutation) ResetField(name string) error {
+func (m *KeywordWeakMutation) ResetField(name string) error {
 	switch name {
-	case keyword.FieldCategory:
+	case keywordweak.FieldCategory:
 		m.ResetCategory()
 		return nil
-	case keyword.FieldWord:
+	case keywordweak.FieldWord:
 		m.ResetWord()
 		return nil
-	case keyword.FieldChinaWeakRelatedCount:
-		m.ResetChinaWeakRelatedCount()
-		return nil
-	case keyword.FieldChinaStrongRelatedCount:
-		m.ResetChinaStrongRelatedCount()
-		return nil
-	case keyword.FieldSubWord:
-		m.ResetSubWord()
-		return nil
-	case keyword.FieldSubWordCount:
-		m.ResetSubWordCount()
-		return nil
-	case keyword.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
 	}
-	return fmt.Errorf("unknown Keyword field %s", name)
+	return fmt.Errorf("unknown KeywordWeak field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *KeywordMutation) AddedEdges() []string {
+func (m *KeywordWeakMutation) AddedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *KeywordMutation) AddedIDs(name string) []ent.Value {
+func (m *KeywordWeakMutation) AddedIDs(name string) []ent.Value {
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *KeywordMutation) RemovedEdges() []string {
+func (m *KeywordWeakMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *KeywordMutation) RemovedIDs(name string) []ent.Value {
+func (m *KeywordWeakMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *KeywordMutation) ClearedEdges() []string {
+func (m *KeywordWeakMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *KeywordMutation) EdgeCleared(name string) bool {
+func (m *KeywordWeakMutation) EdgeCleared(name string) bool {
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *KeywordMutation) ClearEdge(name string) error {
-	return fmt.Errorf("unknown Keyword unique edge %s", name)
+func (m *KeywordWeakMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown KeywordWeak unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *KeywordMutation) ResetEdge(name string) error {
-	return fmt.Errorf("unknown Keyword edge %s", name)
+func (m *KeywordWeakMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown KeywordWeak edge %s", name)
 }
 
 // ReportMutation represents an operation that mutates the Report nodes in the graph.
@@ -2851,8 +3134,9 @@ type ReportMutation struct {
 	typ             string
 	id              *string
 	report_type     *string
+	start_time      *time.Time
+	end_time        *time.Time
 	trigger_user_id *string
-	date            *time.Time
 	trigger_at      *time.Time
 	content         *string
 	generated_at    *time.Time
@@ -3002,6 +3286,78 @@ func (m *ReportMutation) ResetReportType() {
 	m.report_type = nil
 }
 
+// SetStartTime sets the "start_time" field.
+func (m *ReportMutation) SetStartTime(t time.Time) {
+	m.start_time = &t
+}
+
+// StartTime returns the value of the "start_time" field in the mutation.
+func (m *ReportMutation) StartTime() (r time.Time, exists bool) {
+	v := m.start_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStartTime returns the old "start_time" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldStartTime(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStartTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStartTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStartTime: %w", err)
+	}
+	return oldValue.StartTime, nil
+}
+
+// ResetStartTime resets all changes to the "start_time" field.
+func (m *ReportMutation) ResetStartTime() {
+	m.start_time = nil
+}
+
+// SetEndTime sets the "end_time" field.
+func (m *ReportMutation) SetEndTime(t time.Time) {
+	m.end_time = &t
+}
+
+// EndTime returns the value of the "end_time" field in the mutation.
+func (m *ReportMutation) EndTime() (r time.Time, exists bool) {
+	v := m.end_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndTime returns the old "end_time" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldEndTime(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEndTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEndTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndTime: %w", err)
+	}
+	return oldValue.EndTime, nil
+}
+
+// ResetEndTime resets all changes to the "end_time" field.
+func (m *ReportMutation) ResetEndTime() {
+	m.end_time = nil
+}
+
 // SetTriggerUserID sets the "trigger_user_id" field.
 func (m *ReportMutation) SetTriggerUserID(s string) {
 	m.trigger_user_id = &s
@@ -3049,42 +3405,6 @@ func (m *ReportMutation) TriggerUserIDCleared() bool {
 func (m *ReportMutation) ResetTriggerUserID() {
 	m.trigger_user_id = nil
 	delete(m.clearedFields, report.FieldTriggerUserID)
-}
-
-// SetDate sets the "date" field.
-func (m *ReportMutation) SetDate(t time.Time) {
-	m.date = &t
-}
-
-// Date returns the value of the "date" field in the mutation.
-func (m *ReportMutation) Date() (r time.Time, exists bool) {
-	v := m.date
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDate returns the old "date" field's value of the Report entity.
-// If the Report object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ReportMutation) OldDate(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDate is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDate requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDate: %w", err)
-	}
-	return oldValue.Date, nil
-}
-
-// ResetDate resets all changes to the "date" field.
-func (m *ReportMutation) ResetDate() {
-	m.date = nil
 }
 
 // SetTriggerAt sets the "trigger_at" field.
@@ -3229,15 +3549,18 @@ func (m *ReportMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ReportMutation) Fields() []string {
-	fields := make([]string, 0, 6)
+	fields := make([]string, 0, 7)
 	if m.report_type != nil {
 		fields = append(fields, report.FieldReportType)
 	}
+	if m.start_time != nil {
+		fields = append(fields, report.FieldStartTime)
+	}
+	if m.end_time != nil {
+		fields = append(fields, report.FieldEndTime)
+	}
 	if m.trigger_user_id != nil {
 		fields = append(fields, report.FieldTriggerUserID)
-	}
-	if m.date != nil {
-		fields = append(fields, report.FieldDate)
 	}
 	if m.trigger_at != nil {
 		fields = append(fields, report.FieldTriggerAt)
@@ -3258,10 +3581,12 @@ func (m *ReportMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case report.FieldReportType:
 		return m.ReportType()
+	case report.FieldStartTime:
+		return m.StartTime()
+	case report.FieldEndTime:
+		return m.EndTime()
 	case report.FieldTriggerUserID:
 		return m.TriggerUserID()
-	case report.FieldDate:
-		return m.Date()
 	case report.FieldTriggerAt:
 		return m.TriggerAt()
 	case report.FieldContent:
@@ -3279,10 +3604,12 @@ func (m *ReportMutation) OldField(ctx context.Context, name string) (ent.Value, 
 	switch name {
 	case report.FieldReportType:
 		return m.OldReportType(ctx)
+	case report.FieldStartTime:
+		return m.OldStartTime(ctx)
+	case report.FieldEndTime:
+		return m.OldEndTime(ctx)
 	case report.FieldTriggerUserID:
 		return m.OldTriggerUserID(ctx)
-	case report.FieldDate:
-		return m.OldDate(ctx)
 	case report.FieldTriggerAt:
 		return m.OldTriggerAt(ctx)
 	case report.FieldContent:
@@ -3305,19 +3632,26 @@ func (m *ReportMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetReportType(v)
 		return nil
+	case report.FieldStartTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStartTime(v)
+		return nil
+	case report.FieldEndTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndTime(v)
+		return nil
 	case report.FieldTriggerUserID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTriggerUserID(v)
-		return nil
-	case report.FieldDate:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDate(v)
 		return nil
 	case report.FieldTriggerAt:
 		v, ok := value.(time.Time)
@@ -3401,11 +3735,14 @@ func (m *ReportMutation) ResetField(name string) error {
 	case report.FieldReportType:
 		m.ResetReportType()
 		return nil
+	case report.FieldStartTime:
+		m.ResetStartTime()
+		return nil
+	case report.FieldEndTime:
+		m.ResetEndTime()
+		return nil
 	case report.FieldTriggerUserID:
 		m.ResetTriggerUserID()
-		return nil
-	case report.FieldDate:
-		m.ResetDate()
 		return nil
 	case report.FieldTriggerAt:
 		m.ResetTriggerAt()

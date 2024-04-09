@@ -69,14 +69,19 @@ func ReportType(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldReportType, v))
 }
 
+// StartTime applies equality check predicate on the "start_time" field. It's identical to StartTimeEQ.
+func StartTime(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldStartTime, v))
+}
+
+// EndTime applies equality check predicate on the "end_time" field. It's identical to EndTimeEQ.
+func EndTime(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldEndTime, v))
+}
+
 // TriggerUserID applies equality check predicate on the "trigger_user_id" field. It's identical to TriggerUserIDEQ.
 func TriggerUserID(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerUserID, v))
-}
-
-// Date applies equality check predicate on the "date" field. It's identical to DateEQ.
-func Date(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldEQ(FieldDate, v))
 }
 
 // TriggerAt applies equality check predicate on the "trigger_at" field. It's identical to TriggerAtEQ.
@@ -159,6 +164,86 @@ func ReportTypeContainsFold(v string) predicate.Report {
 	return predicate.Report(sql.FieldContainsFold(FieldReportType, v))
 }
 
+// StartTimeEQ applies the EQ predicate on the "start_time" field.
+func StartTimeEQ(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldStartTime, v))
+}
+
+// StartTimeNEQ applies the NEQ predicate on the "start_time" field.
+func StartTimeNEQ(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldNEQ(FieldStartTime, v))
+}
+
+// StartTimeIn applies the In predicate on the "start_time" field.
+func StartTimeIn(vs ...time.Time) predicate.Report {
+	return predicate.Report(sql.FieldIn(FieldStartTime, vs...))
+}
+
+// StartTimeNotIn applies the NotIn predicate on the "start_time" field.
+func StartTimeNotIn(vs ...time.Time) predicate.Report {
+	return predicate.Report(sql.FieldNotIn(FieldStartTime, vs...))
+}
+
+// StartTimeGT applies the GT predicate on the "start_time" field.
+func StartTimeGT(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldGT(FieldStartTime, v))
+}
+
+// StartTimeGTE applies the GTE predicate on the "start_time" field.
+func StartTimeGTE(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldGTE(FieldStartTime, v))
+}
+
+// StartTimeLT applies the LT predicate on the "start_time" field.
+func StartTimeLT(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldLT(FieldStartTime, v))
+}
+
+// StartTimeLTE applies the LTE predicate on the "start_time" field.
+func StartTimeLTE(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldLTE(FieldStartTime, v))
+}
+
+// EndTimeEQ applies the EQ predicate on the "end_time" field.
+func EndTimeEQ(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldEndTime, v))
+}
+
+// EndTimeNEQ applies the NEQ predicate on the "end_time" field.
+func EndTimeNEQ(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldNEQ(FieldEndTime, v))
+}
+
+// EndTimeIn applies the In predicate on the "end_time" field.
+func EndTimeIn(vs ...time.Time) predicate.Report {
+	return predicate.Report(sql.FieldIn(FieldEndTime, vs...))
+}
+
+// EndTimeNotIn applies the NotIn predicate on the "end_time" field.
+func EndTimeNotIn(vs ...time.Time) predicate.Report {
+	return predicate.Report(sql.FieldNotIn(FieldEndTime, vs...))
+}
+
+// EndTimeGT applies the GT predicate on the "end_time" field.
+func EndTimeGT(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldGT(FieldEndTime, v))
+}
+
+// EndTimeGTE applies the GTE predicate on the "end_time" field.
+func EndTimeGTE(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldGTE(FieldEndTime, v))
+}
+
+// EndTimeLT applies the LT predicate on the "end_time" field.
+func EndTimeLT(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldLT(FieldEndTime, v))
+}
+
+// EndTimeLTE applies the LTE predicate on the "end_time" field.
+func EndTimeLTE(v time.Time) predicate.Report {
+	return predicate.Report(sql.FieldLTE(FieldEndTime, v))
+}
+
 // TriggerUserIDEQ applies the EQ predicate on the "trigger_user_id" field.
 func TriggerUserIDEQ(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerUserID, v))
@@ -232,46 +317,6 @@ func TriggerUserIDEqualFold(v string) predicate.Report {
 // TriggerUserIDContainsFold applies the ContainsFold predicate on the "trigger_user_id" field.
 func TriggerUserIDContainsFold(v string) predicate.Report {
 	return predicate.Report(sql.FieldContainsFold(FieldTriggerUserID, v))
-}
-
-// DateEQ applies the EQ predicate on the "date" field.
-func DateEQ(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldEQ(FieldDate, v))
-}
-
-// DateNEQ applies the NEQ predicate on the "date" field.
-func DateNEQ(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldNEQ(FieldDate, v))
-}
-
-// DateIn applies the In predicate on the "date" field.
-func DateIn(vs ...time.Time) predicate.Report {
-	return predicate.Report(sql.FieldIn(FieldDate, vs...))
-}
-
-// DateNotIn applies the NotIn predicate on the "date" field.
-func DateNotIn(vs ...time.Time) predicate.Report {
-	return predicate.Report(sql.FieldNotIn(FieldDate, vs...))
-}
-
-// DateGT applies the GT predicate on the "date" field.
-func DateGT(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldGT(FieldDate, v))
-}
-
-// DateGTE applies the GTE predicate on the "date" field.
-func DateGTE(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldGTE(FieldDate, v))
-}
-
-// DateLT applies the LT predicate on the "date" field.
-func DateLT(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldLT(FieldDate, v))
-}
-
-// DateLTE applies the LTE predicate on the "date" field.
-func DateLTE(v time.Time) predicate.Report {
-	return predicate.Report(sql.FieldLTE(FieldDate, v))
 }
 
 // TriggerAtEQ applies the EQ predicate on the "trigger_at" field.

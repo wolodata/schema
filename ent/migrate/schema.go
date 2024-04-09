@@ -118,27 +118,44 @@ var (
 			},
 		},
 	}
-	// TKeywordColumns holds the columns for the "t_keyword" table.
-	TKeywordColumns = []*schema.Column{
+	// TKeywordStrongColumns holds the columns for the "t_keyword_strong" table.
+	TKeywordStrongColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString},
+		{Name: "category", Type: field.TypeUint64},
+		{Name: "main", Type: field.TypeString, Unique: true},
+		{Name: "main_count", Type: field.TypeUint64, Default: 1},
+		{Name: "sub", Type: field.TypeString, Default: ""},
+		{Name: "sub_count", Type: field.TypeUint64, Default: 1},
+	}
+	// TKeywordStrongTable holds the schema information for the "t_keyword_strong" table.
+	TKeywordStrongTable = &schema.Table{
+		Name:       "t_keyword_strong",
+		Columns:    TKeywordStrongColumns,
+		PrimaryKey: []*schema.Column{TKeywordStrongColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "keywordstrong_category",
+				Unique:  false,
+				Columns: []*schema.Column{TKeywordStrongColumns[1]},
+			},
+		},
+	}
+	// TKeywordWeakColumns holds the columns for the "t_keyword_weak" table.
+	TKeywordWeakColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
 		{Name: "category", Type: field.TypeUint64},
 		{Name: "word", Type: field.TypeString, Unique: true},
-		{Name: "china_weak_related_count", Type: field.TypeUint64},
-		{Name: "china_strong_related_count", Type: field.TypeUint64},
-		{Name: "sub_word", Type: field.TypeString, Default: ""},
-		{Name: "sub_word_count", Type: field.TypeUint64, Default: 0},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 	}
-	// TKeywordTable holds the schema information for the "t_keyword" table.
-	TKeywordTable = &schema.Table{
-		Name:       "t_keyword",
-		Columns:    TKeywordColumns,
-		PrimaryKey: []*schema.Column{TKeywordColumns[0]},
+	// TKeywordWeakTable holds the schema information for the "t_keyword_weak" table.
+	TKeywordWeakTable = &schema.Table{
+		Name:       "t_keyword_weak",
+		Columns:    TKeywordWeakColumns,
+		PrimaryKey: []*schema.Column{TKeywordWeakColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "keyword_category",
+				Name:    "keywordweak_category",
 				Unique:  false,
-				Columns: []*schema.Column{TKeywordColumns[1]},
+				Columns: []*schema.Column{TKeywordWeakColumns[1]},
 			},
 		},
 	}
@@ -146,8 +163,9 @@ var (
 	TReportColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
 		{Name: "report_type", Type: field.TypeString},
+		{Name: "start_time", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "end_time", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "trigger_user_id", Type: field.TypeString, Nullable: true},
-		{Name: "date", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "date"}},
 		{Name: "trigger_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "content", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "generated_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
@@ -166,17 +184,17 @@ var (
 			{
 				Name:    "report_trigger_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{TReportColumns[2]},
+				Columns: []*schema.Column{TReportColumns[4]},
 			},
 			{
 				Name:    "report_trigger_at",
 				Unique:  false,
-				Columns: []*schema.Column{TReportColumns[4]},
+				Columns: []*schema.Column{TReportColumns[5]},
 			},
 			{
 				Name:    "report_generated_at",
 				Unique:  false,
-				Columns: []*schema.Column{TReportColumns[6]},
+				Columns: []*schema.Column{TReportColumns[7]},
 			},
 		},
 	}
@@ -257,7 +275,8 @@ var (
 	Tables = []*schema.Table{
 		TArticleTable,
 		THTMLTable,
-		TKeywordTable,
+		TKeywordStrongTable,
+		TKeywordWeakTable,
 		TReportTable,
 		TSystemConfigTable,
 		TTopicTable,
@@ -276,8 +295,13 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}
-	TKeywordTable.Annotation = &entsql.Annotation{
-		Table:     "t_keyword",
+	TKeywordStrongTable.Annotation = &entsql.Annotation{
+		Table:     "t_keyword_strong",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TKeywordWeakTable.Annotation = &entsql.Annotation{
+		Table:     "t_keyword_weak",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}
