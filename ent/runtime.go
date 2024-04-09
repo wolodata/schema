@@ -10,6 +10,7 @@ import (
 	"github.com/wolodata/schema/ent/keyword"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
+	"github.com/wolodata/schema/ent/systemconfig"
 	"github.com/wolodata/schema/ent/topic"
 	"github.com/wolodata/schema/ent/user"
 )
@@ -168,6 +169,28 @@ func init() {
 	reportDescGeneratedAt := reportFields[6].Descriptor()
 	// report.DefaultGeneratedAt holds the default value on creation for the generated_at field.
 	report.DefaultGeneratedAt = reportDescGeneratedAt.Default.(func() time.Time)
+	systemconfigFields := schema.SystemConfig{}.Fields()
+	_ = systemconfigFields
+	// systemconfigDescDescription is the schema descriptor for description field.
+	systemconfigDescDescription := systemconfigFields[2].Descriptor()
+	// systemconfig.DefaultDescription holds the default value on creation for the description field.
+	systemconfig.DefaultDescription = systemconfigDescDescription.Default.(string)
+	// systemconfigDescAPIURL is the schema descriptor for api_url field.
+	systemconfigDescAPIURL := systemconfigFields[3].Descriptor()
+	// systemconfig.DefaultAPIURL holds the default value on creation for the api_url field.
+	systemconfig.DefaultAPIURL = systemconfigDescAPIURL.Default.(string)
+	// systemconfigDescAPIKey is the schema descriptor for api_key field.
+	systemconfigDescAPIKey := systemconfigFields[4].Descriptor()
+	// systemconfig.DefaultAPIKey holds the default value on creation for the api_key field.
+	systemconfig.DefaultAPIKey = systemconfigDescAPIKey.Default.(string)
+	// systemconfigDescPromptSystem is the schema descriptor for prompt_system field.
+	systemconfigDescPromptSystem := systemconfigFields[5].Descriptor()
+	// systemconfig.DefaultPromptSystem holds the default value on creation for the prompt_system field.
+	systemconfig.DefaultPromptSystem = systemconfigDescPromptSystem.Default.(string)
+	// systemconfigDescPromptUser is the schema descriptor for prompt_user field.
+	systemconfigDescPromptUser := systemconfigFields[6].Descriptor()
+	// systemconfig.DefaultPromptUser holds the default value on creation for the prompt_user field.
+	systemconfig.DefaultPromptUser = systemconfigDescPromptUser.Default.(string)
 	topicFields := schema.Topic{}.Fields()
 	_ = topicFields
 	// topicDescKeyword is the schema descriptor for keyword field.

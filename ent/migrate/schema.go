@@ -180,6 +180,22 @@ var (
 			},
 		},
 	}
+	// TSystemConfigColumns holds the columns for the "t_system_config" table.
+	TSystemConfigColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
+		{Name: "description", Type: field.TypeString, Default: ""},
+		{Name: "api_url", Type: field.TypeString, Default: ""},
+		{Name: "api_key", Type: field.TypeString, Default: ""},
+		{Name: "prompt_system", Type: field.TypeString, Default: ""},
+		{Name: "prompt_user", Type: field.TypeString, Default: ""},
+	}
+	// TSystemConfigTable holds the schema information for the "t_system_config" table.
+	TSystemConfigTable = &schema.Table{
+		Name:       "t_system_config",
+		Columns:    TSystemConfigColumns,
+		PrimaryKey: []*schema.Column{TSystemConfigColumns[0]},
+	}
 	// TTopicColumns holds the columns for the "t_topic" table.
 	TTopicColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
@@ -242,6 +258,7 @@ var (
 		THTMLTable,
 		TKeywordTable,
 		TReportTable,
+		TSystemConfigTable,
 		TTopicTable,
 		TUserTable,
 	}
@@ -265,6 +282,11 @@ func init() {
 	}
 	TReportTable.Annotation = &entsql.Annotation{
 		Table:     "t_report",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TSystemConfigTable.Annotation = &entsql.Annotation{
+		Table:     "t_system_config",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

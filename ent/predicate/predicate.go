@@ -18,6 +18,9 @@ type Keyword func(*sql.Selector)
 // Report is the predicate function for report builders.
 type Report func(*sql.Selector)
 
+// SystemConfig is the predicate function for systemconfig builders.
+type SystemConfig func(*sql.Selector)
+
 // Topic is the predicate function for topic builders.
 type Topic func(*sql.Selector)
 

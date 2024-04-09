@@ -16,6 +16,7 @@ import (
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/keyword"
 	"github.com/wolodata/schema/ent/report"
+	"github.com/wolodata/schema/ent/systemconfig"
 	"github.com/wolodata/schema/ent/topic"
 	"github.com/wolodata/schema/ent/user"
 )
@@ -78,12 +79,13 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			article.Table: article.ValidColumn,
-			html.Table:    html.ValidColumn,
-			keyword.Table: keyword.ValidColumn,
-			report.Table:  report.ValidColumn,
-			topic.Table:   topic.ValidColumn,
-			user.Table:    user.ValidColumn,
+			article.Table:      article.ValidColumn,
+			html.Table:         html.ValidColumn,
+			keyword.Table:      keyword.ValidColumn,
+			report.Table:       report.ValidColumn,
+			systemconfig.Table: systemconfig.ValidColumn,
+			topic.Table:        topic.ValidColumn,
+			user.Table:         user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

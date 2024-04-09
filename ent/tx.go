@@ -20,6 +20,8 @@ type Tx struct {
 	Keyword *KeywordClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
+	// SystemConfig is the client for interacting with the SystemConfig builders.
+	SystemConfig *SystemConfigClient
 	// Topic is the client for interacting with the Topic builders.
 	Topic *TopicClient
 	// User is the client for interacting with the User builders.
@@ -159,6 +161,7 @@ func (tx *Tx) init() {
 	tx.Html = NewHTMLClient(tx.config)
 	tx.Keyword = NewKeywordClient(tx.config)
 	tx.Report = NewReportClient(tx.config)
+	tx.SystemConfig = NewSystemConfigClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
