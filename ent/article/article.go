@@ -43,6 +43,8 @@ const (
 	FieldIsStrongRelated = "is_strong_related"
 	// FieldKeywordStrong holds the string denoting the keyword_strong field in the database.
 	FieldKeywordStrong = "keyword_strong"
+	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
+	FieldStrongRelatedCategory = "strong_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
 	// Table holds the table name of the article in the database.
@@ -68,6 +70,7 @@ var Columns = []string{
 	FieldKeywordWeak,
 	FieldIsStrongRelated,
 	FieldKeywordStrong,
+	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
 }
 
@@ -108,6 +111,8 @@ var (
 	DefaultIsWeakRelated bool
 	// DefaultIsStrongRelated holds the default value on creation for the "is_strong_related" field.
 	DefaultIsStrongRelated bool
+	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
+	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
 )
@@ -178,6 +183,11 @@ func ByIsWeakRelated(opts ...sql.OrderTermOption) OrderOption {
 // ByIsStrongRelated orders the results by the is_strong_related field.
 func ByIsStrongRelated(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsStrongRelated, opts...).ToFunc()
+}
+
+// ByStrongRelatedCategory orders the results by the strong_related_category field.
+func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedCategory, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.

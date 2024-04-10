@@ -50,6 +50,8 @@ type Article struct {
 	IsStrongRelated bool `json:"is_strong_related,omitempty"`
 	// KeywordStrong holds the value of the "keyword_strong" field.
 	KeywordStrong []interface{} `json:"keyword_strong,omitempty"`
+	// StrongRelatedCategory holds the value of the "strong_related_category" field.
+	StrongRelatedCategory string `json:"strong_related_category,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
 	selectValues   sql.SelectValues
@@ -64,7 +66,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case article.FieldIsChinese, article.FieldIsWeakRelated, article.FieldIsStrongRelated:
 			values[i] = new(sql.NullBool)
-		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese:
+		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -193,6 +195,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field keyword_strong: %w", err)
 				}
 			}
+		case article.FieldStrongRelatedCategory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field strong_related_category", values[i])
+			} else if value.Valid {
+				a.StrongRelatedCategory = value.String
+			}
 		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field summary_chinese", values[i])
@@ -282,6 +290,9 @@ func (a *Article) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("keyword_strong=")
 	builder.WriteString(fmt.Sprintf("%v", a.KeywordStrong))
+	builder.WriteString(", ")
+	builder.WriteString("strong_related_category=")
+	builder.WriteString(a.StrongRelatedCategory)
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)

@@ -32,6 +32,7 @@ func (Article) Fields() []ent.Field {
 		field.JSON("keyword_weak", []interface{}{}),
 		field.Bool("is_strong_related").Default(false),
 		field.JSON("keyword_strong", []interface{}{}),
+		field.String("strong_related_category").Default(""),
 		field.Text("summary_chinese").Default(""),
 	}
 }
@@ -44,6 +45,7 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("origin_short_id"),
 		index.Fields("is_weak_related"),
 		index.Fields("is_strong_related"),
+		index.Fields("strong_related_category"),
 	}
 }
 

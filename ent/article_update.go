@@ -188,6 +188,20 @@ func (au *ArticleUpdate) AppendKeywordStrong(i []interface{}) *ArticleUpdate {
 	return au
 }
 
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (au *ArticleUpdate) SetStrongRelatedCategory(s string) *ArticleUpdate {
+	au.mutation.SetStrongRelatedCategory(s)
+	return au
+}
+
+// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongRelatedCategory(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetStrongRelatedCategory(*s)
+	}
+	return au
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (au *ArticleUpdate) SetSummaryChinese(s string) *ArticleUpdate {
 	au.mutation.SetSummaryChinese(s)
@@ -298,6 +312,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, article.FieldKeywordStrong, value)
 		})
+	}
+	if value, ok := au.mutation.StrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -482,6 +499,20 @@ func (auo *ArticleUpdateOne) AppendKeywordStrong(i []interface{}) *ArticleUpdate
 	return auo
 }
 
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (auo *ArticleUpdateOne) SetStrongRelatedCategory(s string) *ArticleUpdateOne {
+	auo.mutation.SetStrongRelatedCategory(s)
+	return auo
+}
+
+// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongRelatedCategory(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetStrongRelatedCategory(*s)
+	}
+	return auo
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (auo *ArticleUpdateOne) SetSummaryChinese(s string) *ArticleUpdateOne {
 	auo.mutation.SetSummaryChinese(s)
@@ -622,6 +653,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, article.FieldKeywordStrong, value)
 		})
+	}
+	if value, ok := auo.mutation.StrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)

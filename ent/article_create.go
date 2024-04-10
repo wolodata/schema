@@ -191,6 +191,20 @@ func (ac *ArticleCreate) SetKeywordStrong(i []interface{}) *ArticleCreate {
 	return ac
 }
 
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (ac *ArticleCreate) SetStrongRelatedCategory(s string) *ArticleCreate {
+	ac.mutation.SetStrongRelatedCategory(s)
+	return ac
+}
+
+// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongRelatedCategory(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetStrongRelatedCategory(*s)
+	}
+	return ac
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 	ac.mutation.SetSummaryChinese(s)
@@ -290,6 +304,10 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultIsStrongRelated
 		ac.mutation.SetIsStrongRelated(v)
 	}
+	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
+		v := article.DefaultStrongRelatedCategory
+		ac.mutation.SetStrongRelatedCategory(v)
+	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
@@ -355,6 +373,9 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.KeywordStrong(); !ok {
 		return &ValidationError{Name: "keyword_strong", err: errors.New(`ent: missing required field "Article.keyword_strong"`)}
+	}
+	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
+		return &ValidationError{Name: "strong_related_category", err: errors.New(`ent: missing required field "Article.strong_related_category"`)}
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
@@ -458,6 +479,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.KeywordStrong(); ok {
 		_spec.SetField(article.FieldKeywordStrong, field.TypeJSON, value)
 		_node.KeywordStrong = value
+	}
+	if value, ok := ac.mutation.StrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
+		_node.StrongRelatedCategory = value
 	}
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -656,6 +681,18 @@ func (u *ArticleUpsert) SetKeywordStrong(v []interface{}) *ArticleUpsert {
 // UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateKeywordStrong() *ArticleUpsert {
 	u.SetExcluded(article.FieldKeywordStrong)
+	return u
+}
+
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (u *ArticleUpsert) SetStrongRelatedCategory(v string) *ArticleUpsert {
+	u.Set(article.FieldStrongRelatedCategory, v)
+	return u
+}
+
+// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongRelatedCategory() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongRelatedCategory)
 	return u
 }
 
@@ -896,6 +933,20 @@ func (u *ArticleUpsertOne) SetKeywordStrong(v []interface{}) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateKeywordStrong() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateKeywordStrong()
+	})
+}
+
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (u *ArticleUpsertOne) SetStrongRelatedCategory(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelatedCategory(v)
+	})
+}
+
+// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongRelatedCategory() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelatedCategory()
 	})
 }
 
@@ -1305,6 +1356,20 @@ func (u *ArticleUpsertBulk) SetKeywordStrong(v []interface{}) *ArticleUpsertBulk
 func (u *ArticleUpsertBulk) UpdateKeywordStrong() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateKeywordStrong()
+	})
+}
+
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (u *ArticleUpsertBulk) SetStrongRelatedCategory(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelatedCategory(v)
+	})
+}
+
+// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongRelatedCategory() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelatedCategory()
 	})
 }
 

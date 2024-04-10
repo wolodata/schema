@@ -87,8 +87,12 @@ func init() {
 	articleDescIsStrongRelated := articleFields[15].Descriptor()
 	// article.DefaultIsStrongRelated holds the default value on creation for the is_strong_related field.
 	article.DefaultIsStrongRelated = articleDescIsStrongRelated.Default.(bool)
+	// articleDescStrongRelatedCategory is the schema descriptor for strong_related_category field.
+	articleDescStrongRelatedCategory := articleFields[17].Descriptor()
+	// article.DefaultStrongRelatedCategory holds the default value on creation for the strong_related_category field.
+	article.DefaultStrongRelatedCategory = articleDescStrongRelatedCategory.Default.(string)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[17].Descriptor()
+	articleDescSummaryChinese := articleFields[18].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
 	htmlFields := schema.Html{}.Fields()

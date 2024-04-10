@@ -44,34 +44,35 @@ const (
 // ArticleMutation represents an operation that mutates the Article nodes in the graph.
 type ArticleMutation struct {
 	config
-	op                   Op
-	typ                  string
-	id                   *string
-	origin_short_id      *string
-	is_chinese           *bool
-	url                  *string
-	title_chinese        *string
-	title_english        *string
-	author               *[]string
-	appendauthor         []string
-	published_at         *time.Time
-	html_chinese         *string
-	html_english         *string
-	text_chinese         *string
-	text_english         *string
-	images               *[]string
-	appendimages         []string
-	is_weak_related      *bool
-	keyword_weak         *[]interface{}
-	appendkeyword_weak   []interface{}
-	is_strong_related    *bool
-	keyword_strong       *[]interface{}
-	appendkeyword_strong []interface{}
-	summary_chinese      *string
-	clearedFields        map[string]struct{}
-	done                 bool
-	oldValue             func(context.Context) (*Article, error)
-	predicates           []predicate.Article
+	op                      Op
+	typ                     string
+	id                      *string
+	origin_short_id         *string
+	is_chinese              *bool
+	url                     *string
+	title_chinese           *string
+	title_english           *string
+	author                  *[]string
+	appendauthor            []string
+	published_at            *time.Time
+	html_chinese            *string
+	html_english            *string
+	text_chinese            *string
+	text_english            *string
+	images                  *[]string
+	appendimages            []string
+	is_weak_related         *bool
+	keyword_weak            *[]interface{}
+	appendkeyword_weak      []interface{}
+	is_strong_related       *bool
+	keyword_strong          *[]interface{}
+	appendkeyword_strong    []interface{}
+	strong_related_category *string
+	summary_chinese         *string
+	clearedFields           map[string]struct{}
+	done                    bool
+	oldValue                func(context.Context) (*Article, error)
+	predicates              []predicate.Article
 }
 
 var _ ent.Mutation = (*ArticleMutation)(nil)
@@ -814,6 +815,42 @@ func (m *ArticleMutation) ResetKeywordStrong() {
 	m.appendkeyword_strong = nil
 }
 
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (m *ArticleMutation) SetStrongRelatedCategory(s string) {
+	m.strong_related_category = &s
+}
+
+// StrongRelatedCategory returns the value of the "strong_related_category" field in the mutation.
+func (m *ArticleMutation) StrongRelatedCategory() (r string, exists bool) {
+	v := m.strong_related_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStrongRelatedCategory returns the old "strong_related_category" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldStrongRelatedCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStrongRelatedCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStrongRelatedCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStrongRelatedCategory: %w", err)
+	}
+	return oldValue.StrongRelatedCategory, nil
+}
+
+// ResetStrongRelatedCategory resets all changes to the "strong_related_category" field.
+func (m *ArticleMutation) ResetStrongRelatedCategory() {
+	m.strong_related_category = nil
+}
+
 // SetSummaryChinese sets the "summary_chinese" field.
 func (m *ArticleMutation) SetSummaryChinese(s string) {
 	m.summary_chinese = &s
@@ -884,7 +921,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 17)
+	fields := make([]string, 0, 18)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -933,6 +970,9 @@ func (m *ArticleMutation) Fields() []string {
 	if m.keyword_strong != nil {
 		fields = append(fields, article.FieldKeywordStrong)
 	}
+	if m.strong_related_category != nil {
+		fields = append(fields, article.FieldStrongRelatedCategory)
+	}
 	if m.summary_chinese != nil {
 		fields = append(fields, article.FieldSummaryChinese)
 	}
@@ -976,6 +1016,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.IsStrongRelated()
 	case article.FieldKeywordStrong:
 		return m.KeywordStrong()
+	case article.FieldStrongRelatedCategory:
+		return m.StrongRelatedCategory()
 	case article.FieldSummaryChinese:
 		return m.SummaryChinese()
 	}
@@ -1019,6 +1061,8 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldIsStrongRelated(ctx)
 	case article.FieldKeywordStrong:
 		return m.OldKeywordStrong(ctx)
+	case article.FieldStrongRelatedCategory:
+		return m.OldStrongRelatedCategory(ctx)
 	case article.FieldSummaryChinese:
 		return m.OldSummaryChinese(ctx)
 	}
@@ -1142,6 +1186,13 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetKeywordStrong(v)
 		return nil
+	case article.FieldStrongRelatedCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStrongRelatedCategory(v)
+		return nil
 	case article.FieldSummaryChinese:
 		v, ok := value.(string)
 		if !ok {
@@ -1245,6 +1296,9 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldKeywordStrong:
 		m.ResetKeywordStrong()
+		return nil
+	case article.FieldStrongRelatedCategory:
+		m.ResetStrongRelatedCategory()
 		return nil
 	case article.FieldSummaryChinese:
 		m.ResetSummaryChinese()
