@@ -37,7 +37,7 @@ func (Article) Fields() []ent.Field {
 
 type WeakKeyword struct {
 	Word     string
-	Category string
+	Category uint64
 }
 
 type StrongKeyword struct {
