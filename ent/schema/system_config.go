@@ -19,8 +19,8 @@ func (SystemConfig) Fields() []ent.Field {
 		field.String("api_model").Default(""),
 		field.String("api_url").Default(""),
 		field.String("api_key").Default(""),
-		field.String("prompt_system").Default(""),
-		field.String("prompt_user").Default(""),
+		field.Text("prompt_system").Default(""),
+		field.Text("prompt_user").Default(""),
 	}
 }
 

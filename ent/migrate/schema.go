@@ -217,8 +217,8 @@ var (
 		{Name: "api_model", Type: field.TypeString, Default: ""},
 		{Name: "api_url", Type: field.TypeString, Default: ""},
 		{Name: "api_key", Type: field.TypeString, Default: ""},
-		{Name: "prompt_system", Type: field.TypeString, Default: ""},
-		{Name: "prompt_user", Type: field.TypeString, Default: ""},
+		{Name: "prompt_system", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "prompt_user", Type: field.TypeString, Size: 2147483647, Default: ""},
 	}
 	// TSystemConfigTable holds the schema information for the "t_system_config" table.
 	TSystemConfigTable = &schema.Table{
