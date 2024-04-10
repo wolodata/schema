@@ -123,9 +123,9 @@ var (
 		{Name: "id", Type: field.TypeString},
 		{Name: "category", Type: field.TypeUint64},
 		{Name: "main", Type: field.TypeString, Unique: true},
-		{Name: "main_count", Type: field.TypeUint64, Default: 1},
+		{Name: "main_count", Type: field.TypeUint64},
 		{Name: "sub", Type: field.TypeString, Default: ""},
-		{Name: "sub_count", Type: field.TypeUint64, Default: 1},
+		{Name: "sub_count", Type: field.TypeUint64, Default: 0},
 	}
 	// TKeywordStrongTable holds the schema information for the "t_keyword_strong" table.
 	TKeywordStrongTable = &schema.Table{

@@ -17,9 +17,9 @@ func (KeywordStrong) Fields() []ent.Field {
 		field.String("id").Immutable(),
 		field.Uint64("category"),
 		field.String("main").Unique(),
-		field.Uint64("main_count").Default(1),
+		field.Uint64("main_count"),
 		field.String("sub").Default(""),
-		field.Uint64("sub_count").Default(1),
+		field.Uint64("sub_count").Default(0),
 	}
 }
 

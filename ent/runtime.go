@@ -141,10 +141,6 @@ func init() {
 	html.DefaultReason = htmlDescReason.Default.(string)
 	keywordstrongFields := schema.KeywordStrong{}.Fields()
 	_ = keywordstrongFields
-	// keywordstrongDescMainCount is the schema descriptor for main_count field.
-	keywordstrongDescMainCount := keywordstrongFields[3].Descriptor()
-	// keywordstrong.DefaultMainCount holds the default value on creation for the main_count field.
-	keywordstrong.DefaultMainCount = keywordstrongDescMainCount.Default.(uint64)
 	// keywordstrongDescSub is the schema descriptor for sub field.
 	keywordstrongDescSub := keywordstrongFields[4].Descriptor()
 	// keywordstrong.DefaultSub holds the default value on creation for the sub field.

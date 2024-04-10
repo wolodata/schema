@@ -40,14 +40,6 @@ func (ksc *KeywordStrongCreate) SetMainCount(u uint64) *KeywordStrongCreate {
 	return ksc
 }
 
-// SetNillableMainCount sets the "main_count" field if the given value is not nil.
-func (ksc *KeywordStrongCreate) SetNillableMainCount(u *uint64) *KeywordStrongCreate {
-	if u != nil {
-		ksc.SetMainCount(*u)
-	}
-	return ksc
-}
-
 // SetSub sets the "sub" field.
 func (ksc *KeywordStrongCreate) SetSub(s string) *KeywordStrongCreate {
 	ksc.mutation.SetSub(s)
@@ -117,10 +109,6 @@ func (ksc *KeywordStrongCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ksc *KeywordStrongCreate) defaults() {
-	if _, ok := ksc.mutation.MainCount(); !ok {
-		v := keywordstrong.DefaultMainCount
-		ksc.mutation.SetMainCount(v)
-	}
 	if _, ok := ksc.mutation.Sub(); !ok {
 		v := keywordstrong.DefaultSub
 		ksc.mutation.SetSub(v)

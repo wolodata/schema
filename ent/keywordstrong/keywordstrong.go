@@ -46,8 +46,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultMainCount holds the default value on creation for the "main_count" field.
-	DefaultMainCount uint64
 	// DefaultSub holds the default value on creation for the "sub" field.
 	DefaultSub string
 	// DefaultSubCount holds the default value on creation for the "sub_count" field.
