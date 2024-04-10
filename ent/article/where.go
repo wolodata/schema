@@ -114,19 +114,9 @@ func TextEnglish(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldTextEnglish, v))
 }
 
-// IsWeakRelated applies equality check predicate on the "is_weak_related" field. It's identical to IsWeakRelatedEQ.
-func IsWeakRelated(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsWeakRelated, v))
-}
-
-// IsStrongRelated applies equality check predicate on the "is_strong_related" field. It's identical to IsStrongRelatedEQ.
-func IsStrongRelated(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsStrongRelated, v))
-}
-
-// StrongRelatedCategory applies equality check predicate on the "strong_related_category" field. It's identical to StrongRelatedCategoryEQ.
-func StrongRelatedCategory(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategory, v))
+// StrongKeywordID applies equality check predicate on the "strong_keyword_id" field. It's identical to StrongKeywordIDEQ.
+func StrongKeywordID(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongKeywordID, v))
 }
 
 // SummaryChinese applies equality check predicate on the "summary_chinese" field. It's identical to SummaryChineseEQ.
@@ -704,89 +694,69 @@ func TextEnglishContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldTextEnglish, v))
 }
 
-// IsWeakRelatedEQ applies the EQ predicate on the "is_weak_related" field.
-func IsWeakRelatedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsWeakRelated, v))
+// StrongKeywordIDEQ applies the EQ predicate on the "strong_keyword_id" field.
+func StrongKeywordIDEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongKeywordID, v))
 }
 
-// IsWeakRelatedNEQ applies the NEQ predicate on the "is_weak_related" field.
-func IsWeakRelatedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldIsWeakRelated, v))
+// StrongKeywordIDNEQ applies the NEQ predicate on the "strong_keyword_id" field.
+func StrongKeywordIDNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongKeywordID, v))
 }
 
-// IsStrongRelatedEQ applies the EQ predicate on the "is_strong_related" field.
-func IsStrongRelatedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsStrongRelated, v))
+// StrongKeywordIDIn applies the In predicate on the "strong_keyword_id" field.
+func StrongKeywordIDIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldStrongKeywordID, vs...))
 }
 
-// IsStrongRelatedNEQ applies the NEQ predicate on the "is_strong_related" field.
-func IsStrongRelatedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldIsStrongRelated, v))
+// StrongKeywordIDNotIn applies the NotIn predicate on the "strong_keyword_id" field.
+func StrongKeywordIDNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldStrongKeywordID, vs...))
 }
 
-// StrongRelatedCategoryEQ applies the EQ predicate on the "strong_related_category" field.
-func StrongRelatedCategoryEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategory, v))
+// StrongKeywordIDGT applies the GT predicate on the "strong_keyword_id" field.
+func StrongKeywordIDGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryNEQ applies the NEQ predicate on the "strong_related_category" field.
-func StrongRelatedCategoryNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldStrongRelatedCategory, v))
+// StrongKeywordIDGTE applies the GTE predicate on the "strong_keyword_id" field.
+func StrongKeywordIDGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryIn applies the In predicate on the "strong_related_category" field.
-func StrongRelatedCategoryIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldStrongRelatedCategory, vs...))
+// StrongKeywordIDLT applies the LT predicate on the "strong_keyword_id" field.
+func StrongKeywordIDLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryNotIn applies the NotIn predicate on the "strong_related_category" field.
-func StrongRelatedCategoryNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldStrongRelatedCategory, vs...))
+// StrongKeywordIDLTE applies the LTE predicate on the "strong_keyword_id" field.
+func StrongKeywordIDLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryGT applies the GT predicate on the "strong_related_category" field.
-func StrongRelatedCategoryGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldStrongRelatedCategory, v))
+// StrongKeywordIDContains applies the Contains predicate on the "strong_keyword_id" field.
+func StrongKeywordIDContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryGTE applies the GTE predicate on the "strong_related_category" field.
-func StrongRelatedCategoryGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldStrongRelatedCategory, v))
+// StrongKeywordIDHasPrefix applies the HasPrefix predicate on the "strong_keyword_id" field.
+func StrongKeywordIDHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryLT applies the LT predicate on the "strong_related_category" field.
-func StrongRelatedCategoryLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldStrongRelatedCategory, v))
+// StrongKeywordIDHasSuffix applies the HasSuffix predicate on the "strong_keyword_id" field.
+func StrongKeywordIDHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryLTE applies the LTE predicate on the "strong_related_category" field.
-func StrongRelatedCategoryLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldStrongRelatedCategory, v))
+// StrongKeywordIDEqualFold applies the EqualFold predicate on the "strong_keyword_id" field.
+func StrongKeywordIDEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldStrongKeywordID, v))
 }
 
-// StrongRelatedCategoryContains applies the Contains predicate on the "strong_related_category" field.
-func StrongRelatedCategoryContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldStrongRelatedCategory, v))
-}
-
-// StrongRelatedCategoryHasPrefix applies the HasPrefix predicate on the "strong_related_category" field.
-func StrongRelatedCategoryHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldStrongRelatedCategory, v))
-}
-
-// StrongRelatedCategoryHasSuffix applies the HasSuffix predicate on the "strong_related_category" field.
-func StrongRelatedCategoryHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldStrongRelatedCategory, v))
-}
-
-// StrongRelatedCategoryEqualFold applies the EqualFold predicate on the "strong_related_category" field.
-func StrongRelatedCategoryEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldStrongRelatedCategory, v))
-}
-
-// StrongRelatedCategoryContainsFold applies the ContainsFold predicate on the "strong_related_category" field.
-func StrongRelatedCategoryContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldStrongRelatedCategory, v))
+// StrongKeywordIDContainsFold applies the ContainsFold predicate on the "strong_keyword_id" field.
+func StrongKeywordIDContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldStrongKeywordID, v))
 }
 
 // SummaryChineseEQ applies the EQ predicate on the "summary_chinese" field.

@@ -151,56 +151,22 @@ func (ac *ArticleCreate) SetImages(s []string) *ArticleCreate {
 	return ac
 }
 
-// SetIsWeakRelated sets the "is_weak_related" field.
-func (ac *ArticleCreate) SetIsWeakRelated(b bool) *ArticleCreate {
-	ac.mutation.SetIsWeakRelated(b)
+// SetWeakKeywordIds sets the "weak_keyword_ids" field.
+func (ac *ArticleCreate) SetWeakKeywordIds(s []string) *ArticleCreate {
+	ac.mutation.SetWeakKeywordIds(s)
 	return ac
 }
 
-// SetNillableIsWeakRelated sets the "is_weak_related" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableIsWeakRelated(b *bool) *ArticleCreate {
-	if b != nil {
-		ac.SetIsWeakRelated(*b)
-	}
+// SetStrongKeywordID sets the "strong_keyword_id" field.
+func (ac *ArticleCreate) SetStrongKeywordID(s string) *ArticleCreate {
+	ac.mutation.SetStrongKeywordID(s)
 	return ac
 }
 
-// SetKeywordWeak sets the "keyword_weak" field.
-func (ac *ArticleCreate) SetKeywordWeak(i []interface{}) *ArticleCreate {
-	ac.mutation.SetKeywordWeak(i)
-	return ac
-}
-
-// SetIsStrongRelated sets the "is_strong_related" field.
-func (ac *ArticleCreate) SetIsStrongRelated(b bool) *ArticleCreate {
-	ac.mutation.SetIsStrongRelated(b)
-	return ac
-}
-
-// SetNillableIsStrongRelated sets the "is_strong_related" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableIsStrongRelated(b *bool) *ArticleCreate {
-	if b != nil {
-		ac.SetIsStrongRelated(*b)
-	}
-	return ac
-}
-
-// SetKeywordStrong sets the "keyword_strong" field.
-func (ac *ArticleCreate) SetKeywordStrong(i []interface{}) *ArticleCreate {
-	ac.mutation.SetKeywordStrong(i)
-	return ac
-}
-
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (ac *ArticleCreate) SetStrongRelatedCategory(s string) *ArticleCreate {
-	ac.mutation.SetStrongRelatedCategory(s)
-	return ac
-}
-
-// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableStrongRelatedCategory(s *string) *ArticleCreate {
+// SetNillableStrongKeywordID sets the "strong_keyword_id" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongKeywordID(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetStrongRelatedCategory(*s)
+		ac.SetStrongKeywordID(*s)
 	}
 	return ac
 }
@@ -296,17 +262,13 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultImages
 		ac.mutation.SetImages(v)
 	}
-	if _, ok := ac.mutation.IsWeakRelated(); !ok {
-		v := article.DefaultIsWeakRelated
-		ac.mutation.SetIsWeakRelated(v)
+	if _, ok := ac.mutation.WeakKeywordIds(); !ok {
+		v := article.DefaultWeakKeywordIds
+		ac.mutation.SetWeakKeywordIds(v)
 	}
-	if _, ok := ac.mutation.IsStrongRelated(); !ok {
-		v := article.DefaultIsStrongRelated
-		ac.mutation.SetIsStrongRelated(v)
-	}
-	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
-		v := article.DefaultStrongRelatedCategory
-		ac.mutation.SetStrongRelatedCategory(v)
+	if _, ok := ac.mutation.StrongKeywordID(); !ok {
+		v := article.DefaultStrongKeywordID
+		ac.mutation.SetStrongKeywordID(v)
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		v := article.DefaultSummaryChinese
@@ -362,20 +324,11 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.Images(); !ok {
 		return &ValidationError{Name: "images", err: errors.New(`ent: missing required field "Article.images"`)}
 	}
-	if _, ok := ac.mutation.IsWeakRelated(); !ok {
-		return &ValidationError{Name: "is_weak_related", err: errors.New(`ent: missing required field "Article.is_weak_related"`)}
+	if _, ok := ac.mutation.WeakKeywordIds(); !ok {
+		return &ValidationError{Name: "weak_keyword_ids", err: errors.New(`ent: missing required field "Article.weak_keyword_ids"`)}
 	}
-	if _, ok := ac.mutation.KeywordWeak(); !ok {
-		return &ValidationError{Name: "keyword_weak", err: errors.New(`ent: missing required field "Article.keyword_weak"`)}
-	}
-	if _, ok := ac.mutation.IsStrongRelated(); !ok {
-		return &ValidationError{Name: "is_strong_related", err: errors.New(`ent: missing required field "Article.is_strong_related"`)}
-	}
-	if _, ok := ac.mutation.KeywordStrong(); !ok {
-		return &ValidationError{Name: "keyword_strong", err: errors.New(`ent: missing required field "Article.keyword_strong"`)}
-	}
-	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
-		return &ValidationError{Name: "strong_related_category", err: errors.New(`ent: missing required field "Article.strong_related_category"`)}
+	if _, ok := ac.mutation.StrongKeywordID(); !ok {
+		return &ValidationError{Name: "strong_keyword_id", err: errors.New(`ent: missing required field "Article.strong_keyword_id"`)}
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
@@ -464,25 +417,13 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldImages, field.TypeJSON, value)
 		_node.Images = value
 	}
-	if value, ok := ac.mutation.IsWeakRelated(); ok {
-		_spec.SetField(article.FieldIsWeakRelated, field.TypeBool, value)
-		_node.IsWeakRelated = value
+	if value, ok := ac.mutation.WeakKeywordIds(); ok {
+		_spec.SetField(article.FieldWeakKeywordIds, field.TypeJSON, value)
+		_node.WeakKeywordIds = value
 	}
-	if value, ok := ac.mutation.KeywordWeak(); ok {
-		_spec.SetField(article.FieldKeywordWeak, field.TypeJSON, value)
-		_node.KeywordWeak = value
-	}
-	if value, ok := ac.mutation.IsStrongRelated(); ok {
-		_spec.SetField(article.FieldIsStrongRelated, field.TypeBool, value)
-		_node.IsStrongRelated = value
-	}
-	if value, ok := ac.mutation.KeywordStrong(); ok {
-		_spec.SetField(article.FieldKeywordStrong, field.TypeJSON, value)
-		_node.KeywordStrong = value
-	}
-	if value, ok := ac.mutation.StrongRelatedCategory(); ok {
-		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
-		_node.StrongRelatedCategory = value
+	if value, ok := ac.mutation.StrongKeywordID(); ok {
+		_spec.SetField(article.FieldStrongKeywordID, field.TypeString, value)
+		_node.StrongKeywordID = value
 	}
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -636,63 +577,27 @@ func (u *ArticleUpsert) UpdateImages() *ArticleUpsert {
 	return u
 }
 
-// SetIsWeakRelated sets the "is_weak_related" field.
-func (u *ArticleUpsert) SetIsWeakRelated(v bool) *ArticleUpsert {
-	u.Set(article.FieldIsWeakRelated, v)
+// SetWeakKeywordIds sets the "weak_keyword_ids" field.
+func (u *ArticleUpsert) SetWeakKeywordIds(v []string) *ArticleUpsert {
+	u.Set(article.FieldWeakKeywordIds, v)
 	return u
 }
 
-// UpdateIsWeakRelated sets the "is_weak_related" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateIsWeakRelated() *ArticleUpsert {
-	u.SetExcluded(article.FieldIsWeakRelated)
+// UpdateWeakKeywordIds sets the "weak_keyword_ids" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateWeakKeywordIds() *ArticleUpsert {
+	u.SetExcluded(article.FieldWeakKeywordIds)
 	return u
 }
 
-// SetKeywordWeak sets the "keyword_weak" field.
-func (u *ArticleUpsert) SetKeywordWeak(v []interface{}) *ArticleUpsert {
-	u.Set(article.FieldKeywordWeak, v)
+// SetStrongKeywordID sets the "strong_keyword_id" field.
+func (u *ArticleUpsert) SetStrongKeywordID(v string) *ArticleUpsert {
+	u.Set(article.FieldStrongKeywordID, v)
 	return u
 }
 
-// UpdateKeywordWeak sets the "keyword_weak" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateKeywordWeak() *ArticleUpsert {
-	u.SetExcluded(article.FieldKeywordWeak)
-	return u
-}
-
-// SetIsStrongRelated sets the "is_strong_related" field.
-func (u *ArticleUpsert) SetIsStrongRelated(v bool) *ArticleUpsert {
-	u.Set(article.FieldIsStrongRelated, v)
-	return u
-}
-
-// UpdateIsStrongRelated sets the "is_strong_related" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateIsStrongRelated() *ArticleUpsert {
-	u.SetExcluded(article.FieldIsStrongRelated)
-	return u
-}
-
-// SetKeywordStrong sets the "keyword_strong" field.
-func (u *ArticleUpsert) SetKeywordStrong(v []interface{}) *ArticleUpsert {
-	u.Set(article.FieldKeywordStrong, v)
-	return u
-}
-
-// UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateKeywordStrong() *ArticleUpsert {
-	u.SetExcluded(article.FieldKeywordStrong)
-	return u
-}
-
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (u *ArticleUpsert) SetStrongRelatedCategory(v string) *ArticleUpsert {
-	u.Set(article.FieldStrongRelatedCategory, v)
-	return u
-}
-
-// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateStrongRelatedCategory() *ArticleUpsert {
-	u.SetExcluded(article.FieldStrongRelatedCategory)
+// UpdateStrongKeywordID sets the "strong_keyword_id" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongKeywordID() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongKeywordID)
 	return u
 }
 
@@ -880,73 +785,31 @@ func (u *ArticleUpsertOne) UpdateImages() *ArticleUpsertOne {
 	})
 }
 
-// SetIsWeakRelated sets the "is_weak_related" field.
-func (u *ArticleUpsertOne) SetIsWeakRelated(v bool) *ArticleUpsertOne {
+// SetWeakKeywordIds sets the "weak_keyword_ids" field.
+func (u *ArticleUpsertOne) SetWeakKeywordIds(v []string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsWeakRelated(v)
+		s.SetWeakKeywordIds(v)
 	})
 }
 
-// UpdateIsWeakRelated sets the "is_weak_related" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateIsWeakRelated() *ArticleUpsertOne {
+// UpdateWeakKeywordIds sets the "weak_keyword_ids" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateWeakKeywordIds() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsWeakRelated()
+		s.UpdateWeakKeywordIds()
 	})
 }
 
-// SetKeywordWeak sets the "keyword_weak" field.
-func (u *ArticleUpsertOne) SetKeywordWeak(v []interface{}) *ArticleUpsertOne {
+// SetStrongKeywordID sets the "strong_keyword_id" field.
+func (u *ArticleUpsertOne) SetStrongKeywordID(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetKeywordWeak(v)
+		s.SetStrongKeywordID(v)
 	})
 }
 
-// UpdateKeywordWeak sets the "keyword_weak" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateKeywordWeak() *ArticleUpsertOne {
+// UpdateStrongKeywordID sets the "strong_keyword_id" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongKeywordID() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateKeywordWeak()
-	})
-}
-
-// SetIsStrongRelated sets the "is_strong_related" field.
-func (u *ArticleUpsertOne) SetIsStrongRelated(v bool) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsStrongRelated(v)
-	})
-}
-
-// UpdateIsStrongRelated sets the "is_strong_related" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateIsStrongRelated() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsStrongRelated()
-	})
-}
-
-// SetKeywordStrong sets the "keyword_strong" field.
-func (u *ArticleUpsertOne) SetKeywordStrong(v []interface{}) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetKeywordStrong(v)
-	})
-}
-
-// UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateKeywordStrong() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateKeywordStrong()
-	})
-}
-
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (u *ArticleUpsertOne) SetStrongRelatedCategory(v string) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongRelatedCategory(v)
-	})
-}
-
-// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateStrongRelatedCategory() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongRelatedCategory()
+		s.UpdateStrongKeywordID()
 	})
 }
 
@@ -1303,73 +1166,31 @@ func (u *ArticleUpsertBulk) UpdateImages() *ArticleUpsertBulk {
 	})
 }
 
-// SetIsWeakRelated sets the "is_weak_related" field.
-func (u *ArticleUpsertBulk) SetIsWeakRelated(v bool) *ArticleUpsertBulk {
+// SetWeakKeywordIds sets the "weak_keyword_ids" field.
+func (u *ArticleUpsertBulk) SetWeakKeywordIds(v []string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsWeakRelated(v)
+		s.SetWeakKeywordIds(v)
 	})
 }
 
-// UpdateIsWeakRelated sets the "is_weak_related" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateIsWeakRelated() *ArticleUpsertBulk {
+// UpdateWeakKeywordIds sets the "weak_keyword_ids" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateWeakKeywordIds() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsWeakRelated()
+		s.UpdateWeakKeywordIds()
 	})
 }
 
-// SetKeywordWeak sets the "keyword_weak" field.
-func (u *ArticleUpsertBulk) SetKeywordWeak(v []interface{}) *ArticleUpsertBulk {
+// SetStrongKeywordID sets the "strong_keyword_id" field.
+func (u *ArticleUpsertBulk) SetStrongKeywordID(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetKeywordWeak(v)
+		s.SetStrongKeywordID(v)
 	})
 }
 
-// UpdateKeywordWeak sets the "keyword_weak" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateKeywordWeak() *ArticleUpsertBulk {
+// UpdateStrongKeywordID sets the "strong_keyword_id" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongKeywordID() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateKeywordWeak()
-	})
-}
-
-// SetIsStrongRelated sets the "is_strong_related" field.
-func (u *ArticleUpsertBulk) SetIsStrongRelated(v bool) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsStrongRelated(v)
-	})
-}
-
-// UpdateIsStrongRelated sets the "is_strong_related" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateIsStrongRelated() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsStrongRelated()
-	})
-}
-
-// SetKeywordStrong sets the "keyword_strong" field.
-func (u *ArticleUpsertBulk) SetKeywordStrong(v []interface{}) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetKeywordStrong(v)
-	})
-}
-
-// UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateKeywordStrong() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateKeywordStrong()
-	})
-}
-
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (u *ArticleUpsertBulk) SetStrongRelatedCategory(v string) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongRelatedCategory(v)
-	})
-}
-
-// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateStrongRelatedCategory() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongRelatedCategory()
+		s.UpdateStrongKeywordID()
 	})
 }
 

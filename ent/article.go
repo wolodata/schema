@@ -42,16 +42,10 @@ type Article struct {
 	TextEnglish string `json:"text_english,omitempty"`
 	// Images holds the value of the "images" field.
 	Images []string `json:"images,omitempty"`
-	// IsWeakRelated holds the value of the "is_weak_related" field.
-	IsWeakRelated bool `json:"is_weak_related,omitempty"`
-	// KeywordWeak holds the value of the "keyword_weak" field.
-	KeywordWeak []interface{} `json:"keyword_weak,omitempty"`
-	// IsStrongRelated holds the value of the "is_strong_related" field.
-	IsStrongRelated bool `json:"is_strong_related,omitempty"`
-	// KeywordStrong holds the value of the "keyword_strong" field.
-	KeywordStrong []interface{} `json:"keyword_strong,omitempty"`
-	// StrongRelatedCategory holds the value of the "strong_related_category" field.
-	StrongRelatedCategory string `json:"strong_related_category,omitempty"`
+	// WeakKeywordIds holds the value of the "weak_keyword_ids" field.
+	WeakKeywordIds []string `json:"weak_keyword_ids,omitempty"`
+	// StrongKeywordID holds the value of the "strong_keyword_id" field.
+	StrongKeywordID string `json:"strong_keyword_id,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
 	selectValues   sql.SelectValues
@@ -62,11 +56,11 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldAuthor, article.FieldImages, article.FieldKeywordWeak, article.FieldKeywordStrong:
+		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywordIds:
 			values[i] = new([]byte)
-		case article.FieldIsChinese, article.FieldIsWeakRelated, article.FieldIsStrongRelated:
+		case article.FieldIsChinese:
 			values[i] = new(sql.NullBool)
-		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongRelatedCategory, article.FieldSummaryChinese:
+		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongKeywordID, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -167,39 +161,19 @@ func (a *Article) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field images: %w", err)
 				}
 			}
-		case article.FieldIsWeakRelated:
-			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field is_weak_related", values[i])
-			} else if value.Valid {
-				a.IsWeakRelated = value.Bool
-			}
-		case article.FieldKeywordWeak:
+		case article.FieldWeakKeywordIds:
 			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field keyword_weak", values[i])
+				return fmt.Errorf("unexpected type %T for field weak_keyword_ids", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.KeywordWeak); err != nil {
-					return fmt.Errorf("unmarshal field keyword_weak: %w", err)
+				if err := json.Unmarshal(*value, &a.WeakKeywordIds); err != nil {
+					return fmt.Errorf("unmarshal field weak_keyword_ids: %w", err)
 				}
 			}
-		case article.FieldIsStrongRelated:
-			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field is_strong_related", values[i])
-			} else if value.Valid {
-				a.IsStrongRelated = value.Bool
-			}
-		case article.FieldKeywordStrong:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field keyword_strong", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.KeywordStrong); err != nil {
-					return fmt.Errorf("unmarshal field keyword_strong: %w", err)
-				}
-			}
-		case article.FieldStrongRelatedCategory:
+		case article.FieldStrongKeywordID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field strong_related_category", values[i])
+				return fmt.Errorf("unexpected type %T for field strong_keyword_id", values[i])
 			} else if value.Valid {
-				a.StrongRelatedCategory = value.String
+				a.StrongKeywordID = value.String
 			}
 		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -279,20 +253,11 @@ func (a *Article) String() string {
 	builder.WriteString("images=")
 	builder.WriteString(fmt.Sprintf("%v", a.Images))
 	builder.WriteString(", ")
-	builder.WriteString("is_weak_related=")
-	builder.WriteString(fmt.Sprintf("%v", a.IsWeakRelated))
+	builder.WriteString("weak_keyword_ids=")
+	builder.WriteString(fmt.Sprintf("%v", a.WeakKeywordIds))
 	builder.WriteString(", ")
-	builder.WriteString("keyword_weak=")
-	builder.WriteString(fmt.Sprintf("%v", a.KeywordWeak))
-	builder.WriteString(", ")
-	builder.WriteString("is_strong_related=")
-	builder.WriteString(fmt.Sprintf("%v", a.IsStrongRelated))
-	builder.WriteString(", ")
-	builder.WriteString("keyword_strong=")
-	builder.WriteString(fmt.Sprintf("%v", a.KeywordStrong))
-	builder.WriteString(", ")
-	builder.WriteString("strong_related_category=")
-	builder.WriteString(a.StrongRelatedCategory)
+	builder.WriteString("strong_keyword_id=")
+	builder.WriteString(a.StrongKeywordID)
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)

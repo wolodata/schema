@@ -35,16 +35,10 @@ const (
 	FieldTextEnglish = "text_english"
 	// FieldImages holds the string denoting the images field in the database.
 	FieldImages = "images"
-	// FieldIsWeakRelated holds the string denoting the is_weak_related field in the database.
-	FieldIsWeakRelated = "is_weak_related"
-	// FieldKeywordWeak holds the string denoting the keyword_weak field in the database.
-	FieldKeywordWeak = "keyword_weak"
-	// FieldIsStrongRelated holds the string denoting the is_strong_related field in the database.
-	FieldIsStrongRelated = "is_strong_related"
-	// FieldKeywordStrong holds the string denoting the keyword_strong field in the database.
-	FieldKeywordStrong = "keyword_strong"
-	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
-	FieldStrongRelatedCategory = "strong_related_category"
+	// FieldWeakKeywordIds holds the string denoting the weak_keyword_ids field in the database.
+	FieldWeakKeywordIds = "weak_keyword_ids"
+	// FieldStrongKeywordID holds the string denoting the strong_keyword_id field in the database.
+	FieldStrongKeywordID = "strong_keyword_id"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
 	// Table holds the table name of the article in the database.
@@ -66,11 +60,8 @@ var Columns = []string{
 	FieldTextChinese,
 	FieldTextEnglish,
 	FieldImages,
-	FieldIsWeakRelated,
-	FieldKeywordWeak,
-	FieldIsStrongRelated,
-	FieldKeywordStrong,
-	FieldStrongRelatedCategory,
+	FieldWeakKeywordIds,
+	FieldStrongKeywordID,
 	FieldSummaryChinese,
 }
 
@@ -107,12 +98,10 @@ var (
 	DefaultTextEnglish string
 	// DefaultImages holds the default value on creation for the "images" field.
 	DefaultImages []string
-	// DefaultIsWeakRelated holds the default value on creation for the "is_weak_related" field.
-	DefaultIsWeakRelated bool
-	// DefaultIsStrongRelated holds the default value on creation for the "is_strong_related" field.
-	DefaultIsStrongRelated bool
-	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
-	DefaultStrongRelatedCategory string
+	// DefaultWeakKeywordIds holds the default value on creation for the "weak_keyword_ids" field.
+	DefaultWeakKeywordIds []string
+	// DefaultStrongKeywordID holds the default value on creation for the "strong_keyword_id" field.
+	DefaultStrongKeywordID string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
 )
@@ -175,19 +164,9 @@ func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
 }
 
-// ByIsWeakRelated orders the results by the is_weak_related field.
-func ByIsWeakRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIsWeakRelated, opts...).ToFunc()
-}
-
-// ByIsStrongRelated orders the results by the is_strong_related field.
-func ByIsStrongRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIsStrongRelated, opts...).ToFunc()
-}
-
-// ByStrongRelatedCategory orders the results by the strong_related_category field.
-func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStrongRelatedCategory, opts...).ToFunc()
+// ByStrongKeywordID orders the results by the strong_keyword_id field.
+func ByStrongKeywordID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongKeywordID, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.
