@@ -36,8 +36,12 @@ const (
 	FieldTextEnglish = "text_english"
 	// FieldImages holds the string denoting the images field in the database.
 	FieldImages = "images"
+	// FieldWeakProcessed holds the string denoting the weak_processed field in the database.
+	FieldWeakProcessed = "weak_processed"
 	// FieldWeakKeywords holds the string denoting the weak_keywords field in the database.
 	FieldWeakKeywords = "weak_keywords"
+	// FieldStrongProcessed holds the string denoting the strong_processed field in the database.
+	FieldStrongProcessed = "strong_processed"
 	// FieldStrongKeywords holds the string denoting the strong_keywords field in the database.
 	FieldStrongKeywords = "strong_keywords"
 	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
@@ -63,7 +67,9 @@ var Columns = []string{
 	FieldTextChinese,
 	FieldTextEnglish,
 	FieldImages,
+	FieldWeakProcessed,
 	FieldWeakKeywords,
+	FieldStrongProcessed,
 	FieldStrongKeywords,
 	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
@@ -102,8 +108,12 @@ var (
 	DefaultTextEnglish string
 	// DefaultImages holds the default value on creation for the "images" field.
 	DefaultImages []string
+	// DefaultWeakProcessed holds the default value on creation for the "weak_processed" field.
+	DefaultWeakProcessed bool
 	// DefaultWeakKeywords holds the default value on creation for the "weak_keywords" field.
 	DefaultWeakKeywords []schema.WeakKeyword
+	// DefaultStrongProcessed holds the default value on creation for the "strong_processed" field.
+	DefaultStrongProcessed bool
 	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
 	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
@@ -166,6 +176,16 @@ func ByTextChinese(opts ...sql.OrderTermOption) OrderOption {
 // ByTextEnglish orders the results by the text_english field.
 func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
+}
+
+// ByWeakProcessed orders the results by the weak_processed field.
+func ByWeakProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWeakProcessed, opts...).ToFunc()
+}
+
+// ByStrongProcessed orders the results by the strong_processed field.
+func ByStrongProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongProcessed, opts...).ToFunc()
 }
 
 // ByStrongRelatedCategory orders the results by the strong_related_category field.

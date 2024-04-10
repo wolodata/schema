@@ -114,6 +114,16 @@ func TextEnglish(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldTextEnglish, v))
 }
 
+// WeakProcessed applies equality check predicate on the "weak_processed" field. It's identical to WeakProcessedEQ.
+func WeakProcessed(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldWeakProcessed, v))
+}
+
+// StrongProcessed applies equality check predicate on the "strong_processed" field. It's identical to StrongProcessedEQ.
+func StrongProcessed(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongProcessed, v))
+}
+
 // StrongRelatedCategory applies equality check predicate on the "strong_related_category" field. It's identical to StrongRelatedCategoryEQ.
 func StrongRelatedCategory(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategory, v))
@@ -692,6 +702,26 @@ func TextEnglishEqualFold(v string) predicate.Article {
 // TextEnglishContainsFold applies the ContainsFold predicate on the "text_english" field.
 func TextEnglishContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldTextEnglish, v))
+}
+
+// WeakProcessedEQ applies the EQ predicate on the "weak_processed" field.
+func WeakProcessedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldWeakProcessed, v))
+}
+
+// WeakProcessedNEQ applies the NEQ predicate on the "weak_processed" field.
+func WeakProcessedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldWeakProcessed, v))
+}
+
+// StrongProcessedEQ applies the EQ predicate on the "strong_processed" field.
+func StrongProcessedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongProcessed, v))
+}
+
+// StrongProcessedNEQ applies the NEQ predicate on the "strong_processed" field.
+func StrongProcessedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongProcessed, v))
 }
 
 // StrongKeywordsIsNil applies the IsNil predicate on the "strong_keywords" field.

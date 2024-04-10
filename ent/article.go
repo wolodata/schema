@@ -43,8 +43,12 @@ type Article struct {
 	TextEnglish string `json:"text_english,omitempty"`
 	// Images holds the value of the "images" field.
 	Images []string `json:"images,omitempty"`
+	// WeakProcessed holds the value of the "weak_processed" field.
+	WeakProcessed bool `json:"weak_processed,omitempty"`
 	// WeakKeywords holds the value of the "weak_keywords" field.
 	WeakKeywords []schema.WeakKeyword `json:"weak_keywords,omitempty"`
+	// StrongProcessed holds the value of the "strong_processed" field.
+	StrongProcessed bool `json:"strong_processed,omitempty"`
 	// StrongKeywords holds the value of the "strong_keywords" field.
 	StrongKeywords schema.StrongKeyword `json:"strong_keywords,omitempty"`
 	// StrongRelatedCategory holds the value of the "strong_related_category" field.
@@ -61,7 +65,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywords, article.FieldStrongKeywords:
 			values[i] = new([]byte)
-		case article.FieldIsChinese:
+		case article.FieldIsChinese, article.FieldWeakProcessed, article.FieldStrongProcessed:
 			values[i] = new(sql.NullBool)
 		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
@@ -164,6 +168,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field images: %w", err)
 				}
 			}
+		case article.FieldWeakProcessed:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field weak_processed", values[i])
+			} else if value.Valid {
+				a.WeakProcessed = value.Bool
+			}
 		case article.FieldWeakKeywords:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field weak_keywords", values[i])
@@ -171,6 +181,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 				if err := json.Unmarshal(*value, &a.WeakKeywords); err != nil {
 					return fmt.Errorf("unmarshal field weak_keywords: %w", err)
 				}
+			}
+		case article.FieldStrongProcessed:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field strong_processed", values[i])
+			} else if value.Valid {
+				a.StrongProcessed = value.Bool
 			}
 		case article.FieldStrongKeywords:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -264,8 +280,14 @@ func (a *Article) String() string {
 	builder.WriteString("images=")
 	builder.WriteString(fmt.Sprintf("%v", a.Images))
 	builder.WriteString(", ")
+	builder.WriteString("weak_processed=")
+	builder.WriteString(fmt.Sprintf("%v", a.WeakProcessed))
+	builder.WriteString(", ")
 	builder.WriteString("weak_keywords=")
 	builder.WriteString(fmt.Sprintf("%v", a.WeakKeywords))
+	builder.WriteString(", ")
+	builder.WriteString("strong_processed=")
+	builder.WriteString(fmt.Sprintf("%v", a.StrongProcessed))
 	builder.WriteString(", ")
 	builder.WriteString("strong_keywords=")
 	builder.WriteString(fmt.Sprintf("%v", a.StrongKeywords))

@@ -62,8 +62,10 @@ type ArticleMutation struct {
 	text_english            *string
 	images                  *[]string
 	appendimages            []string
+	weak_processed          *bool
 	weak_keywords           *[]schema.WeakKeyword
 	appendweak_keywords     []schema.WeakKeyword
+	strong_processed        *bool
 	strong_keywords         *schema.StrongKeyword
 	strong_related_category *string
 	summary_chinese         *string
@@ -639,6 +641,42 @@ func (m *ArticleMutation) ResetImages() {
 	m.appendimages = nil
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (m *ArticleMutation) SetWeakProcessed(b bool) {
+	m.weak_processed = &b
+}
+
+// WeakProcessed returns the value of the "weak_processed" field in the mutation.
+func (m *ArticleMutation) WeakProcessed() (r bool, exists bool) {
+	v := m.weak_processed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeakProcessed returns the old "weak_processed" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldWeakProcessed(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeakProcessed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeakProcessed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeakProcessed: %w", err)
+	}
+	return oldValue.WeakProcessed, nil
+}
+
+// ResetWeakProcessed resets all changes to the "weak_processed" field.
+func (m *ArticleMutation) ResetWeakProcessed() {
+	m.weak_processed = nil
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (m *ArticleMutation) SetWeakKeywords(sk []schema.WeakKeyword) {
 	m.weak_keywords = &sk
@@ -688,6 +726,42 @@ func (m *ArticleMutation) AppendedWeakKeywords() ([]schema.WeakKeyword, bool) {
 func (m *ArticleMutation) ResetWeakKeywords() {
 	m.weak_keywords = nil
 	m.appendweak_keywords = nil
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (m *ArticleMutation) SetStrongProcessed(b bool) {
+	m.strong_processed = &b
+}
+
+// StrongProcessed returns the value of the "strong_processed" field in the mutation.
+func (m *ArticleMutation) StrongProcessed() (r bool, exists bool) {
+	v := m.strong_processed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStrongProcessed returns the old "strong_processed" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldStrongProcessed(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStrongProcessed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStrongProcessed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStrongProcessed: %w", err)
+	}
+	return oldValue.StrongProcessed, nil
+}
+
+// ResetStrongProcessed resets all changes to the "strong_processed" field.
+func (m *ArticleMutation) ResetStrongProcessed() {
+	m.strong_processed = nil
 }
 
 // SetStrongKeywords sets the "strong_keywords" field.
@@ -845,7 +919,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 18)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -882,8 +956,14 @@ func (m *ArticleMutation) Fields() []string {
 	if m.images != nil {
 		fields = append(fields, article.FieldImages)
 	}
+	if m.weak_processed != nil {
+		fields = append(fields, article.FieldWeakProcessed)
+	}
 	if m.weak_keywords != nil {
 		fields = append(fields, article.FieldWeakKeywords)
+	}
+	if m.strong_processed != nil {
+		fields = append(fields, article.FieldStrongProcessed)
 	}
 	if m.strong_keywords != nil {
 		fields = append(fields, article.FieldStrongKeywords)
@@ -926,8 +1006,12 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.TextEnglish()
 	case article.FieldImages:
 		return m.Images()
+	case article.FieldWeakProcessed:
+		return m.WeakProcessed()
 	case article.FieldWeakKeywords:
 		return m.WeakKeywords()
+	case article.FieldStrongProcessed:
+		return m.StrongProcessed()
 	case article.FieldStrongKeywords:
 		return m.StrongKeywords()
 	case article.FieldStrongRelatedCategory:
@@ -967,8 +1051,12 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldTextEnglish(ctx)
 	case article.FieldImages:
 		return m.OldImages(ctx)
+	case article.FieldWeakProcessed:
+		return m.OldWeakProcessed(ctx)
 	case article.FieldWeakKeywords:
 		return m.OldWeakKeywords(ctx)
+	case article.FieldStrongProcessed:
+		return m.OldStrongProcessed(ctx)
 	case article.FieldStrongKeywords:
 		return m.OldStrongKeywords(ctx)
 	case article.FieldStrongRelatedCategory:
@@ -1068,12 +1156,26 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetImages(v)
 		return nil
+	case article.FieldWeakProcessed:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeakProcessed(v)
+		return nil
 	case article.FieldWeakKeywords:
 		v, ok := value.([]schema.WeakKeyword)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWeakKeywords(v)
+		return nil
+	case article.FieldStrongProcessed:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStrongProcessed(v)
 		return nil
 	case article.FieldStrongKeywords:
 		v, ok := value.(schema.StrongKeyword)
@@ -1190,8 +1292,14 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldImages:
 		m.ResetImages()
 		return nil
+	case article.FieldWeakProcessed:
+		m.ResetWeakProcessed()
+		return nil
 	case article.FieldWeakKeywords:
 		m.ResetWeakKeywords()
+		return nil
+	case article.FieldStrongProcessed:
+		m.ResetStrongProcessed()
 		return nil
 	case article.FieldStrongKeywords:
 		m.ResetStrongKeywords()

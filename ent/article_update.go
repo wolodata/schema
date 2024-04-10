@@ -137,6 +137,20 @@ func (au *ArticleUpdate) AppendImages(s []string) *ArticleUpdate {
 	return au
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (au *ArticleUpdate) SetWeakProcessed(b bool) *ArticleUpdate {
+	au.mutation.SetWeakProcessed(b)
+	return au
+}
+
+// SetNillableWeakProcessed sets the "weak_processed" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableWeakProcessed(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetWeakProcessed(*b)
+	}
+	return au
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (au *ArticleUpdate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdate {
 	au.mutation.SetWeakKeywords(sk)
@@ -146,6 +160,20 @@ func (au *ArticleUpdate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdate
 // AppendWeakKeywords appends sk to the "weak_keywords" field.
 func (au *ArticleUpdate) AppendWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdate {
 	au.mutation.AppendWeakKeywords(sk)
+	return au
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (au *ArticleUpdate) SetStrongProcessed(b bool) *ArticleUpdate {
+	au.mutation.SetStrongProcessed(b)
+	return au
+}
+
+// SetNillableStrongProcessed sets the "strong_processed" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongProcessed(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetStrongProcessed(*b)
+	}
 	return au
 }
 
@@ -272,6 +300,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
+	if value, ok := au.mutation.WeakProcessed(); ok {
+		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
+	}
 	if value, ok := au.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 	}
@@ -279,6 +310,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, article.FieldWeakKeywords, value)
 		})
+	}
+	if value, ok := au.mutation.StrongProcessed(); ok {
+		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
 	}
 	if value, ok := au.mutation.StrongKeywords(); ok {
 		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
@@ -420,6 +454,20 @@ func (auo *ArticleUpdateOne) AppendImages(s []string) *ArticleUpdateOne {
 	return auo
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (auo *ArticleUpdateOne) SetWeakProcessed(b bool) *ArticleUpdateOne {
+	auo.mutation.SetWeakProcessed(b)
+	return auo
+}
+
+// SetNillableWeakProcessed sets the "weak_processed" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableWeakProcessed(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetWeakProcessed(*b)
+	}
+	return auo
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (auo *ArticleUpdateOne) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdateOne {
 	auo.mutation.SetWeakKeywords(sk)
@@ -429,6 +477,20 @@ func (auo *ArticleUpdateOne) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUp
 // AppendWeakKeywords appends sk to the "weak_keywords" field.
 func (auo *ArticleUpdateOne) AppendWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdateOne {
 	auo.mutation.AppendWeakKeywords(sk)
+	return auo
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (auo *ArticleUpdateOne) SetStrongProcessed(b bool) *ArticleUpdateOne {
+	auo.mutation.SetStrongProcessed(b)
+	return auo
+}
+
+// SetNillableStrongProcessed sets the "strong_processed" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongProcessed(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetStrongProcessed(*b)
+	}
 	return auo
 }
 
@@ -585,6 +647,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
+	if value, ok := auo.mutation.WeakProcessed(); ok {
+		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
+	}
 	if value, ok := auo.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 	}
@@ -592,6 +657,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, article.FieldWeakKeywords, value)
 		})
+	}
+	if value, ok := auo.mutation.StrongProcessed(); ok {
+		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
 	}
 	if value, ok := auo.mutation.StrongKeywords(); ok {
 		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)

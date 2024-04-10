@@ -152,9 +152,37 @@ func (ac *ArticleCreate) SetImages(s []string) *ArticleCreate {
 	return ac
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (ac *ArticleCreate) SetWeakProcessed(b bool) *ArticleCreate {
+	ac.mutation.SetWeakProcessed(b)
+	return ac
+}
+
+// SetNillableWeakProcessed sets the "weak_processed" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableWeakProcessed(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetWeakProcessed(*b)
+	}
+	return ac
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (ac *ArticleCreate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleCreate {
 	ac.mutation.SetWeakKeywords(sk)
+	return ac
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (ac *ArticleCreate) SetStrongProcessed(b bool) *ArticleCreate {
+	ac.mutation.SetStrongProcessed(b)
+	return ac
+}
+
+// SetNillableStrongProcessed sets the "strong_processed" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongProcessed(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetStrongProcessed(*b)
+	}
 	return ac
 }
 
@@ -277,9 +305,17 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultImages
 		ac.mutation.SetImages(v)
 	}
+	if _, ok := ac.mutation.WeakProcessed(); !ok {
+		v := article.DefaultWeakProcessed
+		ac.mutation.SetWeakProcessed(v)
+	}
 	if _, ok := ac.mutation.WeakKeywords(); !ok {
 		v := article.DefaultWeakKeywords
 		ac.mutation.SetWeakKeywords(v)
+	}
+	if _, ok := ac.mutation.StrongProcessed(); !ok {
+		v := article.DefaultStrongProcessed
+		ac.mutation.SetStrongProcessed(v)
 	}
 	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
 		v := article.DefaultStrongRelatedCategory
@@ -339,8 +375,14 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.Images(); !ok {
 		return &ValidationError{Name: "images", err: errors.New(`ent: missing required field "Article.images"`)}
 	}
+	if _, ok := ac.mutation.WeakProcessed(); !ok {
+		return &ValidationError{Name: "weak_processed", err: errors.New(`ent: missing required field "Article.weak_processed"`)}
+	}
 	if _, ok := ac.mutation.WeakKeywords(); !ok {
 		return &ValidationError{Name: "weak_keywords", err: errors.New(`ent: missing required field "Article.weak_keywords"`)}
+	}
+	if _, ok := ac.mutation.StrongProcessed(); !ok {
+		return &ValidationError{Name: "strong_processed", err: errors.New(`ent: missing required field "Article.strong_processed"`)}
 	}
 	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
 		return &ValidationError{Name: "strong_related_category", err: errors.New(`ent: missing required field "Article.strong_related_category"`)}
@@ -432,9 +474,17 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldImages, field.TypeJSON, value)
 		_node.Images = value
 	}
+	if value, ok := ac.mutation.WeakProcessed(); ok {
+		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
+		_node.WeakProcessed = value
+	}
 	if value, ok := ac.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 		_node.WeakKeywords = value
+	}
+	if value, ok := ac.mutation.StrongProcessed(); ok {
+		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
+		_node.StrongProcessed = value
 	}
 	if value, ok := ac.mutation.StrongKeywords(); ok {
 		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
@@ -596,6 +646,18 @@ func (u *ArticleUpsert) UpdateImages() *ArticleUpsert {
 	return u
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (u *ArticleUpsert) SetWeakProcessed(v bool) *ArticleUpsert {
+	u.Set(article.FieldWeakProcessed, v)
+	return u
+}
+
+// UpdateWeakProcessed sets the "weak_processed" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateWeakProcessed() *ArticleUpsert {
+	u.SetExcluded(article.FieldWeakProcessed)
+	return u
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (u *ArticleUpsert) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsert {
 	u.Set(article.FieldWeakKeywords, v)
@@ -605,6 +667,18 @@ func (u *ArticleUpsert) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsert {
 // UpdateWeakKeywords sets the "weak_keywords" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateWeakKeywords() *ArticleUpsert {
 	u.SetExcluded(article.FieldWeakKeywords)
+	return u
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (u *ArticleUpsert) SetStrongProcessed(v bool) *ArticleUpsert {
+	u.Set(article.FieldStrongProcessed, v)
+	return u
+}
+
+// UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongProcessed() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongProcessed)
 	return u
 }
 
@@ -822,6 +896,20 @@ func (u *ArticleUpsertOne) UpdateImages() *ArticleUpsertOne {
 	})
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (u *ArticleUpsertOne) SetWeakProcessed(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetWeakProcessed(v)
+	})
+}
+
+// UpdateWeakProcessed sets the "weak_processed" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateWeakProcessed() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateWeakProcessed()
+	})
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (u *ArticleUpsertOne) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -833,6 +921,20 @@ func (u *ArticleUpsertOne) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpser
 func (u *ArticleUpsertOne) UpdateWeakKeywords() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateWeakKeywords()
+	})
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (u *ArticleUpsertOne) SetStrongProcessed(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongProcessed(v)
+	})
+}
+
+// UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongProcessed() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongProcessed()
 	})
 }
 
@@ -1224,6 +1326,20 @@ func (u *ArticleUpsertBulk) UpdateImages() *ArticleUpsertBulk {
 	})
 }
 
+// SetWeakProcessed sets the "weak_processed" field.
+func (u *ArticleUpsertBulk) SetWeakProcessed(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetWeakProcessed(v)
+	})
+}
+
+// UpdateWeakProcessed sets the "weak_processed" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateWeakProcessed() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateWeakProcessed()
+	})
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (u *ArticleUpsertBulk) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1235,6 +1351,20 @@ func (u *ArticleUpsertBulk) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpse
 func (u *ArticleUpsertBulk) UpdateWeakKeywords() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateWeakKeywords()
+	})
+}
+
+// SetStrongProcessed sets the "strong_processed" field.
+func (u *ArticleUpsertBulk) SetStrongProcessed(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongProcessed(v)
+	})
+}
+
+// UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongProcessed() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongProcessed()
 	})
 }
 

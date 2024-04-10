@@ -24,7 +24,9 @@ var (
 		{Name: "text_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "text_english", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "images", Type: field.TypeJSON},
+		{Name: "weak_processed", Type: field.TypeBool, Default: false},
 		{Name: "weak_keywords", Type: field.TypeJSON},
+		{Name: "strong_processed", Type: field.TypeBool, Default: false},
 		{Name: "strong_keywords", Type: field.TypeJSON, Nullable: true},
 		{Name: "strong_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
@@ -56,9 +58,24 @@ var (
 				Columns: []*schema.Column{TArticleColumns[1]},
 			},
 			{
-				Name:    "article_strong_related_category",
+				Name:    "article_published_at",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[7]},
+			},
+			{
+				Name:    "article_weak_processed",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[13]},
+			},
+			{
+				Name:    "article_strong_processed",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[15]},
+			},
+			{
+				Name:    "article_strong_related_category",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[17]},
 			},
 		},
 	}
