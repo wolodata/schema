@@ -4,6 +4,7 @@ package article
 
 import (
 	"entgo.io/ent/dialect/sql"
+	"github.com/wolodata/schema/ent/schema"
 )
 
 const (
@@ -35,10 +36,12 @@ const (
 	FieldTextEnglish = "text_english"
 	// FieldImages holds the string denoting the images field in the database.
 	FieldImages = "images"
-	// FieldWeakKeywordIds holds the string denoting the weak_keyword_ids field in the database.
-	FieldWeakKeywordIds = "weak_keyword_ids"
-	// FieldStrongKeywordID holds the string denoting the strong_keyword_id field in the database.
-	FieldStrongKeywordID = "strong_keyword_id"
+	// FieldWeakKeywords holds the string denoting the weak_keywords field in the database.
+	FieldWeakKeywords = "weak_keywords"
+	// FieldStrongKeywords holds the string denoting the strong_keywords field in the database.
+	FieldStrongKeywords = "strong_keywords"
+	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
+	FieldStrongRelatedCategory = "strong_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
 	// Table holds the table name of the article in the database.
@@ -60,8 +63,9 @@ var Columns = []string{
 	FieldTextChinese,
 	FieldTextEnglish,
 	FieldImages,
-	FieldWeakKeywordIds,
-	FieldStrongKeywordID,
+	FieldWeakKeywords,
+	FieldStrongKeywords,
+	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
 }
 
@@ -98,10 +102,10 @@ var (
 	DefaultTextEnglish string
 	// DefaultImages holds the default value on creation for the "images" field.
 	DefaultImages []string
-	// DefaultWeakKeywordIds holds the default value on creation for the "weak_keyword_ids" field.
-	DefaultWeakKeywordIds []string
-	// DefaultStrongKeywordID holds the default value on creation for the "strong_keyword_id" field.
-	DefaultStrongKeywordID string
+	// DefaultWeakKeywords holds the default value on creation for the "weak_keywords" field.
+	DefaultWeakKeywords []schema.WeakKeyword
+	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
+	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
 )
@@ -164,9 +168,9 @@ func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
 }
 
-// ByStrongKeywordID orders the results by the strong_keyword_id field.
-func ByStrongKeywordID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStrongKeywordID, opts...).ToFunc()
+// ByStrongRelatedCategory orders the results by the strong_related_category field.
+func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedCategory, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.

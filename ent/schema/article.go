@@ -28,10 +28,23 @@ func (Article) Fields() []ent.Field {
 		field.Text("text_chinese").Default(""),
 		field.Text("text_english").Default(""),
 		field.Strings("images").Default([]string{}),
-		field.Strings("weak_keyword_ids").Default([]string{}),
-		field.String("strong_keyword_id").Default(""),
+		field.JSON("weak_keywords", []WeakKeyword{}).Default([]WeakKeyword{}),
+		field.JSON("strong_keywords", StrongKeyword{}).Optional(),
+		field.String("strong_related_category").Default(""),
 		field.Text("summary_chinese").Default(""),
 	}
+}
+
+type WeakKeyword struct {
+	Word     string
+	Category string
+}
+
+type StrongKeyword struct {
+	Main      string
+	MainCount uint64
+	Sub       string
+	SubCount  uint64
 }
 
 func (Article) Indexes() []ent.Index {
@@ -40,8 +53,9 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("title_chinese"),
 		index.Fields("title_english"),
 		index.Fields("origin_short_id"),
-		index.Fields("weak_keyword_ids"),
-		index.Fields("strong_keyword_id"),
+		index.Fields("weak_keywords"),
+		index.Fields("strong_keywords"),
+		index.Fields("strong_related_category"),
 	}
 }
 

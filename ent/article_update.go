@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/predicate"
+	"github.com/wolodata/schema/ent/schema"
 )
 
 // ArticleUpdate is the builder for updating Article entities.
@@ -136,28 +137,48 @@ func (au *ArticleUpdate) AppendImages(s []string) *ArticleUpdate {
 	return au
 }
 
-// SetWeakKeywordIds sets the "weak_keyword_ids" field.
-func (au *ArticleUpdate) SetWeakKeywordIds(s []string) *ArticleUpdate {
-	au.mutation.SetWeakKeywordIds(s)
+// SetWeakKeywords sets the "weak_keywords" field.
+func (au *ArticleUpdate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdate {
+	au.mutation.SetWeakKeywords(sk)
 	return au
 }
 
-// AppendWeakKeywordIds appends s to the "weak_keyword_ids" field.
-func (au *ArticleUpdate) AppendWeakKeywordIds(s []string) *ArticleUpdate {
-	au.mutation.AppendWeakKeywordIds(s)
+// AppendWeakKeywords appends sk to the "weak_keywords" field.
+func (au *ArticleUpdate) AppendWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdate {
+	au.mutation.AppendWeakKeywords(sk)
 	return au
 }
 
-// SetStrongKeywordID sets the "strong_keyword_id" field.
-func (au *ArticleUpdate) SetStrongKeywordID(s string) *ArticleUpdate {
-	au.mutation.SetStrongKeywordID(s)
+// SetStrongKeywords sets the "strong_keywords" field.
+func (au *ArticleUpdate) SetStrongKeywords(sk schema.StrongKeyword) *ArticleUpdate {
+	au.mutation.SetStrongKeywords(sk)
 	return au
 }
 
-// SetNillableStrongKeywordID sets the "strong_keyword_id" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableStrongKeywordID(s *string) *ArticleUpdate {
+// SetNillableStrongKeywords sets the "strong_keywords" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongKeywords(sk *schema.StrongKeyword) *ArticleUpdate {
+	if sk != nil {
+		au.SetStrongKeywords(*sk)
+	}
+	return au
+}
+
+// ClearStrongKeywords clears the value of the "strong_keywords" field.
+func (au *ArticleUpdate) ClearStrongKeywords() *ArticleUpdate {
+	au.mutation.ClearStrongKeywords()
+	return au
+}
+
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (au *ArticleUpdate) SetStrongRelatedCategory(s string) *ArticleUpdate {
+	au.mutation.SetStrongRelatedCategory(s)
+	return au
+}
+
+// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongRelatedCategory(s *string) *ArticleUpdate {
 	if s != nil {
-		au.SetStrongKeywordID(*s)
+		au.SetStrongRelatedCategory(*s)
 	}
 	return au
 }
@@ -251,16 +272,22 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
-	if value, ok := au.mutation.WeakKeywordIds(); ok {
-		_spec.SetField(article.FieldWeakKeywordIds, field.TypeJSON, value)
+	if value, ok := au.mutation.WeakKeywords(); ok {
+		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 	}
-	if value, ok := au.mutation.AppendedWeakKeywordIds(); ok {
+	if value, ok := au.mutation.AppendedWeakKeywords(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldWeakKeywordIds, value)
+			sqljson.Append(u, article.FieldWeakKeywords, value)
 		})
 	}
-	if value, ok := au.mutation.StrongKeywordID(); ok {
-		_spec.SetField(article.FieldStrongKeywordID, field.TypeString, value)
+	if value, ok := au.mutation.StrongKeywords(); ok {
+		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
+	}
+	if au.mutation.StrongKeywordsCleared() {
+		_spec.ClearField(article.FieldStrongKeywords, field.TypeJSON)
+	}
+	if value, ok := au.mutation.StrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -393,28 +420,48 @@ func (auo *ArticleUpdateOne) AppendImages(s []string) *ArticleUpdateOne {
 	return auo
 }
 
-// SetWeakKeywordIds sets the "weak_keyword_ids" field.
-func (auo *ArticleUpdateOne) SetWeakKeywordIds(s []string) *ArticleUpdateOne {
-	auo.mutation.SetWeakKeywordIds(s)
+// SetWeakKeywords sets the "weak_keywords" field.
+func (auo *ArticleUpdateOne) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdateOne {
+	auo.mutation.SetWeakKeywords(sk)
 	return auo
 }
 
-// AppendWeakKeywordIds appends s to the "weak_keyword_ids" field.
-func (auo *ArticleUpdateOne) AppendWeakKeywordIds(s []string) *ArticleUpdateOne {
-	auo.mutation.AppendWeakKeywordIds(s)
+// AppendWeakKeywords appends sk to the "weak_keywords" field.
+func (auo *ArticleUpdateOne) AppendWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdateOne {
+	auo.mutation.AppendWeakKeywords(sk)
 	return auo
 }
 
-// SetStrongKeywordID sets the "strong_keyword_id" field.
-func (auo *ArticleUpdateOne) SetStrongKeywordID(s string) *ArticleUpdateOne {
-	auo.mutation.SetStrongKeywordID(s)
+// SetStrongKeywords sets the "strong_keywords" field.
+func (auo *ArticleUpdateOne) SetStrongKeywords(sk schema.StrongKeyword) *ArticleUpdateOne {
+	auo.mutation.SetStrongKeywords(sk)
 	return auo
 }
 
-// SetNillableStrongKeywordID sets the "strong_keyword_id" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableStrongKeywordID(s *string) *ArticleUpdateOne {
+// SetNillableStrongKeywords sets the "strong_keywords" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongKeywords(sk *schema.StrongKeyword) *ArticleUpdateOne {
+	if sk != nil {
+		auo.SetStrongKeywords(*sk)
+	}
+	return auo
+}
+
+// ClearStrongKeywords clears the value of the "strong_keywords" field.
+func (auo *ArticleUpdateOne) ClearStrongKeywords() *ArticleUpdateOne {
+	auo.mutation.ClearStrongKeywords()
+	return auo
+}
+
+// SetStrongRelatedCategory sets the "strong_related_category" field.
+func (auo *ArticleUpdateOne) SetStrongRelatedCategory(s string) *ArticleUpdateOne {
+	auo.mutation.SetStrongRelatedCategory(s)
+	return auo
+}
+
+// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongRelatedCategory(s *string) *ArticleUpdateOne {
 	if s != nil {
-		auo.SetStrongKeywordID(*s)
+		auo.SetStrongRelatedCategory(*s)
 	}
 	return auo
 }
@@ -538,16 +585,22 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
-	if value, ok := auo.mutation.WeakKeywordIds(); ok {
-		_spec.SetField(article.FieldWeakKeywordIds, field.TypeJSON, value)
+	if value, ok := auo.mutation.WeakKeywords(); ok {
+		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 	}
-	if value, ok := auo.mutation.AppendedWeakKeywordIds(); ok {
+	if value, ok := auo.mutation.AppendedWeakKeywords(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldWeakKeywordIds, value)
+			sqljson.Append(u, article.FieldWeakKeywords, value)
 		})
 	}
-	if value, ok := auo.mutation.StrongKeywordID(); ok {
-		_spec.SetField(article.FieldStrongKeywordID, field.TypeString, value)
+	if value, ok := auo.mutation.StrongKeywords(); ok {
+		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
+	}
+	if auo.mutation.StrongKeywordsCleared() {
+		_spec.ClearField(article.FieldStrongKeywords, field.TypeJSON)
+	}
+	if value, ok := auo.mutation.StrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)

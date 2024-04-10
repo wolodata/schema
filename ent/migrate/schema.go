@@ -24,8 +24,9 @@ var (
 		{Name: "text_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "text_english", Type: field.TypeString, Size: 2147483647, Default: ""},
 		{Name: "images", Type: field.TypeJSON},
-		{Name: "weak_keyword_ids", Type: field.TypeJSON},
-		{Name: "strong_keyword_id", Type: field.TypeString, Default: ""},
+		{Name: "weak_keywords", Type: field.TypeJSON},
+		{Name: "strong_keywords", Type: field.TypeJSON, Nullable: true},
+		{Name: "strong_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
@@ -55,14 +56,19 @@ var (
 				Columns: []*schema.Column{TArticleColumns[1]},
 			},
 			{
-				Name:    "article_weak_keyword_ids",
+				Name:    "article_weak_keywords",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[13]},
 			},
 			{
-				Name:    "article_strong_keyword_id",
+				Name:    "article_strong_keywords",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[14]},
+			},
+			{
+				Name:    "article_strong_related_category",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[15]},
 			},
 		},
 	}

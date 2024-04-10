@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/schema"
 )
 
 // Article is the model entity for the Article schema.
@@ -42,10 +43,12 @@ type Article struct {
 	TextEnglish string `json:"text_english,omitempty"`
 	// Images holds the value of the "images" field.
 	Images []string `json:"images,omitempty"`
-	// WeakKeywordIds holds the value of the "weak_keyword_ids" field.
-	WeakKeywordIds []string `json:"weak_keyword_ids,omitempty"`
-	// StrongKeywordID holds the value of the "strong_keyword_id" field.
-	StrongKeywordID string `json:"strong_keyword_id,omitempty"`
+	// WeakKeywords holds the value of the "weak_keywords" field.
+	WeakKeywords []schema.WeakKeyword `json:"weak_keywords,omitempty"`
+	// StrongKeywords holds the value of the "strong_keywords" field.
+	StrongKeywords schema.StrongKeyword `json:"strong_keywords,omitempty"`
+	// StrongRelatedCategory holds the value of the "strong_related_category" field.
+	StrongRelatedCategory string `json:"strong_related_category,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
 	selectValues   sql.SelectValues
@@ -56,11 +59,11 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywordIds:
+		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywords, article.FieldStrongKeywords:
 			values[i] = new([]byte)
 		case article.FieldIsChinese:
 			values[i] = new(sql.NullBool)
-		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongKeywordID, article.FieldSummaryChinese:
+		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -161,19 +164,27 @@ func (a *Article) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field images: %w", err)
 				}
 			}
-		case article.FieldWeakKeywordIds:
+		case article.FieldWeakKeywords:
 			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field weak_keyword_ids", values[i])
+				return fmt.Errorf("unexpected type %T for field weak_keywords", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.WeakKeywordIds); err != nil {
-					return fmt.Errorf("unmarshal field weak_keyword_ids: %w", err)
+				if err := json.Unmarshal(*value, &a.WeakKeywords); err != nil {
+					return fmt.Errorf("unmarshal field weak_keywords: %w", err)
 				}
 			}
-		case article.FieldStrongKeywordID:
+		case article.FieldStrongKeywords:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field strong_keywords", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &a.StrongKeywords); err != nil {
+					return fmt.Errorf("unmarshal field strong_keywords: %w", err)
+				}
+			}
+		case article.FieldStrongRelatedCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field strong_keyword_id", values[i])
+				return fmt.Errorf("unexpected type %T for field strong_related_category", values[i])
 			} else if value.Valid {
-				a.StrongKeywordID = value.String
+				a.StrongRelatedCategory = value.String
 			}
 		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -253,11 +264,14 @@ func (a *Article) String() string {
 	builder.WriteString("images=")
 	builder.WriteString(fmt.Sprintf("%v", a.Images))
 	builder.WriteString(", ")
-	builder.WriteString("weak_keyword_ids=")
-	builder.WriteString(fmt.Sprintf("%v", a.WeakKeywordIds))
+	builder.WriteString("weak_keywords=")
+	builder.WriteString(fmt.Sprintf("%v", a.WeakKeywords))
 	builder.WriteString(", ")
-	builder.WriteString("strong_keyword_id=")
-	builder.WriteString(a.StrongKeywordID)
+	builder.WriteString("strong_keywords=")
+	builder.WriteString(fmt.Sprintf("%v", a.StrongKeywords))
+	builder.WriteString(", ")
+	builder.WriteString("strong_related_category=")
+	builder.WriteString(a.StrongRelatedCategory)
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)
