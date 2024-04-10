@@ -31,7 +31,7 @@ func (Article) Fields() []ent.Field {
 		field.Bool("weak_processed").Default(false),
 		field.JSON("weak_keywords", []WeakKeyword{}).Default([]WeakKeyword{}),
 		field.Bool("strong_processed").Default(false),
-		field.JSON("strong_keywords", StrongKeyword{}).Optional(),
+		field.JSON("strong_keyword", StrongKeyword{}).Optional(),
 		field.String("strong_related_category").Default(""),
 		field.Text("summary_chinese").Default(""),
 	}

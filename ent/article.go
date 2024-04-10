@@ -49,8 +49,8 @@ type Article struct {
 	WeakKeywords []schema.WeakKeyword `json:"weak_keywords,omitempty"`
 	// StrongProcessed holds the value of the "strong_processed" field.
 	StrongProcessed bool `json:"strong_processed,omitempty"`
-	// StrongKeywords holds the value of the "strong_keywords" field.
-	StrongKeywords schema.StrongKeyword `json:"strong_keywords,omitempty"`
+	// StrongKeyword holds the value of the "strong_keyword" field.
+	StrongKeyword schema.StrongKeyword `json:"strong_keyword,omitempty"`
 	// StrongRelatedCategory holds the value of the "strong_related_category" field.
 	StrongRelatedCategory string `json:"strong_related_category,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
@@ -63,7 +63,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywords, article.FieldStrongKeywords:
+		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywords, article.FieldStrongKeyword:
 			values[i] = new([]byte)
 		case article.FieldIsChinese, article.FieldWeakProcessed, article.FieldStrongProcessed:
 			values[i] = new(sql.NullBool)
@@ -188,12 +188,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.StrongProcessed = value.Bool
 			}
-		case article.FieldStrongKeywords:
+		case article.FieldStrongKeyword:
 			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field strong_keywords", values[i])
+				return fmt.Errorf("unexpected type %T for field strong_keyword", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.StrongKeywords); err != nil {
-					return fmt.Errorf("unmarshal field strong_keywords: %w", err)
+				if err := json.Unmarshal(*value, &a.StrongKeyword); err != nil {
+					return fmt.Errorf("unmarshal field strong_keyword: %w", err)
 				}
 			}
 		case article.FieldStrongRelatedCategory:
@@ -289,8 +289,8 @@ func (a *Article) String() string {
 	builder.WriteString("strong_processed=")
 	builder.WriteString(fmt.Sprintf("%v", a.StrongProcessed))
 	builder.WriteString(", ")
-	builder.WriteString("strong_keywords=")
-	builder.WriteString(fmt.Sprintf("%v", a.StrongKeywords))
+	builder.WriteString("strong_keyword=")
+	builder.WriteString(fmt.Sprintf("%v", a.StrongKeyword))
 	builder.WriteString(", ")
 	builder.WriteString("strong_related_category=")
 	builder.WriteString(a.StrongRelatedCategory)

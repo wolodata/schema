@@ -186,16 +186,16 @@ func (ac *ArticleCreate) SetNillableStrongProcessed(b *bool) *ArticleCreate {
 	return ac
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (ac *ArticleCreate) SetStrongKeywords(sk schema.StrongKeyword) *ArticleCreate {
-	ac.mutation.SetStrongKeywords(sk)
+// SetStrongKeyword sets the "strong_keyword" field.
+func (ac *ArticleCreate) SetStrongKeyword(sk schema.StrongKeyword) *ArticleCreate {
+	ac.mutation.SetStrongKeyword(sk)
 	return ac
 }
 
-// SetNillableStrongKeywords sets the "strong_keywords" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableStrongKeywords(sk *schema.StrongKeyword) *ArticleCreate {
+// SetNillableStrongKeyword sets the "strong_keyword" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongKeyword(sk *schema.StrongKeyword) *ArticleCreate {
 	if sk != nil {
-		ac.SetStrongKeywords(*sk)
+		ac.SetStrongKeyword(*sk)
 	}
 	return ac
 }
@@ -486,9 +486,9 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
 		_node.StrongProcessed = value
 	}
-	if value, ok := ac.mutation.StrongKeywords(); ok {
-		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
-		_node.StrongKeywords = value
+	if value, ok := ac.mutation.StrongKeyword(); ok {
+		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
+		_node.StrongKeyword = value
 	}
 	if value, ok := ac.mutation.StrongRelatedCategory(); ok {
 		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
@@ -682,21 +682,21 @@ func (u *ArticleUpsert) UpdateStrongProcessed() *ArticleUpsert {
 	return u
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (u *ArticleUpsert) SetStrongKeywords(v schema.StrongKeyword) *ArticleUpsert {
-	u.Set(article.FieldStrongKeywords, v)
+// SetStrongKeyword sets the "strong_keyword" field.
+func (u *ArticleUpsert) SetStrongKeyword(v schema.StrongKeyword) *ArticleUpsert {
+	u.Set(article.FieldStrongKeyword, v)
 	return u
 }
 
-// UpdateStrongKeywords sets the "strong_keywords" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateStrongKeywords() *ArticleUpsert {
-	u.SetExcluded(article.FieldStrongKeywords)
+// UpdateStrongKeyword sets the "strong_keyword" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongKeyword() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongKeyword)
 	return u
 }
 
-// ClearStrongKeywords clears the value of the "strong_keywords" field.
-func (u *ArticleUpsert) ClearStrongKeywords() *ArticleUpsert {
-	u.SetNull(article.FieldStrongKeywords)
+// ClearStrongKeyword clears the value of the "strong_keyword" field.
+func (u *ArticleUpsert) ClearStrongKeyword() *ArticleUpsert {
+	u.SetNull(article.FieldStrongKeyword)
 	return u
 }
 
@@ -938,24 +938,24 @@ func (u *ArticleUpsertOne) UpdateStrongProcessed() *ArticleUpsertOne {
 	})
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (u *ArticleUpsertOne) SetStrongKeywords(v schema.StrongKeyword) *ArticleUpsertOne {
+// SetStrongKeyword sets the "strong_keyword" field.
+func (u *ArticleUpsertOne) SetStrongKeyword(v schema.StrongKeyword) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongKeywords(v)
+		s.SetStrongKeyword(v)
 	})
 }
 
-// UpdateStrongKeywords sets the "strong_keywords" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateStrongKeywords() *ArticleUpsertOne {
+// UpdateStrongKeyword sets the "strong_keyword" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongKeyword() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongKeywords()
+		s.UpdateStrongKeyword()
 	})
 }
 
-// ClearStrongKeywords clears the value of the "strong_keywords" field.
-func (u *ArticleUpsertOne) ClearStrongKeywords() *ArticleUpsertOne {
+// ClearStrongKeyword clears the value of the "strong_keyword" field.
+func (u *ArticleUpsertOne) ClearStrongKeyword() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.ClearStrongKeywords()
+		s.ClearStrongKeyword()
 	})
 }
 
@@ -1368,24 +1368,24 @@ func (u *ArticleUpsertBulk) UpdateStrongProcessed() *ArticleUpsertBulk {
 	})
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (u *ArticleUpsertBulk) SetStrongKeywords(v schema.StrongKeyword) *ArticleUpsertBulk {
+// SetStrongKeyword sets the "strong_keyword" field.
+func (u *ArticleUpsertBulk) SetStrongKeyword(v schema.StrongKeyword) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongKeywords(v)
+		s.SetStrongKeyword(v)
 	})
 }
 
-// UpdateStrongKeywords sets the "strong_keywords" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateStrongKeywords() *ArticleUpsertBulk {
+// UpdateStrongKeyword sets the "strong_keyword" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongKeyword() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongKeywords()
+		s.UpdateStrongKeyword()
 	})
 }
 
-// ClearStrongKeywords clears the value of the "strong_keywords" field.
-func (u *ArticleUpsertBulk) ClearStrongKeywords() *ArticleUpsertBulk {
+// ClearStrongKeyword clears the value of the "strong_keyword" field.
+func (u *ArticleUpsertBulk) ClearStrongKeyword() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.ClearStrongKeywords()
+		s.ClearStrongKeyword()
 	})
 }
 

@@ -42,8 +42,8 @@ const (
 	FieldWeakKeywords = "weak_keywords"
 	// FieldStrongProcessed holds the string denoting the strong_processed field in the database.
 	FieldStrongProcessed = "strong_processed"
-	// FieldStrongKeywords holds the string denoting the strong_keywords field in the database.
-	FieldStrongKeywords = "strong_keywords"
+	// FieldStrongKeyword holds the string denoting the strong_keyword field in the database.
+	FieldStrongKeyword = "strong_keyword"
 	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
 	FieldStrongRelatedCategory = "strong_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
@@ -70,7 +70,7 @@ var Columns = []string{
 	FieldWeakProcessed,
 	FieldWeakKeywords,
 	FieldStrongProcessed,
-	FieldStrongKeywords,
+	FieldStrongKeyword,
 	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
 }

@@ -27,7 +27,7 @@ var (
 		{Name: "weak_processed", Type: field.TypeBool, Default: false},
 		{Name: "weak_keywords", Type: field.TypeJSON},
 		{Name: "strong_processed", Type: field.TypeBool, Default: false},
-		{Name: "strong_keywords", Type: field.TypeJSON, Nullable: true},
+		{Name: "strong_keyword", Type: field.TypeJSON, Nullable: true},
 		{Name: "strong_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 	}

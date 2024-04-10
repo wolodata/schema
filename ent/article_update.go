@@ -177,23 +177,23 @@ func (au *ArticleUpdate) SetNillableStrongProcessed(b *bool) *ArticleUpdate {
 	return au
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (au *ArticleUpdate) SetStrongKeywords(sk schema.StrongKeyword) *ArticleUpdate {
-	au.mutation.SetStrongKeywords(sk)
+// SetStrongKeyword sets the "strong_keyword" field.
+func (au *ArticleUpdate) SetStrongKeyword(sk schema.StrongKeyword) *ArticleUpdate {
+	au.mutation.SetStrongKeyword(sk)
 	return au
 }
 
-// SetNillableStrongKeywords sets the "strong_keywords" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableStrongKeywords(sk *schema.StrongKeyword) *ArticleUpdate {
+// SetNillableStrongKeyword sets the "strong_keyword" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongKeyword(sk *schema.StrongKeyword) *ArticleUpdate {
 	if sk != nil {
-		au.SetStrongKeywords(*sk)
+		au.SetStrongKeyword(*sk)
 	}
 	return au
 }
 
-// ClearStrongKeywords clears the value of the "strong_keywords" field.
-func (au *ArticleUpdate) ClearStrongKeywords() *ArticleUpdate {
-	au.mutation.ClearStrongKeywords()
+// ClearStrongKeyword clears the value of the "strong_keyword" field.
+func (au *ArticleUpdate) ClearStrongKeyword() *ArticleUpdate {
+	au.mutation.ClearStrongKeyword()
 	return au
 }
 
@@ -314,11 +314,11 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := au.mutation.StrongProcessed(); ok {
 		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
 	}
-	if value, ok := au.mutation.StrongKeywords(); ok {
-		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
+	if value, ok := au.mutation.StrongKeyword(); ok {
+		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
 	}
-	if au.mutation.StrongKeywordsCleared() {
-		_spec.ClearField(article.FieldStrongKeywords, field.TypeJSON)
+	if au.mutation.StrongKeywordCleared() {
+		_spec.ClearField(article.FieldStrongKeyword, field.TypeJSON)
 	}
 	if value, ok := au.mutation.StrongRelatedCategory(); ok {
 		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
@@ -494,23 +494,23 @@ func (auo *ArticleUpdateOne) SetNillableStrongProcessed(b *bool) *ArticleUpdateO
 	return auo
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (auo *ArticleUpdateOne) SetStrongKeywords(sk schema.StrongKeyword) *ArticleUpdateOne {
-	auo.mutation.SetStrongKeywords(sk)
+// SetStrongKeyword sets the "strong_keyword" field.
+func (auo *ArticleUpdateOne) SetStrongKeyword(sk schema.StrongKeyword) *ArticleUpdateOne {
+	auo.mutation.SetStrongKeyword(sk)
 	return auo
 }
 
-// SetNillableStrongKeywords sets the "strong_keywords" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableStrongKeywords(sk *schema.StrongKeyword) *ArticleUpdateOne {
+// SetNillableStrongKeyword sets the "strong_keyword" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongKeyword(sk *schema.StrongKeyword) *ArticleUpdateOne {
 	if sk != nil {
-		auo.SetStrongKeywords(*sk)
+		auo.SetStrongKeyword(*sk)
 	}
 	return auo
 }
 
-// ClearStrongKeywords clears the value of the "strong_keywords" field.
-func (auo *ArticleUpdateOne) ClearStrongKeywords() *ArticleUpdateOne {
-	auo.mutation.ClearStrongKeywords()
+// ClearStrongKeyword clears the value of the "strong_keyword" field.
+func (auo *ArticleUpdateOne) ClearStrongKeyword() *ArticleUpdateOne {
+	auo.mutation.ClearStrongKeyword()
 	return auo
 }
 
@@ -661,11 +661,11 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	if value, ok := auo.mutation.StrongProcessed(); ok {
 		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
 	}
-	if value, ok := auo.mutation.StrongKeywords(); ok {
-		_spec.SetField(article.FieldStrongKeywords, field.TypeJSON, value)
+	if value, ok := auo.mutation.StrongKeyword(); ok {
+		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
 	}
-	if auo.mutation.StrongKeywordsCleared() {
-		_spec.ClearField(article.FieldStrongKeywords, field.TypeJSON)
+	if auo.mutation.StrongKeywordCleared() {
+		_spec.ClearField(article.FieldStrongKeyword, field.TypeJSON)
 	}
 	if value, ok := auo.mutation.StrongRelatedCategory(); ok {
 		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)

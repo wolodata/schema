@@ -724,14 +724,14 @@ func StrongProcessedNEQ(v bool) predicate.Article {
 	return predicate.Article(sql.FieldNEQ(FieldStrongProcessed, v))
 }
 
-// StrongKeywordsIsNil applies the IsNil predicate on the "strong_keywords" field.
-func StrongKeywordsIsNil() predicate.Article {
-	return predicate.Article(sql.FieldIsNull(FieldStrongKeywords))
+// StrongKeywordIsNil applies the IsNil predicate on the "strong_keyword" field.
+func StrongKeywordIsNil() predicate.Article {
+	return predicate.Article(sql.FieldIsNull(FieldStrongKeyword))
 }
 
-// StrongKeywordsNotNil applies the NotNil predicate on the "strong_keywords" field.
-func StrongKeywordsNotNil() predicate.Article {
-	return predicate.Article(sql.FieldNotNull(FieldStrongKeywords))
+// StrongKeywordNotNil applies the NotNil predicate on the "strong_keyword" field.
+func StrongKeywordNotNil() predicate.Article {
+	return predicate.Article(sql.FieldNotNull(FieldStrongKeyword))
 }
 
 // StrongRelatedCategoryEQ applies the EQ predicate on the "strong_related_category" field.

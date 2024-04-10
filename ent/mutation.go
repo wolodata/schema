@@ -66,7 +66,7 @@ type ArticleMutation struct {
 	weak_keywords           *[]schema.WeakKeyword
 	appendweak_keywords     []schema.WeakKeyword
 	strong_processed        *bool
-	strong_keywords         *schema.StrongKeyword
+	strong_keyword          *schema.StrongKeyword
 	strong_related_category *string
 	summary_chinese         *string
 	clearedFields           map[string]struct{}
@@ -764,53 +764,53 @@ func (m *ArticleMutation) ResetStrongProcessed() {
 	m.strong_processed = nil
 }
 
-// SetStrongKeywords sets the "strong_keywords" field.
-func (m *ArticleMutation) SetStrongKeywords(sk schema.StrongKeyword) {
-	m.strong_keywords = &sk
+// SetStrongKeyword sets the "strong_keyword" field.
+func (m *ArticleMutation) SetStrongKeyword(sk schema.StrongKeyword) {
+	m.strong_keyword = &sk
 }
 
-// StrongKeywords returns the value of the "strong_keywords" field in the mutation.
-func (m *ArticleMutation) StrongKeywords() (r schema.StrongKeyword, exists bool) {
-	v := m.strong_keywords
+// StrongKeyword returns the value of the "strong_keyword" field in the mutation.
+func (m *ArticleMutation) StrongKeyword() (r schema.StrongKeyword, exists bool) {
+	v := m.strong_keyword
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldStrongKeywords returns the old "strong_keywords" field's value of the Article entity.
+// OldStrongKeyword returns the old "strong_keyword" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldStrongKeywords(ctx context.Context) (v schema.StrongKeyword, err error) {
+func (m *ArticleMutation) OldStrongKeyword(ctx context.Context) (v schema.StrongKeyword, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStrongKeywords is only allowed on UpdateOne operations")
+		return v, errors.New("OldStrongKeyword is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStrongKeywords requires an ID field in the mutation")
+		return v, errors.New("OldStrongKeyword requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStrongKeywords: %w", err)
+		return v, fmt.Errorf("querying old value for OldStrongKeyword: %w", err)
 	}
-	return oldValue.StrongKeywords, nil
+	return oldValue.StrongKeyword, nil
 }
 
-// ClearStrongKeywords clears the value of the "strong_keywords" field.
-func (m *ArticleMutation) ClearStrongKeywords() {
-	m.strong_keywords = nil
-	m.clearedFields[article.FieldStrongKeywords] = struct{}{}
+// ClearStrongKeyword clears the value of the "strong_keyword" field.
+func (m *ArticleMutation) ClearStrongKeyword() {
+	m.strong_keyword = nil
+	m.clearedFields[article.FieldStrongKeyword] = struct{}{}
 }
 
-// StrongKeywordsCleared returns if the "strong_keywords" field was cleared in this mutation.
-func (m *ArticleMutation) StrongKeywordsCleared() bool {
-	_, ok := m.clearedFields[article.FieldStrongKeywords]
+// StrongKeywordCleared returns if the "strong_keyword" field was cleared in this mutation.
+func (m *ArticleMutation) StrongKeywordCleared() bool {
+	_, ok := m.clearedFields[article.FieldStrongKeyword]
 	return ok
 }
 
-// ResetStrongKeywords resets all changes to the "strong_keywords" field.
-func (m *ArticleMutation) ResetStrongKeywords() {
-	m.strong_keywords = nil
-	delete(m.clearedFields, article.FieldStrongKeywords)
+// ResetStrongKeyword resets all changes to the "strong_keyword" field.
+func (m *ArticleMutation) ResetStrongKeyword() {
+	m.strong_keyword = nil
+	delete(m.clearedFields, article.FieldStrongKeyword)
 }
 
 // SetStrongRelatedCategory sets the "strong_related_category" field.
@@ -965,8 +965,8 @@ func (m *ArticleMutation) Fields() []string {
 	if m.strong_processed != nil {
 		fields = append(fields, article.FieldStrongProcessed)
 	}
-	if m.strong_keywords != nil {
-		fields = append(fields, article.FieldStrongKeywords)
+	if m.strong_keyword != nil {
+		fields = append(fields, article.FieldStrongKeyword)
 	}
 	if m.strong_related_category != nil {
 		fields = append(fields, article.FieldStrongRelatedCategory)
@@ -1012,8 +1012,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.WeakKeywords()
 	case article.FieldStrongProcessed:
 		return m.StrongProcessed()
-	case article.FieldStrongKeywords:
-		return m.StrongKeywords()
+	case article.FieldStrongKeyword:
+		return m.StrongKeyword()
 	case article.FieldStrongRelatedCategory:
 		return m.StrongRelatedCategory()
 	case article.FieldSummaryChinese:
@@ -1057,8 +1057,8 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldWeakKeywords(ctx)
 	case article.FieldStrongProcessed:
 		return m.OldStrongProcessed(ctx)
-	case article.FieldStrongKeywords:
-		return m.OldStrongKeywords(ctx)
+	case article.FieldStrongKeyword:
+		return m.OldStrongKeyword(ctx)
 	case article.FieldStrongRelatedCategory:
 		return m.OldStrongRelatedCategory(ctx)
 	case article.FieldSummaryChinese:
@@ -1177,12 +1177,12 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetStrongProcessed(v)
 		return nil
-	case article.FieldStrongKeywords:
+	case article.FieldStrongKeyword:
 		v, ok := value.(schema.StrongKeyword)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetStrongKeywords(v)
+		m.SetStrongKeyword(v)
 		return nil
 	case article.FieldStrongRelatedCategory:
 		v, ok := value.(string)
@@ -1228,8 +1228,8 @@ func (m *ArticleMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *ArticleMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(article.FieldStrongKeywords) {
-		fields = append(fields, article.FieldStrongKeywords)
+	if m.FieldCleared(article.FieldStrongKeyword) {
+		fields = append(fields, article.FieldStrongKeyword)
 	}
 	return fields
 }
@@ -1245,8 +1245,8 @@ func (m *ArticleMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *ArticleMutation) ClearField(name string) error {
 	switch name {
-	case article.FieldStrongKeywords:
-		m.ClearStrongKeywords()
+	case article.FieldStrongKeyword:
+		m.ClearStrongKeyword()
 		return nil
 	}
 	return fmt.Errorf("unknown Article nullable field %s", name)
@@ -1301,8 +1301,8 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldStrongProcessed:
 		m.ResetStrongProcessed()
 		return nil
-	case article.FieldStrongKeywords:
-		m.ResetStrongKeywords()
+	case article.FieldStrongKeyword:
+		m.ResetStrongKeyword()
 		return nil
 	case article.FieldStrongRelatedCategory:
 		m.ResetStrongRelatedCategory()
