@@ -122,7 +122,7 @@ var (
 	TKeywordStrongColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
 		{Name: "category", Type: field.TypeUint64},
-		{Name: "main", Type: field.TypeString, Unique: true},
+		{Name: "main", Type: field.TypeString},
 		{Name: "main_count", Type: field.TypeUint64},
 		{Name: "sub", Type: field.TypeString, Default: ""},
 		{Name: "sub_count", Type: field.TypeUint64, Default: 0},
@@ -137,6 +137,11 @@ var (
 				Name:    "keywordstrong_category",
 				Unique:  false,
 				Columns: []*schema.Column{TKeywordStrongColumns[1]},
+			},
+			{
+				Name:    "keywordstrong_main_sub",
+				Unique:  true,
+				Columns: []*schema.Column{TKeywordStrongColumns[2], TKeywordStrongColumns[4]},
 			},
 		},
 	}

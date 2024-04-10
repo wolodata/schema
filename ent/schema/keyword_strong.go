@@ -16,7 +16,7 @@ func (KeywordStrong) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").Immutable(),
 		field.Uint64("category"),
-		field.String("main").Unique(),
+		field.String("main"),
 		field.Uint64("main_count"),
 		field.String("sub").Default(""),
 		field.Uint64("sub_count").Default(0),
@@ -26,6 +26,7 @@ func (KeywordStrong) Fields() []ent.Field {
 func (KeywordStrong) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("category"),
+		index.Fields("main", "sub").Unique(),
 	}
 }
 
