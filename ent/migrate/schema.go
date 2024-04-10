@@ -56,16 +56,6 @@ var (
 				Columns: []*schema.Column{TArticleColumns[1]},
 			},
 			{
-				Name:    "article_weak_keywords",
-				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[13]},
-			},
-			{
-				Name:    "article_strong_keywords",
-				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[14]},
-			},
-			{
 				Name:    "article_strong_related_category",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[15]},

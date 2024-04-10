@@ -53,8 +53,6 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("title_chinese"),
 		index.Fields("title_english"),
 		index.Fields("origin_short_id"),
-		index.Fields("weak_keywords"),
-		index.Fields("strong_keywords"),
 		index.Fields("strong_related_category"),
 	}
 }
