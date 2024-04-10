@@ -35,14 +35,14 @@ const (
 	FieldTextEnglish = "text_english"
 	// FieldImages holds the string denoting the images field in the database.
 	FieldImages = "images"
-	// FieldIsChinaRelated holds the string denoting the is_china_related field in the database.
-	FieldIsChinaRelated = "is_china_related"
-	// FieldChinaRelatedKeywords holds the string denoting the china_related_keywords field in the database.
-	FieldChinaRelatedKeywords = "china_related_keywords"
-	// FieldIsChinaStrongRelated holds the string denoting the is_china_strong_related field in the database.
-	FieldIsChinaStrongRelated = "is_china_strong_related"
-	// FieldChinaRelatedCategory holds the string denoting the china_related_category field in the database.
-	FieldChinaRelatedCategory = "china_related_category"
+	// FieldIsWeakRelated holds the string denoting the is_weak_related field in the database.
+	FieldIsWeakRelated = "is_weak_related"
+	// FieldKeywordWeak holds the string denoting the keyword_weak field in the database.
+	FieldKeywordWeak = "keyword_weak"
+	// FieldIsStrongRelated holds the string denoting the is_strong_related field in the database.
+	FieldIsStrongRelated = "is_strong_related"
+	// FieldKeywordStrong holds the string denoting the keyword_strong field in the database.
+	FieldKeywordStrong = "keyword_strong"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
 	// Table holds the table name of the article in the database.
@@ -64,10 +64,10 @@ var Columns = []string{
 	FieldTextChinese,
 	FieldTextEnglish,
 	FieldImages,
-	FieldIsChinaRelated,
-	FieldChinaRelatedKeywords,
-	FieldIsChinaStrongRelated,
-	FieldChinaRelatedCategory,
+	FieldIsWeakRelated,
+	FieldKeywordWeak,
+	FieldIsStrongRelated,
+	FieldKeywordStrong,
 	FieldSummaryChinese,
 }
 
@@ -104,14 +104,10 @@ var (
 	DefaultTextEnglish string
 	// DefaultImages holds the default value on creation for the "images" field.
 	DefaultImages []string
-	// DefaultIsChinaRelated holds the default value on creation for the "is_china_related" field.
-	DefaultIsChinaRelated bool
-	// DefaultChinaRelatedKeywords holds the default value on creation for the "china_related_keywords" field.
-	DefaultChinaRelatedKeywords []string
-	// DefaultIsChinaStrongRelated holds the default value on creation for the "is_china_strong_related" field.
-	DefaultIsChinaStrongRelated bool
-	// DefaultChinaRelatedCategory holds the default value on creation for the "china_related_category" field.
-	DefaultChinaRelatedCategory string
+	// DefaultIsWeakRelated holds the default value on creation for the "is_weak_related" field.
+	DefaultIsWeakRelated bool
+	// DefaultIsStrongRelated holds the default value on creation for the "is_strong_related" field.
+	DefaultIsStrongRelated bool
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
 )
@@ -174,19 +170,14 @@ func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
 }
 
-// ByIsChinaRelated orders the results by the is_china_related field.
-func ByIsChinaRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIsChinaRelated, opts...).ToFunc()
+// ByIsWeakRelated orders the results by the is_weak_related field.
+func ByIsWeakRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsWeakRelated, opts...).ToFunc()
 }
 
-// ByIsChinaStrongRelated orders the results by the is_china_strong_related field.
-func ByIsChinaStrongRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIsChinaStrongRelated, opts...).ToFunc()
-}
-
-// ByChinaRelatedCategory orders the results by the china_related_category field.
-func ByChinaRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldChinaRelatedCategory, opts...).ToFunc()
+// ByIsStrongRelated orders the results by the is_strong_related field.
+func ByIsStrongRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsStrongRelated, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.

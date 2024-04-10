@@ -151,51 +151,43 @@ func (ac *ArticleCreate) SetImages(s []string) *ArticleCreate {
 	return ac
 }
 
-// SetIsChinaRelated sets the "is_china_related" field.
-func (ac *ArticleCreate) SetIsChinaRelated(b bool) *ArticleCreate {
-	ac.mutation.SetIsChinaRelated(b)
+// SetIsWeakRelated sets the "is_weak_related" field.
+func (ac *ArticleCreate) SetIsWeakRelated(b bool) *ArticleCreate {
+	ac.mutation.SetIsWeakRelated(b)
 	return ac
 }
 
-// SetNillableIsChinaRelated sets the "is_china_related" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableIsChinaRelated(b *bool) *ArticleCreate {
+// SetNillableIsWeakRelated sets the "is_weak_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableIsWeakRelated(b *bool) *ArticleCreate {
 	if b != nil {
-		ac.SetIsChinaRelated(*b)
+		ac.SetIsWeakRelated(*b)
 	}
 	return ac
 }
 
-// SetChinaRelatedKeywords sets the "china_related_keywords" field.
-func (ac *ArticleCreate) SetChinaRelatedKeywords(s []string) *ArticleCreate {
-	ac.mutation.SetChinaRelatedKeywords(s)
+// SetKeywordWeak sets the "keyword_weak" field.
+func (ac *ArticleCreate) SetKeywordWeak(i []interface{}) *ArticleCreate {
+	ac.mutation.SetKeywordWeak(i)
 	return ac
 }
 
-// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
-func (ac *ArticleCreate) SetIsChinaStrongRelated(b bool) *ArticleCreate {
-	ac.mutation.SetIsChinaStrongRelated(b)
+// SetIsStrongRelated sets the "is_strong_related" field.
+func (ac *ArticleCreate) SetIsStrongRelated(b bool) *ArticleCreate {
+	ac.mutation.SetIsStrongRelated(b)
 	return ac
 }
 
-// SetNillableIsChinaStrongRelated sets the "is_china_strong_related" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableIsChinaStrongRelated(b *bool) *ArticleCreate {
+// SetNillableIsStrongRelated sets the "is_strong_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableIsStrongRelated(b *bool) *ArticleCreate {
 	if b != nil {
-		ac.SetIsChinaStrongRelated(*b)
+		ac.SetIsStrongRelated(*b)
 	}
 	return ac
 }
 
-// SetChinaRelatedCategory sets the "china_related_category" field.
-func (ac *ArticleCreate) SetChinaRelatedCategory(s string) *ArticleCreate {
-	ac.mutation.SetChinaRelatedCategory(s)
-	return ac
-}
-
-// SetNillableChinaRelatedCategory sets the "china_related_category" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableChinaRelatedCategory(s *string) *ArticleCreate {
-	if s != nil {
-		ac.SetChinaRelatedCategory(*s)
-	}
+// SetKeywordStrong sets the "keyword_strong" field.
+func (ac *ArticleCreate) SetKeywordStrong(i []interface{}) *ArticleCreate {
+	ac.mutation.SetKeywordStrong(i)
 	return ac
 }
 
@@ -290,21 +282,13 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultImages
 		ac.mutation.SetImages(v)
 	}
-	if _, ok := ac.mutation.IsChinaRelated(); !ok {
-		v := article.DefaultIsChinaRelated
-		ac.mutation.SetIsChinaRelated(v)
+	if _, ok := ac.mutation.IsWeakRelated(); !ok {
+		v := article.DefaultIsWeakRelated
+		ac.mutation.SetIsWeakRelated(v)
 	}
-	if _, ok := ac.mutation.ChinaRelatedKeywords(); !ok {
-		v := article.DefaultChinaRelatedKeywords
-		ac.mutation.SetChinaRelatedKeywords(v)
-	}
-	if _, ok := ac.mutation.IsChinaStrongRelated(); !ok {
-		v := article.DefaultIsChinaStrongRelated
-		ac.mutation.SetIsChinaStrongRelated(v)
-	}
-	if _, ok := ac.mutation.ChinaRelatedCategory(); !ok {
-		v := article.DefaultChinaRelatedCategory
-		ac.mutation.SetChinaRelatedCategory(v)
+	if _, ok := ac.mutation.IsStrongRelated(); !ok {
+		v := article.DefaultIsStrongRelated
+		ac.mutation.SetIsStrongRelated(v)
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		v := article.DefaultSummaryChinese
@@ -360,17 +344,17 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.Images(); !ok {
 		return &ValidationError{Name: "images", err: errors.New(`ent: missing required field "Article.images"`)}
 	}
-	if _, ok := ac.mutation.IsChinaRelated(); !ok {
-		return &ValidationError{Name: "is_china_related", err: errors.New(`ent: missing required field "Article.is_china_related"`)}
+	if _, ok := ac.mutation.IsWeakRelated(); !ok {
+		return &ValidationError{Name: "is_weak_related", err: errors.New(`ent: missing required field "Article.is_weak_related"`)}
 	}
-	if _, ok := ac.mutation.ChinaRelatedKeywords(); !ok {
-		return &ValidationError{Name: "china_related_keywords", err: errors.New(`ent: missing required field "Article.china_related_keywords"`)}
+	if _, ok := ac.mutation.KeywordWeak(); !ok {
+		return &ValidationError{Name: "keyword_weak", err: errors.New(`ent: missing required field "Article.keyword_weak"`)}
 	}
-	if _, ok := ac.mutation.IsChinaStrongRelated(); !ok {
-		return &ValidationError{Name: "is_china_strong_related", err: errors.New(`ent: missing required field "Article.is_china_strong_related"`)}
+	if _, ok := ac.mutation.IsStrongRelated(); !ok {
+		return &ValidationError{Name: "is_strong_related", err: errors.New(`ent: missing required field "Article.is_strong_related"`)}
 	}
-	if _, ok := ac.mutation.ChinaRelatedCategory(); !ok {
-		return &ValidationError{Name: "china_related_category", err: errors.New(`ent: missing required field "Article.china_related_category"`)}
+	if _, ok := ac.mutation.KeywordStrong(); !ok {
+		return &ValidationError{Name: "keyword_strong", err: errors.New(`ent: missing required field "Article.keyword_strong"`)}
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
@@ -459,21 +443,21 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldImages, field.TypeJSON, value)
 		_node.Images = value
 	}
-	if value, ok := ac.mutation.IsChinaRelated(); ok {
-		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
-		_node.IsChinaRelated = value
+	if value, ok := ac.mutation.IsWeakRelated(); ok {
+		_spec.SetField(article.FieldIsWeakRelated, field.TypeBool, value)
+		_node.IsWeakRelated = value
 	}
-	if value, ok := ac.mutation.ChinaRelatedKeywords(); ok {
-		_spec.SetField(article.FieldChinaRelatedKeywords, field.TypeJSON, value)
-		_node.ChinaRelatedKeywords = value
+	if value, ok := ac.mutation.KeywordWeak(); ok {
+		_spec.SetField(article.FieldKeywordWeak, field.TypeJSON, value)
+		_node.KeywordWeak = value
 	}
-	if value, ok := ac.mutation.IsChinaStrongRelated(); ok {
-		_spec.SetField(article.FieldIsChinaStrongRelated, field.TypeBool, value)
-		_node.IsChinaStrongRelated = value
+	if value, ok := ac.mutation.IsStrongRelated(); ok {
+		_spec.SetField(article.FieldIsStrongRelated, field.TypeBool, value)
+		_node.IsStrongRelated = value
 	}
-	if value, ok := ac.mutation.ChinaRelatedCategory(); ok {
-		_spec.SetField(article.FieldChinaRelatedCategory, field.TypeString, value)
-		_node.ChinaRelatedCategory = value
+	if value, ok := ac.mutation.KeywordStrong(); ok {
+		_spec.SetField(article.FieldKeywordStrong, field.TypeJSON, value)
+		_node.KeywordStrong = value
 	}
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -627,51 +611,51 @@ func (u *ArticleUpsert) UpdateImages() *ArticleUpsert {
 	return u
 }
 
-// SetIsChinaRelated sets the "is_china_related" field.
-func (u *ArticleUpsert) SetIsChinaRelated(v bool) *ArticleUpsert {
-	u.Set(article.FieldIsChinaRelated, v)
+// SetIsWeakRelated sets the "is_weak_related" field.
+func (u *ArticleUpsert) SetIsWeakRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldIsWeakRelated, v)
 	return u
 }
 
-// UpdateIsChinaRelated sets the "is_china_related" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateIsChinaRelated() *ArticleUpsert {
-	u.SetExcluded(article.FieldIsChinaRelated)
+// UpdateIsWeakRelated sets the "is_weak_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateIsWeakRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldIsWeakRelated)
 	return u
 }
 
-// SetChinaRelatedKeywords sets the "china_related_keywords" field.
-func (u *ArticleUpsert) SetChinaRelatedKeywords(v []string) *ArticleUpsert {
-	u.Set(article.FieldChinaRelatedKeywords, v)
+// SetKeywordWeak sets the "keyword_weak" field.
+func (u *ArticleUpsert) SetKeywordWeak(v []interface{}) *ArticleUpsert {
+	u.Set(article.FieldKeywordWeak, v)
 	return u
 }
 
-// UpdateChinaRelatedKeywords sets the "china_related_keywords" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateChinaRelatedKeywords() *ArticleUpsert {
-	u.SetExcluded(article.FieldChinaRelatedKeywords)
+// UpdateKeywordWeak sets the "keyword_weak" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateKeywordWeak() *ArticleUpsert {
+	u.SetExcluded(article.FieldKeywordWeak)
 	return u
 }
 
-// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
-func (u *ArticleUpsert) SetIsChinaStrongRelated(v bool) *ArticleUpsert {
-	u.Set(article.FieldIsChinaStrongRelated, v)
+// SetIsStrongRelated sets the "is_strong_related" field.
+func (u *ArticleUpsert) SetIsStrongRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldIsStrongRelated, v)
 	return u
 }
 
-// UpdateIsChinaStrongRelated sets the "is_china_strong_related" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateIsChinaStrongRelated() *ArticleUpsert {
-	u.SetExcluded(article.FieldIsChinaStrongRelated)
+// UpdateIsStrongRelated sets the "is_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateIsStrongRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldIsStrongRelated)
 	return u
 }
 
-// SetChinaRelatedCategory sets the "china_related_category" field.
-func (u *ArticleUpsert) SetChinaRelatedCategory(v string) *ArticleUpsert {
-	u.Set(article.FieldChinaRelatedCategory, v)
+// SetKeywordStrong sets the "keyword_strong" field.
+func (u *ArticleUpsert) SetKeywordStrong(v []interface{}) *ArticleUpsert {
+	u.Set(article.FieldKeywordStrong, v)
 	return u
 }
 
-// UpdateChinaRelatedCategory sets the "china_related_category" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateChinaRelatedCategory() *ArticleUpsert {
-	u.SetExcluded(article.FieldChinaRelatedCategory)
+// UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateKeywordStrong() *ArticleUpsert {
+	u.SetExcluded(article.FieldKeywordStrong)
 	return u
 }
 
@@ -859,59 +843,59 @@ func (u *ArticleUpsertOne) UpdateImages() *ArticleUpsertOne {
 	})
 }
 
-// SetIsChinaRelated sets the "is_china_related" field.
-func (u *ArticleUpsertOne) SetIsChinaRelated(v bool) *ArticleUpsertOne {
+// SetIsWeakRelated sets the "is_weak_related" field.
+func (u *ArticleUpsertOne) SetIsWeakRelated(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsChinaRelated(v)
+		s.SetIsWeakRelated(v)
 	})
 }
 
-// UpdateIsChinaRelated sets the "is_china_related" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateIsChinaRelated() *ArticleUpsertOne {
+// UpdateIsWeakRelated sets the "is_weak_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateIsWeakRelated() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsChinaRelated()
+		s.UpdateIsWeakRelated()
 	})
 }
 
-// SetChinaRelatedKeywords sets the "china_related_keywords" field.
-func (u *ArticleUpsertOne) SetChinaRelatedKeywords(v []string) *ArticleUpsertOne {
+// SetKeywordWeak sets the "keyword_weak" field.
+func (u *ArticleUpsertOne) SetKeywordWeak(v []interface{}) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetChinaRelatedKeywords(v)
+		s.SetKeywordWeak(v)
 	})
 }
 
-// UpdateChinaRelatedKeywords sets the "china_related_keywords" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateChinaRelatedKeywords() *ArticleUpsertOne {
+// UpdateKeywordWeak sets the "keyword_weak" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateKeywordWeak() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateChinaRelatedKeywords()
+		s.UpdateKeywordWeak()
 	})
 }
 
-// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
-func (u *ArticleUpsertOne) SetIsChinaStrongRelated(v bool) *ArticleUpsertOne {
+// SetIsStrongRelated sets the "is_strong_related" field.
+func (u *ArticleUpsertOne) SetIsStrongRelated(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsChinaStrongRelated(v)
+		s.SetIsStrongRelated(v)
 	})
 }
 
-// UpdateIsChinaStrongRelated sets the "is_china_strong_related" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateIsChinaStrongRelated() *ArticleUpsertOne {
+// UpdateIsStrongRelated sets the "is_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateIsStrongRelated() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsChinaStrongRelated()
+		s.UpdateIsStrongRelated()
 	})
 }
 
-// SetChinaRelatedCategory sets the "china_related_category" field.
-func (u *ArticleUpsertOne) SetChinaRelatedCategory(v string) *ArticleUpsertOne {
+// SetKeywordStrong sets the "keyword_strong" field.
+func (u *ArticleUpsertOne) SetKeywordStrong(v []interface{}) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetChinaRelatedCategory(v)
+		s.SetKeywordStrong(v)
 	})
 }
 
-// UpdateChinaRelatedCategory sets the "china_related_category" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateChinaRelatedCategory() *ArticleUpsertOne {
+// UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateKeywordStrong() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateChinaRelatedCategory()
+		s.UpdateKeywordStrong()
 	})
 }
 
@@ -1268,59 +1252,59 @@ func (u *ArticleUpsertBulk) UpdateImages() *ArticleUpsertBulk {
 	})
 }
 
-// SetIsChinaRelated sets the "is_china_related" field.
-func (u *ArticleUpsertBulk) SetIsChinaRelated(v bool) *ArticleUpsertBulk {
+// SetIsWeakRelated sets the "is_weak_related" field.
+func (u *ArticleUpsertBulk) SetIsWeakRelated(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsChinaRelated(v)
+		s.SetIsWeakRelated(v)
 	})
 }
 
-// UpdateIsChinaRelated sets the "is_china_related" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateIsChinaRelated() *ArticleUpsertBulk {
+// UpdateIsWeakRelated sets the "is_weak_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateIsWeakRelated() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsChinaRelated()
+		s.UpdateIsWeakRelated()
 	})
 }
 
-// SetChinaRelatedKeywords sets the "china_related_keywords" field.
-func (u *ArticleUpsertBulk) SetChinaRelatedKeywords(v []string) *ArticleUpsertBulk {
+// SetKeywordWeak sets the "keyword_weak" field.
+func (u *ArticleUpsertBulk) SetKeywordWeak(v []interface{}) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetChinaRelatedKeywords(v)
+		s.SetKeywordWeak(v)
 	})
 }
 
-// UpdateChinaRelatedKeywords sets the "china_related_keywords" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateChinaRelatedKeywords() *ArticleUpsertBulk {
+// UpdateKeywordWeak sets the "keyword_weak" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateKeywordWeak() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateChinaRelatedKeywords()
+		s.UpdateKeywordWeak()
 	})
 }
 
-// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
-func (u *ArticleUpsertBulk) SetIsChinaStrongRelated(v bool) *ArticleUpsertBulk {
+// SetIsStrongRelated sets the "is_strong_related" field.
+func (u *ArticleUpsertBulk) SetIsStrongRelated(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetIsChinaStrongRelated(v)
+		s.SetIsStrongRelated(v)
 	})
 }
 
-// UpdateIsChinaStrongRelated sets the "is_china_strong_related" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateIsChinaStrongRelated() *ArticleUpsertBulk {
+// UpdateIsStrongRelated sets the "is_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateIsStrongRelated() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateIsChinaStrongRelated()
+		s.UpdateIsStrongRelated()
 	})
 }
 
-// SetChinaRelatedCategory sets the "china_related_category" field.
-func (u *ArticleUpsertBulk) SetChinaRelatedCategory(v string) *ArticleUpsertBulk {
+// SetKeywordStrong sets the "keyword_strong" field.
+func (u *ArticleUpsertBulk) SetKeywordStrong(v []interface{}) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetChinaRelatedCategory(v)
+		s.SetKeywordStrong(v)
 	})
 }
 
-// UpdateChinaRelatedCategory sets the "china_related_category" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateChinaRelatedCategory() *ArticleUpsertBulk {
+// UpdateKeywordStrong sets the "keyword_strong" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateKeywordStrong() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateChinaRelatedCategory()
+		s.UpdateKeywordStrong()
 	})
 }
 

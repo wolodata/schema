@@ -114,19 +114,14 @@ func TextEnglish(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldTextEnglish, v))
 }
 
-// IsChinaRelated applies equality check predicate on the "is_china_related" field. It's identical to IsChinaRelatedEQ.
-func IsChinaRelated(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsChinaRelated, v))
+// IsWeakRelated applies equality check predicate on the "is_weak_related" field. It's identical to IsWeakRelatedEQ.
+func IsWeakRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsWeakRelated, v))
 }
 
-// IsChinaStrongRelated applies equality check predicate on the "is_china_strong_related" field. It's identical to IsChinaStrongRelatedEQ.
-func IsChinaStrongRelated(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsChinaStrongRelated, v))
-}
-
-// ChinaRelatedCategory applies equality check predicate on the "china_related_category" field. It's identical to ChinaRelatedCategoryEQ.
-func ChinaRelatedCategory(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldChinaRelatedCategory, v))
+// IsStrongRelated applies equality check predicate on the "is_strong_related" field. It's identical to IsStrongRelatedEQ.
+func IsStrongRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsStrongRelated, v))
 }
 
 // SummaryChinese applies equality check predicate on the "summary_chinese" field. It's identical to SummaryChineseEQ.
@@ -704,89 +699,24 @@ func TextEnglishContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldTextEnglish, v))
 }
 
-// IsChinaRelatedEQ applies the EQ predicate on the "is_china_related" field.
-func IsChinaRelatedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsChinaRelated, v))
+// IsWeakRelatedEQ applies the EQ predicate on the "is_weak_related" field.
+func IsWeakRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsWeakRelated, v))
 }
 
-// IsChinaRelatedNEQ applies the NEQ predicate on the "is_china_related" field.
-func IsChinaRelatedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldIsChinaRelated, v))
+// IsWeakRelatedNEQ applies the NEQ predicate on the "is_weak_related" field.
+func IsWeakRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldIsWeakRelated, v))
 }
 
-// IsChinaStrongRelatedEQ applies the EQ predicate on the "is_china_strong_related" field.
-func IsChinaStrongRelatedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldIsChinaStrongRelated, v))
+// IsStrongRelatedEQ applies the EQ predicate on the "is_strong_related" field.
+func IsStrongRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldIsStrongRelated, v))
 }
 
-// IsChinaStrongRelatedNEQ applies the NEQ predicate on the "is_china_strong_related" field.
-func IsChinaStrongRelatedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldIsChinaStrongRelated, v))
-}
-
-// ChinaRelatedCategoryEQ applies the EQ predicate on the "china_related_category" field.
-func ChinaRelatedCategoryEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryNEQ applies the NEQ predicate on the "china_related_category" field.
-func ChinaRelatedCategoryNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryIn applies the In predicate on the "china_related_category" field.
-func ChinaRelatedCategoryIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldChinaRelatedCategory, vs...))
-}
-
-// ChinaRelatedCategoryNotIn applies the NotIn predicate on the "china_related_category" field.
-func ChinaRelatedCategoryNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldChinaRelatedCategory, vs...))
-}
-
-// ChinaRelatedCategoryGT applies the GT predicate on the "china_related_category" field.
-func ChinaRelatedCategoryGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryGTE applies the GTE predicate on the "china_related_category" field.
-func ChinaRelatedCategoryGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryLT applies the LT predicate on the "china_related_category" field.
-func ChinaRelatedCategoryLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryLTE applies the LTE predicate on the "china_related_category" field.
-func ChinaRelatedCategoryLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryContains applies the Contains predicate on the "china_related_category" field.
-func ChinaRelatedCategoryContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryHasPrefix applies the HasPrefix predicate on the "china_related_category" field.
-func ChinaRelatedCategoryHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryHasSuffix applies the HasSuffix predicate on the "china_related_category" field.
-func ChinaRelatedCategoryHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryEqualFold applies the EqualFold predicate on the "china_related_category" field.
-func ChinaRelatedCategoryEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldChinaRelatedCategory, v))
-}
-
-// ChinaRelatedCategoryContainsFold applies the ContainsFold predicate on the "china_related_category" field.
-func ChinaRelatedCategoryContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldChinaRelatedCategory, v))
+// IsStrongRelatedNEQ applies the NEQ predicate on the "is_strong_related" field.
+func IsStrongRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldIsStrongRelated, v))
 }
 
 // SummaryChineseEQ applies the EQ predicate on the "summary_chinese" field.

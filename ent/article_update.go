@@ -136,57 +136,55 @@ func (au *ArticleUpdate) AppendImages(s []string) *ArticleUpdate {
 	return au
 }
 
-// SetIsChinaRelated sets the "is_china_related" field.
-func (au *ArticleUpdate) SetIsChinaRelated(b bool) *ArticleUpdate {
-	au.mutation.SetIsChinaRelated(b)
+// SetIsWeakRelated sets the "is_weak_related" field.
+func (au *ArticleUpdate) SetIsWeakRelated(b bool) *ArticleUpdate {
+	au.mutation.SetIsWeakRelated(b)
 	return au
 }
 
-// SetNillableIsChinaRelated sets the "is_china_related" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableIsChinaRelated(b *bool) *ArticleUpdate {
+// SetNillableIsWeakRelated sets the "is_weak_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableIsWeakRelated(b *bool) *ArticleUpdate {
 	if b != nil {
-		au.SetIsChinaRelated(*b)
+		au.SetIsWeakRelated(*b)
 	}
 	return au
 }
 
-// SetChinaRelatedKeywords sets the "china_related_keywords" field.
-func (au *ArticleUpdate) SetChinaRelatedKeywords(s []string) *ArticleUpdate {
-	au.mutation.SetChinaRelatedKeywords(s)
+// SetKeywordWeak sets the "keyword_weak" field.
+func (au *ArticleUpdate) SetKeywordWeak(i []interface{}) *ArticleUpdate {
+	au.mutation.SetKeywordWeak(i)
 	return au
 }
 
-// AppendChinaRelatedKeywords appends s to the "china_related_keywords" field.
-func (au *ArticleUpdate) AppendChinaRelatedKeywords(s []string) *ArticleUpdate {
-	au.mutation.AppendChinaRelatedKeywords(s)
+// AppendKeywordWeak appends i to the "keyword_weak" field.
+func (au *ArticleUpdate) AppendKeywordWeak(i []interface{}) *ArticleUpdate {
+	au.mutation.AppendKeywordWeak(i)
 	return au
 }
 
-// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
-func (au *ArticleUpdate) SetIsChinaStrongRelated(b bool) *ArticleUpdate {
-	au.mutation.SetIsChinaStrongRelated(b)
+// SetIsStrongRelated sets the "is_strong_related" field.
+func (au *ArticleUpdate) SetIsStrongRelated(b bool) *ArticleUpdate {
+	au.mutation.SetIsStrongRelated(b)
 	return au
 }
 
-// SetNillableIsChinaStrongRelated sets the "is_china_strong_related" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableIsChinaStrongRelated(b *bool) *ArticleUpdate {
+// SetNillableIsStrongRelated sets the "is_strong_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableIsStrongRelated(b *bool) *ArticleUpdate {
 	if b != nil {
-		au.SetIsChinaStrongRelated(*b)
+		au.SetIsStrongRelated(*b)
 	}
 	return au
 }
 
-// SetChinaRelatedCategory sets the "china_related_category" field.
-func (au *ArticleUpdate) SetChinaRelatedCategory(s string) *ArticleUpdate {
-	au.mutation.SetChinaRelatedCategory(s)
+// SetKeywordStrong sets the "keyword_strong" field.
+func (au *ArticleUpdate) SetKeywordStrong(i []interface{}) *ArticleUpdate {
+	au.mutation.SetKeywordStrong(i)
 	return au
 }
 
-// SetNillableChinaRelatedCategory sets the "china_related_category" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableChinaRelatedCategory(s *string) *ArticleUpdate {
-	if s != nil {
-		au.SetChinaRelatedCategory(*s)
-	}
+// AppendKeywordStrong appends i to the "keyword_strong" field.
+func (au *ArticleUpdate) AppendKeywordStrong(i []interface{}) *ArticleUpdate {
+	au.mutation.AppendKeywordStrong(i)
 	return au
 }
 
@@ -279,22 +277,27 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
-	if value, ok := au.mutation.IsChinaRelated(); ok {
-		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
+	if value, ok := au.mutation.IsWeakRelated(); ok {
+		_spec.SetField(article.FieldIsWeakRelated, field.TypeBool, value)
 	}
-	if value, ok := au.mutation.ChinaRelatedKeywords(); ok {
-		_spec.SetField(article.FieldChinaRelatedKeywords, field.TypeJSON, value)
+	if value, ok := au.mutation.KeywordWeak(); ok {
+		_spec.SetField(article.FieldKeywordWeak, field.TypeJSON, value)
 	}
-	if value, ok := au.mutation.AppendedChinaRelatedKeywords(); ok {
+	if value, ok := au.mutation.AppendedKeywordWeak(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldChinaRelatedKeywords, value)
+			sqljson.Append(u, article.FieldKeywordWeak, value)
 		})
 	}
-	if value, ok := au.mutation.IsChinaStrongRelated(); ok {
-		_spec.SetField(article.FieldIsChinaStrongRelated, field.TypeBool, value)
+	if value, ok := au.mutation.IsStrongRelated(); ok {
+		_spec.SetField(article.FieldIsStrongRelated, field.TypeBool, value)
 	}
-	if value, ok := au.mutation.ChinaRelatedCategory(); ok {
-		_spec.SetField(article.FieldChinaRelatedCategory, field.TypeString, value)
+	if value, ok := au.mutation.KeywordStrong(); ok {
+		_spec.SetField(article.FieldKeywordStrong, field.TypeJSON, value)
+	}
+	if value, ok := au.mutation.AppendedKeywordStrong(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldKeywordStrong, value)
+		})
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
@@ -427,57 +430,55 @@ func (auo *ArticleUpdateOne) AppendImages(s []string) *ArticleUpdateOne {
 	return auo
 }
 
-// SetIsChinaRelated sets the "is_china_related" field.
-func (auo *ArticleUpdateOne) SetIsChinaRelated(b bool) *ArticleUpdateOne {
-	auo.mutation.SetIsChinaRelated(b)
+// SetIsWeakRelated sets the "is_weak_related" field.
+func (auo *ArticleUpdateOne) SetIsWeakRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetIsWeakRelated(b)
 	return auo
 }
 
-// SetNillableIsChinaRelated sets the "is_china_related" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableIsChinaRelated(b *bool) *ArticleUpdateOne {
+// SetNillableIsWeakRelated sets the "is_weak_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableIsWeakRelated(b *bool) *ArticleUpdateOne {
 	if b != nil {
-		auo.SetIsChinaRelated(*b)
+		auo.SetIsWeakRelated(*b)
 	}
 	return auo
 }
 
-// SetChinaRelatedKeywords sets the "china_related_keywords" field.
-func (auo *ArticleUpdateOne) SetChinaRelatedKeywords(s []string) *ArticleUpdateOne {
-	auo.mutation.SetChinaRelatedKeywords(s)
+// SetKeywordWeak sets the "keyword_weak" field.
+func (auo *ArticleUpdateOne) SetKeywordWeak(i []interface{}) *ArticleUpdateOne {
+	auo.mutation.SetKeywordWeak(i)
 	return auo
 }
 
-// AppendChinaRelatedKeywords appends s to the "china_related_keywords" field.
-func (auo *ArticleUpdateOne) AppendChinaRelatedKeywords(s []string) *ArticleUpdateOne {
-	auo.mutation.AppendChinaRelatedKeywords(s)
+// AppendKeywordWeak appends i to the "keyword_weak" field.
+func (auo *ArticleUpdateOne) AppendKeywordWeak(i []interface{}) *ArticleUpdateOne {
+	auo.mutation.AppendKeywordWeak(i)
 	return auo
 }
 
-// SetIsChinaStrongRelated sets the "is_china_strong_related" field.
-func (auo *ArticleUpdateOne) SetIsChinaStrongRelated(b bool) *ArticleUpdateOne {
-	auo.mutation.SetIsChinaStrongRelated(b)
+// SetIsStrongRelated sets the "is_strong_related" field.
+func (auo *ArticleUpdateOne) SetIsStrongRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetIsStrongRelated(b)
 	return auo
 }
 
-// SetNillableIsChinaStrongRelated sets the "is_china_strong_related" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableIsChinaStrongRelated(b *bool) *ArticleUpdateOne {
+// SetNillableIsStrongRelated sets the "is_strong_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableIsStrongRelated(b *bool) *ArticleUpdateOne {
 	if b != nil {
-		auo.SetIsChinaStrongRelated(*b)
+		auo.SetIsStrongRelated(*b)
 	}
 	return auo
 }
 
-// SetChinaRelatedCategory sets the "china_related_category" field.
-func (auo *ArticleUpdateOne) SetChinaRelatedCategory(s string) *ArticleUpdateOne {
-	auo.mutation.SetChinaRelatedCategory(s)
+// SetKeywordStrong sets the "keyword_strong" field.
+func (auo *ArticleUpdateOne) SetKeywordStrong(i []interface{}) *ArticleUpdateOne {
+	auo.mutation.SetKeywordStrong(i)
 	return auo
 }
 
-// SetNillableChinaRelatedCategory sets the "china_related_category" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableChinaRelatedCategory(s *string) *ArticleUpdateOne {
-	if s != nil {
-		auo.SetChinaRelatedCategory(*s)
-	}
+// AppendKeywordStrong appends i to the "keyword_strong" field.
+func (auo *ArticleUpdateOne) AppendKeywordStrong(i []interface{}) *ArticleUpdateOne {
+	auo.mutation.AppendKeywordStrong(i)
 	return auo
 }
 
@@ -600,22 +601,27 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
-	if value, ok := auo.mutation.IsChinaRelated(); ok {
-		_spec.SetField(article.FieldIsChinaRelated, field.TypeBool, value)
+	if value, ok := auo.mutation.IsWeakRelated(); ok {
+		_spec.SetField(article.FieldIsWeakRelated, field.TypeBool, value)
 	}
-	if value, ok := auo.mutation.ChinaRelatedKeywords(); ok {
-		_spec.SetField(article.FieldChinaRelatedKeywords, field.TypeJSON, value)
+	if value, ok := auo.mutation.KeywordWeak(); ok {
+		_spec.SetField(article.FieldKeywordWeak, field.TypeJSON, value)
 	}
-	if value, ok := auo.mutation.AppendedChinaRelatedKeywords(); ok {
+	if value, ok := auo.mutation.AppendedKeywordWeak(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldChinaRelatedKeywords, value)
+			sqljson.Append(u, article.FieldKeywordWeak, value)
 		})
 	}
-	if value, ok := auo.mutation.IsChinaStrongRelated(); ok {
-		_spec.SetField(article.FieldIsChinaStrongRelated, field.TypeBool, value)
+	if value, ok := auo.mutation.IsStrongRelated(); ok {
+		_spec.SetField(article.FieldIsStrongRelated, field.TypeBool, value)
 	}
-	if value, ok := auo.mutation.ChinaRelatedCategory(); ok {
-		_spec.SetField(article.FieldChinaRelatedCategory, field.TypeString, value)
+	if value, ok := auo.mutation.KeywordStrong(); ok {
+		_spec.SetField(article.FieldKeywordStrong, field.TypeJSON, value)
+	}
+	if value, ok := auo.mutation.AppendedKeywordStrong(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, article.FieldKeywordStrong, value)
+		})
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)

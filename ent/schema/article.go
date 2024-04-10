@@ -28,10 +28,10 @@ func (Article) Fields() []ent.Field {
 		field.Text("text_chinese").Default(""),
 		field.Text("text_english").Default(""),
 		field.Strings("images").Default([]string{}),
-		field.Bool("is_china_related").Default(false),
-		field.Strings("china_related_keywords").Default([]string{}),
-		field.Bool("is_china_strong_related").Default(false),
-		field.String("china_related_category").Default(""),
+		field.Bool("is_weak_related").Default(false),
+		field.JSON("keyword_weak", []interface{}{}),
+		field.Bool("is_strong_related").Default(false),
+		field.JSON("keyword_strong", []interface{}{}),
 		field.Text("summary_chinese").Default(""),
 	}
 }
@@ -42,9 +42,8 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("title_chinese"),
 		index.Fields("title_english"),
 		index.Fields("origin_short_id"),
-		index.Fields("is_china_related"),
-		index.Fields("is_china_strong_related"),
-		index.Fields("china_related_category"),
+		index.Fields("is_weak_related"),
+		index.Fields("is_strong_related"),
 	}
 }
 

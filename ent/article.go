@@ -42,14 +42,14 @@ type Article struct {
 	TextEnglish string `json:"text_english,omitempty"`
 	// Images holds the value of the "images" field.
 	Images []string `json:"images,omitempty"`
-	// IsChinaRelated holds the value of the "is_china_related" field.
-	IsChinaRelated bool `json:"is_china_related,omitempty"`
-	// ChinaRelatedKeywords holds the value of the "china_related_keywords" field.
-	ChinaRelatedKeywords []string `json:"china_related_keywords,omitempty"`
-	// IsChinaStrongRelated holds the value of the "is_china_strong_related" field.
-	IsChinaStrongRelated bool `json:"is_china_strong_related,omitempty"`
-	// ChinaRelatedCategory holds the value of the "china_related_category" field.
-	ChinaRelatedCategory string `json:"china_related_category,omitempty"`
+	// IsWeakRelated holds the value of the "is_weak_related" field.
+	IsWeakRelated bool `json:"is_weak_related,omitempty"`
+	// KeywordWeak holds the value of the "keyword_weak" field.
+	KeywordWeak []interface{} `json:"keyword_weak,omitempty"`
+	// IsStrongRelated holds the value of the "is_strong_related" field.
+	IsStrongRelated bool `json:"is_strong_related,omitempty"`
+	// KeywordStrong holds the value of the "keyword_strong" field.
+	KeywordStrong []interface{} `json:"keyword_strong,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
 	selectValues   sql.SelectValues
@@ -60,11 +60,11 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case article.FieldAuthor, article.FieldImages, article.FieldChinaRelatedKeywords:
+		case article.FieldAuthor, article.FieldImages, article.FieldKeywordWeak, article.FieldKeywordStrong:
 			values[i] = new([]byte)
-		case article.FieldIsChinese, article.FieldIsChinaRelated, article.FieldIsChinaStrongRelated:
+		case article.FieldIsChinese, article.FieldIsWeakRelated, article.FieldIsStrongRelated:
 			values[i] = new(sql.NullBool)
-		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldChinaRelatedCategory, article.FieldSummaryChinese:
+		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
 		case article.FieldPublishedAt:
 			values[i] = new(sql.NullTime)
@@ -165,31 +165,33 @@ func (a *Article) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field images: %w", err)
 				}
 			}
-		case article.FieldIsChinaRelated:
+		case article.FieldIsWeakRelated:
 			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field is_china_related", values[i])
+				return fmt.Errorf("unexpected type %T for field is_weak_related", values[i])
 			} else if value.Valid {
-				a.IsChinaRelated = value.Bool
+				a.IsWeakRelated = value.Bool
 			}
-		case article.FieldChinaRelatedKeywords:
+		case article.FieldKeywordWeak:
 			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field china_related_keywords", values[i])
+				return fmt.Errorf("unexpected type %T for field keyword_weak", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.ChinaRelatedKeywords); err != nil {
-					return fmt.Errorf("unmarshal field china_related_keywords: %w", err)
+				if err := json.Unmarshal(*value, &a.KeywordWeak); err != nil {
+					return fmt.Errorf("unmarshal field keyword_weak: %w", err)
 				}
 			}
-		case article.FieldIsChinaStrongRelated:
+		case article.FieldIsStrongRelated:
 			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field is_china_strong_related", values[i])
+				return fmt.Errorf("unexpected type %T for field is_strong_related", values[i])
 			} else if value.Valid {
-				a.IsChinaStrongRelated = value.Bool
+				a.IsStrongRelated = value.Bool
 			}
-		case article.FieldChinaRelatedCategory:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field china_related_category", values[i])
-			} else if value.Valid {
-				a.ChinaRelatedCategory = value.String
+		case article.FieldKeywordStrong:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field keyword_strong", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &a.KeywordStrong); err != nil {
+					return fmt.Errorf("unmarshal field keyword_strong: %w", err)
+				}
 			}
 		case article.FieldSummaryChinese:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -269,17 +271,17 @@ func (a *Article) String() string {
 	builder.WriteString("images=")
 	builder.WriteString(fmt.Sprintf("%v", a.Images))
 	builder.WriteString(", ")
-	builder.WriteString("is_china_related=")
-	builder.WriteString(fmt.Sprintf("%v", a.IsChinaRelated))
+	builder.WriteString("is_weak_related=")
+	builder.WriteString(fmt.Sprintf("%v", a.IsWeakRelated))
 	builder.WriteString(", ")
-	builder.WriteString("china_related_keywords=")
-	builder.WriteString(fmt.Sprintf("%v", a.ChinaRelatedKeywords))
+	builder.WriteString("keyword_weak=")
+	builder.WriteString(fmt.Sprintf("%v", a.KeywordWeak))
 	builder.WriteString(", ")
-	builder.WriteString("is_china_strong_related=")
-	builder.WriteString(fmt.Sprintf("%v", a.IsChinaStrongRelated))
+	builder.WriteString("is_strong_related=")
+	builder.WriteString(fmt.Sprintf("%v", a.IsStrongRelated))
 	builder.WriteString(", ")
-	builder.WriteString("china_related_category=")
-	builder.WriteString(a.ChinaRelatedCategory)
+	builder.WriteString("keyword_strong=")
+	builder.WriteString(fmt.Sprintf("%v", a.KeywordStrong))
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)

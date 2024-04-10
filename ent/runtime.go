@@ -79,22 +79,14 @@ func init() {
 	articleDescImages := articleFields[12].Descriptor()
 	// article.DefaultImages holds the default value on creation for the images field.
 	article.DefaultImages = articleDescImages.Default.([]string)
-	// articleDescIsChinaRelated is the schema descriptor for is_china_related field.
-	articleDescIsChinaRelated := articleFields[13].Descriptor()
-	// article.DefaultIsChinaRelated holds the default value on creation for the is_china_related field.
-	article.DefaultIsChinaRelated = articleDescIsChinaRelated.Default.(bool)
-	// articleDescChinaRelatedKeywords is the schema descriptor for china_related_keywords field.
-	articleDescChinaRelatedKeywords := articleFields[14].Descriptor()
-	// article.DefaultChinaRelatedKeywords holds the default value on creation for the china_related_keywords field.
-	article.DefaultChinaRelatedKeywords = articleDescChinaRelatedKeywords.Default.([]string)
-	// articleDescIsChinaStrongRelated is the schema descriptor for is_china_strong_related field.
-	articleDescIsChinaStrongRelated := articleFields[15].Descriptor()
-	// article.DefaultIsChinaStrongRelated holds the default value on creation for the is_china_strong_related field.
-	article.DefaultIsChinaStrongRelated = articleDescIsChinaStrongRelated.Default.(bool)
-	// articleDescChinaRelatedCategory is the schema descriptor for china_related_category field.
-	articleDescChinaRelatedCategory := articleFields[16].Descriptor()
-	// article.DefaultChinaRelatedCategory holds the default value on creation for the china_related_category field.
-	article.DefaultChinaRelatedCategory = articleDescChinaRelatedCategory.Default.(string)
+	// articleDescIsWeakRelated is the schema descriptor for is_weak_related field.
+	articleDescIsWeakRelated := articleFields[13].Descriptor()
+	// article.DefaultIsWeakRelated holds the default value on creation for the is_weak_related field.
+	article.DefaultIsWeakRelated = articleDescIsWeakRelated.Default.(bool)
+	// articleDescIsStrongRelated is the schema descriptor for is_strong_related field.
+	articleDescIsStrongRelated := articleFields[15].Descriptor()
+	// article.DefaultIsStrongRelated holds the default value on creation for the is_strong_related field.
+	article.DefaultIsStrongRelated = articleDescIsStrongRelated.Default.(bool)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
 	articleDescSummaryChinese := articleFields[17].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
