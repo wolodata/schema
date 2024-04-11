@@ -29,8 +29,10 @@ func (Article) Fields() []ent.Field {
 		field.Text("text_english").Default(""),
 		field.Strings("images").Default([]string{}),
 		field.Bool("weak_processed").Default(false),
+		field.Bool("weak_related").Default(false),
 		field.JSON("weak_keywords", []WeakKeyword{}).Default([]WeakKeyword{}),
 		field.Bool("strong_processed").Default(false),
+		field.Bool("strong_related").Default(false),
 		field.JSON("strong_keyword", StrongKeyword{}).Optional(),
 		field.String("strong_related_category").Default(""),
 		field.Text("summary_chinese").Default(""),
@@ -57,7 +59,9 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("origin_short_id"),
 		index.Fields("published_at"),
 		index.Fields("weak_processed"),
+		index.Fields("weak_related"),
 		index.Fields("strong_processed"),
+		index.Fields("strong_related"),
 		index.Fields("strong_related_category"),
 	}
 }

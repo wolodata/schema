@@ -45,10 +45,14 @@ type Article struct {
 	Images []string `json:"images,omitempty"`
 	// WeakProcessed holds the value of the "weak_processed" field.
 	WeakProcessed bool `json:"weak_processed,omitempty"`
+	// WeakRelated holds the value of the "weak_related" field.
+	WeakRelated bool `json:"weak_related,omitempty"`
 	// WeakKeywords holds the value of the "weak_keywords" field.
 	WeakKeywords []schema.WeakKeyword `json:"weak_keywords,omitempty"`
 	// StrongProcessed holds the value of the "strong_processed" field.
 	StrongProcessed bool `json:"strong_processed,omitempty"`
+	// StrongRelated holds the value of the "strong_related" field.
+	StrongRelated bool `json:"strong_related,omitempty"`
 	// StrongKeyword holds the value of the "strong_keyword" field.
 	StrongKeyword schema.StrongKeyword `json:"strong_keyword,omitempty"`
 	// StrongRelatedCategory holds the value of the "strong_related_category" field.
@@ -65,7 +69,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywords, article.FieldStrongKeyword:
 			values[i] = new([]byte)
-		case article.FieldIsChinese, article.FieldWeakProcessed, article.FieldStrongProcessed:
+		case article.FieldIsChinese, article.FieldWeakProcessed, article.FieldWeakRelated, article.FieldStrongProcessed, article.FieldStrongRelated:
 			values[i] = new(sql.NullBool)
 		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
@@ -174,6 +178,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.WeakProcessed = value.Bool
 			}
+		case article.FieldWeakRelated:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field weak_related", values[i])
+			} else if value.Valid {
+				a.WeakRelated = value.Bool
+			}
 		case article.FieldWeakKeywords:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field weak_keywords", values[i])
@@ -187,6 +197,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field strong_processed", values[i])
 			} else if value.Valid {
 				a.StrongProcessed = value.Bool
+			}
+		case article.FieldStrongRelated:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field strong_related", values[i])
+			} else if value.Valid {
+				a.StrongRelated = value.Bool
 			}
 		case article.FieldStrongKeyword:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -283,11 +299,17 @@ func (a *Article) String() string {
 	builder.WriteString("weak_processed=")
 	builder.WriteString(fmt.Sprintf("%v", a.WeakProcessed))
 	builder.WriteString(", ")
+	builder.WriteString("weak_related=")
+	builder.WriteString(fmt.Sprintf("%v", a.WeakRelated))
+	builder.WriteString(", ")
 	builder.WriteString("weak_keywords=")
 	builder.WriteString(fmt.Sprintf("%v", a.WeakKeywords))
 	builder.WriteString(", ")
 	builder.WriteString("strong_processed=")
 	builder.WriteString(fmt.Sprintf("%v", a.StrongProcessed))
+	builder.WriteString(", ")
+	builder.WriteString("strong_related=")
+	builder.WriteString(fmt.Sprintf("%v", a.StrongRelated))
 	builder.WriteString(", ")
 	builder.WriteString("strong_keyword=")
 	builder.WriteString(fmt.Sprintf("%v", a.StrongKeyword))

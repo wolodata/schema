@@ -38,10 +38,14 @@ const (
 	FieldImages = "images"
 	// FieldWeakProcessed holds the string denoting the weak_processed field in the database.
 	FieldWeakProcessed = "weak_processed"
+	// FieldWeakRelated holds the string denoting the weak_related field in the database.
+	FieldWeakRelated = "weak_related"
 	// FieldWeakKeywords holds the string denoting the weak_keywords field in the database.
 	FieldWeakKeywords = "weak_keywords"
 	// FieldStrongProcessed holds the string denoting the strong_processed field in the database.
 	FieldStrongProcessed = "strong_processed"
+	// FieldStrongRelated holds the string denoting the strong_related field in the database.
+	FieldStrongRelated = "strong_related"
 	// FieldStrongKeyword holds the string denoting the strong_keyword field in the database.
 	FieldStrongKeyword = "strong_keyword"
 	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
@@ -68,8 +72,10 @@ var Columns = []string{
 	FieldTextEnglish,
 	FieldImages,
 	FieldWeakProcessed,
+	FieldWeakRelated,
 	FieldWeakKeywords,
 	FieldStrongProcessed,
+	FieldStrongRelated,
 	FieldStrongKeyword,
 	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
@@ -110,10 +116,14 @@ var (
 	DefaultImages []string
 	// DefaultWeakProcessed holds the default value on creation for the "weak_processed" field.
 	DefaultWeakProcessed bool
+	// DefaultWeakRelated holds the default value on creation for the "weak_related" field.
+	DefaultWeakRelated bool
 	// DefaultWeakKeywords holds the default value on creation for the "weak_keywords" field.
 	DefaultWeakKeywords []schema.WeakKeyword
 	// DefaultStrongProcessed holds the default value on creation for the "strong_processed" field.
 	DefaultStrongProcessed bool
+	// DefaultStrongRelated holds the default value on creation for the "strong_related" field.
+	DefaultStrongRelated bool
 	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
 	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
@@ -183,9 +193,19 @@ func ByWeakProcessed(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldWeakProcessed, opts...).ToFunc()
 }
 
+// ByWeakRelated orders the results by the weak_related field.
+func ByWeakRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWeakRelated, opts...).ToFunc()
+}
+
 // ByStrongProcessed orders the results by the strong_processed field.
 func ByStrongProcessed(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStrongProcessed, opts...).ToFunc()
+}
+
+// ByStrongRelated orders the results by the strong_related field.
+func ByStrongRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelated, opts...).ToFunc()
 }
 
 // ByStrongRelatedCategory orders the results by the strong_related_category field.

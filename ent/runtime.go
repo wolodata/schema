@@ -83,20 +83,28 @@ func init() {
 	articleDescWeakProcessed := articleFields[13].Descriptor()
 	// article.DefaultWeakProcessed holds the default value on creation for the weak_processed field.
 	article.DefaultWeakProcessed = articleDescWeakProcessed.Default.(bool)
+	// articleDescWeakRelated is the schema descriptor for weak_related field.
+	articleDescWeakRelated := articleFields[14].Descriptor()
+	// article.DefaultWeakRelated holds the default value on creation for the weak_related field.
+	article.DefaultWeakRelated = articleDescWeakRelated.Default.(bool)
 	// articleDescWeakKeywords is the schema descriptor for weak_keywords field.
-	articleDescWeakKeywords := articleFields[14].Descriptor()
+	articleDescWeakKeywords := articleFields[15].Descriptor()
 	// article.DefaultWeakKeywords holds the default value on creation for the weak_keywords field.
 	article.DefaultWeakKeywords = articleDescWeakKeywords.Default.([]schema.WeakKeyword)
 	// articleDescStrongProcessed is the schema descriptor for strong_processed field.
-	articleDescStrongProcessed := articleFields[15].Descriptor()
+	articleDescStrongProcessed := articleFields[16].Descriptor()
 	// article.DefaultStrongProcessed holds the default value on creation for the strong_processed field.
 	article.DefaultStrongProcessed = articleDescStrongProcessed.Default.(bool)
+	// articleDescStrongRelated is the schema descriptor for strong_related field.
+	articleDescStrongRelated := articleFields[17].Descriptor()
+	// article.DefaultStrongRelated holds the default value on creation for the strong_related field.
+	article.DefaultStrongRelated = articleDescStrongRelated.Default.(bool)
 	// articleDescStrongRelatedCategory is the schema descriptor for strong_related_category field.
-	articleDescStrongRelatedCategory := articleFields[17].Descriptor()
+	articleDescStrongRelatedCategory := articleFields[19].Descriptor()
 	// article.DefaultStrongRelatedCategory holds the default value on creation for the strong_related_category field.
 	article.DefaultStrongRelatedCategory = articleDescStrongRelatedCategory.Default.(string)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[18].Descriptor()
+	articleDescSummaryChinese := articleFields[20].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
 	htmlFields := schema.Html{}.Fields()

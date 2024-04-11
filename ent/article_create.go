@@ -166,6 +166,20 @@ func (ac *ArticleCreate) SetNillableWeakProcessed(b *bool) *ArticleCreate {
 	return ac
 }
 
+// SetWeakRelated sets the "weak_related" field.
+func (ac *ArticleCreate) SetWeakRelated(b bool) *ArticleCreate {
+	ac.mutation.SetWeakRelated(b)
+	return ac
+}
+
+// SetNillableWeakRelated sets the "weak_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableWeakRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetWeakRelated(*b)
+	}
+	return ac
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (ac *ArticleCreate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleCreate {
 	ac.mutation.SetWeakKeywords(sk)
@@ -182,6 +196,20 @@ func (ac *ArticleCreate) SetStrongProcessed(b bool) *ArticleCreate {
 func (ac *ArticleCreate) SetNillableStrongProcessed(b *bool) *ArticleCreate {
 	if b != nil {
 		ac.SetStrongProcessed(*b)
+	}
+	return ac
+}
+
+// SetStrongRelated sets the "strong_related" field.
+func (ac *ArticleCreate) SetStrongRelated(b bool) *ArticleCreate {
+	ac.mutation.SetStrongRelated(b)
+	return ac
+}
+
+// SetNillableStrongRelated sets the "strong_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetStrongRelated(*b)
 	}
 	return ac
 }
@@ -309,6 +337,10 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultWeakProcessed
 		ac.mutation.SetWeakProcessed(v)
 	}
+	if _, ok := ac.mutation.WeakRelated(); !ok {
+		v := article.DefaultWeakRelated
+		ac.mutation.SetWeakRelated(v)
+	}
 	if _, ok := ac.mutation.WeakKeywords(); !ok {
 		v := article.DefaultWeakKeywords
 		ac.mutation.SetWeakKeywords(v)
@@ -316,6 +348,10 @@ func (ac *ArticleCreate) defaults() {
 	if _, ok := ac.mutation.StrongProcessed(); !ok {
 		v := article.DefaultStrongProcessed
 		ac.mutation.SetStrongProcessed(v)
+	}
+	if _, ok := ac.mutation.StrongRelated(); !ok {
+		v := article.DefaultStrongRelated
+		ac.mutation.SetStrongRelated(v)
 	}
 	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
 		v := article.DefaultStrongRelatedCategory
@@ -378,11 +414,17 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.WeakProcessed(); !ok {
 		return &ValidationError{Name: "weak_processed", err: errors.New(`ent: missing required field "Article.weak_processed"`)}
 	}
+	if _, ok := ac.mutation.WeakRelated(); !ok {
+		return &ValidationError{Name: "weak_related", err: errors.New(`ent: missing required field "Article.weak_related"`)}
+	}
 	if _, ok := ac.mutation.WeakKeywords(); !ok {
 		return &ValidationError{Name: "weak_keywords", err: errors.New(`ent: missing required field "Article.weak_keywords"`)}
 	}
 	if _, ok := ac.mutation.StrongProcessed(); !ok {
 		return &ValidationError{Name: "strong_processed", err: errors.New(`ent: missing required field "Article.strong_processed"`)}
+	}
+	if _, ok := ac.mutation.StrongRelated(); !ok {
+		return &ValidationError{Name: "strong_related", err: errors.New(`ent: missing required field "Article.strong_related"`)}
 	}
 	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
 		return &ValidationError{Name: "strong_related_category", err: errors.New(`ent: missing required field "Article.strong_related_category"`)}
@@ -478,6 +520,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
 		_node.WeakProcessed = value
 	}
+	if value, ok := ac.mutation.WeakRelated(); ok {
+		_spec.SetField(article.FieldWeakRelated, field.TypeBool, value)
+		_node.WeakRelated = value
+	}
 	if value, ok := ac.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 		_node.WeakKeywords = value
@@ -485,6 +531,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.StrongProcessed(); ok {
 		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
 		_node.StrongProcessed = value
+	}
+	if value, ok := ac.mutation.StrongRelated(); ok {
+		_spec.SetField(article.FieldStrongRelated, field.TypeBool, value)
+		_node.StrongRelated = value
 	}
 	if value, ok := ac.mutation.StrongKeyword(); ok {
 		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
@@ -658,6 +708,18 @@ func (u *ArticleUpsert) UpdateWeakProcessed() *ArticleUpsert {
 	return u
 }
 
+// SetWeakRelated sets the "weak_related" field.
+func (u *ArticleUpsert) SetWeakRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldWeakRelated, v)
+	return u
+}
+
+// UpdateWeakRelated sets the "weak_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateWeakRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldWeakRelated)
+	return u
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (u *ArticleUpsert) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsert {
 	u.Set(article.FieldWeakKeywords, v)
@@ -679,6 +741,18 @@ func (u *ArticleUpsert) SetStrongProcessed(v bool) *ArticleUpsert {
 // UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateStrongProcessed() *ArticleUpsert {
 	u.SetExcluded(article.FieldStrongProcessed)
+	return u
+}
+
+// SetStrongRelated sets the "strong_related" field.
+func (u *ArticleUpsert) SetStrongRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldStrongRelated, v)
+	return u
+}
+
+// UpdateStrongRelated sets the "strong_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongRelated)
 	return u
 }
 
@@ -910,6 +984,20 @@ func (u *ArticleUpsertOne) UpdateWeakProcessed() *ArticleUpsertOne {
 	})
 }
 
+// SetWeakRelated sets the "weak_related" field.
+func (u *ArticleUpsertOne) SetWeakRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetWeakRelated(v)
+	})
+}
+
+// UpdateWeakRelated sets the "weak_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateWeakRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateWeakRelated()
+	})
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (u *ArticleUpsertOne) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -935,6 +1023,20 @@ func (u *ArticleUpsertOne) SetStrongProcessed(v bool) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateStrongProcessed() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateStrongProcessed()
+	})
+}
+
+// SetStrongRelated sets the "strong_related" field.
+func (u *ArticleUpsertOne) SetStrongRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelated(v)
+	})
+}
+
+// UpdateStrongRelated sets the "strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelated()
 	})
 }
 
@@ -1340,6 +1442,20 @@ func (u *ArticleUpsertBulk) UpdateWeakProcessed() *ArticleUpsertBulk {
 	})
 }
 
+// SetWeakRelated sets the "weak_related" field.
+func (u *ArticleUpsertBulk) SetWeakRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetWeakRelated(v)
+	})
+}
+
+// UpdateWeakRelated sets the "weak_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateWeakRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateWeakRelated()
+	})
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (u *ArticleUpsertBulk) SetWeakKeywords(v []schema.WeakKeyword) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1365,6 +1481,20 @@ func (u *ArticleUpsertBulk) SetStrongProcessed(v bool) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateStrongProcessed() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateStrongProcessed()
+	})
+}
+
+// SetStrongRelated sets the "strong_related" field.
+func (u *ArticleUpsertBulk) SetStrongRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelated(v)
+	})
+}
+
+// UpdateStrongRelated sets the "strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelated()
 	})
 }
 

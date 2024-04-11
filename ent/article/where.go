@@ -119,9 +119,19 @@ func WeakProcessed(v bool) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldWeakProcessed, v))
 }
 
+// WeakRelated applies equality check predicate on the "weak_related" field. It's identical to WeakRelatedEQ.
+func WeakRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldWeakRelated, v))
+}
+
 // StrongProcessed applies equality check predicate on the "strong_processed" field. It's identical to StrongProcessedEQ.
 func StrongProcessed(v bool) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldStrongProcessed, v))
+}
+
+// StrongRelated applies equality check predicate on the "strong_related" field. It's identical to StrongRelatedEQ.
+func StrongRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelated, v))
 }
 
 // StrongRelatedCategory applies equality check predicate on the "strong_related_category" field. It's identical to StrongRelatedCategoryEQ.
@@ -714,6 +724,16 @@ func WeakProcessedNEQ(v bool) predicate.Article {
 	return predicate.Article(sql.FieldNEQ(FieldWeakProcessed, v))
 }
 
+// WeakRelatedEQ applies the EQ predicate on the "weak_related" field.
+func WeakRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldWeakRelated, v))
+}
+
+// WeakRelatedNEQ applies the NEQ predicate on the "weak_related" field.
+func WeakRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldWeakRelated, v))
+}
+
 // StrongProcessedEQ applies the EQ predicate on the "strong_processed" field.
 func StrongProcessedEQ(v bool) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldStrongProcessed, v))
@@ -722,6 +742,16 @@ func StrongProcessedEQ(v bool) predicate.Article {
 // StrongProcessedNEQ applies the NEQ predicate on the "strong_processed" field.
 func StrongProcessedNEQ(v bool) predicate.Article {
 	return predicate.Article(sql.FieldNEQ(FieldStrongProcessed, v))
+}
+
+// StrongRelatedEQ applies the EQ predicate on the "strong_related" field.
+func StrongRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelated, v))
+}
+
+// StrongRelatedNEQ applies the NEQ predicate on the "strong_related" field.
+func StrongRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelated, v))
 }
 
 // StrongKeywordIsNil applies the IsNil predicate on the "strong_keyword" field.

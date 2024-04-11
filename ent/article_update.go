@@ -151,6 +151,20 @@ func (au *ArticleUpdate) SetNillableWeakProcessed(b *bool) *ArticleUpdate {
 	return au
 }
 
+// SetWeakRelated sets the "weak_related" field.
+func (au *ArticleUpdate) SetWeakRelated(b bool) *ArticleUpdate {
+	au.mutation.SetWeakRelated(b)
+	return au
+}
+
+// SetNillableWeakRelated sets the "weak_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableWeakRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetWeakRelated(*b)
+	}
+	return au
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (au *ArticleUpdate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdate {
 	au.mutation.SetWeakKeywords(sk)
@@ -173,6 +187,20 @@ func (au *ArticleUpdate) SetStrongProcessed(b bool) *ArticleUpdate {
 func (au *ArticleUpdate) SetNillableStrongProcessed(b *bool) *ArticleUpdate {
 	if b != nil {
 		au.SetStrongProcessed(*b)
+	}
+	return au
+}
+
+// SetStrongRelated sets the "strong_related" field.
+func (au *ArticleUpdate) SetStrongRelated(b bool) *ArticleUpdate {
+	au.mutation.SetStrongRelated(b)
+	return au
+}
+
+// SetNillableStrongRelated sets the "strong_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetStrongRelated(*b)
 	}
 	return au
 }
@@ -303,6 +331,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := au.mutation.WeakProcessed(); ok {
 		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
 	}
+	if value, ok := au.mutation.WeakRelated(); ok {
+		_spec.SetField(article.FieldWeakRelated, field.TypeBool, value)
+	}
 	if value, ok := au.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 	}
@@ -313,6 +344,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := au.mutation.StrongProcessed(); ok {
 		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.StrongRelated(); ok {
+		_spec.SetField(article.FieldStrongRelated, field.TypeBool, value)
 	}
 	if value, ok := au.mutation.StrongKeyword(); ok {
 		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
@@ -468,6 +502,20 @@ func (auo *ArticleUpdateOne) SetNillableWeakProcessed(b *bool) *ArticleUpdateOne
 	return auo
 }
 
+// SetWeakRelated sets the "weak_related" field.
+func (auo *ArticleUpdateOne) SetWeakRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetWeakRelated(b)
+	return auo
+}
+
+// SetNillableWeakRelated sets the "weak_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableWeakRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetWeakRelated(*b)
+	}
+	return auo
+}
+
 // SetWeakKeywords sets the "weak_keywords" field.
 func (auo *ArticleUpdateOne) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleUpdateOne {
 	auo.mutation.SetWeakKeywords(sk)
@@ -490,6 +538,20 @@ func (auo *ArticleUpdateOne) SetStrongProcessed(b bool) *ArticleUpdateOne {
 func (auo *ArticleUpdateOne) SetNillableStrongProcessed(b *bool) *ArticleUpdateOne {
 	if b != nil {
 		auo.SetStrongProcessed(*b)
+	}
+	return auo
+}
+
+// SetStrongRelated sets the "strong_related" field.
+func (auo *ArticleUpdateOne) SetStrongRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetStrongRelated(b)
+	return auo
+}
+
+// SetNillableStrongRelated sets the "strong_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetStrongRelated(*b)
 	}
 	return auo
 }
@@ -650,6 +712,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	if value, ok := auo.mutation.WeakProcessed(); ok {
 		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
 	}
+	if value, ok := auo.mutation.WeakRelated(); ok {
+		_spec.SetField(article.FieldWeakRelated, field.TypeBool, value)
+	}
 	if value, ok := auo.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 	}
@@ -660,6 +725,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	}
 	if value, ok := auo.mutation.StrongProcessed(); ok {
 		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.StrongRelated(); ok {
+		_spec.SetField(article.FieldStrongRelated, field.TypeBool, value)
 	}
 	if value, ok := auo.mutation.StrongKeyword(); ok {
 		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
