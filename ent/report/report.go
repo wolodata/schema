@@ -19,6 +19,12 @@ const (
 	FieldStartTime = "start_time"
 	// FieldEndTime holds the string denoting the end_time field in the database.
 	FieldEndTime = "end_time"
+	// FieldSourceIds holds the string denoting the source_ids field in the database.
+	FieldSourceIds = "source_ids"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
+	// FieldArticleIds holds the string denoting the article_ids field in the database.
+	FieldArticleIds = "article_ids"
 	// FieldTriggerUserID holds the string denoting the trigger_user_id field in the database.
 	FieldTriggerUserID = "trigger_user_id"
 	// FieldTriggerAt holds the string denoting the trigger_at field in the database.
@@ -37,6 +43,9 @@ var Columns = []string{
 	FieldReportType,
 	FieldStartTime,
 	FieldEndTime,
+	FieldSourceIds,
+	FieldCategory,
+	FieldArticleIds,
 	FieldTriggerUserID,
 	FieldTriggerAt,
 	FieldContent,
@@ -56,6 +65,12 @@ func ValidColumn(column string) bool {
 var (
 	// ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	ReportTypeValidator func(string) error
+	// DefaultSourceIds holds the default value on creation for the "source_ids" field.
+	DefaultSourceIds []string
+	// DefaultCategory holds the default value on creation for the "category" field.
+	DefaultCategory string
+	// DefaultArticleIds holds the default value on creation for the "article_ids" field.
+	DefaultArticleIds []string
 	// DefaultContent holds the default value on creation for the "content" field.
 	DefaultContent string
 	// DefaultGeneratedAt holds the default value on creation for the "generated_at" field.
@@ -83,6 +98,11 @@ func ByStartTime(opts ...sql.OrderTermOption) OrderOption {
 // ByEndTime orders the results by the end_time field.
 func ByEndTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEndTime, opts...).ToFunc()
+}
+
+// ByCategory orders the results by the category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
 }
 
 // ByTriggerUserID orders the results by the trigger_user_id field.

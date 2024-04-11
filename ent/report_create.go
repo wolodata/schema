@@ -41,6 +41,32 @@ func (rc *ReportCreate) SetEndTime(t time.Time) *ReportCreate {
 	return rc
 }
 
+// SetSourceIds sets the "source_ids" field.
+func (rc *ReportCreate) SetSourceIds(s []string) *ReportCreate {
+	rc.mutation.SetSourceIds(s)
+	return rc
+}
+
+// SetCategory sets the "category" field.
+func (rc *ReportCreate) SetCategory(s string) *ReportCreate {
+	rc.mutation.SetCategory(s)
+	return rc
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (rc *ReportCreate) SetNillableCategory(s *string) *ReportCreate {
+	if s != nil {
+		rc.SetCategory(*s)
+	}
+	return rc
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (rc *ReportCreate) SetArticleIds(s []string) *ReportCreate {
+	rc.mutation.SetArticleIds(s)
+	return rc
+}
+
 // SetTriggerUserID sets the "trigger_user_id" field.
 func (rc *ReportCreate) SetTriggerUserID(s string) *ReportCreate {
 	rc.mutation.SetTriggerUserID(s)
@@ -130,6 +156,18 @@ func (rc *ReportCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (rc *ReportCreate) defaults() {
+	if _, ok := rc.mutation.SourceIds(); !ok {
+		v := report.DefaultSourceIds
+		rc.mutation.SetSourceIds(v)
+	}
+	if _, ok := rc.mutation.Category(); !ok {
+		v := report.DefaultCategory
+		rc.mutation.SetCategory(v)
+	}
+	if _, ok := rc.mutation.ArticleIds(); !ok {
+		v := report.DefaultArticleIds
+		rc.mutation.SetArticleIds(v)
+	}
 	if _, ok := rc.mutation.Content(); !ok {
 		v := report.DefaultContent
 		rc.mutation.SetContent(v)
@@ -155,6 +193,15 @@ func (rc *ReportCreate) check() error {
 	}
 	if _, ok := rc.mutation.EndTime(); !ok {
 		return &ValidationError{Name: "end_time", err: errors.New(`ent: missing required field "Report.end_time"`)}
+	}
+	if _, ok := rc.mutation.SourceIds(); !ok {
+		return &ValidationError{Name: "source_ids", err: errors.New(`ent: missing required field "Report.source_ids"`)}
+	}
+	if _, ok := rc.mutation.Category(); !ok {
+		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "Report.category"`)}
+	}
+	if _, ok := rc.mutation.ArticleIds(); !ok {
+		return &ValidationError{Name: "article_ids", err: errors.New(`ent: missing required field "Report.article_ids"`)}
 	}
 	if _, ok := rc.mutation.TriggerAt(); !ok {
 		return &ValidationError{Name: "trigger_at", err: errors.New(`ent: missing required field "Report.trigger_at"`)}
@@ -212,6 +259,18 @@ func (rc *ReportCreate) createSpec() (*Report, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.EndTime(); ok {
 		_spec.SetField(report.FieldEndTime, field.TypeTime, value)
 		_node.EndTime = value
+	}
+	if value, ok := rc.mutation.SourceIds(); ok {
+		_spec.SetField(report.FieldSourceIds, field.TypeJSON, value)
+		_node.SourceIds = value
+	}
+	if value, ok := rc.mutation.Category(); ok {
+		_spec.SetField(report.FieldCategory, field.TypeString, value)
+		_node.Category = value
+	}
+	if value, ok := rc.mutation.ArticleIds(); ok {
+		_spec.SetField(report.FieldArticleIds, field.TypeJSON, value)
+		_node.ArticleIds = value
 	}
 	if value, ok := rc.mutation.TriggerUserID(); ok {
 		_spec.SetField(report.FieldTriggerUserID, field.TypeString, value)
@@ -281,6 +340,30 @@ type (
 	}
 )
 
+// SetSourceIds sets the "source_ids" field.
+func (u *ReportUpsert) SetSourceIds(v []string) *ReportUpsert {
+	u.Set(report.FieldSourceIds, v)
+	return u
+}
+
+// UpdateSourceIds sets the "source_ids" field to the value that was provided on create.
+func (u *ReportUpsert) UpdateSourceIds() *ReportUpsert {
+	u.SetExcluded(report.FieldSourceIds)
+	return u
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (u *ReportUpsert) SetArticleIds(v []string) *ReportUpsert {
+	u.Set(report.FieldArticleIds, v)
+	return u
+}
+
+// UpdateArticleIds sets the "article_ids" field to the value that was provided on create.
+func (u *ReportUpsert) UpdateArticleIds() *ReportUpsert {
+	u.SetExcluded(report.FieldArticleIds)
+	return u
+}
+
 // SetContent sets the "content" field.
 func (u *ReportUpsert) SetContent(v string) *ReportUpsert {
 	u.Set(report.FieldContent, v)
@@ -331,6 +414,9 @@ func (u *ReportUpsertOne) UpdateNewValues() *ReportUpsertOne {
 		if _, exists := u.create.mutation.EndTime(); exists {
 			s.SetIgnore(report.FieldEndTime)
 		}
+		if _, exists := u.create.mutation.Category(); exists {
+			s.SetIgnore(report.FieldCategory)
+		}
 		if _, exists := u.create.mutation.TriggerUserID(); exists {
 			s.SetIgnore(report.FieldTriggerUserID)
 		}
@@ -366,6 +452,34 @@ func (u *ReportUpsertOne) Update(set func(*ReportUpsert)) *ReportUpsertOne {
 		set(&ReportUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetSourceIds sets the "source_ids" field.
+func (u *ReportUpsertOne) SetSourceIds(v []string) *ReportUpsertOne {
+	return u.Update(func(s *ReportUpsert) {
+		s.SetSourceIds(v)
+	})
+}
+
+// UpdateSourceIds sets the "source_ids" field to the value that was provided on create.
+func (u *ReportUpsertOne) UpdateSourceIds() *ReportUpsertOne {
+	return u.Update(func(s *ReportUpsert) {
+		s.UpdateSourceIds()
+	})
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (u *ReportUpsertOne) SetArticleIds(v []string) *ReportUpsertOne {
+	return u.Update(func(s *ReportUpsert) {
+		s.SetArticleIds(v)
+	})
+}
+
+// UpdateArticleIds sets the "article_ids" field to the value that was provided on create.
+func (u *ReportUpsertOne) UpdateArticleIds() *ReportUpsertOne {
+	return u.Update(func(s *ReportUpsert) {
+		s.UpdateArticleIds()
+	})
 }
 
 // SetContent sets the "content" field.
@@ -588,6 +702,9 @@ func (u *ReportUpsertBulk) UpdateNewValues() *ReportUpsertBulk {
 			if _, exists := b.mutation.EndTime(); exists {
 				s.SetIgnore(report.FieldEndTime)
 			}
+			if _, exists := b.mutation.Category(); exists {
+				s.SetIgnore(report.FieldCategory)
+			}
 			if _, exists := b.mutation.TriggerUserID(); exists {
 				s.SetIgnore(report.FieldTriggerUserID)
 			}
@@ -624,6 +741,34 @@ func (u *ReportUpsertBulk) Update(set func(*ReportUpsert)) *ReportUpsertBulk {
 		set(&ReportUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetSourceIds sets the "source_ids" field.
+func (u *ReportUpsertBulk) SetSourceIds(v []string) *ReportUpsertBulk {
+	return u.Update(func(s *ReportUpsert) {
+		s.SetSourceIds(v)
+	})
+}
+
+// UpdateSourceIds sets the "source_ids" field to the value that was provided on create.
+func (u *ReportUpsertBulk) UpdateSourceIds() *ReportUpsertBulk {
+	return u.Update(func(s *ReportUpsert) {
+		s.UpdateSourceIds()
+	})
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (u *ReportUpsertBulk) SetArticleIds(v []string) *ReportUpsertBulk {
+	return u.Update(func(s *ReportUpsert) {
+		s.SetArticleIds(v)
+	})
+}
+
+// UpdateArticleIds sets the "article_ids" field to the value that was provided on create.
+func (u *ReportUpsertBulk) UpdateArticleIds() *ReportUpsertBulk {
+	return u.Update(func(s *ReportUpsert) {
+		s.UpdateArticleIds()
+	})
 }
 
 // SetContent sets the "content" field.

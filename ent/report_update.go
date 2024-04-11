@@ -10,6 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 	"github.com/wolodata/schema/ent/predicate"
 	"github.com/wolodata/schema/ent/report"
@@ -25,6 +26,30 @@ type ReportUpdate struct {
 // Where appends a list predicates to the ReportUpdate builder.
 func (ru *ReportUpdate) Where(ps ...predicate.Report) *ReportUpdate {
 	ru.mutation.Where(ps...)
+	return ru
+}
+
+// SetSourceIds sets the "source_ids" field.
+func (ru *ReportUpdate) SetSourceIds(s []string) *ReportUpdate {
+	ru.mutation.SetSourceIds(s)
+	return ru
+}
+
+// AppendSourceIds appends s to the "source_ids" field.
+func (ru *ReportUpdate) AppendSourceIds(s []string) *ReportUpdate {
+	ru.mutation.AppendSourceIds(s)
+	return ru
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (ru *ReportUpdate) SetArticleIds(s []string) *ReportUpdate {
+	ru.mutation.SetArticleIds(s)
+	return ru
+}
+
+// AppendArticleIds appends s to the "article_ids" field.
+func (ru *ReportUpdate) AppendArticleIds(s []string) *ReportUpdate {
+	ru.mutation.AppendArticleIds(s)
 	return ru
 }
 
@@ -97,6 +122,22 @@ func (ru *ReportUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
+	if value, ok := ru.mutation.SourceIds(); ok {
+		_spec.SetField(report.FieldSourceIds, field.TypeJSON, value)
+	}
+	if value, ok := ru.mutation.AppendedSourceIds(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, report.FieldSourceIds, value)
+		})
+	}
+	if value, ok := ru.mutation.ArticleIds(); ok {
+		_spec.SetField(report.FieldArticleIds, field.TypeJSON, value)
+	}
+	if value, ok := ru.mutation.AppendedArticleIds(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, report.FieldArticleIds, value)
+		})
+	}
 	if ru.mutation.TriggerUserIDCleared() {
 		_spec.ClearField(report.FieldTriggerUserID, field.TypeString)
 	}
@@ -124,6 +165,30 @@ type ReportUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *ReportMutation
+}
+
+// SetSourceIds sets the "source_ids" field.
+func (ruo *ReportUpdateOne) SetSourceIds(s []string) *ReportUpdateOne {
+	ruo.mutation.SetSourceIds(s)
+	return ruo
+}
+
+// AppendSourceIds appends s to the "source_ids" field.
+func (ruo *ReportUpdateOne) AppendSourceIds(s []string) *ReportUpdateOne {
+	ruo.mutation.AppendSourceIds(s)
+	return ruo
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (ruo *ReportUpdateOne) SetArticleIds(s []string) *ReportUpdateOne {
+	ruo.mutation.SetArticleIds(s)
+	return ruo
+}
+
+// AppendArticleIds appends s to the "article_ids" field.
+func (ruo *ReportUpdateOne) AppendArticleIds(s []string) *ReportUpdateOne {
+	ruo.mutation.AppendArticleIds(s)
+	return ruo
 }
 
 // SetContent sets the "content" field.
@@ -224,6 +289,22 @@ func (ruo *ReportUpdateOne) sqlSave(ctx context.Context) (_node *Report, err err
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := ruo.mutation.SourceIds(); ok {
+		_spec.SetField(report.FieldSourceIds, field.TypeJSON, value)
+	}
+	if value, ok := ruo.mutation.AppendedSourceIds(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, report.FieldSourceIds, value)
+		})
+	}
+	if value, ok := ruo.mutation.ArticleIds(); ok {
+		_spec.SetField(report.FieldArticleIds, field.TypeJSON, value)
+	}
+	if value, ok := ruo.mutation.AppendedArticleIds(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, report.FieldArticleIds, value)
+		})
 	}
 	if ruo.mutation.TriggerUserIDCleared() {
 		_spec.ClearField(report.FieldTriggerUserID, field.TypeString)

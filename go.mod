@@ -1,6 +1,6 @@
 module github.com/wolodata/schema
 
-go 1.22.0
+go 1.22
 
 require entgo.io/ent v0.13.1
 

@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -23,6 +24,12 @@ type Report struct {
 	StartTime time.Time `json:"start_time,omitempty"`
 	// EndTime holds the value of the "end_time" field.
 	EndTime time.Time `json:"end_time,omitempty"`
+	// SourceIds holds the value of the "source_ids" field.
+	SourceIds []string `json:"source_ids,omitempty"`
+	// Category holds the value of the "category" field.
+	Category string `json:"category,omitempty"`
+	// ArticleIds holds the value of the "article_ids" field.
+	ArticleIds []string `json:"article_ids,omitempty"`
 	// TriggerUserID holds the value of the "trigger_user_id" field.
 	TriggerUserID string `json:"trigger_user_id,omitempty"`
 	// TriggerAt holds the value of the "trigger_at" field.
@@ -39,7 +46,9 @@ func (*Report) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case report.FieldID, report.FieldReportType, report.FieldTriggerUserID, report.FieldContent:
+		case report.FieldSourceIds, report.FieldArticleIds:
+			values[i] = new([]byte)
+		case report.FieldID, report.FieldReportType, report.FieldCategory, report.FieldTriggerUserID, report.FieldContent:
 			values[i] = new(sql.NullString)
 		case report.FieldStartTime, report.FieldEndTime, report.FieldTriggerAt, report.FieldGeneratedAt:
 			values[i] = new(sql.NullTime)
@@ -81,6 +90,28 @@ func (r *Report) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
 				r.EndTime = value.Time
+			}
+		case report.FieldSourceIds:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field source_ids", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &r.SourceIds); err != nil {
+					return fmt.Errorf("unmarshal field source_ids: %w", err)
+				}
+			}
+		case report.FieldCategory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field category", values[i])
+			} else if value.Valid {
+				r.Category = value.String
+			}
+		case report.FieldArticleIds:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field article_ids", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &r.ArticleIds); err != nil {
+					return fmt.Errorf("unmarshal field article_ids: %w", err)
+				}
 			}
 		case report.FieldTriggerUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -150,6 +181,15 @@ func (r *Report) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("end_time=")
 	builder.WriteString(r.EndTime.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("source_ids=")
+	builder.WriteString(fmt.Sprintf("%v", r.SourceIds))
+	builder.WriteString(", ")
+	builder.WriteString("category=")
+	builder.WriteString(r.Category)
+	builder.WriteString(", ")
+	builder.WriteString("article_ids=")
+	builder.WriteString(fmt.Sprintf("%v", r.ArticleIds))
 	builder.WriteString(", ")
 	builder.WriteString("trigger_user_id=")
 	builder.WriteString(r.TriggerUserID)

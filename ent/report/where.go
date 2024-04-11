@@ -79,6 +79,11 @@ func EndTime(v time.Time) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldEndTime, v))
 }
 
+// Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
+func Category(v string) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldCategory, v))
+}
+
 // TriggerUserID applies equality check predicate on the "trigger_user_id" field. It's identical to TriggerUserIDEQ.
 func TriggerUserID(v string) predicate.Report {
 	return predicate.Report(sql.FieldEQ(FieldTriggerUserID, v))
@@ -242,6 +247,71 @@ func EndTimeLT(v time.Time) predicate.Report {
 // EndTimeLTE applies the LTE predicate on the "end_time" field.
 func EndTimeLTE(v time.Time) predicate.Report {
 	return predicate.Report(sql.FieldLTE(FieldEndTime, v))
+}
+
+// CategoryEQ applies the EQ predicate on the "category" field.
+func CategoryEQ(v string) predicate.Report {
+	return predicate.Report(sql.FieldEQ(FieldCategory, v))
+}
+
+// CategoryNEQ applies the NEQ predicate on the "category" field.
+func CategoryNEQ(v string) predicate.Report {
+	return predicate.Report(sql.FieldNEQ(FieldCategory, v))
+}
+
+// CategoryIn applies the In predicate on the "category" field.
+func CategoryIn(vs ...string) predicate.Report {
+	return predicate.Report(sql.FieldIn(FieldCategory, vs...))
+}
+
+// CategoryNotIn applies the NotIn predicate on the "category" field.
+func CategoryNotIn(vs ...string) predicate.Report {
+	return predicate.Report(sql.FieldNotIn(FieldCategory, vs...))
+}
+
+// CategoryGT applies the GT predicate on the "category" field.
+func CategoryGT(v string) predicate.Report {
+	return predicate.Report(sql.FieldGT(FieldCategory, v))
+}
+
+// CategoryGTE applies the GTE predicate on the "category" field.
+func CategoryGTE(v string) predicate.Report {
+	return predicate.Report(sql.FieldGTE(FieldCategory, v))
+}
+
+// CategoryLT applies the LT predicate on the "category" field.
+func CategoryLT(v string) predicate.Report {
+	return predicate.Report(sql.FieldLT(FieldCategory, v))
+}
+
+// CategoryLTE applies the LTE predicate on the "category" field.
+func CategoryLTE(v string) predicate.Report {
+	return predicate.Report(sql.FieldLTE(FieldCategory, v))
+}
+
+// CategoryContains applies the Contains predicate on the "category" field.
+func CategoryContains(v string) predicate.Report {
+	return predicate.Report(sql.FieldContains(FieldCategory, v))
+}
+
+// CategoryHasPrefix applies the HasPrefix predicate on the "category" field.
+func CategoryHasPrefix(v string) predicate.Report {
+	return predicate.Report(sql.FieldHasPrefix(FieldCategory, v))
+}
+
+// CategoryHasSuffix applies the HasSuffix predicate on the "category" field.
+func CategoryHasSuffix(v string) predicate.Report {
+	return predicate.Report(sql.FieldHasSuffix(FieldCategory, v))
+}
+
+// CategoryEqualFold applies the EqualFold predicate on the "category" field.
+func CategoryEqualFold(v string) predicate.Report {
+	return predicate.Report(sql.FieldEqualFold(FieldCategory, v))
+}
+
+// CategoryContainsFold applies the ContainsFold predicate on the "category" field.
+func CategoryContainsFold(v string) predicate.Report {
+	return predicate.Report(sql.FieldContainsFold(FieldCategory, v))
 }
 
 // TriggerUserIDEQ applies the EQ predicate on the "trigger_user_id" field.

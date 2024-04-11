@@ -163,12 +163,24 @@ func init() {
 	reportDescReportType := reportFields[1].Descriptor()
 	// report.ReportTypeValidator is a validator for the "report_type" field. It is called by the builders before save.
 	report.ReportTypeValidator = reportDescReportType.Validators[0].(func(string) error)
+	// reportDescSourceIds is the schema descriptor for source_ids field.
+	reportDescSourceIds := reportFields[4].Descriptor()
+	// report.DefaultSourceIds holds the default value on creation for the source_ids field.
+	report.DefaultSourceIds = reportDescSourceIds.Default.([]string)
+	// reportDescCategory is the schema descriptor for category field.
+	reportDescCategory := reportFields[5].Descriptor()
+	// report.DefaultCategory holds the default value on creation for the category field.
+	report.DefaultCategory = reportDescCategory.Default.(string)
+	// reportDescArticleIds is the schema descriptor for article_ids field.
+	reportDescArticleIds := reportFields[6].Descriptor()
+	// report.DefaultArticleIds holds the default value on creation for the article_ids field.
+	report.DefaultArticleIds = reportDescArticleIds.Default.([]string)
 	// reportDescContent is the schema descriptor for content field.
-	reportDescContent := reportFields[6].Descriptor()
+	reportDescContent := reportFields[9].Descriptor()
 	// report.DefaultContent holds the default value on creation for the content field.
 	report.DefaultContent = reportDescContent.Default.(string)
 	// reportDescGeneratedAt is the schema descriptor for generated_at field.
-	reportDescGeneratedAt := reportFields[7].Descriptor()
+	reportDescGeneratedAt := reportFields[10].Descriptor()
 	// report.DefaultGeneratedAt holds the default value on creation for the generated_at field.
 	report.DefaultGeneratedAt = reportDescGeneratedAt.Default.(func() time.Time)
 	systemconfigFields := schema.SystemConfig{}.Fields()

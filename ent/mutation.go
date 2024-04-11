@@ -3315,20 +3315,25 @@ func (m *KeywordWeakMutation) ResetEdge(name string) error {
 // ReportMutation represents an operation that mutates the Report nodes in the graph.
 type ReportMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *string
-	report_type     *string
-	start_time      *time.Time
-	end_time        *time.Time
-	trigger_user_id *string
-	trigger_at      *time.Time
-	content         *string
-	generated_at    *time.Time
-	clearedFields   map[string]struct{}
-	done            bool
-	oldValue        func(context.Context) (*Report, error)
-	predicates      []predicate.Report
+	op                Op
+	typ               string
+	id                *string
+	report_type       *string
+	start_time        *time.Time
+	end_time          *time.Time
+	source_ids        *[]string
+	appendsource_ids  []string
+	category          *string
+	article_ids       *[]string
+	appendarticle_ids []string
+	trigger_user_id   *string
+	trigger_at        *time.Time
+	content           *string
+	generated_at      *time.Time
+	clearedFields     map[string]struct{}
+	done              bool
+	oldValue          func(context.Context) (*Report, error)
+	predicates        []predicate.Report
 }
 
 var _ ent.Mutation = (*ReportMutation)(nil)
@@ -3543,6 +3548,144 @@ func (m *ReportMutation) ResetEndTime() {
 	m.end_time = nil
 }
 
+// SetSourceIds sets the "source_ids" field.
+func (m *ReportMutation) SetSourceIds(s []string) {
+	m.source_ids = &s
+	m.appendsource_ids = nil
+}
+
+// SourceIds returns the value of the "source_ids" field in the mutation.
+func (m *ReportMutation) SourceIds() (r []string, exists bool) {
+	v := m.source_ids
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSourceIds returns the old "source_ids" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldSourceIds(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSourceIds is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSourceIds requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSourceIds: %w", err)
+	}
+	return oldValue.SourceIds, nil
+}
+
+// AppendSourceIds adds s to the "source_ids" field.
+func (m *ReportMutation) AppendSourceIds(s []string) {
+	m.appendsource_ids = append(m.appendsource_ids, s...)
+}
+
+// AppendedSourceIds returns the list of values that were appended to the "source_ids" field in this mutation.
+func (m *ReportMutation) AppendedSourceIds() ([]string, bool) {
+	if len(m.appendsource_ids) == 0 {
+		return nil, false
+	}
+	return m.appendsource_ids, true
+}
+
+// ResetSourceIds resets all changes to the "source_ids" field.
+func (m *ReportMutation) ResetSourceIds() {
+	m.source_ids = nil
+	m.appendsource_ids = nil
+}
+
+// SetCategory sets the "category" field.
+func (m *ReportMutation) SetCategory(s string) {
+	m.category = &s
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *ReportMutation) Category() (r string, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *ReportMutation) ResetCategory() {
+	m.category = nil
+}
+
+// SetArticleIds sets the "article_ids" field.
+func (m *ReportMutation) SetArticleIds(s []string) {
+	m.article_ids = &s
+	m.appendarticle_ids = nil
+}
+
+// ArticleIds returns the value of the "article_ids" field in the mutation.
+func (m *ReportMutation) ArticleIds() (r []string, exists bool) {
+	v := m.article_ids
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldArticleIds returns the old "article_ids" field's value of the Report entity.
+// If the Report object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ReportMutation) OldArticleIds(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldArticleIds is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldArticleIds requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldArticleIds: %w", err)
+	}
+	return oldValue.ArticleIds, nil
+}
+
+// AppendArticleIds adds s to the "article_ids" field.
+func (m *ReportMutation) AppendArticleIds(s []string) {
+	m.appendarticle_ids = append(m.appendarticle_ids, s...)
+}
+
+// AppendedArticleIds returns the list of values that were appended to the "article_ids" field in this mutation.
+func (m *ReportMutation) AppendedArticleIds() ([]string, bool) {
+	if len(m.appendarticle_ids) == 0 {
+		return nil, false
+	}
+	return m.appendarticle_ids, true
+}
+
+// ResetArticleIds resets all changes to the "article_ids" field.
+func (m *ReportMutation) ResetArticleIds() {
+	m.article_ids = nil
+	m.appendarticle_ids = nil
+}
+
 // SetTriggerUserID sets the "trigger_user_id" field.
 func (m *ReportMutation) SetTriggerUserID(s string) {
 	m.trigger_user_id = &s
@@ -3734,7 +3877,7 @@ func (m *ReportMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ReportMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 10)
 	if m.report_type != nil {
 		fields = append(fields, report.FieldReportType)
 	}
@@ -3743,6 +3886,15 @@ func (m *ReportMutation) Fields() []string {
 	}
 	if m.end_time != nil {
 		fields = append(fields, report.FieldEndTime)
+	}
+	if m.source_ids != nil {
+		fields = append(fields, report.FieldSourceIds)
+	}
+	if m.category != nil {
+		fields = append(fields, report.FieldCategory)
+	}
+	if m.article_ids != nil {
+		fields = append(fields, report.FieldArticleIds)
 	}
 	if m.trigger_user_id != nil {
 		fields = append(fields, report.FieldTriggerUserID)
@@ -3770,6 +3922,12 @@ func (m *ReportMutation) Field(name string) (ent.Value, bool) {
 		return m.StartTime()
 	case report.FieldEndTime:
 		return m.EndTime()
+	case report.FieldSourceIds:
+		return m.SourceIds()
+	case report.FieldCategory:
+		return m.Category()
+	case report.FieldArticleIds:
+		return m.ArticleIds()
 	case report.FieldTriggerUserID:
 		return m.TriggerUserID()
 	case report.FieldTriggerAt:
@@ -3793,6 +3951,12 @@ func (m *ReportMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldStartTime(ctx)
 	case report.FieldEndTime:
 		return m.OldEndTime(ctx)
+	case report.FieldSourceIds:
+		return m.OldSourceIds(ctx)
+	case report.FieldCategory:
+		return m.OldCategory(ctx)
+	case report.FieldArticleIds:
+		return m.OldArticleIds(ctx)
 	case report.FieldTriggerUserID:
 		return m.OldTriggerUserID(ctx)
 	case report.FieldTriggerAt:
@@ -3830,6 +3994,27 @@ func (m *ReportMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEndTime(v)
+		return nil
+	case report.FieldSourceIds:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSourceIds(v)
+		return nil
+	case report.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
+	case report.FieldArticleIds:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetArticleIds(v)
 		return nil
 	case report.FieldTriggerUserID:
 		v, ok := value.(string)
@@ -3925,6 +4110,15 @@ func (m *ReportMutation) ResetField(name string) error {
 		return nil
 	case report.FieldEndTime:
 		m.ResetEndTime()
+		return nil
+	case report.FieldSourceIds:
+		m.ResetSourceIds()
+		return nil
+	case report.FieldCategory:
+		m.ResetCategory()
+		return nil
+	case report.FieldArticleIds:
+		m.ResetArticleIds()
 		return nil
 	case report.FieldTriggerUserID:
 		m.ResetTriggerUserID()
