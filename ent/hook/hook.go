@@ -21,6 +21,18 @@ func (f ArticleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, err
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ArticleMutation", m)
 }
 
+// The BrainFunc type is an adapter to allow the use of ordinary
+// function as Brain mutator.
+type BrainFunc func(context.Context, *ent.BrainMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BrainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BrainMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BrainMutation", m)
+}
+
 // The HtmlFunc type is an adapter to allow the use of ordinary
 // function as Html mutator.
 type HtmlFunc func(context.Context, *ent.HTMLMutation) (ent.Value, error)

@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/brain"
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/keywordstrong"
 	"github.com/wolodata/schema/ent/keywordweak"
@@ -81,6 +82,7 @@ func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			article.Table:       article.ValidColumn,
+			brain.Table:         brain.ValidColumn,
 			html.Table:          html.ValidColumn,
 			keywordstrong.Table: keywordstrong.ValidColumn,
 			keywordweak.Table:   keywordweak.ValidColumn,

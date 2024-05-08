@@ -9,6 +9,9 @@ import (
 // Article is the predicate function for article builders.
 type Article func(*sql.Selector)
 
+// Brain is the predicate function for brain builders.
+type Brain func(*sql.Selector)
+
 // Html is the predicate function for html builders.
 type Html func(*sql.Selector)
 

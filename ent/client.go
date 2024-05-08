@@ -15,6 +15,7 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"github.com/wolodata/schema/ent/article"
+	"github.com/wolodata/schema/ent/brain"
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/keywordstrong"
 	"github.com/wolodata/schema/ent/keywordweak"
@@ -31,6 +32,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// Article is the client for interacting with the Article builders.
 	Article *ArticleClient
+	// Brain is the client for interacting with the Brain builders.
+	Brain *BrainClient
 	// Html is the client for interacting with the Html builders.
 	Html *HTMLClient
 	// KeywordStrong is the client for interacting with the KeywordStrong builders.
@@ -57,6 +60,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Article = NewArticleClient(c.config)
+	c.Brain = NewBrainClient(c.config)
 	c.Html = NewHTMLClient(c.config)
 	c.KeywordStrong = NewKeywordStrongClient(c.config)
 	c.KeywordWeak = NewKeywordWeakClient(c.config)
@@ -157,6 +161,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:           ctx,
 		config:        cfg,
 		Article:       NewArticleClient(cfg),
+		Brain:         NewBrainClient(cfg),
 		Html:          NewHTMLClient(cfg),
 		KeywordStrong: NewKeywordStrongClient(cfg),
 		KeywordWeak:   NewKeywordWeakClient(cfg),
@@ -184,6 +189,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:           ctx,
 		config:        cfg,
 		Article:       NewArticleClient(cfg),
+		Brain:         NewBrainClient(cfg),
 		Html:          NewHTMLClient(cfg),
 		KeywordStrong: NewKeywordStrongClient(cfg),
 		KeywordWeak:   NewKeywordWeakClient(cfg),
@@ -220,8 +226,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Article, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report, c.SystemConfig,
-		c.Topic, c.User,
+		c.Article, c.Brain, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report,
+		c.SystemConfig, c.Topic, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -231,8 +237,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Article, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report, c.SystemConfig,
-		c.Topic, c.User,
+		c.Article, c.Brain, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report,
+		c.SystemConfig, c.Topic, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -243,6 +249,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *ArticleMutation:
 		return c.Article.mutate(ctx, m)
+	case *BrainMutation:
+		return c.Brain.mutate(ctx, m)
 	case *HTMLMutation:
 		return c.Html.mutate(ctx, m)
 	case *KeywordStrongMutation:
@@ -392,6 +400,139 @@ func (c *ArticleClient) mutate(ctx context.Context, m *ArticleMutation) (Value, 
 		return (&ArticleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Article mutation op: %q", m.Op())
+	}
+}
+
+// BrainClient is a client for the Brain schema.
+type BrainClient struct {
+	config
+}
+
+// NewBrainClient returns a client for the Brain from the given config.
+func NewBrainClient(c config) *BrainClient {
+	return &BrainClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `brain.Hooks(f(g(h())))`.
+func (c *BrainClient) Use(hooks ...Hook) {
+	c.hooks.Brain = append(c.hooks.Brain, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `brain.Intercept(f(g(h())))`.
+func (c *BrainClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Brain = append(c.inters.Brain, interceptors...)
+}
+
+// Create returns a builder for creating a Brain entity.
+func (c *BrainClient) Create() *BrainCreate {
+	mutation := newBrainMutation(c.config, OpCreate)
+	return &BrainCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Brain entities.
+func (c *BrainClient) CreateBulk(builders ...*BrainCreate) *BrainCreateBulk {
+	return &BrainCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BrainClient) MapCreateBulk(slice any, setFunc func(*BrainCreate, int)) *BrainCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BrainCreateBulk{err: fmt.Errorf("calling to BrainClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BrainCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BrainCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Brain.
+func (c *BrainClient) Update() *BrainUpdate {
+	mutation := newBrainMutation(c.config, OpUpdate)
+	return &BrainUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BrainClient) UpdateOne(b *Brain) *BrainUpdateOne {
+	mutation := newBrainMutation(c.config, OpUpdateOne, withBrain(b))
+	return &BrainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BrainClient) UpdateOneID(id string) *BrainUpdateOne {
+	mutation := newBrainMutation(c.config, OpUpdateOne, withBrainID(id))
+	return &BrainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Brain.
+func (c *BrainClient) Delete() *BrainDelete {
+	mutation := newBrainMutation(c.config, OpDelete)
+	return &BrainDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BrainClient) DeleteOne(b *Brain) *BrainDeleteOne {
+	return c.DeleteOneID(b.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BrainClient) DeleteOneID(id string) *BrainDeleteOne {
+	builder := c.Delete().Where(brain.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BrainDeleteOne{builder}
+}
+
+// Query returns a query builder for Brain.
+func (c *BrainClient) Query() *BrainQuery {
+	return &BrainQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBrain},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Brain entity by its id.
+func (c *BrainClient) Get(ctx context.Context, id string) (*Brain, error) {
+	return c.Query().Where(brain.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BrainClient) GetX(ctx context.Context, id string) *Brain {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BrainClient) Hooks() []Hook {
+	return c.hooks.Brain
+}
+
+// Interceptors returns the client interceptors.
+func (c *BrainClient) Interceptors() []Interceptor {
+	return c.inters.Brain
+}
+
+func (c *BrainClient) mutate(ctx context.Context, m *BrainMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BrainCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BrainUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BrainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BrainDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Brain mutation op: %q", m.Op())
 	}
 }
 
@@ -1329,11 +1470,11 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Article, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
+		Article, Brain, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
 		User []ent.Hook
 	}
 	inters struct {
-		Article, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
+		Article, Brain, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
 		User []ent.Interceptor
 	}
 )

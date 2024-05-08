@@ -91,6 +91,19 @@ var (
 			},
 		},
 	}
+	// TBrainColumns holds the columns for the "t_brain" table.
+	TBrainColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString},
+		{Name: "user_id", Type: field.TypeString},
+		{Name: "question", Type: field.TypeString},
+		{Name: "answer", Type: field.TypeString},
+	}
+	// TBrainTable holds the schema information for the "t_brain" table.
+	TBrainTable = &schema.Table{
+		Name:       "t_brain",
+		Columns:    TBrainColumns,
+		PrimaryKey: []*schema.Column{TBrainColumns[0]},
+	}
 	// THTMLColumns holds the columns for the "t_html" table.
 	THTMLColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
@@ -300,6 +313,7 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		TArticleTable,
+		TBrainTable,
 		THTMLTable,
 		TKeywordStrongTable,
 		TKeywordWeakTable,
@@ -313,6 +327,11 @@ var (
 func init() {
 	TArticleTable.Annotation = &entsql.Annotation{
 		Table:     "t_article",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TBrainTable.Annotation = &entsql.Annotation{
+		Table:     "t_brain",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}
