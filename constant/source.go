@@ -9,6 +9,7 @@ const (
 	ShortIdDOJ             = "DOJ"
 	ShortIdUSTR            = "USTR"
 	ShortIdStateDepartment = "StateDepartment"
+	ShortIdCIA             = "CIA"
 )
 
 var (
@@ -48,24 +49,25 @@ func init() {
 		ShortId:     ShortIdWhiteHouse,
 		NameChinese: "白宫",
 		NameEnglish: "whitehouse.gov",
-		IsChinese:   false,
 	})
 	registerSource(Source{
 		ShortId:     ShortIdDOJ,
 		NameChinese: "司法部",
 		NameEnglish: "justice.gov",
-		IsChinese:   false,
 	})
 	registerSource(Source{
 		ShortId:     ShortIdUSTR,
 		NameChinese: "贸易代表署",
 		NameEnglish: "ustr.gov",
-		IsChinese:   false,
 	})
 	registerSource(Source{
 		ShortId:     ShortIdStateDepartment,
 		NameChinese: "国务院",
 		NameEnglish: "state.gov",
-		IsChinese:   false,
+	})
+	registerSource(Source{
+		ShortId:     ShortIdCIA,
+		NameChinese: "中央情报局",
+		NameEnglish: "cia.gov",
 	})
 }
