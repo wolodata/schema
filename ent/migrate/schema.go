@@ -103,6 +103,13 @@ var (
 		Name:       "t_brain",
 		Columns:    TBrainColumns,
 		PrimaryKey: []*schema.Column{TBrainColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "brain_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{TBrainColumns[1]},
+			},
+		},
 	}
 	// THTMLColumns holds the columns for the "t_html" table.
 	THTMLColumns = []*schema.Column{

@@ -5,6 +5,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 )
 
 type Brain struct {
@@ -21,7 +22,9 @@ func (Brain) Fields() []ent.Field {
 }
 
 func (Brain) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("user_id"),
+	}
 }
 
 func (Brain) Annotations() []schema.Annotation {
