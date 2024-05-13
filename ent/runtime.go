@@ -107,6 +107,10 @@ func init() {
 	articleDescSummaryChinese := articleFields[20].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
+	// articleDescImageUploaded is the schema descriptor for image_uploaded field.
+	articleDescImageUploaded := articleFields[21].Descriptor()
+	// article.DefaultImageUploaded holds the default value on creation for the image_uploaded field.
+	article.DefaultImageUploaded = articleDescImageUploaded.Default.(bool)
 	htmlFields := schema.Html{}.Fields()
 	_ = htmlFields
 	// htmlDescOriginShortID is the schema descriptor for origin_short_id field.

@@ -52,6 +52,8 @@ const (
 	FieldStrongRelatedCategory = "strong_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
+	// FieldImageUploaded holds the string denoting the image_uploaded field in the database.
+	FieldImageUploaded = "image_uploaded"
 	// Table holds the table name of the article in the database.
 	Table = "t_article"
 )
@@ -79,6 +81,7 @@ var Columns = []string{
 	FieldStrongKeyword,
 	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
+	FieldImageUploaded,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -128,6 +131,8 @@ var (
 	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
+	// DefaultImageUploaded holds the default value on creation for the "image_uploaded" field.
+	DefaultImageUploaded bool
 )
 
 // OrderOption defines the ordering options for the Article queries.
@@ -216,4 +221,9 @@ func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
 // BySummaryChinese orders the results by the summary_chinese field.
 func BySummaryChinese(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSummaryChinese, opts...).ToFunc()
+}
+
+// ByImageUploaded orders the results by the image_uploaded field.
+func ByImageUploaded(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldImageUploaded, opts...).ToFunc()
 }

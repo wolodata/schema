@@ -256,6 +256,20 @@ func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 	return ac
 }
 
+// SetImageUploaded sets the "image_uploaded" field.
+func (ac *ArticleCreate) SetImageUploaded(b bool) *ArticleCreate {
+	ac.mutation.SetImageUploaded(b)
+	return ac
+}
+
+// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableImageUploaded(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetImageUploaded(*b)
+	}
+	return ac
+}
+
 // SetID sets the "id" field.
 func (ac *ArticleCreate) SetID(s string) *ArticleCreate {
 	ac.mutation.SetID(s)
@@ -361,6 +375,10 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
 	}
+	if _, ok := ac.mutation.ImageUploaded(); !ok {
+		v := article.DefaultImageUploaded
+		ac.mutation.SetImageUploaded(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -431,6 +449,9 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
+	}
+	if _, ok := ac.mutation.ImageUploaded(); !ok {
+		return &ValidationError{Name: "image_uploaded", err: errors.New(`ent: missing required field "Article.image_uploaded"`)}
 	}
 	return nil
 }
@@ -547,6 +568,10 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
 		_node.SummaryChinese = value
+	}
+	if value, ok := ac.mutation.ImageUploaded(); ok {
+		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
+		_node.ImageUploaded = value
 	}
 	return _node, _spec
 }
@@ -795,6 +820,18 @@ func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 // UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
 	u.SetExcluded(article.FieldSummaryChinese)
+	return u
+}
+
+// SetImageUploaded sets the "image_uploaded" field.
+func (u *ArticleUpsert) SetImageUploaded(v bool) *ArticleUpsert {
+	u.Set(article.FieldImageUploaded, v)
+	return u
+}
+
+// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateImageUploaded() *ArticleUpsert {
+	u.SetExcluded(article.FieldImageUploaded)
 	return u
 }
 
@@ -1086,6 +1123,20 @@ func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
+	})
+}
+
+// SetImageUploaded sets the "image_uploaded" field.
+func (u *ArticleUpsertOne) SetImageUploaded(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetImageUploaded(v)
+	})
+}
+
+// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateImageUploaded() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateImageUploaded()
 	})
 }
 
@@ -1544,6 +1595,20 @@ func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
+	})
+}
+
+// SetImageUploaded sets the "image_uploaded" field.
+func (u *ArticleUpsertBulk) SetImageUploaded(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetImageUploaded(v)
+	})
+}
+
+// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateImageUploaded() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateImageUploaded()
 	})
 }
 

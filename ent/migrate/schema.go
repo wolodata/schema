@@ -32,6 +32,7 @@ var (
 		{Name: "strong_keyword", Type: field.TypeJSON, Nullable: true},
 		{Name: "strong_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "image_uploaded", Type: field.TypeBool, Default: false},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
 	TArticleTable = &schema.Table{

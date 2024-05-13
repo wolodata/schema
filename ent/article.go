@@ -59,7 +59,9 @@ type Article struct {
 	StrongRelatedCategory string `json:"strong_related_category,omitempty"`
 	// SummaryChinese holds the value of the "summary_chinese" field.
 	SummaryChinese string `json:"summary_chinese,omitempty"`
-	selectValues   sql.SelectValues
+	// ImageUploaded holds the value of the "image_uploaded" field.
+	ImageUploaded bool `json:"image_uploaded,omitempty"`
+	selectValues  sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -69,7 +71,7 @@ func (*Article) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case article.FieldAuthor, article.FieldImages, article.FieldWeakKeywords, article.FieldStrongKeyword:
 			values[i] = new([]byte)
-		case article.FieldIsChinese, article.FieldWeakProcessed, article.FieldWeakRelated, article.FieldStrongProcessed, article.FieldStrongRelated:
+		case article.FieldIsChinese, article.FieldWeakProcessed, article.FieldWeakRelated, article.FieldStrongProcessed, article.FieldStrongRelated, article.FieldImageUploaded:
 			values[i] = new(sql.NullBool)
 		case article.FieldID, article.FieldOriginShortID, article.FieldURL, article.FieldTitleChinese, article.FieldTitleEnglish, article.FieldHTMLChinese, article.FieldHTMLEnglish, article.FieldTextChinese, article.FieldTextEnglish, article.FieldStrongRelatedCategory, article.FieldSummaryChinese:
 			values[i] = new(sql.NullString)
@@ -224,6 +226,12 @@ func (a *Article) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				a.SummaryChinese = value.String
 			}
+		case article.FieldImageUploaded:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field image_uploaded", values[i])
+			} else if value.Valid {
+				a.ImageUploaded = value.Bool
+			}
 		default:
 			a.selectValues.Set(columns[i], values[i])
 		}
@@ -319,6 +327,9 @@ func (a *Article) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("summary_chinese=")
 	builder.WriteString(a.SummaryChinese)
+	builder.WriteString(", ")
+	builder.WriteString("image_uploaded=")
+	builder.WriteString(fmt.Sprintf("%v", a.ImageUploaded))
 	builder.WriteByte(')')
 	return builder.String()
 }

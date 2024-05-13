@@ -253,6 +253,20 @@ func (au *ArticleUpdate) SetNillableSummaryChinese(s *string) *ArticleUpdate {
 	return au
 }
 
+// SetImageUploaded sets the "image_uploaded" field.
+func (au *ArticleUpdate) SetImageUploaded(b bool) *ArticleUpdate {
+	au.mutation.SetImageUploaded(b)
+	return au
+}
+
+// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableImageUploaded(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetImageUploaded(*b)
+	}
+	return au
+}
+
 // Mutation returns the ArticleMutation object of the builder.
 func (au *ArticleUpdate) Mutation() *ArticleMutation {
 	return au.mutation
@@ -359,6 +373,9 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	}
+	if value, ok := au.mutation.ImageUploaded(); ok {
+		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -604,6 +621,20 @@ func (auo *ArticleUpdateOne) SetNillableSummaryChinese(s *string) *ArticleUpdate
 	return auo
 }
 
+// SetImageUploaded sets the "image_uploaded" field.
+func (auo *ArticleUpdateOne) SetImageUploaded(b bool) *ArticleUpdateOne {
+	auo.mutation.SetImageUploaded(b)
+	return auo
+}
+
+// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableImageUploaded(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetImageUploaded(*b)
+	}
+	return auo
+}
+
 // Mutation returns the ArticleMutation object of the builder.
 func (auo *ArticleUpdateOne) Mutation() *ArticleMutation {
 	return auo.mutation
@@ -740,6 +771,9 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.ImageUploaded(); ok {
+		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
 	}
 	_node = &Article{config: auo.config}
 	_spec.Assign = _node.assignValues

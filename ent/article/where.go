@@ -144,6 +144,11 @@ func SummaryChinese(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
 }
 
+// ImageUploaded applies equality check predicate on the "image_uploaded" field. It's identical to ImageUploadedEQ.
+func ImageUploaded(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldImageUploaded, v))
+}
+
 // OriginShortIDEQ applies the EQ predicate on the "origin_short_id" field.
 func OriginShortIDEQ(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldOriginShortID, v))
@@ -892,6 +897,16 @@ func SummaryChineseEqualFold(v string) predicate.Article {
 // SummaryChineseContainsFold applies the ContainsFold predicate on the "summary_chinese" field.
 func SummaryChineseContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldSummaryChinese, v))
+}
+
+// ImageUploadedEQ applies the EQ predicate on the "image_uploaded" field.
+func ImageUploadedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldImageUploaded, v))
+}
+
+// ImageUploadedNEQ applies the NEQ predicate on the "image_uploaded" field.
+func ImageUploadedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldImageUploaded, v))
 }
 
 // And groups predicates with the AND operator between them.

@@ -73,6 +73,7 @@ type ArticleMutation struct {
 	strong_keyword          *schema.StrongKeyword
 	strong_related_category *string
 	summary_chinese         *string
+	image_uploaded          *bool
 	clearedFields           map[string]struct{}
 	done                    bool
 	oldValue                func(context.Context) (*Article, error)
@@ -961,6 +962,42 @@ func (m *ArticleMutation) ResetSummaryChinese() {
 	m.summary_chinese = nil
 }
 
+// SetImageUploaded sets the "image_uploaded" field.
+func (m *ArticleMutation) SetImageUploaded(b bool) {
+	m.image_uploaded = &b
+}
+
+// ImageUploaded returns the value of the "image_uploaded" field in the mutation.
+func (m *ArticleMutation) ImageUploaded() (r bool, exists bool) {
+	v := m.image_uploaded
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldImageUploaded returns the old "image_uploaded" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldImageUploaded(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldImageUploaded is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldImageUploaded requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldImageUploaded: %w", err)
+	}
+	return oldValue.ImageUploaded, nil
+}
+
+// ResetImageUploaded resets all changes to the "image_uploaded" field.
+func (m *ArticleMutation) ResetImageUploaded() {
+	m.image_uploaded = nil
+}
+
 // Where appends a list predicates to the ArticleMutation builder.
 func (m *ArticleMutation) Where(ps ...predicate.Article) {
 	m.predicates = append(m.predicates, ps...)
@@ -995,7 +1032,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 20)
+	fields := make([]string, 0, 21)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -1056,6 +1093,9 @@ func (m *ArticleMutation) Fields() []string {
 	if m.summary_chinese != nil {
 		fields = append(fields, article.FieldSummaryChinese)
 	}
+	if m.image_uploaded != nil {
+		fields = append(fields, article.FieldImageUploaded)
+	}
 	return fields
 }
 
@@ -1104,6 +1144,8 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.StrongRelatedCategory()
 	case article.FieldSummaryChinese:
 		return m.SummaryChinese()
+	case article.FieldImageUploaded:
+		return m.ImageUploaded()
 	}
 	return nil, false
 }
@@ -1153,6 +1195,8 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldStrongRelatedCategory(ctx)
 	case article.FieldSummaryChinese:
 		return m.OldSummaryChinese(ctx)
+	case article.FieldImageUploaded:
+		return m.OldImageUploaded(ctx)
 	}
 	return nil, fmt.Errorf("unknown Article field %s", name)
 }
@@ -1302,6 +1346,13 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetSummaryChinese(v)
 		return nil
+	case article.FieldImageUploaded:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetImageUploaded(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
 }
@@ -1419,6 +1470,9 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldSummaryChinese:
 		m.ResetSummaryChinese()
+		return nil
+	case article.FieldImageUploaded:
+		m.ResetImageUploaded()
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)

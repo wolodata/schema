@@ -36,6 +36,7 @@ func (Article) Fields() []ent.Field {
 		field.JSON("strong_keyword", StrongKeyword{}).Optional(),
 		field.String("strong_related_category").Default(""),
 		field.Text("summary_chinese").Default(""),
+		field.Bool("image_uploaded").Default(false),
 	}
 }
 
