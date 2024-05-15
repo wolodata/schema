@@ -16,8 +16,8 @@ func (Brain) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").Immutable(),
 		field.String("user_id").Immutable(),
-		field.String("question"),
-		field.String("answer"),
+		field.Text("question"),
+		field.Text("answer"),
 	}
 }
 

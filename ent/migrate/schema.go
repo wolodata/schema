@@ -96,8 +96,8 @@ var (
 	TBrainColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
 		{Name: "user_id", Type: field.TypeString},
-		{Name: "question", Type: field.TypeString},
-		{Name: "answer", Type: field.TypeString},
+		{Name: "question", Type: field.TypeString, Size: 2147483647},
+		{Name: "answer", Type: field.TypeString, Size: 2147483647},
 	}
 	// TBrainTable holds the schema information for the "t_brain" table.
 	TBrainTable = &schema.Table{
