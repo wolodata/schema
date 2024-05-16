@@ -5,12 +5,13 @@ import (
 )
 
 const (
-	ShortIdWhiteHouse         = "WhiteHouse"
-	ShortIdDOJ                = "DOJ"
-	ShortIdUSTR               = "USTR"
-	ShortIdStateDepartment    = "StateDepartment"
-	ShortIdCIA                = "CIA"
-	ShortIdTreasuryDepartment = "TreasuryDepartment"
+	ShortIdWhiteHouse                   = "WhiteHouse"
+	ShortIdDOJ                          = "DOJ"
+	ShortIdUSTR                         = "USTR"
+	ShortIdStateDepartment              = "StateDepartment"
+	ShortIdCIA                          = "CIA"
+	ShortIdTreasuryDepartment           = "TreasuryDepartment"
+	ShortIdOfficeOfForeignAssetsControl = "OFAC"
 )
 
 var (
@@ -75,5 +76,10 @@ func init() {
 		ShortId:     ShortIdTreasuryDepartment,
 		NameChinese: "美国财政部",
 		NameEnglish: "treasury.gov",
+	})
+	registerSource(Source{
+		ShortId:     ShortIdOfficeOfForeignAssetsControl,
+		NameChinese: "美国财政部海外资产控制办公室",
+		NameEnglish: "ofac.treasury.gov",
 	})
 }
