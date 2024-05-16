@@ -37,6 +37,10 @@ func registerSource(s Source) {
 	sourceMap[s.ShortId] = &s
 }
 
+func GetAllSources() map[string]*Source {
+	return sourceMap
+}
+
 func GetSourceByShortId(shortId string) (*Source, error) {
 	has, ok := sourceMap[shortId]
 	if !ok {
