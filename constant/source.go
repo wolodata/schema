@@ -12,6 +12,9 @@ const (
 	ShortIdCIA                          = "CIA"
 	ShortIdTreasuryDepartment           = "TreasuryDepartment"
 	ShortIdOfficeOfForeignAssetsControl = "OFAC"
+	ShortIdDepartmentOfCommerce         = "DepartmentOfCommerce"
+	ShortIdDepartmentOfDefender         = "DepartmentOfDefender"
+	ShortIdWashingtonPost               = "WashingtonPost"
 )
 
 var (
@@ -85,5 +88,20 @@ func init() {
 		ShortId:     ShortIdOfficeOfForeignAssetsControl,
 		NameChinese: "美国财政部海外资产控制办公室",
 		NameEnglish: "ofac.treasury.gov",
+	})
+	registerSource(Source{
+		ShortId:     ShortIdDepartmentOfCommerce,
+		NameChinese: "美国商务部",
+		NameEnglish: "commerce.gov",
+	})
+	registerSource(Source{
+		ShortId:     ShortIdDepartmentOfDefender,
+		NameChinese: "美国国防部",
+		NameEnglish: "defense.gov",
+	})
+	registerSource(Source{
+		ShortId:     ShortIdWashingtonPost,
+		NameChinese: "华盛顿邮报",
+		NameEnglish: "washingtonpost.com",
 	})
 }
