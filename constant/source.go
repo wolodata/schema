@@ -13,7 +13,7 @@ const (
 	ShortIdTreasuryDepartment           = "TreasuryDepartment"
 	ShortIdOfficeOfForeignAssetsControl = "OFAC"
 	ShortIdDepartmentOfCommerce         = "DepartmentOfCommerce"
-	ShortIdDepartmentOfDefender         = "DepartmentOfDefender"
+	ShortIdDepartmentOfDefense          = "DepartmentOfDefense"
 	ShortIdWashingtonPost               = "WashingtonPost"
 )
 
@@ -95,7 +95,7 @@ func init() {
 		NameEnglish: "commerce.gov",
 	})
 	registerSource(Source{
-		ShortId:     ShortIdDepartmentOfDefender,
+		ShortId:     ShortIdDepartmentOfDefense,
 		NameChinese: "美国国防部",
 		NameEnglish: "defense.gov",
 	})
