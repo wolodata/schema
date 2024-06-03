@@ -19,6 +19,7 @@ import (
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/keywordstrong"
 	"github.com/wolodata/schema/ent/keywordweak"
+	"github.com/wolodata/schema/ent/promotconfig"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/systemconfig"
 	"github.com/wolodata/schema/ent/topic"
@@ -40,6 +41,8 @@ type Client struct {
 	KeywordStrong *KeywordStrongClient
 	// KeywordWeak is the client for interacting with the KeywordWeak builders.
 	KeywordWeak *KeywordWeakClient
+	// PromotConfig is the client for interacting with the PromotConfig builders.
+	PromotConfig *PromotConfigClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// SystemConfig is the client for interacting with the SystemConfig builders.
@@ -64,6 +67,7 @@ func (c *Client) init() {
 	c.Html = NewHTMLClient(c.config)
 	c.KeywordStrong = NewKeywordStrongClient(c.config)
 	c.KeywordWeak = NewKeywordWeakClient(c.config)
+	c.PromotConfig = NewPromotConfigClient(c.config)
 	c.Report = NewReportClient(c.config)
 	c.SystemConfig = NewSystemConfigClient(c.config)
 	c.Topic = NewTopicClient(c.config)
@@ -165,6 +169,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Html:          NewHTMLClient(cfg),
 		KeywordStrong: NewKeywordStrongClient(cfg),
 		KeywordWeak:   NewKeywordWeakClient(cfg),
+		PromotConfig:  NewPromotConfigClient(cfg),
 		Report:        NewReportClient(cfg),
 		SystemConfig:  NewSystemConfigClient(cfg),
 		Topic:         NewTopicClient(cfg),
@@ -193,6 +198,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Html:          NewHTMLClient(cfg),
 		KeywordStrong: NewKeywordStrongClient(cfg),
 		KeywordWeak:   NewKeywordWeakClient(cfg),
+		PromotConfig:  NewPromotConfigClient(cfg),
 		Report:        NewReportClient(cfg),
 		SystemConfig:  NewSystemConfigClient(cfg),
 		Topic:         NewTopicClient(cfg),
@@ -226,8 +232,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Article, c.Brain, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report,
-		c.SystemConfig, c.Topic, c.User,
+		c.Article, c.Brain, c.Html, c.KeywordStrong, c.KeywordWeak, c.PromotConfig,
+		c.Report, c.SystemConfig, c.Topic, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -237,8 +243,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Article, c.Brain, c.Html, c.KeywordStrong, c.KeywordWeak, c.Report,
-		c.SystemConfig, c.Topic, c.User,
+		c.Article, c.Brain, c.Html, c.KeywordStrong, c.KeywordWeak, c.PromotConfig,
+		c.Report, c.SystemConfig, c.Topic, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -257,6 +263,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.KeywordStrong.mutate(ctx, m)
 	case *KeywordWeakMutation:
 		return c.KeywordWeak.mutate(ctx, m)
+	case *PromotConfigMutation:
+		return c.PromotConfig.mutate(ctx, m)
 	case *ReportMutation:
 		return c.Report.mutate(ctx, m)
 	case *SystemConfigMutation:
@@ -935,6 +943,139 @@ func (c *KeywordWeakClient) mutate(ctx context.Context, m *KeywordWeakMutation) 
 	}
 }
 
+// PromotConfigClient is a client for the PromotConfig schema.
+type PromotConfigClient struct {
+	config
+}
+
+// NewPromotConfigClient returns a client for the PromotConfig from the given config.
+func NewPromotConfigClient(c config) *PromotConfigClient {
+	return &PromotConfigClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `promotconfig.Hooks(f(g(h())))`.
+func (c *PromotConfigClient) Use(hooks ...Hook) {
+	c.hooks.PromotConfig = append(c.hooks.PromotConfig, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `promotconfig.Intercept(f(g(h())))`.
+func (c *PromotConfigClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PromotConfig = append(c.inters.PromotConfig, interceptors...)
+}
+
+// Create returns a builder for creating a PromotConfig entity.
+func (c *PromotConfigClient) Create() *PromotConfigCreate {
+	mutation := newPromotConfigMutation(c.config, OpCreate)
+	return &PromotConfigCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PromotConfig entities.
+func (c *PromotConfigClient) CreateBulk(builders ...*PromotConfigCreate) *PromotConfigCreateBulk {
+	return &PromotConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PromotConfigClient) MapCreateBulk(slice any, setFunc func(*PromotConfigCreate, int)) *PromotConfigCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PromotConfigCreateBulk{err: fmt.Errorf("calling to PromotConfigClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PromotConfigCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PromotConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PromotConfig.
+func (c *PromotConfigClient) Update() *PromotConfigUpdate {
+	mutation := newPromotConfigMutation(c.config, OpUpdate)
+	return &PromotConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PromotConfigClient) UpdateOne(pc *PromotConfig) *PromotConfigUpdateOne {
+	mutation := newPromotConfigMutation(c.config, OpUpdateOne, withPromotConfig(pc))
+	return &PromotConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PromotConfigClient) UpdateOneID(id string) *PromotConfigUpdateOne {
+	mutation := newPromotConfigMutation(c.config, OpUpdateOne, withPromotConfigID(id))
+	return &PromotConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PromotConfig.
+func (c *PromotConfigClient) Delete() *PromotConfigDelete {
+	mutation := newPromotConfigMutation(c.config, OpDelete)
+	return &PromotConfigDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PromotConfigClient) DeleteOne(pc *PromotConfig) *PromotConfigDeleteOne {
+	return c.DeleteOneID(pc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PromotConfigClient) DeleteOneID(id string) *PromotConfigDeleteOne {
+	builder := c.Delete().Where(promotconfig.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PromotConfigDeleteOne{builder}
+}
+
+// Query returns a query builder for PromotConfig.
+func (c *PromotConfigClient) Query() *PromotConfigQuery {
+	return &PromotConfigQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePromotConfig},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PromotConfig entity by its id.
+func (c *PromotConfigClient) Get(ctx context.Context, id string) (*PromotConfig, error) {
+	return c.Query().Where(promotconfig.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PromotConfigClient) GetX(ctx context.Context, id string) *PromotConfig {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *PromotConfigClient) Hooks() []Hook {
+	return c.hooks.PromotConfig
+}
+
+// Interceptors returns the client interceptors.
+func (c *PromotConfigClient) Interceptors() []Interceptor {
+	return c.inters.PromotConfig
+}
+
+func (c *PromotConfigClient) mutate(ctx context.Context, m *PromotConfigMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PromotConfigCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PromotConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PromotConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PromotConfigDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PromotConfig mutation op: %q", m.Op())
+	}
+}
+
 // ReportClient is a client for the Report schema.
 type ReportClient struct {
 	config
@@ -1470,11 +1611,11 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Article, Brain, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
-		User []ent.Hook
+		Article, Brain, Html, KeywordStrong, KeywordWeak, PromotConfig, Report,
+		SystemConfig, Topic, User []ent.Hook
 	}
 	inters struct {
-		Article, Brain, Html, KeywordStrong, KeywordWeak, Report, SystemConfig, Topic,
-		User []ent.Interceptor
+		Article, Brain, Html, KeywordStrong, KeywordWeak, PromotConfig, Report,
+		SystemConfig, Topic, User []ent.Interceptor
 	}
 )

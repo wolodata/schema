@@ -17,6 +17,7 @@ import (
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/keywordstrong"
 	"github.com/wolodata/schema/ent/keywordweak"
+	"github.com/wolodata/schema/ent/promotconfig"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/systemconfig"
 	"github.com/wolodata/schema/ent/topic"
@@ -86,6 +87,7 @@ func checkColumn(table, column string) error {
 			html.Table:          html.ValidColumn,
 			keywordstrong.Table: keywordstrong.ValidColumn,
 			keywordweak.Table:   keywordweak.ValidColumn,
+			promotconfig.Table:  promotconfig.ValidColumn,
 			report.Table:        report.ValidColumn,
 			systemconfig.Table:  systemconfig.ValidColumn,
 			topic.Table:         topic.ValidColumn,

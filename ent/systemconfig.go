@@ -20,16 +20,8 @@ type SystemConfig struct {
 	Name string `json:"name,omitempty"`
 	// Description holds the value of the "description" field.
 	Description string `json:"description,omitempty"`
-	// APIModel holds the value of the "api_model" field.
-	APIModel string `json:"api_model,omitempty"`
-	// APIURL holds the value of the "api_url" field.
-	APIURL string `json:"api_url,omitempty"`
-	// APIKey holds the value of the "api_key" field.
-	APIKey string `json:"api_key,omitempty"`
-	// PromptSystem holds the value of the "prompt_system" field.
-	PromptSystem string `json:"prompt_system,omitempty"`
-	// PromptUser holds the value of the "prompt_user" field.
-	PromptUser   string `json:"prompt_user,omitempty"`
+	// Value holds the value of the "value" field.
+	Value        string `json:"value,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -38,7 +30,7 @@ func (*SystemConfig) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case systemconfig.FieldID, systemconfig.FieldName, systemconfig.FieldDescription, systemconfig.FieldAPIModel, systemconfig.FieldAPIURL, systemconfig.FieldAPIKey, systemconfig.FieldPromptSystem, systemconfig.FieldPromptUser:
+		case systemconfig.FieldID, systemconfig.FieldName, systemconfig.FieldDescription, systemconfig.FieldValue:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -73,35 +65,11 @@ func (sc *SystemConfig) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				sc.Description = value.String
 			}
-		case systemconfig.FieldAPIModel:
+		case systemconfig.FieldValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field api_model", values[i])
+				return fmt.Errorf("unexpected type %T for field value", values[i])
 			} else if value.Valid {
-				sc.APIModel = value.String
-			}
-		case systemconfig.FieldAPIURL:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field api_url", values[i])
-			} else if value.Valid {
-				sc.APIURL = value.String
-			}
-		case systemconfig.FieldAPIKey:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field api_key", values[i])
-			} else if value.Valid {
-				sc.APIKey = value.String
-			}
-		case systemconfig.FieldPromptSystem:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field prompt_system", values[i])
-			} else if value.Valid {
-				sc.PromptSystem = value.String
-			}
-		case systemconfig.FieldPromptUser:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field prompt_user", values[i])
-			} else if value.Valid {
-				sc.PromptUser = value.String
+				sc.Value = value.String
 			}
 		default:
 			sc.selectValues.Set(columns[i], values[i])
@@ -110,9 +78,9 @@ func (sc *SystemConfig) assignValues(columns []string, values []any) error {
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the SystemConfig.
+// GetValue returns the ent.Value that was dynamically selected and assigned to the SystemConfig.
 // This includes values selected through modifiers, order, etc.
-func (sc *SystemConfig) Value(name string) (ent.Value, error) {
+func (sc *SystemConfig) GetValue(name string) (ent.Value, error) {
 	return sc.selectValues.Get(name)
 }
 
@@ -145,20 +113,8 @@ func (sc *SystemConfig) String() string {
 	builder.WriteString("description=")
 	builder.WriteString(sc.Description)
 	builder.WriteString(", ")
-	builder.WriteString("api_model=")
-	builder.WriteString(sc.APIModel)
-	builder.WriteString(", ")
-	builder.WriteString("api_url=")
-	builder.WriteString(sc.APIURL)
-	builder.WriteString(", ")
-	builder.WriteString("api_key=")
-	builder.WriteString(sc.APIKey)
-	builder.WriteString(", ")
-	builder.WriteString("prompt_system=")
-	builder.WriteString(sc.PromptSystem)
-	builder.WriteString(", ")
-	builder.WriteString("prompt_user=")
-	builder.WriteString(sc.PromptUser)
+	builder.WriteString("value=")
+	builder.WriteString(sc.Value)
 	builder.WriteByte(')')
 	return builder.String()
 }

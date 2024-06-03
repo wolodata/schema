@@ -17,6 +17,7 @@ import (
 	"github.com/wolodata/schema/ent/keywordstrong"
 	"github.com/wolodata/schema/ent/keywordweak"
 	"github.com/wolodata/schema/ent/predicate"
+	"github.com/wolodata/schema/ent/promotconfig"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/systemconfig"
@@ -38,6 +39,7 @@ const (
 	TypeHTML          = "Html"
 	TypeKeywordStrong = "KeywordStrong"
 	TypeKeywordWeak   = "KeywordWeak"
+	TypePromotConfig  = "PromotConfig"
 	TypeReport        = "Report"
 	TypeSystemConfig  = "SystemConfig"
 	TypeTopic         = "Topic"
@@ -3808,6 +3810,662 @@ func (m *KeywordWeakMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown KeywordWeak edge %s", name)
 }
 
+// PromotConfigMutation represents an operation that mutates the PromotConfig nodes in the graph.
+type PromotConfigMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *string
+	name          *string
+	description   *string
+	api_model     *string
+	api_url       *string
+	api_key       *string
+	prompt_system *string
+	prompt_user   *string
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*PromotConfig, error)
+	predicates    []predicate.PromotConfig
+}
+
+var _ ent.Mutation = (*PromotConfigMutation)(nil)
+
+// promotconfigOption allows management of the mutation configuration using functional options.
+type promotconfigOption func(*PromotConfigMutation)
+
+// newPromotConfigMutation creates new mutation for the PromotConfig entity.
+func newPromotConfigMutation(c config, op Op, opts ...promotconfigOption) *PromotConfigMutation {
+	m := &PromotConfigMutation{
+		config:        c,
+		op:            op,
+		typ:           TypePromotConfig,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withPromotConfigID sets the ID field of the mutation.
+func withPromotConfigID(id string) promotconfigOption {
+	return func(m *PromotConfigMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *PromotConfig
+		)
+		m.oldValue = func(ctx context.Context) (*PromotConfig, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().PromotConfig.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withPromotConfig sets the old PromotConfig of the mutation.
+func withPromotConfig(node *PromotConfig) promotconfigOption {
+	return func(m *PromotConfigMutation) {
+		m.oldValue = func(context.Context) (*PromotConfig, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m PromotConfigMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m PromotConfigMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of PromotConfig entities.
+func (m *PromotConfigMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *PromotConfigMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *PromotConfigMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().PromotConfig.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetName sets the "name" field.
+func (m *PromotConfigMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *PromotConfigMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *PromotConfigMutation) ResetName() {
+	m.name = nil
+}
+
+// SetDescription sets the "description" field.
+func (m *PromotConfigMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *PromotConfigMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *PromotConfigMutation) ResetDescription() {
+	m.description = nil
+}
+
+// SetAPIModel sets the "api_model" field.
+func (m *PromotConfigMutation) SetAPIModel(s string) {
+	m.api_model = &s
+}
+
+// APIModel returns the value of the "api_model" field in the mutation.
+func (m *PromotConfigMutation) APIModel() (r string, exists bool) {
+	v := m.api_model
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAPIModel returns the old "api_model" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldAPIModel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAPIModel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAPIModel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAPIModel: %w", err)
+	}
+	return oldValue.APIModel, nil
+}
+
+// ResetAPIModel resets all changes to the "api_model" field.
+func (m *PromotConfigMutation) ResetAPIModel() {
+	m.api_model = nil
+}
+
+// SetAPIURL sets the "api_url" field.
+func (m *PromotConfigMutation) SetAPIURL(s string) {
+	m.api_url = &s
+}
+
+// APIURL returns the value of the "api_url" field in the mutation.
+func (m *PromotConfigMutation) APIURL() (r string, exists bool) {
+	v := m.api_url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAPIURL returns the old "api_url" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldAPIURL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAPIURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAPIURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAPIURL: %w", err)
+	}
+	return oldValue.APIURL, nil
+}
+
+// ResetAPIURL resets all changes to the "api_url" field.
+func (m *PromotConfigMutation) ResetAPIURL() {
+	m.api_url = nil
+}
+
+// SetAPIKey sets the "api_key" field.
+func (m *PromotConfigMutation) SetAPIKey(s string) {
+	m.api_key = &s
+}
+
+// APIKey returns the value of the "api_key" field in the mutation.
+func (m *PromotConfigMutation) APIKey() (r string, exists bool) {
+	v := m.api_key
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAPIKey returns the old "api_key" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldAPIKey(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAPIKey is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAPIKey requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAPIKey: %w", err)
+	}
+	return oldValue.APIKey, nil
+}
+
+// ResetAPIKey resets all changes to the "api_key" field.
+func (m *PromotConfigMutation) ResetAPIKey() {
+	m.api_key = nil
+}
+
+// SetPromptSystem sets the "prompt_system" field.
+func (m *PromotConfigMutation) SetPromptSystem(s string) {
+	m.prompt_system = &s
+}
+
+// PromptSystem returns the value of the "prompt_system" field in the mutation.
+func (m *PromotConfigMutation) PromptSystem() (r string, exists bool) {
+	v := m.prompt_system
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPromptSystem returns the old "prompt_system" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldPromptSystem(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPromptSystem is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPromptSystem requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPromptSystem: %w", err)
+	}
+	return oldValue.PromptSystem, nil
+}
+
+// ResetPromptSystem resets all changes to the "prompt_system" field.
+func (m *PromotConfigMutation) ResetPromptSystem() {
+	m.prompt_system = nil
+}
+
+// SetPromptUser sets the "prompt_user" field.
+func (m *PromotConfigMutation) SetPromptUser(s string) {
+	m.prompt_user = &s
+}
+
+// PromptUser returns the value of the "prompt_user" field in the mutation.
+func (m *PromotConfigMutation) PromptUser() (r string, exists bool) {
+	v := m.prompt_user
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPromptUser returns the old "prompt_user" field's value of the PromotConfig entity.
+// If the PromotConfig object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *PromotConfigMutation) OldPromptUser(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPromptUser is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPromptUser requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPromptUser: %w", err)
+	}
+	return oldValue.PromptUser, nil
+}
+
+// ResetPromptUser resets all changes to the "prompt_user" field.
+func (m *PromotConfigMutation) ResetPromptUser() {
+	m.prompt_user = nil
+}
+
+// Where appends a list predicates to the PromotConfigMutation builder.
+func (m *PromotConfigMutation) Where(ps ...predicate.PromotConfig) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the PromotConfigMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *PromotConfigMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.PromotConfig, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *PromotConfigMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *PromotConfigMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (PromotConfig).
+func (m *PromotConfigMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *PromotConfigMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.name != nil {
+		fields = append(fields, promotconfig.FieldName)
+	}
+	if m.description != nil {
+		fields = append(fields, promotconfig.FieldDescription)
+	}
+	if m.api_model != nil {
+		fields = append(fields, promotconfig.FieldAPIModel)
+	}
+	if m.api_url != nil {
+		fields = append(fields, promotconfig.FieldAPIURL)
+	}
+	if m.api_key != nil {
+		fields = append(fields, promotconfig.FieldAPIKey)
+	}
+	if m.prompt_system != nil {
+		fields = append(fields, promotconfig.FieldPromptSystem)
+	}
+	if m.prompt_user != nil {
+		fields = append(fields, promotconfig.FieldPromptUser)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *PromotConfigMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case promotconfig.FieldName:
+		return m.Name()
+	case promotconfig.FieldDescription:
+		return m.Description()
+	case promotconfig.FieldAPIModel:
+		return m.APIModel()
+	case promotconfig.FieldAPIURL:
+		return m.APIURL()
+	case promotconfig.FieldAPIKey:
+		return m.APIKey()
+	case promotconfig.FieldPromptSystem:
+		return m.PromptSystem()
+	case promotconfig.FieldPromptUser:
+		return m.PromptUser()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *PromotConfigMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case promotconfig.FieldName:
+		return m.OldName(ctx)
+	case promotconfig.FieldDescription:
+		return m.OldDescription(ctx)
+	case promotconfig.FieldAPIModel:
+		return m.OldAPIModel(ctx)
+	case promotconfig.FieldAPIURL:
+		return m.OldAPIURL(ctx)
+	case promotconfig.FieldAPIKey:
+		return m.OldAPIKey(ctx)
+	case promotconfig.FieldPromptSystem:
+		return m.OldPromptSystem(ctx)
+	case promotconfig.FieldPromptUser:
+		return m.OldPromptUser(ctx)
+	}
+	return nil, fmt.Errorf("unknown PromotConfig field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromotConfigMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case promotconfig.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case promotconfig.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case promotconfig.FieldAPIModel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAPIModel(v)
+		return nil
+	case promotconfig.FieldAPIURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAPIURL(v)
+		return nil
+	case promotconfig.FieldAPIKey:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAPIKey(v)
+		return nil
+	case promotconfig.FieldPromptSystem:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPromptSystem(v)
+		return nil
+	case promotconfig.FieldPromptUser:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPromptUser(v)
+		return nil
+	}
+	return fmt.Errorf("unknown PromotConfig field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *PromotConfigMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *PromotConfigMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *PromotConfigMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown PromotConfig numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *PromotConfigMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *PromotConfigMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *PromotConfigMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown PromotConfig nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *PromotConfigMutation) ResetField(name string) error {
+	switch name {
+	case promotconfig.FieldName:
+		m.ResetName()
+		return nil
+	case promotconfig.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case promotconfig.FieldAPIModel:
+		m.ResetAPIModel()
+		return nil
+	case promotconfig.FieldAPIURL:
+		m.ResetAPIURL()
+		return nil
+	case promotconfig.FieldAPIKey:
+		m.ResetAPIKey()
+		return nil
+	case promotconfig.FieldPromptSystem:
+		m.ResetPromptSystem()
+		return nil
+	case promotconfig.FieldPromptUser:
+		m.ResetPromptUser()
+		return nil
+	}
+	return fmt.Errorf("unknown PromotConfig field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *PromotConfigMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *PromotConfigMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *PromotConfigMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *PromotConfigMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *PromotConfigMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *PromotConfigMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *PromotConfigMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown PromotConfig unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *PromotConfigMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown PromotConfig edge %s", name)
+}
+
 // ReportMutation represents an operation that mutates the Report nodes in the graph.
 type ReportMutation struct {
 	config
@@ -4688,11 +5346,7 @@ type SystemConfigMutation struct {
 	id            *string
 	name          *string
 	description   *string
-	api_model     *string
-	api_url       *string
-	api_key       *string
-	prompt_system *string
-	prompt_user   *string
+	value         *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*SystemConfig, error)
@@ -4875,184 +5529,40 @@ func (m *SystemConfigMutation) ResetDescription() {
 	m.description = nil
 }
 
-// SetAPIModel sets the "api_model" field.
-func (m *SystemConfigMutation) SetAPIModel(s string) {
-	m.api_model = &s
+// SetValue sets the "value" field.
+func (m *SystemConfigMutation) SetValue(s string) {
+	m.value = &s
 }
 
-// APIModel returns the value of the "api_model" field in the mutation.
-func (m *SystemConfigMutation) APIModel() (r string, exists bool) {
-	v := m.api_model
+// Value returns the value of the "value" field in the mutation.
+func (m *SystemConfigMutation) Value() (r string, exists bool) {
+	v := m.value
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAPIModel returns the old "api_model" field's value of the SystemConfig entity.
+// OldValue returns the old "value" field's value of the SystemConfig entity.
 // If the SystemConfig object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SystemConfigMutation) OldAPIModel(ctx context.Context) (v string, err error) {
+func (m *SystemConfigMutation) OldValue(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAPIModel is only allowed on UpdateOne operations")
+		return v, errors.New("OldValue is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAPIModel requires an ID field in the mutation")
+		return v, errors.New("OldValue requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAPIModel: %w", err)
+		return v, fmt.Errorf("querying old value for OldValue: %w", err)
 	}
-	return oldValue.APIModel, nil
+	return oldValue.Value, nil
 }
 
-// ResetAPIModel resets all changes to the "api_model" field.
-func (m *SystemConfigMutation) ResetAPIModel() {
-	m.api_model = nil
-}
-
-// SetAPIURL sets the "api_url" field.
-func (m *SystemConfigMutation) SetAPIURL(s string) {
-	m.api_url = &s
-}
-
-// APIURL returns the value of the "api_url" field in the mutation.
-func (m *SystemConfigMutation) APIURL() (r string, exists bool) {
-	v := m.api_url
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAPIURL returns the old "api_url" field's value of the SystemConfig entity.
-// If the SystemConfig object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SystemConfigMutation) OldAPIURL(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAPIURL is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAPIURL requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAPIURL: %w", err)
-	}
-	return oldValue.APIURL, nil
-}
-
-// ResetAPIURL resets all changes to the "api_url" field.
-func (m *SystemConfigMutation) ResetAPIURL() {
-	m.api_url = nil
-}
-
-// SetAPIKey sets the "api_key" field.
-func (m *SystemConfigMutation) SetAPIKey(s string) {
-	m.api_key = &s
-}
-
-// APIKey returns the value of the "api_key" field in the mutation.
-func (m *SystemConfigMutation) APIKey() (r string, exists bool) {
-	v := m.api_key
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAPIKey returns the old "api_key" field's value of the SystemConfig entity.
-// If the SystemConfig object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SystemConfigMutation) OldAPIKey(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAPIKey is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAPIKey requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAPIKey: %w", err)
-	}
-	return oldValue.APIKey, nil
-}
-
-// ResetAPIKey resets all changes to the "api_key" field.
-func (m *SystemConfigMutation) ResetAPIKey() {
-	m.api_key = nil
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (m *SystemConfigMutation) SetPromptSystem(s string) {
-	m.prompt_system = &s
-}
-
-// PromptSystem returns the value of the "prompt_system" field in the mutation.
-func (m *SystemConfigMutation) PromptSystem() (r string, exists bool) {
-	v := m.prompt_system
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPromptSystem returns the old "prompt_system" field's value of the SystemConfig entity.
-// If the SystemConfig object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SystemConfigMutation) OldPromptSystem(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPromptSystem is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPromptSystem requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPromptSystem: %w", err)
-	}
-	return oldValue.PromptSystem, nil
-}
-
-// ResetPromptSystem resets all changes to the "prompt_system" field.
-func (m *SystemConfigMutation) ResetPromptSystem() {
-	m.prompt_system = nil
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (m *SystemConfigMutation) SetPromptUser(s string) {
-	m.prompt_user = &s
-}
-
-// PromptUser returns the value of the "prompt_user" field in the mutation.
-func (m *SystemConfigMutation) PromptUser() (r string, exists bool) {
-	v := m.prompt_user
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPromptUser returns the old "prompt_user" field's value of the SystemConfig entity.
-// If the SystemConfig object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SystemConfigMutation) OldPromptUser(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPromptUser is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPromptUser requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPromptUser: %w", err)
-	}
-	return oldValue.PromptUser, nil
-}
-
-// ResetPromptUser resets all changes to the "prompt_user" field.
-func (m *SystemConfigMutation) ResetPromptUser() {
-	m.prompt_user = nil
+// ResetValue resets all changes to the "value" field.
+func (m *SystemConfigMutation) ResetValue() {
+	m.value = nil
 }
 
 // Where appends a list predicates to the SystemConfigMutation builder.
@@ -5089,27 +5599,15 @@ func (m *SystemConfigMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *SystemConfigMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 3)
 	if m.name != nil {
 		fields = append(fields, systemconfig.FieldName)
 	}
 	if m.description != nil {
 		fields = append(fields, systemconfig.FieldDescription)
 	}
-	if m.api_model != nil {
-		fields = append(fields, systemconfig.FieldAPIModel)
-	}
-	if m.api_url != nil {
-		fields = append(fields, systemconfig.FieldAPIURL)
-	}
-	if m.api_key != nil {
-		fields = append(fields, systemconfig.FieldAPIKey)
-	}
-	if m.prompt_system != nil {
-		fields = append(fields, systemconfig.FieldPromptSystem)
-	}
-	if m.prompt_user != nil {
-		fields = append(fields, systemconfig.FieldPromptUser)
+	if m.value != nil {
+		fields = append(fields, systemconfig.FieldValue)
 	}
 	return fields
 }
@@ -5123,16 +5621,8 @@ func (m *SystemConfigMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case systemconfig.FieldDescription:
 		return m.Description()
-	case systemconfig.FieldAPIModel:
-		return m.APIModel()
-	case systemconfig.FieldAPIURL:
-		return m.APIURL()
-	case systemconfig.FieldAPIKey:
-		return m.APIKey()
-	case systemconfig.FieldPromptSystem:
-		return m.PromptSystem()
-	case systemconfig.FieldPromptUser:
-		return m.PromptUser()
+	case systemconfig.FieldValue:
+		return m.Value()
 	}
 	return nil, false
 }
@@ -5146,16 +5636,8 @@ func (m *SystemConfigMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldName(ctx)
 	case systemconfig.FieldDescription:
 		return m.OldDescription(ctx)
-	case systemconfig.FieldAPIModel:
-		return m.OldAPIModel(ctx)
-	case systemconfig.FieldAPIURL:
-		return m.OldAPIURL(ctx)
-	case systemconfig.FieldAPIKey:
-		return m.OldAPIKey(ctx)
-	case systemconfig.FieldPromptSystem:
-		return m.OldPromptSystem(ctx)
-	case systemconfig.FieldPromptUser:
-		return m.OldPromptUser(ctx)
+	case systemconfig.FieldValue:
+		return m.OldValue(ctx)
 	}
 	return nil, fmt.Errorf("unknown SystemConfig field %s", name)
 }
@@ -5179,40 +5661,12 @@ func (m *SystemConfigMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDescription(v)
 		return nil
-	case systemconfig.FieldAPIModel:
+	case systemconfig.FieldValue:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetAPIModel(v)
-		return nil
-	case systemconfig.FieldAPIURL:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAPIURL(v)
-		return nil
-	case systemconfig.FieldAPIKey:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAPIKey(v)
-		return nil
-	case systemconfig.FieldPromptSystem:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPromptSystem(v)
-		return nil
-	case systemconfig.FieldPromptUser:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPromptUser(v)
+		m.SetValue(v)
 		return nil
 	}
 	return fmt.Errorf("unknown SystemConfig field %s", name)
@@ -5269,20 +5723,8 @@ func (m *SystemConfigMutation) ResetField(name string) error {
 	case systemconfig.FieldDescription:
 		m.ResetDescription()
 		return nil
-	case systemconfig.FieldAPIModel:
-		m.ResetAPIModel()
-		return nil
-	case systemconfig.FieldAPIURL:
-		m.ResetAPIURL()
-		return nil
-	case systemconfig.FieldAPIKey:
-		m.ResetAPIKey()
-		return nil
-	case systemconfig.FieldPromptSystem:
-		m.ResetPromptSystem()
-		return nil
-	case systemconfig.FieldPromptUser:
-		m.ResetPromptUser()
+	case systemconfig.FieldValue:
+		m.ResetValue()
 		return nil
 	}
 	return fmt.Errorf("unknown SystemConfig field %s", name)

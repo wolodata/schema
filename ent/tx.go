@@ -22,6 +22,8 @@ type Tx struct {
 	KeywordStrong *KeywordStrongClient
 	// KeywordWeak is the client for interacting with the KeywordWeak builders.
 	KeywordWeak *KeywordWeakClient
+	// PromotConfig is the client for interacting with the PromotConfig builders.
+	PromotConfig *PromotConfigClient
 	// Report is the client for interacting with the Report builders.
 	Report *ReportClient
 	// SystemConfig is the client for interacting with the SystemConfig builders.
@@ -166,6 +168,7 @@ func (tx *Tx) init() {
 	tx.Html = NewHTMLClient(tx.config)
 	tx.KeywordStrong = NewKeywordStrongClient(tx.config)
 	tx.KeywordWeak = NewKeywordWeakClient(tx.config)
+	tx.PromotConfig = NewPromotConfigClient(tx.config)
 	tx.Report = NewReportClient(tx.config)
 	tx.SystemConfig = NewSystemConfigClient(tx.config)
 	tx.Topic = NewTopicClient(tx.config)

@@ -203,6 +203,23 @@ var (
 			},
 		},
 	}
+	// TPromptConfigColumns holds the columns for the "t_prompt_config" table.
+	TPromptConfigColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Unique: true},
+		{Name: "description", Type: field.TypeString, Default: ""},
+		{Name: "api_model", Type: field.TypeString, Default: ""},
+		{Name: "api_url", Type: field.TypeString, Default: ""},
+		{Name: "api_key", Type: field.TypeString, Default: ""},
+		{Name: "prompt_system", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "prompt_user", Type: field.TypeString, Size: 2147483647, Default: ""},
+	}
+	// TPromptConfigTable holds the schema information for the "t_prompt_config" table.
+	TPromptConfigTable = &schema.Table{
+		Name:       "t_prompt_config",
+		Columns:    TPromptConfigColumns,
+		PrimaryKey: []*schema.Column{TPromptConfigColumns[0]},
+	}
 	// TReportColumns holds the columns for the "t_report" table.
 	TReportColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString},
@@ -250,11 +267,7 @@ var (
 		{Name: "id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString, Unique: true},
 		{Name: "description", Type: field.TypeString, Default: ""},
-		{Name: "api_model", Type: field.TypeString, Default: ""},
-		{Name: "api_url", Type: field.TypeString, Default: ""},
-		{Name: "api_key", Type: field.TypeString, Default: ""},
-		{Name: "prompt_system", Type: field.TypeString, Size: 2147483647, Default: ""},
-		{Name: "prompt_user", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "value", Type: field.TypeString, Default: ""},
 	}
 	// TSystemConfigTable holds the schema information for the "t_system_config" table.
 	TSystemConfigTable = &schema.Table{
@@ -325,6 +338,7 @@ var (
 		THTMLTable,
 		TKeywordStrongTable,
 		TKeywordWeakTable,
+		TPromptConfigTable,
 		TReportTable,
 		TSystemConfigTable,
 		TTopicTable,
@@ -355,6 +369,11 @@ func init() {
 	}
 	TKeywordWeakTable.Annotation = &entsql.Annotation{
 		Table:     "t_keyword_weak",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_general_ci",
+	}
+	TPromptConfigTable.Annotation = &entsql.Annotation{
+		Table:     "t_prompt_config",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_general_ci",
 	}

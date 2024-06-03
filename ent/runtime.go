@@ -8,6 +8,7 @@ import (
 	"github.com/wolodata/schema/ent/article"
 	"github.com/wolodata/schema/ent/html"
 	"github.com/wolodata/schema/ent/keywordstrong"
+	"github.com/wolodata/schema/ent/promotconfig"
 	"github.com/wolodata/schema/ent/report"
 	"github.com/wolodata/schema/ent/schema"
 	"github.com/wolodata/schema/ent/systemconfig"
@@ -161,6 +162,32 @@ func init() {
 	keywordstrongDescSubCount := keywordstrongFields[5].Descriptor()
 	// keywordstrong.DefaultSubCount holds the default value on creation for the sub_count field.
 	keywordstrong.DefaultSubCount = keywordstrongDescSubCount.Default.(uint64)
+	promotconfigFields := schema.PromotConfig{}.Fields()
+	_ = promotconfigFields
+	// promotconfigDescDescription is the schema descriptor for description field.
+	promotconfigDescDescription := promotconfigFields[2].Descriptor()
+	// promotconfig.DefaultDescription holds the default value on creation for the description field.
+	promotconfig.DefaultDescription = promotconfigDescDescription.Default.(string)
+	// promotconfigDescAPIModel is the schema descriptor for api_model field.
+	promotconfigDescAPIModel := promotconfigFields[3].Descriptor()
+	// promotconfig.DefaultAPIModel holds the default value on creation for the api_model field.
+	promotconfig.DefaultAPIModel = promotconfigDescAPIModel.Default.(string)
+	// promotconfigDescAPIURL is the schema descriptor for api_url field.
+	promotconfigDescAPIURL := promotconfigFields[4].Descriptor()
+	// promotconfig.DefaultAPIURL holds the default value on creation for the api_url field.
+	promotconfig.DefaultAPIURL = promotconfigDescAPIURL.Default.(string)
+	// promotconfigDescAPIKey is the schema descriptor for api_key field.
+	promotconfigDescAPIKey := promotconfigFields[5].Descriptor()
+	// promotconfig.DefaultAPIKey holds the default value on creation for the api_key field.
+	promotconfig.DefaultAPIKey = promotconfigDescAPIKey.Default.(string)
+	// promotconfigDescPromptSystem is the schema descriptor for prompt_system field.
+	promotconfigDescPromptSystem := promotconfigFields[6].Descriptor()
+	// promotconfig.DefaultPromptSystem holds the default value on creation for the prompt_system field.
+	promotconfig.DefaultPromptSystem = promotconfigDescPromptSystem.Default.(string)
+	// promotconfigDescPromptUser is the schema descriptor for prompt_user field.
+	promotconfigDescPromptUser := promotconfigFields[7].Descriptor()
+	// promotconfig.DefaultPromptUser holds the default value on creation for the prompt_user field.
+	promotconfig.DefaultPromptUser = promotconfigDescPromptUser.Default.(string)
 	reportFields := schema.Report{}.Fields()
 	_ = reportFields
 	// reportDescReportType is the schema descriptor for report_type field.
@@ -193,26 +220,10 @@ func init() {
 	systemconfigDescDescription := systemconfigFields[2].Descriptor()
 	// systemconfig.DefaultDescription holds the default value on creation for the description field.
 	systemconfig.DefaultDescription = systemconfigDescDescription.Default.(string)
-	// systemconfigDescAPIModel is the schema descriptor for api_model field.
-	systemconfigDescAPIModel := systemconfigFields[3].Descriptor()
-	// systemconfig.DefaultAPIModel holds the default value on creation for the api_model field.
-	systemconfig.DefaultAPIModel = systemconfigDescAPIModel.Default.(string)
-	// systemconfigDescAPIURL is the schema descriptor for api_url field.
-	systemconfigDescAPIURL := systemconfigFields[4].Descriptor()
-	// systemconfig.DefaultAPIURL holds the default value on creation for the api_url field.
-	systemconfig.DefaultAPIURL = systemconfigDescAPIURL.Default.(string)
-	// systemconfigDescAPIKey is the schema descriptor for api_key field.
-	systemconfigDescAPIKey := systemconfigFields[5].Descriptor()
-	// systemconfig.DefaultAPIKey holds the default value on creation for the api_key field.
-	systemconfig.DefaultAPIKey = systemconfigDescAPIKey.Default.(string)
-	// systemconfigDescPromptSystem is the schema descriptor for prompt_system field.
-	systemconfigDescPromptSystem := systemconfigFields[6].Descriptor()
-	// systemconfig.DefaultPromptSystem holds the default value on creation for the prompt_system field.
-	systemconfig.DefaultPromptSystem = systemconfigDescPromptSystem.Default.(string)
-	// systemconfigDescPromptUser is the schema descriptor for prompt_user field.
-	systemconfigDescPromptUser := systemconfigFields[7].Descriptor()
-	// systemconfig.DefaultPromptUser holds the default value on creation for the prompt_user field.
-	systemconfig.DefaultPromptUser = systemconfigDescPromptUser.Default.(string)
+	// systemconfigDescValue is the schema descriptor for value field.
+	systemconfigDescValue := systemconfigFields[3].Descriptor()
+	// systemconfig.DefaultValue holds the default value on creation for the value field.
+	systemconfig.DefaultValue = systemconfigDescValue.Default.(string)
 	topicFields := schema.Topic{}.Fields()
 	_ = topicFields
 	// topicDescKeyword is the schema descriptor for keyword field.

@@ -42,72 +42,16 @@ func (scc *SystemConfigCreate) SetNillableDescription(s *string) *SystemConfigCr
 	return scc
 }
 
-// SetAPIModel sets the "api_model" field.
-func (scc *SystemConfigCreate) SetAPIModel(s string) *SystemConfigCreate {
-	scc.mutation.SetAPIModel(s)
+// SetValue sets the "value" field.
+func (scc *SystemConfigCreate) SetValue(s string) *SystemConfigCreate {
+	scc.mutation.SetValue(s)
 	return scc
 }
 
-// SetNillableAPIModel sets the "api_model" field if the given value is not nil.
-func (scc *SystemConfigCreate) SetNillableAPIModel(s *string) *SystemConfigCreate {
+// SetNillableValue sets the "value" field if the given value is not nil.
+func (scc *SystemConfigCreate) SetNillableValue(s *string) *SystemConfigCreate {
 	if s != nil {
-		scc.SetAPIModel(*s)
-	}
-	return scc
-}
-
-// SetAPIURL sets the "api_url" field.
-func (scc *SystemConfigCreate) SetAPIURL(s string) *SystemConfigCreate {
-	scc.mutation.SetAPIURL(s)
-	return scc
-}
-
-// SetNillableAPIURL sets the "api_url" field if the given value is not nil.
-func (scc *SystemConfigCreate) SetNillableAPIURL(s *string) *SystemConfigCreate {
-	if s != nil {
-		scc.SetAPIURL(*s)
-	}
-	return scc
-}
-
-// SetAPIKey sets the "api_key" field.
-func (scc *SystemConfigCreate) SetAPIKey(s string) *SystemConfigCreate {
-	scc.mutation.SetAPIKey(s)
-	return scc
-}
-
-// SetNillableAPIKey sets the "api_key" field if the given value is not nil.
-func (scc *SystemConfigCreate) SetNillableAPIKey(s *string) *SystemConfigCreate {
-	if s != nil {
-		scc.SetAPIKey(*s)
-	}
-	return scc
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (scc *SystemConfigCreate) SetPromptSystem(s string) *SystemConfigCreate {
-	scc.mutation.SetPromptSystem(s)
-	return scc
-}
-
-// SetNillablePromptSystem sets the "prompt_system" field if the given value is not nil.
-func (scc *SystemConfigCreate) SetNillablePromptSystem(s *string) *SystemConfigCreate {
-	if s != nil {
-		scc.SetPromptSystem(*s)
-	}
-	return scc
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (scc *SystemConfigCreate) SetPromptUser(s string) *SystemConfigCreate {
-	scc.mutation.SetPromptUser(s)
-	return scc
-}
-
-// SetNillablePromptUser sets the "prompt_user" field if the given value is not nil.
-func (scc *SystemConfigCreate) SetNillablePromptUser(s *string) *SystemConfigCreate {
-	if s != nil {
-		scc.SetPromptUser(*s)
+		scc.SetValue(*s)
 	}
 	return scc
 }
@@ -157,25 +101,9 @@ func (scc *SystemConfigCreate) defaults() {
 		v := systemconfig.DefaultDescription
 		scc.mutation.SetDescription(v)
 	}
-	if _, ok := scc.mutation.APIModel(); !ok {
-		v := systemconfig.DefaultAPIModel
-		scc.mutation.SetAPIModel(v)
-	}
-	if _, ok := scc.mutation.APIURL(); !ok {
-		v := systemconfig.DefaultAPIURL
-		scc.mutation.SetAPIURL(v)
-	}
-	if _, ok := scc.mutation.APIKey(); !ok {
-		v := systemconfig.DefaultAPIKey
-		scc.mutation.SetAPIKey(v)
-	}
-	if _, ok := scc.mutation.PromptSystem(); !ok {
-		v := systemconfig.DefaultPromptSystem
-		scc.mutation.SetPromptSystem(v)
-	}
-	if _, ok := scc.mutation.PromptUser(); !ok {
-		v := systemconfig.DefaultPromptUser
-		scc.mutation.SetPromptUser(v)
+	if _, ok := scc.mutation.Value(); !ok {
+		v := systemconfig.DefaultValue
+		scc.mutation.SetValue(v)
 	}
 }
 
@@ -187,20 +115,8 @@ func (scc *SystemConfigCreate) check() error {
 	if _, ok := scc.mutation.Description(); !ok {
 		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "SystemConfig.description"`)}
 	}
-	if _, ok := scc.mutation.APIModel(); !ok {
-		return &ValidationError{Name: "api_model", err: errors.New(`ent: missing required field "SystemConfig.api_model"`)}
-	}
-	if _, ok := scc.mutation.APIURL(); !ok {
-		return &ValidationError{Name: "api_url", err: errors.New(`ent: missing required field "SystemConfig.api_url"`)}
-	}
-	if _, ok := scc.mutation.APIKey(); !ok {
-		return &ValidationError{Name: "api_key", err: errors.New(`ent: missing required field "SystemConfig.api_key"`)}
-	}
-	if _, ok := scc.mutation.PromptSystem(); !ok {
-		return &ValidationError{Name: "prompt_system", err: errors.New(`ent: missing required field "SystemConfig.prompt_system"`)}
-	}
-	if _, ok := scc.mutation.PromptUser(); !ok {
-		return &ValidationError{Name: "prompt_user", err: errors.New(`ent: missing required field "SystemConfig.prompt_user"`)}
+	if _, ok := scc.mutation.Value(); !ok {
+		return &ValidationError{Name: "value", err: errors.New(`ent: missing required field "SystemConfig.value"`)}
 	}
 	return nil
 }
@@ -246,25 +162,9 @@ func (scc *SystemConfigCreate) createSpec() (*SystemConfig, *sqlgraph.CreateSpec
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := scc.mutation.APIModel(); ok {
-		_spec.SetField(systemconfig.FieldAPIModel, field.TypeString, value)
-		_node.APIModel = value
-	}
-	if value, ok := scc.mutation.APIURL(); ok {
-		_spec.SetField(systemconfig.FieldAPIURL, field.TypeString, value)
-		_node.APIURL = value
-	}
-	if value, ok := scc.mutation.APIKey(); ok {
-		_spec.SetField(systemconfig.FieldAPIKey, field.TypeString, value)
-		_node.APIKey = value
-	}
-	if value, ok := scc.mutation.PromptSystem(); ok {
-		_spec.SetField(systemconfig.FieldPromptSystem, field.TypeString, value)
-		_node.PromptSystem = value
-	}
-	if value, ok := scc.mutation.PromptUser(); ok {
-		_spec.SetField(systemconfig.FieldPromptUser, field.TypeString, value)
-		_node.PromptUser = value
+	if value, ok := scc.mutation.Value(); ok {
+		_spec.SetField(systemconfig.FieldValue, field.TypeString, value)
+		_node.Value = value
 	}
 	return _node, _spec
 }
@@ -330,63 +230,15 @@ func (u *SystemConfigUpsert) UpdateDescription() *SystemConfigUpsert {
 	return u
 }
 
-// SetAPIModel sets the "api_model" field.
-func (u *SystemConfigUpsert) SetAPIModel(v string) *SystemConfigUpsert {
-	u.Set(systemconfig.FieldAPIModel, v)
+// SetValue sets the "value" field.
+func (u *SystemConfigUpsert) SetValue(v string) *SystemConfigUpsert {
+	u.Set(systemconfig.FieldValue, v)
 	return u
 }
 
-// UpdateAPIModel sets the "api_model" field to the value that was provided on create.
-func (u *SystemConfigUpsert) UpdateAPIModel() *SystemConfigUpsert {
-	u.SetExcluded(systemconfig.FieldAPIModel)
-	return u
-}
-
-// SetAPIURL sets the "api_url" field.
-func (u *SystemConfigUpsert) SetAPIURL(v string) *SystemConfigUpsert {
-	u.Set(systemconfig.FieldAPIURL, v)
-	return u
-}
-
-// UpdateAPIURL sets the "api_url" field to the value that was provided on create.
-func (u *SystemConfigUpsert) UpdateAPIURL() *SystemConfigUpsert {
-	u.SetExcluded(systemconfig.FieldAPIURL)
-	return u
-}
-
-// SetAPIKey sets the "api_key" field.
-func (u *SystemConfigUpsert) SetAPIKey(v string) *SystemConfigUpsert {
-	u.Set(systemconfig.FieldAPIKey, v)
-	return u
-}
-
-// UpdateAPIKey sets the "api_key" field to the value that was provided on create.
-func (u *SystemConfigUpsert) UpdateAPIKey() *SystemConfigUpsert {
-	u.SetExcluded(systemconfig.FieldAPIKey)
-	return u
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (u *SystemConfigUpsert) SetPromptSystem(v string) *SystemConfigUpsert {
-	u.Set(systemconfig.FieldPromptSystem, v)
-	return u
-}
-
-// UpdatePromptSystem sets the "prompt_system" field to the value that was provided on create.
-func (u *SystemConfigUpsert) UpdatePromptSystem() *SystemConfigUpsert {
-	u.SetExcluded(systemconfig.FieldPromptSystem)
-	return u
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (u *SystemConfigUpsert) SetPromptUser(v string) *SystemConfigUpsert {
-	u.Set(systemconfig.FieldPromptUser, v)
-	return u
-}
-
-// UpdatePromptUser sets the "prompt_user" field to the value that was provided on create.
-func (u *SystemConfigUpsert) UpdatePromptUser() *SystemConfigUpsert {
-	u.SetExcluded(systemconfig.FieldPromptUser)
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *SystemConfigUpsert) UpdateValue() *SystemConfigUpsert {
+	u.SetExcluded(systemconfig.FieldValue)
 	return u
 }
 
@@ -455,73 +307,17 @@ func (u *SystemConfigUpsertOne) UpdateDescription() *SystemConfigUpsertOne {
 	})
 }
 
-// SetAPIModel sets the "api_model" field.
-func (u *SystemConfigUpsertOne) SetAPIModel(v string) *SystemConfigUpsertOne {
+// SetValue sets the "value" field.
+func (u *SystemConfigUpsertOne) SetValue(v string) *SystemConfigUpsertOne {
 	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetAPIModel(v)
+		s.SetValue(v)
 	})
 }
 
-// UpdateAPIModel sets the "api_model" field to the value that was provided on create.
-func (u *SystemConfigUpsertOne) UpdateAPIModel() *SystemConfigUpsertOne {
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *SystemConfigUpsertOne) UpdateValue() *SystemConfigUpsertOne {
 	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateAPIModel()
-	})
-}
-
-// SetAPIURL sets the "api_url" field.
-func (u *SystemConfigUpsertOne) SetAPIURL(v string) *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetAPIURL(v)
-	})
-}
-
-// UpdateAPIURL sets the "api_url" field to the value that was provided on create.
-func (u *SystemConfigUpsertOne) UpdateAPIURL() *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateAPIURL()
-	})
-}
-
-// SetAPIKey sets the "api_key" field.
-func (u *SystemConfigUpsertOne) SetAPIKey(v string) *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetAPIKey(v)
-	})
-}
-
-// UpdateAPIKey sets the "api_key" field to the value that was provided on create.
-func (u *SystemConfigUpsertOne) UpdateAPIKey() *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateAPIKey()
-	})
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (u *SystemConfigUpsertOne) SetPromptSystem(v string) *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetPromptSystem(v)
-	})
-}
-
-// UpdatePromptSystem sets the "prompt_system" field to the value that was provided on create.
-func (u *SystemConfigUpsertOne) UpdatePromptSystem() *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdatePromptSystem()
-	})
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (u *SystemConfigUpsertOne) SetPromptUser(v string) *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetPromptUser(v)
-	})
-}
-
-// UpdatePromptUser sets the "prompt_user" field to the value that was provided on create.
-func (u *SystemConfigUpsertOne) UpdatePromptUser() *SystemConfigUpsertOne {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdatePromptUser()
+		s.UpdateValue()
 	})
 }
 
@@ -757,73 +553,17 @@ func (u *SystemConfigUpsertBulk) UpdateDescription() *SystemConfigUpsertBulk {
 	})
 }
 
-// SetAPIModel sets the "api_model" field.
-func (u *SystemConfigUpsertBulk) SetAPIModel(v string) *SystemConfigUpsertBulk {
+// SetValue sets the "value" field.
+func (u *SystemConfigUpsertBulk) SetValue(v string) *SystemConfigUpsertBulk {
 	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetAPIModel(v)
+		s.SetValue(v)
 	})
 }
 
-// UpdateAPIModel sets the "api_model" field to the value that was provided on create.
-func (u *SystemConfigUpsertBulk) UpdateAPIModel() *SystemConfigUpsertBulk {
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *SystemConfigUpsertBulk) UpdateValue() *SystemConfigUpsertBulk {
 	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateAPIModel()
-	})
-}
-
-// SetAPIURL sets the "api_url" field.
-func (u *SystemConfigUpsertBulk) SetAPIURL(v string) *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetAPIURL(v)
-	})
-}
-
-// UpdateAPIURL sets the "api_url" field to the value that was provided on create.
-func (u *SystemConfigUpsertBulk) UpdateAPIURL() *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateAPIURL()
-	})
-}
-
-// SetAPIKey sets the "api_key" field.
-func (u *SystemConfigUpsertBulk) SetAPIKey(v string) *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetAPIKey(v)
-	})
-}
-
-// UpdateAPIKey sets the "api_key" field to the value that was provided on create.
-func (u *SystemConfigUpsertBulk) UpdateAPIKey() *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdateAPIKey()
-	})
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (u *SystemConfigUpsertBulk) SetPromptSystem(v string) *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetPromptSystem(v)
-	})
-}
-
-// UpdatePromptSystem sets the "prompt_system" field to the value that was provided on create.
-func (u *SystemConfigUpsertBulk) UpdatePromptSystem() *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdatePromptSystem()
-	})
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (u *SystemConfigUpsertBulk) SetPromptUser(v string) *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.SetPromptUser(v)
-	})
-}
-
-// UpdatePromptUser sets the "prompt_user" field to the value that was provided on create.
-func (u *SystemConfigUpsertBulk) UpdatePromptUser() *SystemConfigUpsertBulk {
-	return u.Update(func(s *SystemConfigUpsert) {
-		s.UpdatePromptUser()
+		s.UpdateValue()
 	})
 }
 

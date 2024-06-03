@@ -21,6 +21,9 @@ type KeywordStrong func(*sql.Selector)
 // KeywordWeak is the predicate function for keywordweak builders.
 type KeywordWeak func(*sql.Selector)
 
+// PromotConfig is the predicate function for promotconfig builders.
+type PromotConfig func(*sql.Selector)
+
 // Report is the predicate function for report builders.
 type Report func(*sql.Selector)
 

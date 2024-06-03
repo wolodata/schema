@@ -41,72 +41,16 @@ func (scu *SystemConfigUpdate) SetNillableDescription(s *string) *SystemConfigUp
 	return scu
 }
 
-// SetAPIModel sets the "api_model" field.
-func (scu *SystemConfigUpdate) SetAPIModel(s string) *SystemConfigUpdate {
-	scu.mutation.SetAPIModel(s)
+// SetValue sets the "value" field.
+func (scu *SystemConfigUpdate) SetValue(s string) *SystemConfigUpdate {
+	scu.mutation.SetValue(s)
 	return scu
 }
 
-// SetNillableAPIModel sets the "api_model" field if the given value is not nil.
-func (scu *SystemConfigUpdate) SetNillableAPIModel(s *string) *SystemConfigUpdate {
+// SetNillableValue sets the "value" field if the given value is not nil.
+func (scu *SystemConfigUpdate) SetNillableValue(s *string) *SystemConfigUpdate {
 	if s != nil {
-		scu.SetAPIModel(*s)
-	}
-	return scu
-}
-
-// SetAPIURL sets the "api_url" field.
-func (scu *SystemConfigUpdate) SetAPIURL(s string) *SystemConfigUpdate {
-	scu.mutation.SetAPIURL(s)
-	return scu
-}
-
-// SetNillableAPIURL sets the "api_url" field if the given value is not nil.
-func (scu *SystemConfigUpdate) SetNillableAPIURL(s *string) *SystemConfigUpdate {
-	if s != nil {
-		scu.SetAPIURL(*s)
-	}
-	return scu
-}
-
-// SetAPIKey sets the "api_key" field.
-func (scu *SystemConfigUpdate) SetAPIKey(s string) *SystemConfigUpdate {
-	scu.mutation.SetAPIKey(s)
-	return scu
-}
-
-// SetNillableAPIKey sets the "api_key" field if the given value is not nil.
-func (scu *SystemConfigUpdate) SetNillableAPIKey(s *string) *SystemConfigUpdate {
-	if s != nil {
-		scu.SetAPIKey(*s)
-	}
-	return scu
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (scu *SystemConfigUpdate) SetPromptSystem(s string) *SystemConfigUpdate {
-	scu.mutation.SetPromptSystem(s)
-	return scu
-}
-
-// SetNillablePromptSystem sets the "prompt_system" field if the given value is not nil.
-func (scu *SystemConfigUpdate) SetNillablePromptSystem(s *string) *SystemConfigUpdate {
-	if s != nil {
-		scu.SetPromptSystem(*s)
-	}
-	return scu
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (scu *SystemConfigUpdate) SetPromptUser(s string) *SystemConfigUpdate {
-	scu.mutation.SetPromptUser(s)
-	return scu
-}
-
-// SetNillablePromptUser sets the "prompt_user" field if the given value is not nil.
-func (scu *SystemConfigUpdate) SetNillablePromptUser(s *string) *SystemConfigUpdate {
-	if s != nil {
-		scu.SetPromptUser(*s)
+		scu.SetValue(*s)
 	}
 	return scu
 }
@@ -155,20 +99,8 @@ func (scu *SystemConfigUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := scu.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
 	}
-	if value, ok := scu.mutation.APIModel(); ok {
-		_spec.SetField(systemconfig.FieldAPIModel, field.TypeString, value)
-	}
-	if value, ok := scu.mutation.APIURL(); ok {
-		_spec.SetField(systemconfig.FieldAPIURL, field.TypeString, value)
-	}
-	if value, ok := scu.mutation.APIKey(); ok {
-		_spec.SetField(systemconfig.FieldAPIKey, field.TypeString, value)
-	}
-	if value, ok := scu.mutation.PromptSystem(); ok {
-		_spec.SetField(systemconfig.FieldPromptSystem, field.TypeString, value)
-	}
-	if value, ok := scu.mutation.PromptUser(); ok {
-		_spec.SetField(systemconfig.FieldPromptUser, field.TypeString, value)
+	if value, ok := scu.mutation.Value(); ok {
+		_spec.SetField(systemconfig.FieldValue, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, scu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -204,72 +136,16 @@ func (scuo *SystemConfigUpdateOne) SetNillableDescription(s *string) *SystemConf
 	return scuo
 }
 
-// SetAPIModel sets the "api_model" field.
-func (scuo *SystemConfigUpdateOne) SetAPIModel(s string) *SystemConfigUpdateOne {
-	scuo.mutation.SetAPIModel(s)
+// SetValue sets the "value" field.
+func (scuo *SystemConfigUpdateOne) SetValue(s string) *SystemConfigUpdateOne {
+	scuo.mutation.SetValue(s)
 	return scuo
 }
 
-// SetNillableAPIModel sets the "api_model" field if the given value is not nil.
-func (scuo *SystemConfigUpdateOne) SetNillableAPIModel(s *string) *SystemConfigUpdateOne {
+// SetNillableValue sets the "value" field if the given value is not nil.
+func (scuo *SystemConfigUpdateOne) SetNillableValue(s *string) *SystemConfigUpdateOne {
 	if s != nil {
-		scuo.SetAPIModel(*s)
-	}
-	return scuo
-}
-
-// SetAPIURL sets the "api_url" field.
-func (scuo *SystemConfigUpdateOne) SetAPIURL(s string) *SystemConfigUpdateOne {
-	scuo.mutation.SetAPIURL(s)
-	return scuo
-}
-
-// SetNillableAPIURL sets the "api_url" field if the given value is not nil.
-func (scuo *SystemConfigUpdateOne) SetNillableAPIURL(s *string) *SystemConfigUpdateOne {
-	if s != nil {
-		scuo.SetAPIURL(*s)
-	}
-	return scuo
-}
-
-// SetAPIKey sets the "api_key" field.
-func (scuo *SystemConfigUpdateOne) SetAPIKey(s string) *SystemConfigUpdateOne {
-	scuo.mutation.SetAPIKey(s)
-	return scuo
-}
-
-// SetNillableAPIKey sets the "api_key" field if the given value is not nil.
-func (scuo *SystemConfigUpdateOne) SetNillableAPIKey(s *string) *SystemConfigUpdateOne {
-	if s != nil {
-		scuo.SetAPIKey(*s)
-	}
-	return scuo
-}
-
-// SetPromptSystem sets the "prompt_system" field.
-func (scuo *SystemConfigUpdateOne) SetPromptSystem(s string) *SystemConfigUpdateOne {
-	scuo.mutation.SetPromptSystem(s)
-	return scuo
-}
-
-// SetNillablePromptSystem sets the "prompt_system" field if the given value is not nil.
-func (scuo *SystemConfigUpdateOne) SetNillablePromptSystem(s *string) *SystemConfigUpdateOne {
-	if s != nil {
-		scuo.SetPromptSystem(*s)
-	}
-	return scuo
-}
-
-// SetPromptUser sets the "prompt_user" field.
-func (scuo *SystemConfigUpdateOne) SetPromptUser(s string) *SystemConfigUpdateOne {
-	scuo.mutation.SetPromptUser(s)
-	return scuo
-}
-
-// SetNillablePromptUser sets the "prompt_user" field if the given value is not nil.
-func (scuo *SystemConfigUpdateOne) SetNillablePromptUser(s *string) *SystemConfigUpdateOne {
-	if s != nil {
-		scuo.SetPromptUser(*s)
+		scuo.SetValue(*s)
 	}
 	return scuo
 }
@@ -348,20 +224,8 @@ func (scuo *SystemConfigUpdateOne) sqlSave(ctx context.Context) (_node *SystemCo
 	if value, ok := scuo.mutation.Description(); ok {
 		_spec.SetField(systemconfig.FieldDescription, field.TypeString, value)
 	}
-	if value, ok := scuo.mutation.APIModel(); ok {
-		_spec.SetField(systemconfig.FieldAPIModel, field.TypeString, value)
-	}
-	if value, ok := scuo.mutation.APIURL(); ok {
-		_spec.SetField(systemconfig.FieldAPIURL, field.TypeString, value)
-	}
-	if value, ok := scuo.mutation.APIKey(); ok {
-		_spec.SetField(systemconfig.FieldAPIKey, field.TypeString, value)
-	}
-	if value, ok := scuo.mutation.PromptSystem(); ok {
-		_spec.SetField(systemconfig.FieldPromptSystem, field.TypeString, value)
-	}
-	if value, ok := scuo.mutation.PromptUser(); ok {
-		_spec.SetField(systemconfig.FieldPromptUser, field.TypeString, value)
+	if value, ok := scuo.mutation.Value(); ok {
+		_spec.SetField(systemconfig.FieldValue, field.TypeString, value)
 	}
 	_node = &SystemConfig{config: scuo.config}
 	_spec.Assign = _node.assignValues

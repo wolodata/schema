@@ -72,29 +72,9 @@ func Description(v string) predicate.SystemConfig {
 	return predicate.SystemConfig(sql.FieldEQ(FieldDescription, v))
 }
 
-// APIModel applies equality check predicate on the "api_model" field. It's identical to APIModelEQ.
-func APIModel(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldAPIModel, v))
-}
-
-// APIURL applies equality check predicate on the "api_url" field. It's identical to APIURLEQ.
-func APIURL(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldAPIURL, v))
-}
-
-// APIKey applies equality check predicate on the "api_key" field. It's identical to APIKeyEQ.
-func APIKey(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldAPIKey, v))
-}
-
-// PromptSystem applies equality check predicate on the "prompt_system" field. It's identical to PromptSystemEQ.
-func PromptSystem(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldPromptSystem, v))
-}
-
-// PromptUser applies equality check predicate on the "prompt_user" field. It's identical to PromptUserEQ.
-func PromptUser(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldPromptUser, v))
+// Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
+func Value(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldEQ(FieldValue, v))
 }
 
 // NameEQ applies the EQ predicate on the "name" field.
@@ -227,329 +207,69 @@ func DescriptionContainsFold(v string) predicate.SystemConfig {
 	return predicate.SystemConfig(sql.FieldContainsFold(FieldDescription, v))
 }
 
-// APIModelEQ applies the EQ predicate on the "api_model" field.
-func APIModelEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldAPIModel, v))
+// ValueEQ applies the EQ predicate on the "value" field.
+func ValueEQ(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldEQ(FieldValue, v))
 }
 
-// APIModelNEQ applies the NEQ predicate on the "api_model" field.
-func APIModelNEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNEQ(FieldAPIModel, v))
+// ValueNEQ applies the NEQ predicate on the "value" field.
+func ValueNEQ(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldNEQ(FieldValue, v))
 }
 
-// APIModelIn applies the In predicate on the "api_model" field.
-func APIModelIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldIn(FieldAPIModel, vs...))
+// ValueIn applies the In predicate on the "value" field.
+func ValueIn(vs ...string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldIn(FieldValue, vs...))
 }
 
-// APIModelNotIn applies the NotIn predicate on the "api_model" field.
-func APIModelNotIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNotIn(FieldAPIModel, vs...))
+// ValueNotIn applies the NotIn predicate on the "value" field.
+func ValueNotIn(vs ...string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldNotIn(FieldValue, vs...))
 }
 
-// APIModelGT applies the GT predicate on the "api_model" field.
-func APIModelGT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGT(FieldAPIModel, v))
+// ValueGT applies the GT predicate on the "value" field.
+func ValueGT(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldGT(FieldValue, v))
 }
 
-// APIModelGTE applies the GTE predicate on the "api_model" field.
-func APIModelGTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGTE(FieldAPIModel, v))
+// ValueGTE applies the GTE predicate on the "value" field.
+func ValueGTE(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldGTE(FieldValue, v))
 }
 
-// APIModelLT applies the LT predicate on the "api_model" field.
-func APIModelLT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLT(FieldAPIModel, v))
+// ValueLT applies the LT predicate on the "value" field.
+func ValueLT(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldLT(FieldValue, v))
 }
 
-// APIModelLTE applies the LTE predicate on the "api_model" field.
-func APIModelLTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLTE(FieldAPIModel, v))
+// ValueLTE applies the LTE predicate on the "value" field.
+func ValueLTE(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldLTE(FieldValue, v))
 }
 
-// APIModelContains applies the Contains predicate on the "api_model" field.
-func APIModelContains(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContains(FieldAPIModel, v))
+// ValueContains applies the Contains predicate on the "value" field.
+func ValueContains(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldContains(FieldValue, v))
 }
 
-// APIModelHasPrefix applies the HasPrefix predicate on the "api_model" field.
-func APIModelHasPrefix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasPrefix(FieldAPIModel, v))
+// ValueHasPrefix applies the HasPrefix predicate on the "value" field.
+func ValueHasPrefix(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldHasPrefix(FieldValue, v))
 }
 
-// APIModelHasSuffix applies the HasSuffix predicate on the "api_model" field.
-func APIModelHasSuffix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasSuffix(FieldAPIModel, v))
+// ValueHasSuffix applies the HasSuffix predicate on the "value" field.
+func ValueHasSuffix(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldHasSuffix(FieldValue, v))
 }
 
-// APIModelEqualFold applies the EqualFold predicate on the "api_model" field.
-func APIModelEqualFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEqualFold(FieldAPIModel, v))
+// ValueEqualFold applies the EqualFold predicate on the "value" field.
+func ValueEqualFold(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldEqualFold(FieldValue, v))
 }
 
-// APIModelContainsFold applies the ContainsFold predicate on the "api_model" field.
-func APIModelContainsFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContainsFold(FieldAPIModel, v))
-}
-
-// APIURLEQ applies the EQ predicate on the "api_url" field.
-func APIURLEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldAPIURL, v))
-}
-
-// APIURLNEQ applies the NEQ predicate on the "api_url" field.
-func APIURLNEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNEQ(FieldAPIURL, v))
-}
-
-// APIURLIn applies the In predicate on the "api_url" field.
-func APIURLIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldIn(FieldAPIURL, vs...))
-}
-
-// APIURLNotIn applies the NotIn predicate on the "api_url" field.
-func APIURLNotIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNotIn(FieldAPIURL, vs...))
-}
-
-// APIURLGT applies the GT predicate on the "api_url" field.
-func APIURLGT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGT(FieldAPIURL, v))
-}
-
-// APIURLGTE applies the GTE predicate on the "api_url" field.
-func APIURLGTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGTE(FieldAPIURL, v))
-}
-
-// APIURLLT applies the LT predicate on the "api_url" field.
-func APIURLLT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLT(FieldAPIURL, v))
-}
-
-// APIURLLTE applies the LTE predicate on the "api_url" field.
-func APIURLLTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLTE(FieldAPIURL, v))
-}
-
-// APIURLContains applies the Contains predicate on the "api_url" field.
-func APIURLContains(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContains(FieldAPIURL, v))
-}
-
-// APIURLHasPrefix applies the HasPrefix predicate on the "api_url" field.
-func APIURLHasPrefix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasPrefix(FieldAPIURL, v))
-}
-
-// APIURLHasSuffix applies the HasSuffix predicate on the "api_url" field.
-func APIURLHasSuffix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasSuffix(FieldAPIURL, v))
-}
-
-// APIURLEqualFold applies the EqualFold predicate on the "api_url" field.
-func APIURLEqualFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEqualFold(FieldAPIURL, v))
-}
-
-// APIURLContainsFold applies the ContainsFold predicate on the "api_url" field.
-func APIURLContainsFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContainsFold(FieldAPIURL, v))
-}
-
-// APIKeyEQ applies the EQ predicate on the "api_key" field.
-func APIKeyEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldAPIKey, v))
-}
-
-// APIKeyNEQ applies the NEQ predicate on the "api_key" field.
-func APIKeyNEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNEQ(FieldAPIKey, v))
-}
-
-// APIKeyIn applies the In predicate on the "api_key" field.
-func APIKeyIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldIn(FieldAPIKey, vs...))
-}
-
-// APIKeyNotIn applies the NotIn predicate on the "api_key" field.
-func APIKeyNotIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNotIn(FieldAPIKey, vs...))
-}
-
-// APIKeyGT applies the GT predicate on the "api_key" field.
-func APIKeyGT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGT(FieldAPIKey, v))
-}
-
-// APIKeyGTE applies the GTE predicate on the "api_key" field.
-func APIKeyGTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGTE(FieldAPIKey, v))
-}
-
-// APIKeyLT applies the LT predicate on the "api_key" field.
-func APIKeyLT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLT(FieldAPIKey, v))
-}
-
-// APIKeyLTE applies the LTE predicate on the "api_key" field.
-func APIKeyLTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLTE(FieldAPIKey, v))
-}
-
-// APIKeyContains applies the Contains predicate on the "api_key" field.
-func APIKeyContains(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContains(FieldAPIKey, v))
-}
-
-// APIKeyHasPrefix applies the HasPrefix predicate on the "api_key" field.
-func APIKeyHasPrefix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasPrefix(FieldAPIKey, v))
-}
-
-// APIKeyHasSuffix applies the HasSuffix predicate on the "api_key" field.
-func APIKeyHasSuffix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasSuffix(FieldAPIKey, v))
-}
-
-// APIKeyEqualFold applies the EqualFold predicate on the "api_key" field.
-func APIKeyEqualFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEqualFold(FieldAPIKey, v))
-}
-
-// APIKeyContainsFold applies the ContainsFold predicate on the "api_key" field.
-func APIKeyContainsFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContainsFold(FieldAPIKey, v))
-}
-
-// PromptSystemEQ applies the EQ predicate on the "prompt_system" field.
-func PromptSystemEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldPromptSystem, v))
-}
-
-// PromptSystemNEQ applies the NEQ predicate on the "prompt_system" field.
-func PromptSystemNEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNEQ(FieldPromptSystem, v))
-}
-
-// PromptSystemIn applies the In predicate on the "prompt_system" field.
-func PromptSystemIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldIn(FieldPromptSystem, vs...))
-}
-
-// PromptSystemNotIn applies the NotIn predicate on the "prompt_system" field.
-func PromptSystemNotIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNotIn(FieldPromptSystem, vs...))
-}
-
-// PromptSystemGT applies the GT predicate on the "prompt_system" field.
-func PromptSystemGT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGT(FieldPromptSystem, v))
-}
-
-// PromptSystemGTE applies the GTE predicate on the "prompt_system" field.
-func PromptSystemGTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGTE(FieldPromptSystem, v))
-}
-
-// PromptSystemLT applies the LT predicate on the "prompt_system" field.
-func PromptSystemLT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLT(FieldPromptSystem, v))
-}
-
-// PromptSystemLTE applies the LTE predicate on the "prompt_system" field.
-func PromptSystemLTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLTE(FieldPromptSystem, v))
-}
-
-// PromptSystemContains applies the Contains predicate on the "prompt_system" field.
-func PromptSystemContains(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContains(FieldPromptSystem, v))
-}
-
-// PromptSystemHasPrefix applies the HasPrefix predicate on the "prompt_system" field.
-func PromptSystemHasPrefix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasPrefix(FieldPromptSystem, v))
-}
-
-// PromptSystemHasSuffix applies the HasSuffix predicate on the "prompt_system" field.
-func PromptSystemHasSuffix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasSuffix(FieldPromptSystem, v))
-}
-
-// PromptSystemEqualFold applies the EqualFold predicate on the "prompt_system" field.
-func PromptSystemEqualFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEqualFold(FieldPromptSystem, v))
-}
-
-// PromptSystemContainsFold applies the ContainsFold predicate on the "prompt_system" field.
-func PromptSystemContainsFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContainsFold(FieldPromptSystem, v))
-}
-
-// PromptUserEQ applies the EQ predicate on the "prompt_user" field.
-func PromptUserEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEQ(FieldPromptUser, v))
-}
-
-// PromptUserNEQ applies the NEQ predicate on the "prompt_user" field.
-func PromptUserNEQ(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNEQ(FieldPromptUser, v))
-}
-
-// PromptUserIn applies the In predicate on the "prompt_user" field.
-func PromptUserIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldIn(FieldPromptUser, vs...))
-}
-
-// PromptUserNotIn applies the NotIn predicate on the "prompt_user" field.
-func PromptUserNotIn(vs ...string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldNotIn(FieldPromptUser, vs...))
-}
-
-// PromptUserGT applies the GT predicate on the "prompt_user" field.
-func PromptUserGT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGT(FieldPromptUser, v))
-}
-
-// PromptUserGTE applies the GTE predicate on the "prompt_user" field.
-func PromptUserGTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldGTE(FieldPromptUser, v))
-}
-
-// PromptUserLT applies the LT predicate on the "prompt_user" field.
-func PromptUserLT(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLT(FieldPromptUser, v))
-}
-
-// PromptUserLTE applies the LTE predicate on the "prompt_user" field.
-func PromptUserLTE(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldLTE(FieldPromptUser, v))
-}
-
-// PromptUserContains applies the Contains predicate on the "prompt_user" field.
-func PromptUserContains(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContains(FieldPromptUser, v))
-}
-
-// PromptUserHasPrefix applies the HasPrefix predicate on the "prompt_user" field.
-func PromptUserHasPrefix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasPrefix(FieldPromptUser, v))
-}
-
-// PromptUserHasSuffix applies the HasSuffix predicate on the "prompt_user" field.
-func PromptUserHasSuffix(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldHasSuffix(FieldPromptUser, v))
-}
-
-// PromptUserEqualFold applies the EqualFold predicate on the "prompt_user" field.
-func PromptUserEqualFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldEqualFold(FieldPromptUser, v))
-}
-
-// PromptUserContainsFold applies the ContainsFold predicate on the "prompt_user" field.
-func PromptUserContainsFold(v string) predicate.SystemConfig {
-	return predicate.SystemConfig(sql.FieldContainsFold(FieldPromptUser, v))
+// ValueContainsFold applies the ContainsFold predicate on the "value" field.
+func ValueContainsFold(v string) predicate.SystemConfig {
+	return predicate.SystemConfig(sql.FieldContainsFold(FieldValue, v))
 }
 
 // And groups predicates with the AND operator between them.
