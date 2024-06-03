@@ -49,37 +49,39 @@ const (
 // ArticleMutation represents an operation that mutates the Article nodes in the graph.
 type ArticleMutation struct {
 	config
-	op                      Op
-	typ                     string
-	id                      *string
-	origin_short_id         *string
-	is_chinese              *bool
-	url                     *string
-	title_chinese           *string
-	title_english           *string
-	author                  *[]string
-	appendauthor            []string
-	published_at            *time.Time
-	html_chinese            *string
-	html_english            *string
-	text_chinese            *string
-	text_english            *string
-	images                  *[]string
-	appendimages            []string
-	weak_processed          *bool
-	weak_related            *bool
-	weak_keywords           *[]schema.WeakKeyword
-	appendweak_keywords     []schema.WeakKeyword
-	strong_processed        *bool
-	strong_related          *bool
-	strong_keyword          *schema.StrongKeyword
-	strong_related_category *string
-	summary_chinese         *string
-	image_uploaded          *bool
-	clearedFields           map[string]struct{}
-	done                    bool
-	oldValue                func(context.Context) (*Article, error)
-	predicates              []predicate.Article
+	op                            Op
+	typ                           string
+	id                            *string
+	origin_short_id               *string
+	is_chinese                    *bool
+	url                           *string
+	title_chinese                 *string
+	title_english                 *string
+	published_at                  *time.Time
+	html_chinese                  *string
+	html_english                  *string
+	text_chinese                  *string
+	text_english                  *string
+	images                        *[]string
+	appendimages                  []string
+	image_uploaded                *bool
+	weak_keyword_processed        *bool
+	weak_keyword_related          *bool
+	weak_keywords                 *[]schema.WeakKeyword
+	appendweak_keywords           []schema.WeakKeyword
+	strong_keyword_processed      *bool
+	strong_keyword_related        *bool
+	strong_keyword                *schema.StrongKeyword
+	ai_strong_related_processed   *bool
+	ai_strong_related             *bool
+	ai_strong_related_category    *string
+	admin_strong_related          *bool
+	admin_strong_related_category *string
+	summary_chinese               *string
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*Article, error)
+	predicates                    []predicate.Article
 }
 
 var _ ent.Mutation = (*ArticleMutation)(nil)
@@ -366,57 +368,6 @@ func (m *ArticleMutation) ResetTitleEnglish() {
 	m.title_english = nil
 }
 
-// SetAuthor sets the "author" field.
-func (m *ArticleMutation) SetAuthor(s []string) {
-	m.author = &s
-	m.appendauthor = nil
-}
-
-// Author returns the value of the "author" field in the mutation.
-func (m *ArticleMutation) Author() (r []string, exists bool) {
-	v := m.author
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldAuthor returns the old "author" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldAuthor(ctx context.Context) (v []string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAuthor is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAuthor requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAuthor: %w", err)
-	}
-	return oldValue.Author, nil
-}
-
-// AppendAuthor adds s to the "author" field.
-func (m *ArticleMutation) AppendAuthor(s []string) {
-	m.appendauthor = append(m.appendauthor, s...)
-}
-
-// AppendedAuthor returns the list of values that were appended to the "author" field in this mutation.
-func (m *ArticleMutation) AppendedAuthor() ([]string, bool) {
-	if len(m.appendauthor) == 0 {
-		return nil, false
-	}
-	return m.appendauthor, true
-}
-
-// ResetAuthor resets all changes to the "author" field.
-func (m *ArticleMutation) ResetAuthor() {
-	m.author = nil
-	m.appendauthor = nil
-}
-
 // SetPublishedAt sets the "published_at" field.
 func (m *ArticleMutation) SetPublishedAt(t time.Time) {
 	m.published_at = &t
@@ -648,76 +599,112 @@ func (m *ArticleMutation) ResetImages() {
 	m.appendimages = nil
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (m *ArticleMutation) SetWeakProcessed(b bool) {
-	m.weak_processed = &b
+// SetImageUploaded sets the "image_uploaded" field.
+func (m *ArticleMutation) SetImageUploaded(b bool) {
+	m.image_uploaded = &b
 }
 
-// WeakProcessed returns the value of the "weak_processed" field in the mutation.
-func (m *ArticleMutation) WeakProcessed() (r bool, exists bool) {
-	v := m.weak_processed
+// ImageUploaded returns the value of the "image_uploaded" field in the mutation.
+func (m *ArticleMutation) ImageUploaded() (r bool, exists bool) {
+	v := m.image_uploaded
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldWeakProcessed returns the old "weak_processed" field's value of the Article entity.
+// OldImageUploaded returns the old "image_uploaded" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldWeakProcessed(ctx context.Context) (v bool, err error) {
+func (m *ArticleMutation) OldImageUploaded(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeakProcessed is only allowed on UpdateOne operations")
+		return v, errors.New("OldImageUploaded is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeakProcessed requires an ID field in the mutation")
+		return v, errors.New("OldImageUploaded requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeakProcessed: %w", err)
+		return v, fmt.Errorf("querying old value for OldImageUploaded: %w", err)
 	}
-	return oldValue.WeakProcessed, nil
+	return oldValue.ImageUploaded, nil
 }
 
-// ResetWeakProcessed resets all changes to the "weak_processed" field.
-func (m *ArticleMutation) ResetWeakProcessed() {
-	m.weak_processed = nil
+// ResetImageUploaded resets all changes to the "image_uploaded" field.
+func (m *ArticleMutation) ResetImageUploaded() {
+	m.image_uploaded = nil
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (m *ArticleMutation) SetWeakRelated(b bool) {
-	m.weak_related = &b
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (m *ArticleMutation) SetWeakKeywordProcessed(b bool) {
+	m.weak_keyword_processed = &b
 }
 
-// WeakRelated returns the value of the "weak_related" field in the mutation.
-func (m *ArticleMutation) WeakRelated() (r bool, exists bool) {
-	v := m.weak_related
+// WeakKeywordProcessed returns the value of the "weak_keyword_processed" field in the mutation.
+func (m *ArticleMutation) WeakKeywordProcessed() (r bool, exists bool) {
+	v := m.weak_keyword_processed
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldWeakRelated returns the old "weak_related" field's value of the Article entity.
+// OldWeakKeywordProcessed returns the old "weak_keyword_processed" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldWeakRelated(ctx context.Context) (v bool, err error) {
+func (m *ArticleMutation) OldWeakKeywordProcessed(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeakRelated is only allowed on UpdateOne operations")
+		return v, errors.New("OldWeakKeywordProcessed is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeakRelated requires an ID field in the mutation")
+		return v, errors.New("OldWeakKeywordProcessed requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeakRelated: %w", err)
+		return v, fmt.Errorf("querying old value for OldWeakKeywordProcessed: %w", err)
 	}
-	return oldValue.WeakRelated, nil
+	return oldValue.WeakKeywordProcessed, nil
 }
 
-// ResetWeakRelated resets all changes to the "weak_related" field.
-func (m *ArticleMutation) ResetWeakRelated() {
-	m.weak_related = nil
+// ResetWeakKeywordProcessed resets all changes to the "weak_keyword_processed" field.
+func (m *ArticleMutation) ResetWeakKeywordProcessed() {
+	m.weak_keyword_processed = nil
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (m *ArticleMutation) SetWeakKeywordRelated(b bool) {
+	m.weak_keyword_related = &b
+}
+
+// WeakKeywordRelated returns the value of the "weak_keyword_related" field in the mutation.
+func (m *ArticleMutation) WeakKeywordRelated() (r bool, exists bool) {
+	v := m.weak_keyword_related
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeakKeywordRelated returns the old "weak_keyword_related" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldWeakKeywordRelated(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeakKeywordRelated is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeakKeywordRelated requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeakKeywordRelated: %w", err)
+	}
+	return oldValue.WeakKeywordRelated, nil
+}
+
+// ResetWeakKeywordRelated resets all changes to the "weak_keyword_related" field.
+func (m *ArticleMutation) ResetWeakKeywordRelated() {
+	m.weak_keyword_related = nil
 }
 
 // SetWeakKeywords sets the "weak_keywords" field.
@@ -771,76 +758,76 @@ func (m *ArticleMutation) ResetWeakKeywords() {
 	m.appendweak_keywords = nil
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (m *ArticleMutation) SetStrongProcessed(b bool) {
-	m.strong_processed = &b
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (m *ArticleMutation) SetStrongKeywordProcessed(b bool) {
+	m.strong_keyword_processed = &b
 }
 
-// StrongProcessed returns the value of the "strong_processed" field in the mutation.
-func (m *ArticleMutation) StrongProcessed() (r bool, exists bool) {
-	v := m.strong_processed
+// StrongKeywordProcessed returns the value of the "strong_keyword_processed" field in the mutation.
+func (m *ArticleMutation) StrongKeywordProcessed() (r bool, exists bool) {
+	v := m.strong_keyword_processed
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldStrongProcessed returns the old "strong_processed" field's value of the Article entity.
+// OldStrongKeywordProcessed returns the old "strong_keyword_processed" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldStrongProcessed(ctx context.Context) (v bool, err error) {
+func (m *ArticleMutation) OldStrongKeywordProcessed(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStrongProcessed is only allowed on UpdateOne operations")
+		return v, errors.New("OldStrongKeywordProcessed is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStrongProcessed requires an ID field in the mutation")
+		return v, errors.New("OldStrongKeywordProcessed requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStrongProcessed: %w", err)
+		return v, fmt.Errorf("querying old value for OldStrongKeywordProcessed: %w", err)
 	}
-	return oldValue.StrongProcessed, nil
+	return oldValue.StrongKeywordProcessed, nil
 }
 
-// ResetStrongProcessed resets all changes to the "strong_processed" field.
-func (m *ArticleMutation) ResetStrongProcessed() {
-	m.strong_processed = nil
+// ResetStrongKeywordProcessed resets all changes to the "strong_keyword_processed" field.
+func (m *ArticleMutation) ResetStrongKeywordProcessed() {
+	m.strong_keyword_processed = nil
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (m *ArticleMutation) SetStrongRelated(b bool) {
-	m.strong_related = &b
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (m *ArticleMutation) SetStrongKeywordRelated(b bool) {
+	m.strong_keyword_related = &b
 }
 
-// StrongRelated returns the value of the "strong_related" field in the mutation.
-func (m *ArticleMutation) StrongRelated() (r bool, exists bool) {
-	v := m.strong_related
+// StrongKeywordRelated returns the value of the "strong_keyword_related" field in the mutation.
+func (m *ArticleMutation) StrongKeywordRelated() (r bool, exists bool) {
+	v := m.strong_keyword_related
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldStrongRelated returns the old "strong_related" field's value of the Article entity.
+// OldStrongKeywordRelated returns the old "strong_keyword_related" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldStrongRelated(ctx context.Context) (v bool, err error) {
+func (m *ArticleMutation) OldStrongKeywordRelated(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStrongRelated is only allowed on UpdateOne operations")
+		return v, errors.New("OldStrongKeywordRelated is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStrongRelated requires an ID field in the mutation")
+		return v, errors.New("OldStrongKeywordRelated requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStrongRelated: %w", err)
+		return v, fmt.Errorf("querying old value for OldStrongKeywordRelated: %w", err)
 	}
-	return oldValue.StrongRelated, nil
+	return oldValue.StrongKeywordRelated, nil
 }
 
-// ResetStrongRelated resets all changes to the "strong_related" field.
-func (m *ArticleMutation) ResetStrongRelated() {
-	m.strong_related = nil
+// ResetStrongKeywordRelated resets all changes to the "strong_keyword_related" field.
+func (m *ArticleMutation) ResetStrongKeywordRelated() {
+	m.strong_keyword_related = nil
 }
 
 // SetStrongKeyword sets the "strong_keyword" field.
@@ -892,40 +879,184 @@ func (m *ArticleMutation) ResetStrongKeyword() {
 	delete(m.clearedFields, article.FieldStrongKeyword)
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (m *ArticleMutation) SetStrongRelatedCategory(s string) {
-	m.strong_related_category = &s
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (m *ArticleMutation) SetAiStrongRelatedProcessed(b bool) {
+	m.ai_strong_related_processed = &b
 }
 
-// StrongRelatedCategory returns the value of the "strong_related_category" field in the mutation.
-func (m *ArticleMutation) StrongRelatedCategory() (r string, exists bool) {
-	v := m.strong_related_category
+// AiStrongRelatedProcessed returns the value of the "ai_strong_related_processed" field in the mutation.
+func (m *ArticleMutation) AiStrongRelatedProcessed() (r bool, exists bool) {
+	v := m.ai_strong_related_processed
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldStrongRelatedCategory returns the old "strong_related_category" field's value of the Article entity.
+// OldAiStrongRelatedProcessed returns the old "ai_strong_related_processed" field's value of the Article entity.
 // If the Article object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldStrongRelatedCategory(ctx context.Context) (v string, err error) {
+func (m *ArticleMutation) OldAiStrongRelatedProcessed(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStrongRelatedCategory is only allowed on UpdateOne operations")
+		return v, errors.New("OldAiStrongRelatedProcessed is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStrongRelatedCategory requires an ID field in the mutation")
+		return v, errors.New("OldAiStrongRelatedProcessed requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStrongRelatedCategory: %w", err)
+		return v, fmt.Errorf("querying old value for OldAiStrongRelatedProcessed: %w", err)
 	}
-	return oldValue.StrongRelatedCategory, nil
+	return oldValue.AiStrongRelatedProcessed, nil
 }
 
-// ResetStrongRelatedCategory resets all changes to the "strong_related_category" field.
-func (m *ArticleMutation) ResetStrongRelatedCategory() {
-	m.strong_related_category = nil
+// ResetAiStrongRelatedProcessed resets all changes to the "ai_strong_related_processed" field.
+func (m *ArticleMutation) ResetAiStrongRelatedProcessed() {
+	m.ai_strong_related_processed = nil
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (m *ArticleMutation) SetAiStrongRelated(b bool) {
+	m.ai_strong_related = &b
+}
+
+// AiStrongRelated returns the value of the "ai_strong_related" field in the mutation.
+func (m *ArticleMutation) AiStrongRelated() (r bool, exists bool) {
+	v := m.ai_strong_related
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAiStrongRelated returns the old "ai_strong_related" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldAiStrongRelated(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAiStrongRelated is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAiStrongRelated requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAiStrongRelated: %w", err)
+	}
+	return oldValue.AiStrongRelated, nil
+}
+
+// ResetAiStrongRelated resets all changes to the "ai_strong_related" field.
+func (m *ArticleMutation) ResetAiStrongRelated() {
+	m.ai_strong_related = nil
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (m *ArticleMutation) SetAiStrongRelatedCategory(s string) {
+	m.ai_strong_related_category = &s
+}
+
+// AiStrongRelatedCategory returns the value of the "ai_strong_related_category" field in the mutation.
+func (m *ArticleMutation) AiStrongRelatedCategory() (r string, exists bool) {
+	v := m.ai_strong_related_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAiStrongRelatedCategory returns the old "ai_strong_related_category" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldAiStrongRelatedCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAiStrongRelatedCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAiStrongRelatedCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAiStrongRelatedCategory: %w", err)
+	}
+	return oldValue.AiStrongRelatedCategory, nil
+}
+
+// ResetAiStrongRelatedCategory resets all changes to the "ai_strong_related_category" field.
+func (m *ArticleMutation) ResetAiStrongRelatedCategory() {
+	m.ai_strong_related_category = nil
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (m *ArticleMutation) SetAdminStrongRelated(b bool) {
+	m.admin_strong_related = &b
+}
+
+// AdminStrongRelated returns the value of the "admin_strong_related" field in the mutation.
+func (m *ArticleMutation) AdminStrongRelated() (r bool, exists bool) {
+	v := m.admin_strong_related
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAdminStrongRelated returns the old "admin_strong_related" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldAdminStrongRelated(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAdminStrongRelated is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAdminStrongRelated requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAdminStrongRelated: %w", err)
+	}
+	return oldValue.AdminStrongRelated, nil
+}
+
+// ResetAdminStrongRelated resets all changes to the "admin_strong_related" field.
+func (m *ArticleMutation) ResetAdminStrongRelated() {
+	m.admin_strong_related = nil
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (m *ArticleMutation) SetAdminStrongRelatedCategory(s string) {
+	m.admin_strong_related_category = &s
+}
+
+// AdminStrongRelatedCategory returns the value of the "admin_strong_related_category" field in the mutation.
+func (m *ArticleMutation) AdminStrongRelatedCategory() (r string, exists bool) {
+	v := m.admin_strong_related_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAdminStrongRelatedCategory returns the old "admin_strong_related_category" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldAdminStrongRelatedCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAdminStrongRelatedCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAdminStrongRelatedCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAdminStrongRelatedCategory: %w", err)
+	}
+	return oldValue.AdminStrongRelatedCategory, nil
+}
+
+// ResetAdminStrongRelatedCategory resets all changes to the "admin_strong_related_category" field.
+func (m *ArticleMutation) ResetAdminStrongRelatedCategory() {
+	m.admin_strong_related_category = nil
 }
 
 // SetSummaryChinese sets the "summary_chinese" field.
@@ -964,42 +1095,6 @@ func (m *ArticleMutation) ResetSummaryChinese() {
 	m.summary_chinese = nil
 }
 
-// SetImageUploaded sets the "image_uploaded" field.
-func (m *ArticleMutation) SetImageUploaded(b bool) {
-	m.image_uploaded = &b
-}
-
-// ImageUploaded returns the value of the "image_uploaded" field in the mutation.
-func (m *ArticleMutation) ImageUploaded() (r bool, exists bool) {
-	v := m.image_uploaded
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldImageUploaded returns the old "image_uploaded" field's value of the Article entity.
-// If the Article object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ArticleMutation) OldImageUploaded(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldImageUploaded is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldImageUploaded requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldImageUploaded: %w", err)
-	}
-	return oldValue.ImageUploaded, nil
-}
-
-// ResetImageUploaded resets all changes to the "image_uploaded" field.
-func (m *ArticleMutation) ResetImageUploaded() {
-	m.image_uploaded = nil
-}
-
 // Where appends a list predicates to the ArticleMutation builder.
 func (m *ArticleMutation) Where(ps ...predicate.Article) {
 	m.predicates = append(m.predicates, ps...)
@@ -1034,7 +1129,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 21)
+	fields := make([]string, 0, 24)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -1049,9 +1144,6 @@ func (m *ArticleMutation) Fields() []string {
 	}
 	if m.title_english != nil {
 		fields = append(fields, article.FieldTitleEnglish)
-	}
-	if m.author != nil {
-		fields = append(fields, article.FieldAuthor)
 	}
 	if m.published_at != nil {
 		fields = append(fields, article.FieldPublishedAt)
@@ -1071,32 +1163,44 @@ func (m *ArticleMutation) Fields() []string {
 	if m.images != nil {
 		fields = append(fields, article.FieldImages)
 	}
-	if m.weak_processed != nil {
-		fields = append(fields, article.FieldWeakProcessed)
+	if m.image_uploaded != nil {
+		fields = append(fields, article.FieldImageUploaded)
 	}
-	if m.weak_related != nil {
-		fields = append(fields, article.FieldWeakRelated)
+	if m.weak_keyword_processed != nil {
+		fields = append(fields, article.FieldWeakKeywordProcessed)
+	}
+	if m.weak_keyword_related != nil {
+		fields = append(fields, article.FieldWeakKeywordRelated)
 	}
 	if m.weak_keywords != nil {
 		fields = append(fields, article.FieldWeakKeywords)
 	}
-	if m.strong_processed != nil {
-		fields = append(fields, article.FieldStrongProcessed)
+	if m.strong_keyword_processed != nil {
+		fields = append(fields, article.FieldStrongKeywordProcessed)
 	}
-	if m.strong_related != nil {
-		fields = append(fields, article.FieldStrongRelated)
+	if m.strong_keyword_related != nil {
+		fields = append(fields, article.FieldStrongKeywordRelated)
 	}
 	if m.strong_keyword != nil {
 		fields = append(fields, article.FieldStrongKeyword)
 	}
-	if m.strong_related_category != nil {
-		fields = append(fields, article.FieldStrongRelatedCategory)
+	if m.ai_strong_related_processed != nil {
+		fields = append(fields, article.FieldAiStrongRelatedProcessed)
+	}
+	if m.ai_strong_related != nil {
+		fields = append(fields, article.FieldAiStrongRelated)
+	}
+	if m.ai_strong_related_category != nil {
+		fields = append(fields, article.FieldAiStrongRelatedCategory)
+	}
+	if m.admin_strong_related != nil {
+		fields = append(fields, article.FieldAdminStrongRelated)
+	}
+	if m.admin_strong_related_category != nil {
+		fields = append(fields, article.FieldAdminStrongRelatedCategory)
 	}
 	if m.summary_chinese != nil {
 		fields = append(fields, article.FieldSummaryChinese)
-	}
-	if m.image_uploaded != nil {
-		fields = append(fields, article.FieldImageUploaded)
 	}
 	return fields
 }
@@ -1116,8 +1220,6 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.TitleChinese()
 	case article.FieldTitleEnglish:
 		return m.TitleEnglish()
-	case article.FieldAuthor:
-		return m.Author()
 	case article.FieldPublishedAt:
 		return m.PublishedAt()
 	case article.FieldHTMLChinese:
@@ -1130,24 +1232,32 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.TextEnglish()
 	case article.FieldImages:
 		return m.Images()
-	case article.FieldWeakProcessed:
-		return m.WeakProcessed()
-	case article.FieldWeakRelated:
-		return m.WeakRelated()
-	case article.FieldWeakKeywords:
-		return m.WeakKeywords()
-	case article.FieldStrongProcessed:
-		return m.StrongProcessed()
-	case article.FieldStrongRelated:
-		return m.StrongRelated()
-	case article.FieldStrongKeyword:
-		return m.StrongKeyword()
-	case article.FieldStrongRelatedCategory:
-		return m.StrongRelatedCategory()
-	case article.FieldSummaryChinese:
-		return m.SummaryChinese()
 	case article.FieldImageUploaded:
 		return m.ImageUploaded()
+	case article.FieldWeakKeywordProcessed:
+		return m.WeakKeywordProcessed()
+	case article.FieldWeakKeywordRelated:
+		return m.WeakKeywordRelated()
+	case article.FieldWeakKeywords:
+		return m.WeakKeywords()
+	case article.FieldStrongKeywordProcessed:
+		return m.StrongKeywordProcessed()
+	case article.FieldStrongKeywordRelated:
+		return m.StrongKeywordRelated()
+	case article.FieldStrongKeyword:
+		return m.StrongKeyword()
+	case article.FieldAiStrongRelatedProcessed:
+		return m.AiStrongRelatedProcessed()
+	case article.FieldAiStrongRelated:
+		return m.AiStrongRelated()
+	case article.FieldAiStrongRelatedCategory:
+		return m.AiStrongRelatedCategory()
+	case article.FieldAdminStrongRelated:
+		return m.AdminStrongRelated()
+	case article.FieldAdminStrongRelatedCategory:
+		return m.AdminStrongRelatedCategory()
+	case article.FieldSummaryChinese:
+		return m.SummaryChinese()
 	}
 	return nil, false
 }
@@ -1167,8 +1277,6 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldTitleChinese(ctx)
 	case article.FieldTitleEnglish:
 		return m.OldTitleEnglish(ctx)
-	case article.FieldAuthor:
-		return m.OldAuthor(ctx)
 	case article.FieldPublishedAt:
 		return m.OldPublishedAt(ctx)
 	case article.FieldHTMLChinese:
@@ -1181,24 +1289,32 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldTextEnglish(ctx)
 	case article.FieldImages:
 		return m.OldImages(ctx)
-	case article.FieldWeakProcessed:
-		return m.OldWeakProcessed(ctx)
-	case article.FieldWeakRelated:
-		return m.OldWeakRelated(ctx)
-	case article.FieldWeakKeywords:
-		return m.OldWeakKeywords(ctx)
-	case article.FieldStrongProcessed:
-		return m.OldStrongProcessed(ctx)
-	case article.FieldStrongRelated:
-		return m.OldStrongRelated(ctx)
-	case article.FieldStrongKeyword:
-		return m.OldStrongKeyword(ctx)
-	case article.FieldStrongRelatedCategory:
-		return m.OldStrongRelatedCategory(ctx)
-	case article.FieldSummaryChinese:
-		return m.OldSummaryChinese(ctx)
 	case article.FieldImageUploaded:
 		return m.OldImageUploaded(ctx)
+	case article.FieldWeakKeywordProcessed:
+		return m.OldWeakKeywordProcessed(ctx)
+	case article.FieldWeakKeywordRelated:
+		return m.OldWeakKeywordRelated(ctx)
+	case article.FieldWeakKeywords:
+		return m.OldWeakKeywords(ctx)
+	case article.FieldStrongKeywordProcessed:
+		return m.OldStrongKeywordProcessed(ctx)
+	case article.FieldStrongKeywordRelated:
+		return m.OldStrongKeywordRelated(ctx)
+	case article.FieldStrongKeyword:
+		return m.OldStrongKeyword(ctx)
+	case article.FieldAiStrongRelatedProcessed:
+		return m.OldAiStrongRelatedProcessed(ctx)
+	case article.FieldAiStrongRelated:
+		return m.OldAiStrongRelated(ctx)
+	case article.FieldAiStrongRelatedCategory:
+		return m.OldAiStrongRelatedCategory(ctx)
+	case article.FieldAdminStrongRelated:
+		return m.OldAdminStrongRelated(ctx)
+	case article.FieldAdminStrongRelatedCategory:
+		return m.OldAdminStrongRelatedCategory(ctx)
+	case article.FieldSummaryChinese:
+		return m.OldSummaryChinese(ctx)
 	}
 	return nil, fmt.Errorf("unknown Article field %s", name)
 }
@@ -1243,13 +1359,6 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetTitleEnglish(v)
 		return nil
-	case article.FieldAuthor:
-		v, ok := value.([]string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetAuthor(v)
-		return nil
 	case article.FieldPublishedAt:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -1292,19 +1401,26 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetImages(v)
 		return nil
-	case article.FieldWeakProcessed:
+	case article.FieldImageUploaded:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetWeakProcessed(v)
+		m.SetImageUploaded(v)
 		return nil
-	case article.FieldWeakRelated:
+	case article.FieldWeakKeywordProcessed:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetWeakRelated(v)
+		m.SetWeakKeywordProcessed(v)
+		return nil
+	case article.FieldWeakKeywordRelated:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeakKeywordRelated(v)
 		return nil
 	case article.FieldWeakKeywords:
 		v, ok := value.([]schema.WeakKeyword)
@@ -1313,19 +1429,19 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetWeakKeywords(v)
 		return nil
-	case article.FieldStrongProcessed:
+	case article.FieldStrongKeywordProcessed:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetStrongProcessed(v)
+		m.SetStrongKeywordProcessed(v)
 		return nil
-	case article.FieldStrongRelated:
+	case article.FieldStrongKeywordRelated:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetStrongRelated(v)
+		m.SetStrongKeywordRelated(v)
 		return nil
 	case article.FieldStrongKeyword:
 		v, ok := value.(schema.StrongKeyword)
@@ -1334,12 +1450,40 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetStrongKeyword(v)
 		return nil
-	case article.FieldStrongRelatedCategory:
+	case article.FieldAiStrongRelatedProcessed:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAiStrongRelatedProcessed(v)
+		return nil
+	case article.FieldAiStrongRelated:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAiStrongRelated(v)
+		return nil
+	case article.FieldAiStrongRelatedCategory:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetStrongRelatedCategory(v)
+		m.SetAiStrongRelatedCategory(v)
+		return nil
+	case article.FieldAdminStrongRelated:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAdminStrongRelated(v)
+		return nil
+	case article.FieldAdminStrongRelatedCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAdminStrongRelatedCategory(v)
 		return nil
 	case article.FieldSummaryChinese:
 		v, ok := value.(string)
@@ -1347,13 +1491,6 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSummaryChinese(v)
-		return nil
-	case article.FieldImageUploaded:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetImageUploaded(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
@@ -1428,9 +1565,6 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldTitleEnglish:
 		m.ResetTitleEnglish()
 		return nil
-	case article.FieldAuthor:
-		m.ResetAuthor()
-		return nil
 	case article.FieldPublishedAt:
 		m.ResetPublishedAt()
 		return nil
@@ -1449,32 +1583,44 @@ func (m *ArticleMutation) ResetField(name string) error {
 	case article.FieldImages:
 		m.ResetImages()
 		return nil
-	case article.FieldWeakProcessed:
-		m.ResetWeakProcessed()
+	case article.FieldImageUploaded:
+		m.ResetImageUploaded()
 		return nil
-	case article.FieldWeakRelated:
-		m.ResetWeakRelated()
+	case article.FieldWeakKeywordProcessed:
+		m.ResetWeakKeywordProcessed()
+		return nil
+	case article.FieldWeakKeywordRelated:
+		m.ResetWeakKeywordRelated()
 		return nil
 	case article.FieldWeakKeywords:
 		m.ResetWeakKeywords()
 		return nil
-	case article.FieldStrongProcessed:
-		m.ResetStrongProcessed()
+	case article.FieldStrongKeywordProcessed:
+		m.ResetStrongKeywordProcessed()
 		return nil
-	case article.FieldStrongRelated:
-		m.ResetStrongRelated()
+	case article.FieldStrongKeywordRelated:
+		m.ResetStrongKeywordRelated()
 		return nil
 	case article.FieldStrongKeyword:
 		m.ResetStrongKeyword()
 		return nil
-	case article.FieldStrongRelatedCategory:
-		m.ResetStrongRelatedCategory()
+	case article.FieldAiStrongRelatedProcessed:
+		m.ResetAiStrongRelatedProcessed()
+		return nil
+	case article.FieldAiStrongRelated:
+		m.ResetAiStrongRelated()
+		return nil
+	case article.FieldAiStrongRelatedCategory:
+		m.ResetAiStrongRelatedCategory()
+		return nil
+	case article.FieldAdminStrongRelated:
+		m.ResetAdminStrongRelated()
+		return nil
+	case article.FieldAdminStrongRelatedCategory:
+		m.ResetAdminStrongRelatedCategory()
 		return nil
 	case article.FieldSummaryChinese:
 		m.ResetSummaryChinese()
-		return nil
-	case article.FieldImageUploaded:
-		m.ResetImageUploaded()
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)

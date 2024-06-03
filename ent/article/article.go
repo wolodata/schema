@@ -22,8 +22,6 @@ const (
 	FieldTitleChinese = "title_chinese"
 	// FieldTitleEnglish holds the string denoting the title_english field in the database.
 	FieldTitleEnglish = "title_english"
-	// FieldAuthor holds the string denoting the author field in the database.
-	FieldAuthor = "author"
 	// FieldPublishedAt holds the string denoting the published_at field in the database.
 	FieldPublishedAt = "published_at"
 	// FieldHTMLChinese holds the string denoting the html_chinese field in the database.
@@ -36,24 +34,32 @@ const (
 	FieldTextEnglish = "text_english"
 	// FieldImages holds the string denoting the images field in the database.
 	FieldImages = "images"
-	// FieldWeakProcessed holds the string denoting the weak_processed field in the database.
-	FieldWeakProcessed = "weak_processed"
-	// FieldWeakRelated holds the string denoting the weak_related field in the database.
-	FieldWeakRelated = "weak_related"
-	// FieldWeakKeywords holds the string denoting the weak_keywords field in the database.
-	FieldWeakKeywords = "weak_keywords"
-	// FieldStrongProcessed holds the string denoting the strong_processed field in the database.
-	FieldStrongProcessed = "strong_processed"
-	// FieldStrongRelated holds the string denoting the strong_related field in the database.
-	FieldStrongRelated = "strong_related"
-	// FieldStrongKeyword holds the string denoting the strong_keyword field in the database.
-	FieldStrongKeyword = "strong_keyword"
-	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
-	FieldStrongRelatedCategory = "strong_related_category"
-	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
-	FieldSummaryChinese = "summary_chinese"
 	// FieldImageUploaded holds the string denoting the image_uploaded field in the database.
 	FieldImageUploaded = "image_uploaded"
+	// FieldWeakKeywordProcessed holds the string denoting the weak_keyword_processed field in the database.
+	FieldWeakKeywordProcessed = "weak_keyword_processed"
+	// FieldWeakKeywordRelated holds the string denoting the weak_keyword_related field in the database.
+	FieldWeakKeywordRelated = "weak_keyword_related"
+	// FieldWeakKeywords holds the string denoting the weak_keywords field in the database.
+	FieldWeakKeywords = "weak_keywords"
+	// FieldStrongKeywordProcessed holds the string denoting the strong_keyword_processed field in the database.
+	FieldStrongKeywordProcessed = "strong_keyword_processed"
+	// FieldStrongKeywordRelated holds the string denoting the strong_keyword_related field in the database.
+	FieldStrongKeywordRelated = "strong_keyword_related"
+	// FieldStrongKeyword holds the string denoting the strong_keyword field in the database.
+	FieldStrongKeyword = "strong_keyword"
+	// FieldAiStrongRelatedProcessed holds the string denoting the ai_strong_related_processed field in the database.
+	FieldAiStrongRelatedProcessed = "ai_strong_related_processed"
+	// FieldAiStrongRelated holds the string denoting the ai_strong_related field in the database.
+	FieldAiStrongRelated = "ai_strong_related"
+	// FieldAiStrongRelatedCategory holds the string denoting the ai_strong_related_category field in the database.
+	FieldAiStrongRelatedCategory = "ai_strong_related_category"
+	// FieldAdminStrongRelated holds the string denoting the admin_strong_related field in the database.
+	FieldAdminStrongRelated = "admin_strong_related"
+	// FieldAdminStrongRelatedCategory holds the string denoting the admin_strong_related_category field in the database.
+	FieldAdminStrongRelatedCategory = "admin_strong_related_category"
+	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
+	FieldSummaryChinese = "summary_chinese"
 	// Table holds the table name of the article in the database.
 	Table = "t_article"
 )
@@ -66,22 +72,25 @@ var Columns = []string{
 	FieldURL,
 	FieldTitleChinese,
 	FieldTitleEnglish,
-	FieldAuthor,
 	FieldPublishedAt,
 	FieldHTMLChinese,
 	FieldHTMLEnglish,
 	FieldTextChinese,
 	FieldTextEnglish,
 	FieldImages,
-	FieldWeakProcessed,
-	FieldWeakRelated,
-	FieldWeakKeywords,
-	FieldStrongProcessed,
-	FieldStrongRelated,
-	FieldStrongKeyword,
-	FieldStrongRelatedCategory,
-	FieldSummaryChinese,
 	FieldImageUploaded,
+	FieldWeakKeywordProcessed,
+	FieldWeakKeywordRelated,
+	FieldWeakKeywords,
+	FieldStrongKeywordProcessed,
+	FieldStrongKeywordRelated,
+	FieldStrongKeyword,
+	FieldAiStrongRelatedProcessed,
+	FieldAiStrongRelated,
+	FieldAiStrongRelatedCategory,
+	FieldAdminStrongRelated,
+	FieldAdminStrongRelatedCategory,
+	FieldSummaryChinese,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -105,8 +114,6 @@ var (
 	DefaultTitleChinese string
 	// DefaultTitleEnglish holds the default value on creation for the "title_english" field.
 	DefaultTitleEnglish string
-	// DefaultAuthor holds the default value on creation for the "author" field.
-	DefaultAuthor []string
 	// DefaultHTMLChinese holds the default value on creation for the "html_chinese" field.
 	DefaultHTMLChinese string
 	// DefaultHTMLEnglish holds the default value on creation for the "html_english" field.
@@ -117,22 +124,30 @@ var (
 	DefaultTextEnglish string
 	// DefaultImages holds the default value on creation for the "images" field.
 	DefaultImages []string
-	// DefaultWeakProcessed holds the default value on creation for the "weak_processed" field.
-	DefaultWeakProcessed bool
-	// DefaultWeakRelated holds the default value on creation for the "weak_related" field.
-	DefaultWeakRelated bool
-	// DefaultWeakKeywords holds the default value on creation for the "weak_keywords" field.
-	DefaultWeakKeywords []schema.WeakKeyword
-	// DefaultStrongProcessed holds the default value on creation for the "strong_processed" field.
-	DefaultStrongProcessed bool
-	// DefaultStrongRelated holds the default value on creation for the "strong_related" field.
-	DefaultStrongRelated bool
-	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
-	DefaultStrongRelatedCategory string
-	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
-	DefaultSummaryChinese string
 	// DefaultImageUploaded holds the default value on creation for the "image_uploaded" field.
 	DefaultImageUploaded bool
+	// DefaultWeakKeywordProcessed holds the default value on creation for the "weak_keyword_processed" field.
+	DefaultWeakKeywordProcessed bool
+	// DefaultWeakKeywordRelated holds the default value on creation for the "weak_keyword_related" field.
+	DefaultWeakKeywordRelated bool
+	// DefaultWeakKeywords holds the default value on creation for the "weak_keywords" field.
+	DefaultWeakKeywords []schema.WeakKeyword
+	// DefaultStrongKeywordProcessed holds the default value on creation for the "strong_keyword_processed" field.
+	DefaultStrongKeywordProcessed bool
+	// DefaultStrongKeywordRelated holds the default value on creation for the "strong_keyword_related" field.
+	DefaultStrongKeywordRelated bool
+	// DefaultAiStrongRelatedProcessed holds the default value on creation for the "ai_strong_related_processed" field.
+	DefaultAiStrongRelatedProcessed bool
+	// DefaultAiStrongRelated holds the default value on creation for the "ai_strong_related" field.
+	DefaultAiStrongRelated bool
+	// DefaultAiStrongRelatedCategory holds the default value on creation for the "ai_strong_related_category" field.
+	DefaultAiStrongRelatedCategory string
+	// DefaultAdminStrongRelated holds the default value on creation for the "admin_strong_related" field.
+	DefaultAdminStrongRelated bool
+	// DefaultAdminStrongRelatedCategory holds the default value on creation for the "admin_strong_related_category" field.
+	DefaultAdminStrongRelatedCategory string
+	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
+	DefaultSummaryChinese string
 )
 
 // OrderOption defines the ordering options for the Article queries.
@@ -193,37 +208,57 @@ func ByTextEnglish(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTextEnglish, opts...).ToFunc()
 }
 
-// ByWeakProcessed orders the results by the weak_processed field.
-func ByWeakProcessed(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldWeakProcessed, opts...).ToFunc()
+// ByImageUploaded orders the results by the image_uploaded field.
+func ByImageUploaded(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldImageUploaded, opts...).ToFunc()
 }
 
-// ByWeakRelated orders the results by the weak_related field.
-func ByWeakRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldWeakRelated, opts...).ToFunc()
+// ByWeakKeywordProcessed orders the results by the weak_keyword_processed field.
+func ByWeakKeywordProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWeakKeywordProcessed, opts...).ToFunc()
 }
 
-// ByStrongProcessed orders the results by the strong_processed field.
-func ByStrongProcessed(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStrongProcessed, opts...).ToFunc()
+// ByWeakKeywordRelated orders the results by the weak_keyword_related field.
+func ByWeakKeywordRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWeakKeywordRelated, opts...).ToFunc()
 }
 
-// ByStrongRelated orders the results by the strong_related field.
-func ByStrongRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStrongRelated, opts...).ToFunc()
+// ByStrongKeywordProcessed orders the results by the strong_keyword_processed field.
+func ByStrongKeywordProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongKeywordProcessed, opts...).ToFunc()
 }
 
-// ByStrongRelatedCategory orders the results by the strong_related_category field.
-func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStrongRelatedCategory, opts...).ToFunc()
+// ByStrongKeywordRelated orders the results by the strong_keyword_related field.
+func ByStrongKeywordRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongKeywordRelated, opts...).ToFunc()
+}
+
+// ByAiStrongRelatedProcessed orders the results by the ai_strong_related_processed field.
+func ByAiStrongRelatedProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAiStrongRelatedProcessed, opts...).ToFunc()
+}
+
+// ByAiStrongRelated orders the results by the ai_strong_related field.
+func ByAiStrongRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAiStrongRelated, opts...).ToFunc()
+}
+
+// ByAiStrongRelatedCategory orders the results by the ai_strong_related_category field.
+func ByAiStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAiStrongRelatedCategory, opts...).ToFunc()
+}
+
+// ByAdminStrongRelated orders the results by the admin_strong_related field.
+func ByAdminStrongRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAdminStrongRelated, opts...).ToFunc()
+}
+
+// ByAdminStrongRelatedCategory orders the results by the admin_strong_related_category field.
+func ByAdminStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAdminStrongRelatedCategory, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.
 func BySummaryChinese(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSummaryChinese, opts...).ToFunc()
-}
-
-// ByImageUploaded orders the results by the image_uploaded field.
-func ByImageUploaded(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldImageUploaded, opts...).ToFunc()
 }

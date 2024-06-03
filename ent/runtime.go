@@ -56,62 +56,74 @@ func init() {
 	articleDescTitleEnglish := articleFields[5].Descriptor()
 	// article.DefaultTitleEnglish holds the default value on creation for the title_english field.
 	article.DefaultTitleEnglish = articleDescTitleEnglish.Default.(string)
-	// articleDescAuthor is the schema descriptor for author field.
-	articleDescAuthor := articleFields[6].Descriptor()
-	// article.DefaultAuthor holds the default value on creation for the author field.
-	article.DefaultAuthor = articleDescAuthor.Default.([]string)
 	// articleDescHTMLChinese is the schema descriptor for html_chinese field.
-	articleDescHTMLChinese := articleFields[8].Descriptor()
+	articleDescHTMLChinese := articleFields[7].Descriptor()
 	// article.DefaultHTMLChinese holds the default value on creation for the html_chinese field.
 	article.DefaultHTMLChinese = articleDescHTMLChinese.Default.(string)
 	// articleDescHTMLEnglish is the schema descriptor for html_english field.
-	articleDescHTMLEnglish := articleFields[9].Descriptor()
+	articleDescHTMLEnglish := articleFields[8].Descriptor()
 	// article.DefaultHTMLEnglish holds the default value on creation for the html_english field.
 	article.DefaultHTMLEnglish = articleDescHTMLEnglish.Default.(string)
 	// articleDescTextChinese is the schema descriptor for text_chinese field.
-	articleDescTextChinese := articleFields[10].Descriptor()
+	articleDescTextChinese := articleFields[9].Descriptor()
 	// article.DefaultTextChinese holds the default value on creation for the text_chinese field.
 	article.DefaultTextChinese = articleDescTextChinese.Default.(string)
 	// articleDescTextEnglish is the schema descriptor for text_english field.
-	articleDescTextEnglish := articleFields[11].Descriptor()
+	articleDescTextEnglish := articleFields[10].Descriptor()
 	// article.DefaultTextEnglish holds the default value on creation for the text_english field.
 	article.DefaultTextEnglish = articleDescTextEnglish.Default.(string)
 	// articleDescImages is the schema descriptor for images field.
-	articleDescImages := articleFields[12].Descriptor()
+	articleDescImages := articleFields[11].Descriptor()
 	// article.DefaultImages holds the default value on creation for the images field.
 	article.DefaultImages = articleDescImages.Default.([]string)
-	// articleDescWeakProcessed is the schema descriptor for weak_processed field.
-	articleDescWeakProcessed := articleFields[13].Descriptor()
-	// article.DefaultWeakProcessed holds the default value on creation for the weak_processed field.
-	article.DefaultWeakProcessed = articleDescWeakProcessed.Default.(bool)
-	// articleDescWeakRelated is the schema descriptor for weak_related field.
-	articleDescWeakRelated := articleFields[14].Descriptor()
-	// article.DefaultWeakRelated holds the default value on creation for the weak_related field.
-	article.DefaultWeakRelated = articleDescWeakRelated.Default.(bool)
+	// articleDescImageUploaded is the schema descriptor for image_uploaded field.
+	articleDescImageUploaded := articleFields[12].Descriptor()
+	// article.DefaultImageUploaded holds the default value on creation for the image_uploaded field.
+	article.DefaultImageUploaded = articleDescImageUploaded.Default.(bool)
+	// articleDescWeakKeywordProcessed is the schema descriptor for weak_keyword_processed field.
+	articleDescWeakKeywordProcessed := articleFields[13].Descriptor()
+	// article.DefaultWeakKeywordProcessed holds the default value on creation for the weak_keyword_processed field.
+	article.DefaultWeakKeywordProcessed = articleDescWeakKeywordProcessed.Default.(bool)
+	// articleDescWeakKeywordRelated is the schema descriptor for weak_keyword_related field.
+	articleDescWeakKeywordRelated := articleFields[14].Descriptor()
+	// article.DefaultWeakKeywordRelated holds the default value on creation for the weak_keyword_related field.
+	article.DefaultWeakKeywordRelated = articleDescWeakKeywordRelated.Default.(bool)
 	// articleDescWeakKeywords is the schema descriptor for weak_keywords field.
 	articleDescWeakKeywords := articleFields[15].Descriptor()
 	// article.DefaultWeakKeywords holds the default value on creation for the weak_keywords field.
 	article.DefaultWeakKeywords = articleDescWeakKeywords.Default.([]schema.WeakKeyword)
-	// articleDescStrongProcessed is the schema descriptor for strong_processed field.
-	articleDescStrongProcessed := articleFields[16].Descriptor()
-	// article.DefaultStrongProcessed holds the default value on creation for the strong_processed field.
-	article.DefaultStrongProcessed = articleDescStrongProcessed.Default.(bool)
-	// articleDescStrongRelated is the schema descriptor for strong_related field.
-	articleDescStrongRelated := articleFields[17].Descriptor()
-	// article.DefaultStrongRelated holds the default value on creation for the strong_related field.
-	article.DefaultStrongRelated = articleDescStrongRelated.Default.(bool)
-	// articleDescStrongRelatedCategory is the schema descriptor for strong_related_category field.
-	articleDescStrongRelatedCategory := articleFields[19].Descriptor()
-	// article.DefaultStrongRelatedCategory holds the default value on creation for the strong_related_category field.
-	article.DefaultStrongRelatedCategory = articleDescStrongRelatedCategory.Default.(string)
+	// articleDescStrongKeywordProcessed is the schema descriptor for strong_keyword_processed field.
+	articleDescStrongKeywordProcessed := articleFields[16].Descriptor()
+	// article.DefaultStrongKeywordProcessed holds the default value on creation for the strong_keyword_processed field.
+	article.DefaultStrongKeywordProcessed = articleDescStrongKeywordProcessed.Default.(bool)
+	// articleDescStrongKeywordRelated is the schema descriptor for strong_keyword_related field.
+	articleDescStrongKeywordRelated := articleFields[17].Descriptor()
+	// article.DefaultStrongKeywordRelated holds the default value on creation for the strong_keyword_related field.
+	article.DefaultStrongKeywordRelated = articleDescStrongKeywordRelated.Default.(bool)
+	// articleDescAiStrongRelatedProcessed is the schema descriptor for ai_strong_related_processed field.
+	articleDescAiStrongRelatedProcessed := articleFields[19].Descriptor()
+	// article.DefaultAiStrongRelatedProcessed holds the default value on creation for the ai_strong_related_processed field.
+	article.DefaultAiStrongRelatedProcessed = articleDescAiStrongRelatedProcessed.Default.(bool)
+	// articleDescAiStrongRelated is the schema descriptor for ai_strong_related field.
+	articleDescAiStrongRelated := articleFields[20].Descriptor()
+	// article.DefaultAiStrongRelated holds the default value on creation for the ai_strong_related field.
+	article.DefaultAiStrongRelated = articleDescAiStrongRelated.Default.(bool)
+	// articleDescAiStrongRelatedCategory is the schema descriptor for ai_strong_related_category field.
+	articleDescAiStrongRelatedCategory := articleFields[21].Descriptor()
+	// article.DefaultAiStrongRelatedCategory holds the default value on creation for the ai_strong_related_category field.
+	article.DefaultAiStrongRelatedCategory = articleDescAiStrongRelatedCategory.Default.(string)
+	// articleDescAdminStrongRelated is the schema descriptor for admin_strong_related field.
+	articleDescAdminStrongRelated := articleFields[22].Descriptor()
+	// article.DefaultAdminStrongRelated holds the default value on creation for the admin_strong_related field.
+	article.DefaultAdminStrongRelated = articleDescAdminStrongRelated.Default.(bool)
+	// articleDescAdminStrongRelatedCategory is the schema descriptor for admin_strong_related_category field.
+	articleDescAdminStrongRelatedCategory := articleFields[23].Descriptor()
+	// article.DefaultAdminStrongRelatedCategory holds the default value on creation for the admin_strong_related_category field.
+	article.DefaultAdminStrongRelatedCategory = articleDescAdminStrongRelatedCategory.Default.(string)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[20].Descriptor()
+	articleDescSummaryChinese := articleFields[24].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
-	// articleDescImageUploaded is the schema descriptor for image_uploaded field.
-	articleDescImageUploaded := articleFields[21].Descriptor()
-	// article.DefaultImageUploaded holds the default value on creation for the image_uploaded field.
-	article.DefaultImageUploaded = articleDescImageUploaded.Default.(bool)
 	htmlFields := schema.Html{}.Fields()
 	_ = htmlFields
 	// htmlDescOriginShortID is the schema descriptor for origin_short_id field.

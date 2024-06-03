@@ -78,12 +78,6 @@ func (ac *ArticleCreate) SetNillableTitleEnglish(s *string) *ArticleCreate {
 	return ac
 }
 
-// SetAuthor sets the "author" field.
-func (ac *ArticleCreate) SetAuthor(s []string) *ArticleCreate {
-	ac.mutation.SetAuthor(s)
-	return ac
-}
-
 // SetPublishedAt sets the "published_at" field.
 func (ac *ArticleCreate) SetPublishedAt(t time.Time) *ArticleCreate {
 	ac.mutation.SetPublishedAt(t)
@@ -152,30 +146,44 @@ func (ac *ArticleCreate) SetImages(s []string) *ArticleCreate {
 	return ac
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (ac *ArticleCreate) SetWeakProcessed(b bool) *ArticleCreate {
-	ac.mutation.SetWeakProcessed(b)
+// SetImageUploaded sets the "image_uploaded" field.
+func (ac *ArticleCreate) SetImageUploaded(b bool) *ArticleCreate {
+	ac.mutation.SetImageUploaded(b)
 	return ac
 }
 
-// SetNillableWeakProcessed sets the "weak_processed" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableWeakProcessed(b *bool) *ArticleCreate {
+// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableImageUploaded(b *bool) *ArticleCreate {
 	if b != nil {
-		ac.SetWeakProcessed(*b)
+		ac.SetImageUploaded(*b)
 	}
 	return ac
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (ac *ArticleCreate) SetWeakRelated(b bool) *ArticleCreate {
-	ac.mutation.SetWeakRelated(b)
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (ac *ArticleCreate) SetWeakKeywordProcessed(b bool) *ArticleCreate {
+	ac.mutation.SetWeakKeywordProcessed(b)
 	return ac
 }
 
-// SetNillableWeakRelated sets the "weak_related" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableWeakRelated(b *bool) *ArticleCreate {
+// SetNillableWeakKeywordProcessed sets the "weak_keyword_processed" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableWeakKeywordProcessed(b *bool) *ArticleCreate {
 	if b != nil {
-		ac.SetWeakRelated(*b)
+		ac.SetWeakKeywordProcessed(*b)
+	}
+	return ac
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (ac *ArticleCreate) SetWeakKeywordRelated(b bool) *ArticleCreate {
+	ac.mutation.SetWeakKeywordRelated(b)
+	return ac
+}
+
+// SetNillableWeakKeywordRelated sets the "weak_keyword_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableWeakKeywordRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetWeakKeywordRelated(*b)
 	}
 	return ac
 }
@@ -186,30 +194,30 @@ func (ac *ArticleCreate) SetWeakKeywords(sk []schema.WeakKeyword) *ArticleCreate
 	return ac
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (ac *ArticleCreate) SetStrongProcessed(b bool) *ArticleCreate {
-	ac.mutation.SetStrongProcessed(b)
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (ac *ArticleCreate) SetStrongKeywordProcessed(b bool) *ArticleCreate {
+	ac.mutation.SetStrongKeywordProcessed(b)
 	return ac
 }
 
-// SetNillableStrongProcessed sets the "strong_processed" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableStrongProcessed(b *bool) *ArticleCreate {
+// SetNillableStrongKeywordProcessed sets the "strong_keyword_processed" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongKeywordProcessed(b *bool) *ArticleCreate {
 	if b != nil {
-		ac.SetStrongProcessed(*b)
+		ac.SetStrongKeywordProcessed(*b)
 	}
 	return ac
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (ac *ArticleCreate) SetStrongRelated(b bool) *ArticleCreate {
-	ac.mutation.SetStrongRelated(b)
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (ac *ArticleCreate) SetStrongKeywordRelated(b bool) *ArticleCreate {
+	ac.mutation.SetStrongKeywordRelated(b)
 	return ac
 }
 
-// SetNillableStrongRelated sets the "strong_related" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableStrongRelated(b *bool) *ArticleCreate {
+// SetNillableStrongKeywordRelated sets the "strong_keyword_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongKeywordRelated(b *bool) *ArticleCreate {
 	if b != nil {
-		ac.SetStrongRelated(*b)
+		ac.SetStrongKeywordRelated(*b)
 	}
 	return ac
 }
@@ -228,16 +236,72 @@ func (ac *ArticleCreate) SetNillableStrongKeyword(sk *schema.StrongKeyword) *Art
 	return ac
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (ac *ArticleCreate) SetStrongRelatedCategory(s string) *ArticleCreate {
-	ac.mutation.SetStrongRelatedCategory(s)
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (ac *ArticleCreate) SetAiStrongRelatedProcessed(b bool) *ArticleCreate {
+	ac.mutation.SetAiStrongRelatedProcessed(b)
 	return ac
 }
 
-// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableStrongRelatedCategory(s *string) *ArticleCreate {
+// SetNillableAiStrongRelatedProcessed sets the "ai_strong_related_processed" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableAiStrongRelatedProcessed(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetAiStrongRelatedProcessed(*b)
+	}
+	return ac
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (ac *ArticleCreate) SetAiStrongRelated(b bool) *ArticleCreate {
+	ac.mutation.SetAiStrongRelated(b)
+	return ac
+}
+
+// SetNillableAiStrongRelated sets the "ai_strong_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableAiStrongRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetAiStrongRelated(*b)
+	}
+	return ac
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (ac *ArticleCreate) SetAiStrongRelatedCategory(s string) *ArticleCreate {
+	ac.mutation.SetAiStrongRelatedCategory(s)
+	return ac
+}
+
+// SetNillableAiStrongRelatedCategory sets the "ai_strong_related_category" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableAiStrongRelatedCategory(s *string) *ArticleCreate {
 	if s != nil {
-		ac.SetStrongRelatedCategory(*s)
+		ac.SetAiStrongRelatedCategory(*s)
+	}
+	return ac
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (ac *ArticleCreate) SetAdminStrongRelated(b bool) *ArticleCreate {
+	ac.mutation.SetAdminStrongRelated(b)
+	return ac
+}
+
+// SetNillableAdminStrongRelated sets the "admin_strong_related" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableAdminStrongRelated(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetAdminStrongRelated(*b)
+	}
+	return ac
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (ac *ArticleCreate) SetAdminStrongRelatedCategory(s string) *ArticleCreate {
+	ac.mutation.SetAdminStrongRelatedCategory(s)
+	return ac
+}
+
+// SetNillableAdminStrongRelatedCategory sets the "admin_strong_related_category" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableAdminStrongRelatedCategory(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetAdminStrongRelatedCategory(*s)
 	}
 	return ac
 }
@@ -252,20 +316,6 @@ func (ac *ArticleCreate) SetSummaryChinese(s string) *ArticleCreate {
 func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 	if s != nil {
 		ac.SetSummaryChinese(*s)
-	}
-	return ac
-}
-
-// SetImageUploaded sets the "image_uploaded" field.
-func (ac *ArticleCreate) SetImageUploaded(b bool) *ArticleCreate {
-	ac.mutation.SetImageUploaded(b)
-	return ac
-}
-
-// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
-func (ac *ArticleCreate) SetNillableImageUploaded(b *bool) *ArticleCreate {
-	if b != nil {
-		ac.SetImageUploaded(*b)
 	}
 	return ac
 }
@@ -323,10 +373,6 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultTitleEnglish
 		ac.mutation.SetTitleEnglish(v)
 	}
-	if _, ok := ac.mutation.Author(); !ok {
-		v := article.DefaultAuthor
-		ac.mutation.SetAuthor(v)
-	}
 	if _, ok := ac.mutation.HTMLChinese(); !ok {
 		v := article.DefaultHTMLChinese
 		ac.mutation.SetHTMLChinese(v)
@@ -347,37 +393,53 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultImages
 		ac.mutation.SetImages(v)
 	}
-	if _, ok := ac.mutation.WeakProcessed(); !ok {
-		v := article.DefaultWeakProcessed
-		ac.mutation.SetWeakProcessed(v)
+	if _, ok := ac.mutation.ImageUploaded(); !ok {
+		v := article.DefaultImageUploaded
+		ac.mutation.SetImageUploaded(v)
 	}
-	if _, ok := ac.mutation.WeakRelated(); !ok {
-		v := article.DefaultWeakRelated
-		ac.mutation.SetWeakRelated(v)
+	if _, ok := ac.mutation.WeakKeywordProcessed(); !ok {
+		v := article.DefaultWeakKeywordProcessed
+		ac.mutation.SetWeakKeywordProcessed(v)
+	}
+	if _, ok := ac.mutation.WeakKeywordRelated(); !ok {
+		v := article.DefaultWeakKeywordRelated
+		ac.mutation.SetWeakKeywordRelated(v)
 	}
 	if _, ok := ac.mutation.WeakKeywords(); !ok {
 		v := article.DefaultWeakKeywords
 		ac.mutation.SetWeakKeywords(v)
 	}
-	if _, ok := ac.mutation.StrongProcessed(); !ok {
-		v := article.DefaultStrongProcessed
-		ac.mutation.SetStrongProcessed(v)
+	if _, ok := ac.mutation.StrongKeywordProcessed(); !ok {
+		v := article.DefaultStrongKeywordProcessed
+		ac.mutation.SetStrongKeywordProcessed(v)
 	}
-	if _, ok := ac.mutation.StrongRelated(); !ok {
-		v := article.DefaultStrongRelated
-		ac.mutation.SetStrongRelated(v)
+	if _, ok := ac.mutation.StrongKeywordRelated(); !ok {
+		v := article.DefaultStrongKeywordRelated
+		ac.mutation.SetStrongKeywordRelated(v)
 	}
-	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
-		v := article.DefaultStrongRelatedCategory
-		ac.mutation.SetStrongRelatedCategory(v)
+	if _, ok := ac.mutation.AiStrongRelatedProcessed(); !ok {
+		v := article.DefaultAiStrongRelatedProcessed
+		ac.mutation.SetAiStrongRelatedProcessed(v)
+	}
+	if _, ok := ac.mutation.AiStrongRelated(); !ok {
+		v := article.DefaultAiStrongRelated
+		ac.mutation.SetAiStrongRelated(v)
+	}
+	if _, ok := ac.mutation.AiStrongRelatedCategory(); !ok {
+		v := article.DefaultAiStrongRelatedCategory
+		ac.mutation.SetAiStrongRelatedCategory(v)
+	}
+	if _, ok := ac.mutation.AdminStrongRelated(); !ok {
+		v := article.DefaultAdminStrongRelated
+		ac.mutation.SetAdminStrongRelated(v)
+	}
+	if _, ok := ac.mutation.AdminStrongRelatedCategory(); !ok {
+		v := article.DefaultAdminStrongRelatedCategory
+		ac.mutation.SetAdminStrongRelatedCategory(v)
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
-	}
-	if _, ok := ac.mutation.ImageUploaded(); !ok {
-		v := article.DefaultImageUploaded
-		ac.mutation.SetImageUploaded(v)
 	}
 }
 
@@ -408,9 +470,6 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.TitleEnglish(); !ok {
 		return &ValidationError{Name: "title_english", err: errors.New(`ent: missing required field "Article.title_english"`)}
 	}
-	if _, ok := ac.mutation.Author(); !ok {
-		return &ValidationError{Name: "author", err: errors.New(`ent: missing required field "Article.author"`)}
-	}
 	if _, ok := ac.mutation.PublishedAt(); !ok {
 		return &ValidationError{Name: "published_at", err: errors.New(`ent: missing required field "Article.published_at"`)}
 	}
@@ -429,29 +488,41 @@ func (ac *ArticleCreate) check() error {
 	if _, ok := ac.mutation.Images(); !ok {
 		return &ValidationError{Name: "images", err: errors.New(`ent: missing required field "Article.images"`)}
 	}
-	if _, ok := ac.mutation.WeakProcessed(); !ok {
-		return &ValidationError{Name: "weak_processed", err: errors.New(`ent: missing required field "Article.weak_processed"`)}
+	if _, ok := ac.mutation.ImageUploaded(); !ok {
+		return &ValidationError{Name: "image_uploaded", err: errors.New(`ent: missing required field "Article.image_uploaded"`)}
 	}
-	if _, ok := ac.mutation.WeakRelated(); !ok {
-		return &ValidationError{Name: "weak_related", err: errors.New(`ent: missing required field "Article.weak_related"`)}
+	if _, ok := ac.mutation.WeakKeywordProcessed(); !ok {
+		return &ValidationError{Name: "weak_keyword_processed", err: errors.New(`ent: missing required field "Article.weak_keyword_processed"`)}
+	}
+	if _, ok := ac.mutation.WeakKeywordRelated(); !ok {
+		return &ValidationError{Name: "weak_keyword_related", err: errors.New(`ent: missing required field "Article.weak_keyword_related"`)}
 	}
 	if _, ok := ac.mutation.WeakKeywords(); !ok {
 		return &ValidationError{Name: "weak_keywords", err: errors.New(`ent: missing required field "Article.weak_keywords"`)}
 	}
-	if _, ok := ac.mutation.StrongProcessed(); !ok {
-		return &ValidationError{Name: "strong_processed", err: errors.New(`ent: missing required field "Article.strong_processed"`)}
+	if _, ok := ac.mutation.StrongKeywordProcessed(); !ok {
+		return &ValidationError{Name: "strong_keyword_processed", err: errors.New(`ent: missing required field "Article.strong_keyword_processed"`)}
 	}
-	if _, ok := ac.mutation.StrongRelated(); !ok {
-		return &ValidationError{Name: "strong_related", err: errors.New(`ent: missing required field "Article.strong_related"`)}
+	if _, ok := ac.mutation.StrongKeywordRelated(); !ok {
+		return &ValidationError{Name: "strong_keyword_related", err: errors.New(`ent: missing required field "Article.strong_keyword_related"`)}
 	}
-	if _, ok := ac.mutation.StrongRelatedCategory(); !ok {
-		return &ValidationError{Name: "strong_related_category", err: errors.New(`ent: missing required field "Article.strong_related_category"`)}
+	if _, ok := ac.mutation.AiStrongRelatedProcessed(); !ok {
+		return &ValidationError{Name: "ai_strong_related_processed", err: errors.New(`ent: missing required field "Article.ai_strong_related_processed"`)}
+	}
+	if _, ok := ac.mutation.AiStrongRelated(); !ok {
+		return &ValidationError{Name: "ai_strong_related", err: errors.New(`ent: missing required field "Article.ai_strong_related"`)}
+	}
+	if _, ok := ac.mutation.AiStrongRelatedCategory(); !ok {
+		return &ValidationError{Name: "ai_strong_related_category", err: errors.New(`ent: missing required field "Article.ai_strong_related_category"`)}
+	}
+	if _, ok := ac.mutation.AdminStrongRelated(); !ok {
+		return &ValidationError{Name: "admin_strong_related", err: errors.New(`ent: missing required field "Article.admin_strong_related"`)}
+	}
+	if _, ok := ac.mutation.AdminStrongRelatedCategory(); !ok {
+		return &ValidationError{Name: "admin_strong_related_category", err: errors.New(`ent: missing required field "Article.admin_strong_related_category"`)}
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
-	}
-	if _, ok := ac.mutation.ImageUploaded(); !ok {
-		return &ValidationError{Name: "image_uploaded", err: errors.New(`ent: missing required field "Article.image_uploaded"`)}
 	}
 	return nil
 }
@@ -509,10 +580,6 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldTitleEnglish, field.TypeString, value)
 		_node.TitleEnglish = value
 	}
-	if value, ok := ac.mutation.Author(); ok {
-		_spec.SetField(article.FieldAuthor, field.TypeJSON, value)
-		_node.Author = value
-	}
 	if value, ok := ac.mutation.PublishedAt(); ok {
 		_spec.SetField(article.FieldPublishedAt, field.TypeTime, value)
 		_node.PublishedAt = value
@@ -537,41 +604,57 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 		_spec.SetField(article.FieldImages, field.TypeJSON, value)
 		_node.Images = value
 	}
-	if value, ok := ac.mutation.WeakProcessed(); ok {
-		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
-		_node.WeakProcessed = value
+	if value, ok := ac.mutation.ImageUploaded(); ok {
+		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
+		_node.ImageUploaded = value
 	}
-	if value, ok := ac.mutation.WeakRelated(); ok {
-		_spec.SetField(article.FieldWeakRelated, field.TypeBool, value)
-		_node.WeakRelated = value
+	if value, ok := ac.mutation.WeakKeywordProcessed(); ok {
+		_spec.SetField(article.FieldWeakKeywordProcessed, field.TypeBool, value)
+		_node.WeakKeywordProcessed = value
+	}
+	if value, ok := ac.mutation.WeakKeywordRelated(); ok {
+		_spec.SetField(article.FieldWeakKeywordRelated, field.TypeBool, value)
+		_node.WeakKeywordRelated = value
 	}
 	if value, ok := ac.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
 		_node.WeakKeywords = value
 	}
-	if value, ok := ac.mutation.StrongProcessed(); ok {
-		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
-		_node.StrongProcessed = value
+	if value, ok := ac.mutation.StrongKeywordProcessed(); ok {
+		_spec.SetField(article.FieldStrongKeywordProcessed, field.TypeBool, value)
+		_node.StrongKeywordProcessed = value
 	}
-	if value, ok := ac.mutation.StrongRelated(); ok {
-		_spec.SetField(article.FieldStrongRelated, field.TypeBool, value)
-		_node.StrongRelated = value
+	if value, ok := ac.mutation.StrongKeywordRelated(); ok {
+		_spec.SetField(article.FieldStrongKeywordRelated, field.TypeBool, value)
+		_node.StrongKeywordRelated = value
 	}
 	if value, ok := ac.mutation.StrongKeyword(); ok {
 		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
 		_node.StrongKeyword = value
 	}
-	if value, ok := ac.mutation.StrongRelatedCategory(); ok {
-		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
-		_node.StrongRelatedCategory = value
+	if value, ok := ac.mutation.AiStrongRelatedProcessed(); ok {
+		_spec.SetField(article.FieldAiStrongRelatedProcessed, field.TypeBool, value)
+		_node.AiStrongRelatedProcessed = value
+	}
+	if value, ok := ac.mutation.AiStrongRelated(); ok {
+		_spec.SetField(article.FieldAiStrongRelated, field.TypeBool, value)
+		_node.AiStrongRelated = value
+	}
+	if value, ok := ac.mutation.AiStrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldAiStrongRelatedCategory, field.TypeString, value)
+		_node.AiStrongRelatedCategory = value
+	}
+	if value, ok := ac.mutation.AdminStrongRelated(); ok {
+		_spec.SetField(article.FieldAdminStrongRelated, field.TypeBool, value)
+		_node.AdminStrongRelated = value
+	}
+	if value, ok := ac.mutation.AdminStrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldAdminStrongRelatedCategory, field.TypeString, value)
+		_node.AdminStrongRelatedCategory = value
 	}
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
 		_node.SummaryChinese = value
-	}
-	if value, ok := ac.mutation.ImageUploaded(); ok {
-		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
-		_node.ImageUploaded = value
 	}
 	return _node, _spec
 }
@@ -649,18 +732,6 @@ func (u *ArticleUpsert) UpdateTitleEnglish() *ArticleUpsert {
 	return u
 }
 
-// SetAuthor sets the "author" field.
-func (u *ArticleUpsert) SetAuthor(v []string) *ArticleUpsert {
-	u.Set(article.FieldAuthor, v)
-	return u
-}
-
-// UpdateAuthor sets the "author" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateAuthor() *ArticleUpsert {
-	u.SetExcluded(article.FieldAuthor)
-	return u
-}
-
 // SetHTMLChinese sets the "html_chinese" field.
 func (u *ArticleUpsert) SetHTMLChinese(v string) *ArticleUpsert {
 	u.Set(article.FieldHTMLChinese, v)
@@ -721,27 +792,39 @@ func (u *ArticleUpsert) UpdateImages() *ArticleUpsert {
 	return u
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (u *ArticleUpsert) SetWeakProcessed(v bool) *ArticleUpsert {
-	u.Set(article.FieldWeakProcessed, v)
+// SetImageUploaded sets the "image_uploaded" field.
+func (u *ArticleUpsert) SetImageUploaded(v bool) *ArticleUpsert {
+	u.Set(article.FieldImageUploaded, v)
 	return u
 }
 
-// UpdateWeakProcessed sets the "weak_processed" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateWeakProcessed() *ArticleUpsert {
-	u.SetExcluded(article.FieldWeakProcessed)
+// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateImageUploaded() *ArticleUpsert {
+	u.SetExcluded(article.FieldImageUploaded)
 	return u
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (u *ArticleUpsert) SetWeakRelated(v bool) *ArticleUpsert {
-	u.Set(article.FieldWeakRelated, v)
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (u *ArticleUpsert) SetWeakKeywordProcessed(v bool) *ArticleUpsert {
+	u.Set(article.FieldWeakKeywordProcessed, v)
 	return u
 }
 
-// UpdateWeakRelated sets the "weak_related" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateWeakRelated() *ArticleUpsert {
-	u.SetExcluded(article.FieldWeakRelated)
+// UpdateWeakKeywordProcessed sets the "weak_keyword_processed" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateWeakKeywordProcessed() *ArticleUpsert {
+	u.SetExcluded(article.FieldWeakKeywordProcessed)
+	return u
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (u *ArticleUpsert) SetWeakKeywordRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldWeakKeywordRelated, v)
+	return u
+}
+
+// UpdateWeakKeywordRelated sets the "weak_keyword_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateWeakKeywordRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldWeakKeywordRelated)
 	return u
 }
 
@@ -757,27 +840,27 @@ func (u *ArticleUpsert) UpdateWeakKeywords() *ArticleUpsert {
 	return u
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (u *ArticleUpsert) SetStrongProcessed(v bool) *ArticleUpsert {
-	u.Set(article.FieldStrongProcessed, v)
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (u *ArticleUpsert) SetStrongKeywordProcessed(v bool) *ArticleUpsert {
+	u.Set(article.FieldStrongKeywordProcessed, v)
 	return u
 }
 
-// UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateStrongProcessed() *ArticleUpsert {
-	u.SetExcluded(article.FieldStrongProcessed)
+// UpdateStrongKeywordProcessed sets the "strong_keyword_processed" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongKeywordProcessed() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongKeywordProcessed)
 	return u
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (u *ArticleUpsert) SetStrongRelated(v bool) *ArticleUpsert {
-	u.Set(article.FieldStrongRelated, v)
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (u *ArticleUpsert) SetStrongKeywordRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldStrongKeywordRelated, v)
 	return u
 }
 
-// UpdateStrongRelated sets the "strong_related" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateStrongRelated() *ArticleUpsert {
-	u.SetExcluded(article.FieldStrongRelated)
+// UpdateStrongKeywordRelated sets the "strong_keyword_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongKeywordRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongKeywordRelated)
 	return u
 }
 
@@ -799,15 +882,63 @@ func (u *ArticleUpsert) ClearStrongKeyword() *ArticleUpsert {
 	return u
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (u *ArticleUpsert) SetStrongRelatedCategory(v string) *ArticleUpsert {
-	u.Set(article.FieldStrongRelatedCategory, v)
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (u *ArticleUpsert) SetAiStrongRelatedProcessed(v bool) *ArticleUpsert {
+	u.Set(article.FieldAiStrongRelatedProcessed, v)
 	return u
 }
 
-// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateStrongRelatedCategory() *ArticleUpsert {
-	u.SetExcluded(article.FieldStrongRelatedCategory)
+// UpdateAiStrongRelatedProcessed sets the "ai_strong_related_processed" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateAiStrongRelatedProcessed() *ArticleUpsert {
+	u.SetExcluded(article.FieldAiStrongRelatedProcessed)
+	return u
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (u *ArticleUpsert) SetAiStrongRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldAiStrongRelated, v)
+	return u
+}
+
+// UpdateAiStrongRelated sets the "ai_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateAiStrongRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldAiStrongRelated)
+	return u
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (u *ArticleUpsert) SetAiStrongRelatedCategory(v string) *ArticleUpsert {
+	u.Set(article.FieldAiStrongRelatedCategory, v)
+	return u
+}
+
+// UpdateAiStrongRelatedCategory sets the "ai_strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateAiStrongRelatedCategory() *ArticleUpsert {
+	u.SetExcluded(article.FieldAiStrongRelatedCategory)
+	return u
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (u *ArticleUpsert) SetAdminStrongRelated(v bool) *ArticleUpsert {
+	u.Set(article.FieldAdminStrongRelated, v)
+	return u
+}
+
+// UpdateAdminStrongRelated sets the "admin_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateAdminStrongRelated() *ArticleUpsert {
+	u.SetExcluded(article.FieldAdminStrongRelated)
+	return u
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (u *ArticleUpsert) SetAdminStrongRelatedCategory(v string) *ArticleUpsert {
+	u.Set(article.FieldAdminStrongRelatedCategory, v)
+	return u
+}
+
+// UpdateAdminStrongRelatedCategory sets the "admin_strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateAdminStrongRelatedCategory() *ArticleUpsert {
+	u.SetExcluded(article.FieldAdminStrongRelatedCategory)
 	return u
 }
 
@@ -820,18 +951,6 @@ func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 // UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
 	u.SetExcluded(article.FieldSummaryChinese)
-	return u
-}
-
-// SetImageUploaded sets the "image_uploaded" field.
-func (u *ArticleUpsert) SetImageUploaded(v bool) *ArticleUpsert {
-	u.Set(article.FieldImageUploaded, v)
-	return u
-}
-
-// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
-func (u *ArticleUpsert) UpdateImageUploaded() *ArticleUpsert {
-	u.SetExcluded(article.FieldImageUploaded)
 	return u
 }
 
@@ -923,20 +1042,6 @@ func (u *ArticleUpsertOne) UpdateTitleEnglish() *ArticleUpsertOne {
 	})
 }
 
-// SetAuthor sets the "author" field.
-func (u *ArticleUpsertOne) SetAuthor(v []string) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetAuthor(v)
-	})
-}
-
-// UpdateAuthor sets the "author" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateAuthor() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateAuthor()
-	})
-}
-
 // SetHTMLChinese sets the "html_chinese" field.
 func (u *ArticleUpsertOne) SetHTMLChinese(v string) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1007,31 +1112,45 @@ func (u *ArticleUpsertOne) UpdateImages() *ArticleUpsertOne {
 	})
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (u *ArticleUpsertOne) SetWeakProcessed(v bool) *ArticleUpsertOne {
+// SetImageUploaded sets the "image_uploaded" field.
+func (u *ArticleUpsertOne) SetImageUploaded(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetWeakProcessed(v)
+		s.SetImageUploaded(v)
 	})
 }
 
-// UpdateWeakProcessed sets the "weak_processed" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateWeakProcessed() *ArticleUpsertOne {
+// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateImageUploaded() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateWeakProcessed()
+		s.UpdateImageUploaded()
 	})
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (u *ArticleUpsertOne) SetWeakRelated(v bool) *ArticleUpsertOne {
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (u *ArticleUpsertOne) SetWeakKeywordProcessed(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetWeakRelated(v)
+		s.SetWeakKeywordProcessed(v)
 	})
 }
 
-// UpdateWeakRelated sets the "weak_related" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateWeakRelated() *ArticleUpsertOne {
+// UpdateWeakKeywordProcessed sets the "weak_keyword_processed" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateWeakKeywordProcessed() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateWeakRelated()
+		s.UpdateWeakKeywordProcessed()
+	})
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (u *ArticleUpsertOne) SetWeakKeywordRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetWeakKeywordRelated(v)
+	})
+}
+
+// UpdateWeakKeywordRelated sets the "weak_keyword_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateWeakKeywordRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateWeakKeywordRelated()
 	})
 }
 
@@ -1049,31 +1168,31 @@ func (u *ArticleUpsertOne) UpdateWeakKeywords() *ArticleUpsertOne {
 	})
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (u *ArticleUpsertOne) SetStrongProcessed(v bool) *ArticleUpsertOne {
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (u *ArticleUpsertOne) SetStrongKeywordProcessed(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongProcessed(v)
+		s.SetStrongKeywordProcessed(v)
 	})
 }
 
-// UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateStrongProcessed() *ArticleUpsertOne {
+// UpdateStrongKeywordProcessed sets the "strong_keyword_processed" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongKeywordProcessed() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongProcessed()
+		s.UpdateStrongKeywordProcessed()
 	})
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (u *ArticleUpsertOne) SetStrongRelated(v bool) *ArticleUpsertOne {
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (u *ArticleUpsertOne) SetStrongKeywordRelated(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongRelated(v)
+		s.SetStrongKeywordRelated(v)
 	})
 }
 
-// UpdateStrongRelated sets the "strong_related" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateStrongRelated() *ArticleUpsertOne {
+// UpdateStrongKeywordRelated sets the "strong_keyword_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongKeywordRelated() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongRelated()
+		s.UpdateStrongKeywordRelated()
 	})
 }
 
@@ -1098,17 +1217,73 @@ func (u *ArticleUpsertOne) ClearStrongKeyword() *ArticleUpsertOne {
 	})
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (u *ArticleUpsertOne) SetStrongRelatedCategory(v string) *ArticleUpsertOne {
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (u *ArticleUpsertOne) SetAiStrongRelatedProcessed(v bool) *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongRelatedCategory(v)
+		s.SetAiStrongRelatedProcessed(v)
 	})
 }
 
-// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateStrongRelatedCategory() *ArticleUpsertOne {
+// UpdateAiStrongRelatedProcessed sets the "ai_strong_related_processed" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateAiStrongRelatedProcessed() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongRelatedCategory()
+		s.UpdateAiStrongRelatedProcessed()
+	})
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (u *ArticleUpsertOne) SetAiStrongRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAiStrongRelated(v)
+	})
+}
+
+// UpdateAiStrongRelated sets the "ai_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateAiStrongRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAiStrongRelated()
+	})
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (u *ArticleUpsertOne) SetAiStrongRelatedCategory(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAiStrongRelatedCategory(v)
+	})
+}
+
+// UpdateAiStrongRelatedCategory sets the "ai_strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateAiStrongRelatedCategory() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAiStrongRelatedCategory()
+	})
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (u *ArticleUpsertOne) SetAdminStrongRelated(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAdminStrongRelated(v)
+	})
+}
+
+// UpdateAdminStrongRelated sets the "admin_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateAdminStrongRelated() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAdminStrongRelated()
+	})
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (u *ArticleUpsertOne) SetAdminStrongRelatedCategory(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAdminStrongRelatedCategory(v)
+	})
+}
+
+// UpdateAdminStrongRelatedCategory sets the "admin_strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateAdminStrongRelatedCategory() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAdminStrongRelatedCategory()
 	})
 }
 
@@ -1123,20 +1298,6 @@ func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
-	})
-}
-
-// SetImageUploaded sets the "image_uploaded" field.
-func (u *ArticleUpsertOne) SetImageUploaded(v bool) *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetImageUploaded(v)
-	})
-}
-
-// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
-func (u *ArticleUpsertOne) UpdateImageUploaded() *ArticleUpsertOne {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateImageUploaded()
 	})
 }
 
@@ -1395,20 +1556,6 @@ func (u *ArticleUpsertBulk) UpdateTitleEnglish() *ArticleUpsertBulk {
 	})
 }
 
-// SetAuthor sets the "author" field.
-func (u *ArticleUpsertBulk) SetAuthor(v []string) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetAuthor(v)
-	})
-}
-
-// UpdateAuthor sets the "author" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateAuthor() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateAuthor()
-	})
-}
-
 // SetHTMLChinese sets the "html_chinese" field.
 func (u *ArticleUpsertBulk) SetHTMLChinese(v string) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
@@ -1479,31 +1626,45 @@ func (u *ArticleUpsertBulk) UpdateImages() *ArticleUpsertBulk {
 	})
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (u *ArticleUpsertBulk) SetWeakProcessed(v bool) *ArticleUpsertBulk {
+// SetImageUploaded sets the "image_uploaded" field.
+func (u *ArticleUpsertBulk) SetImageUploaded(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetWeakProcessed(v)
+		s.SetImageUploaded(v)
 	})
 }
 
-// UpdateWeakProcessed sets the "weak_processed" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateWeakProcessed() *ArticleUpsertBulk {
+// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateImageUploaded() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateWeakProcessed()
+		s.UpdateImageUploaded()
 	})
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (u *ArticleUpsertBulk) SetWeakRelated(v bool) *ArticleUpsertBulk {
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (u *ArticleUpsertBulk) SetWeakKeywordProcessed(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetWeakRelated(v)
+		s.SetWeakKeywordProcessed(v)
 	})
 }
 
-// UpdateWeakRelated sets the "weak_related" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateWeakRelated() *ArticleUpsertBulk {
+// UpdateWeakKeywordProcessed sets the "weak_keyword_processed" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateWeakKeywordProcessed() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateWeakRelated()
+		s.UpdateWeakKeywordProcessed()
+	})
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (u *ArticleUpsertBulk) SetWeakKeywordRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetWeakKeywordRelated(v)
+	})
+}
+
+// UpdateWeakKeywordRelated sets the "weak_keyword_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateWeakKeywordRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateWeakKeywordRelated()
 	})
 }
 
@@ -1521,31 +1682,31 @@ func (u *ArticleUpsertBulk) UpdateWeakKeywords() *ArticleUpsertBulk {
 	})
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (u *ArticleUpsertBulk) SetStrongProcessed(v bool) *ArticleUpsertBulk {
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (u *ArticleUpsertBulk) SetStrongKeywordProcessed(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongProcessed(v)
+		s.SetStrongKeywordProcessed(v)
 	})
 }
 
-// UpdateStrongProcessed sets the "strong_processed" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateStrongProcessed() *ArticleUpsertBulk {
+// UpdateStrongKeywordProcessed sets the "strong_keyword_processed" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongKeywordProcessed() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongProcessed()
+		s.UpdateStrongKeywordProcessed()
 	})
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (u *ArticleUpsertBulk) SetStrongRelated(v bool) *ArticleUpsertBulk {
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (u *ArticleUpsertBulk) SetStrongKeywordRelated(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongRelated(v)
+		s.SetStrongKeywordRelated(v)
 	})
 }
 
-// UpdateStrongRelated sets the "strong_related" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateStrongRelated() *ArticleUpsertBulk {
+// UpdateStrongKeywordRelated sets the "strong_keyword_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongKeywordRelated() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongRelated()
+		s.UpdateStrongKeywordRelated()
 	})
 }
 
@@ -1570,17 +1731,73 @@ func (u *ArticleUpsertBulk) ClearStrongKeyword() *ArticleUpsertBulk {
 	})
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (u *ArticleUpsertBulk) SetStrongRelatedCategory(v string) *ArticleUpsertBulk {
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (u *ArticleUpsertBulk) SetAiStrongRelatedProcessed(v bool) *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.SetStrongRelatedCategory(v)
+		s.SetAiStrongRelatedProcessed(v)
 	})
 }
 
-// UpdateStrongRelatedCategory sets the "strong_related_category" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateStrongRelatedCategory() *ArticleUpsertBulk {
+// UpdateAiStrongRelatedProcessed sets the "ai_strong_related_processed" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateAiStrongRelatedProcessed() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateStrongRelatedCategory()
+		s.UpdateAiStrongRelatedProcessed()
+	})
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (u *ArticleUpsertBulk) SetAiStrongRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAiStrongRelated(v)
+	})
+}
+
+// UpdateAiStrongRelated sets the "ai_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateAiStrongRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAiStrongRelated()
+	})
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (u *ArticleUpsertBulk) SetAiStrongRelatedCategory(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAiStrongRelatedCategory(v)
+	})
+}
+
+// UpdateAiStrongRelatedCategory sets the "ai_strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateAiStrongRelatedCategory() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAiStrongRelatedCategory()
+	})
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (u *ArticleUpsertBulk) SetAdminStrongRelated(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAdminStrongRelated(v)
+	})
+}
+
+// UpdateAdminStrongRelated sets the "admin_strong_related" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateAdminStrongRelated() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAdminStrongRelated()
+	})
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (u *ArticleUpsertBulk) SetAdminStrongRelatedCategory(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetAdminStrongRelatedCategory(v)
+	})
+}
+
+// UpdateAdminStrongRelatedCategory sets the "admin_strong_related_category" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateAdminStrongRelatedCategory() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateAdminStrongRelatedCategory()
 	})
 }
 
@@ -1595,20 +1812,6 @@ func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
-	})
-}
-
-// SetImageUploaded sets the "image_uploaded" field.
-func (u *ArticleUpsertBulk) SetImageUploaded(v bool) *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.SetImageUploaded(v)
-	})
-}
-
-// UpdateImageUploaded sets the "image_uploaded" field to the value that was provided on create.
-func (u *ArticleUpsertBulk) UpdateImageUploaded() *ArticleUpsertBulk {
-	return u.Update(func(s *ArticleUpsert) {
-		s.UpdateImageUploaded()
 	})
 }
 

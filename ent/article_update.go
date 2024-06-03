@@ -57,18 +57,6 @@ func (au *ArticleUpdate) SetNillableTitleEnglish(s *string) *ArticleUpdate {
 	return au
 }
 
-// SetAuthor sets the "author" field.
-func (au *ArticleUpdate) SetAuthor(s []string) *ArticleUpdate {
-	au.mutation.SetAuthor(s)
-	return au
-}
-
-// AppendAuthor appends s to the "author" field.
-func (au *ArticleUpdate) AppendAuthor(s []string) *ArticleUpdate {
-	au.mutation.AppendAuthor(s)
-	return au
-}
-
 // SetHTMLChinese sets the "html_chinese" field.
 func (au *ArticleUpdate) SetHTMLChinese(s string) *ArticleUpdate {
 	au.mutation.SetHTMLChinese(s)
@@ -137,30 +125,44 @@ func (au *ArticleUpdate) AppendImages(s []string) *ArticleUpdate {
 	return au
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (au *ArticleUpdate) SetWeakProcessed(b bool) *ArticleUpdate {
-	au.mutation.SetWeakProcessed(b)
+// SetImageUploaded sets the "image_uploaded" field.
+func (au *ArticleUpdate) SetImageUploaded(b bool) *ArticleUpdate {
+	au.mutation.SetImageUploaded(b)
 	return au
 }
 
-// SetNillableWeakProcessed sets the "weak_processed" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableWeakProcessed(b *bool) *ArticleUpdate {
+// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableImageUploaded(b *bool) *ArticleUpdate {
 	if b != nil {
-		au.SetWeakProcessed(*b)
+		au.SetImageUploaded(*b)
 	}
 	return au
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (au *ArticleUpdate) SetWeakRelated(b bool) *ArticleUpdate {
-	au.mutation.SetWeakRelated(b)
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (au *ArticleUpdate) SetWeakKeywordProcessed(b bool) *ArticleUpdate {
+	au.mutation.SetWeakKeywordProcessed(b)
 	return au
 }
 
-// SetNillableWeakRelated sets the "weak_related" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableWeakRelated(b *bool) *ArticleUpdate {
+// SetNillableWeakKeywordProcessed sets the "weak_keyword_processed" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableWeakKeywordProcessed(b *bool) *ArticleUpdate {
 	if b != nil {
-		au.SetWeakRelated(*b)
+		au.SetWeakKeywordProcessed(*b)
+	}
+	return au
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (au *ArticleUpdate) SetWeakKeywordRelated(b bool) *ArticleUpdate {
+	au.mutation.SetWeakKeywordRelated(b)
+	return au
+}
+
+// SetNillableWeakKeywordRelated sets the "weak_keyword_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableWeakKeywordRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetWeakKeywordRelated(*b)
 	}
 	return au
 }
@@ -177,30 +179,30 @@ func (au *ArticleUpdate) AppendWeakKeywords(sk []schema.WeakKeyword) *ArticleUpd
 	return au
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (au *ArticleUpdate) SetStrongProcessed(b bool) *ArticleUpdate {
-	au.mutation.SetStrongProcessed(b)
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (au *ArticleUpdate) SetStrongKeywordProcessed(b bool) *ArticleUpdate {
+	au.mutation.SetStrongKeywordProcessed(b)
 	return au
 }
 
-// SetNillableStrongProcessed sets the "strong_processed" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableStrongProcessed(b *bool) *ArticleUpdate {
+// SetNillableStrongKeywordProcessed sets the "strong_keyword_processed" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongKeywordProcessed(b *bool) *ArticleUpdate {
 	if b != nil {
-		au.SetStrongProcessed(*b)
+		au.SetStrongKeywordProcessed(*b)
 	}
 	return au
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (au *ArticleUpdate) SetStrongRelated(b bool) *ArticleUpdate {
-	au.mutation.SetStrongRelated(b)
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (au *ArticleUpdate) SetStrongKeywordRelated(b bool) *ArticleUpdate {
+	au.mutation.SetStrongKeywordRelated(b)
 	return au
 }
 
-// SetNillableStrongRelated sets the "strong_related" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableStrongRelated(b *bool) *ArticleUpdate {
+// SetNillableStrongKeywordRelated sets the "strong_keyword_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongKeywordRelated(b *bool) *ArticleUpdate {
 	if b != nil {
-		au.SetStrongRelated(*b)
+		au.SetStrongKeywordRelated(*b)
 	}
 	return au
 }
@@ -225,16 +227,72 @@ func (au *ArticleUpdate) ClearStrongKeyword() *ArticleUpdate {
 	return au
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (au *ArticleUpdate) SetStrongRelatedCategory(s string) *ArticleUpdate {
-	au.mutation.SetStrongRelatedCategory(s)
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (au *ArticleUpdate) SetAiStrongRelatedProcessed(b bool) *ArticleUpdate {
+	au.mutation.SetAiStrongRelatedProcessed(b)
 	return au
 }
 
-// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableStrongRelatedCategory(s *string) *ArticleUpdate {
+// SetNillableAiStrongRelatedProcessed sets the "ai_strong_related_processed" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableAiStrongRelatedProcessed(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetAiStrongRelatedProcessed(*b)
+	}
+	return au
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (au *ArticleUpdate) SetAiStrongRelated(b bool) *ArticleUpdate {
+	au.mutation.SetAiStrongRelated(b)
+	return au
+}
+
+// SetNillableAiStrongRelated sets the "ai_strong_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableAiStrongRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetAiStrongRelated(*b)
+	}
+	return au
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (au *ArticleUpdate) SetAiStrongRelatedCategory(s string) *ArticleUpdate {
+	au.mutation.SetAiStrongRelatedCategory(s)
+	return au
+}
+
+// SetNillableAiStrongRelatedCategory sets the "ai_strong_related_category" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableAiStrongRelatedCategory(s *string) *ArticleUpdate {
 	if s != nil {
-		au.SetStrongRelatedCategory(*s)
+		au.SetAiStrongRelatedCategory(*s)
+	}
+	return au
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (au *ArticleUpdate) SetAdminStrongRelated(b bool) *ArticleUpdate {
+	au.mutation.SetAdminStrongRelated(b)
+	return au
+}
+
+// SetNillableAdminStrongRelated sets the "admin_strong_related" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableAdminStrongRelated(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetAdminStrongRelated(*b)
+	}
+	return au
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (au *ArticleUpdate) SetAdminStrongRelatedCategory(s string) *ArticleUpdate {
+	au.mutation.SetAdminStrongRelatedCategory(s)
+	return au
+}
+
+// SetNillableAdminStrongRelatedCategory sets the "admin_strong_related_category" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableAdminStrongRelatedCategory(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetAdminStrongRelatedCategory(*s)
 	}
 	return au
 }
@@ -249,20 +307,6 @@ func (au *ArticleUpdate) SetSummaryChinese(s string) *ArticleUpdate {
 func (au *ArticleUpdate) SetNillableSummaryChinese(s *string) *ArticleUpdate {
 	if s != nil {
 		au.SetSummaryChinese(*s)
-	}
-	return au
-}
-
-// SetImageUploaded sets the "image_uploaded" field.
-func (au *ArticleUpdate) SetImageUploaded(b bool) *ArticleUpdate {
-	au.mutation.SetImageUploaded(b)
-	return au
-}
-
-// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
-func (au *ArticleUpdate) SetNillableImageUploaded(b *bool) *ArticleUpdate {
-	if b != nil {
-		au.SetImageUploaded(*b)
 	}
 	return au
 }
@@ -314,14 +358,6 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := au.mutation.TitleEnglish(); ok {
 		_spec.SetField(article.FieldTitleEnglish, field.TypeString, value)
 	}
-	if value, ok := au.mutation.Author(); ok {
-		_spec.SetField(article.FieldAuthor, field.TypeJSON, value)
-	}
-	if value, ok := au.mutation.AppendedAuthor(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldAuthor, value)
-		})
-	}
 	if value, ok := au.mutation.HTMLChinese(); ok {
 		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)
 	}
@@ -342,11 +378,14 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
-	if value, ok := au.mutation.WeakProcessed(); ok {
-		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
+	if value, ok := au.mutation.ImageUploaded(); ok {
+		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
 	}
-	if value, ok := au.mutation.WeakRelated(); ok {
-		_spec.SetField(article.FieldWeakRelated, field.TypeBool, value)
+	if value, ok := au.mutation.WeakKeywordProcessed(); ok {
+		_spec.SetField(article.FieldWeakKeywordProcessed, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.WeakKeywordRelated(); ok {
+		_spec.SetField(article.FieldWeakKeywordRelated, field.TypeBool, value)
 	}
 	if value, ok := au.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
@@ -356,11 +395,11 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			sqljson.Append(u, article.FieldWeakKeywords, value)
 		})
 	}
-	if value, ok := au.mutation.StrongProcessed(); ok {
-		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
+	if value, ok := au.mutation.StrongKeywordProcessed(); ok {
+		_spec.SetField(article.FieldStrongKeywordProcessed, field.TypeBool, value)
 	}
-	if value, ok := au.mutation.StrongRelated(); ok {
-		_spec.SetField(article.FieldStrongRelated, field.TypeBool, value)
+	if value, ok := au.mutation.StrongKeywordRelated(); ok {
+		_spec.SetField(article.FieldStrongKeywordRelated, field.TypeBool, value)
 	}
 	if value, ok := au.mutation.StrongKeyword(); ok {
 		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
@@ -368,14 +407,23 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if au.mutation.StrongKeywordCleared() {
 		_spec.ClearField(article.FieldStrongKeyword, field.TypeJSON)
 	}
-	if value, ok := au.mutation.StrongRelatedCategory(); ok {
-		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
+	if value, ok := au.mutation.AiStrongRelatedProcessed(); ok {
+		_spec.SetField(article.FieldAiStrongRelatedProcessed, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.AiStrongRelated(); ok {
+		_spec.SetField(article.FieldAiStrongRelated, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.AiStrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldAiStrongRelatedCategory, field.TypeString, value)
+	}
+	if value, ok := au.mutation.AdminStrongRelated(); ok {
+		_spec.SetField(article.FieldAdminStrongRelated, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.AdminStrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldAdminStrongRelatedCategory, field.TypeString, value)
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
-	}
-	if value, ok := au.mutation.ImageUploaded(); ok {
-		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -422,18 +470,6 @@ func (auo *ArticleUpdateOne) SetNillableTitleEnglish(s *string) *ArticleUpdateOn
 	if s != nil {
 		auo.SetTitleEnglish(*s)
 	}
-	return auo
-}
-
-// SetAuthor sets the "author" field.
-func (auo *ArticleUpdateOne) SetAuthor(s []string) *ArticleUpdateOne {
-	auo.mutation.SetAuthor(s)
-	return auo
-}
-
-// AppendAuthor appends s to the "author" field.
-func (auo *ArticleUpdateOne) AppendAuthor(s []string) *ArticleUpdateOne {
-	auo.mutation.AppendAuthor(s)
 	return auo
 }
 
@@ -505,30 +541,44 @@ func (auo *ArticleUpdateOne) AppendImages(s []string) *ArticleUpdateOne {
 	return auo
 }
 
-// SetWeakProcessed sets the "weak_processed" field.
-func (auo *ArticleUpdateOne) SetWeakProcessed(b bool) *ArticleUpdateOne {
-	auo.mutation.SetWeakProcessed(b)
+// SetImageUploaded sets the "image_uploaded" field.
+func (auo *ArticleUpdateOne) SetImageUploaded(b bool) *ArticleUpdateOne {
+	auo.mutation.SetImageUploaded(b)
 	return auo
 }
 
-// SetNillableWeakProcessed sets the "weak_processed" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableWeakProcessed(b *bool) *ArticleUpdateOne {
+// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableImageUploaded(b *bool) *ArticleUpdateOne {
 	if b != nil {
-		auo.SetWeakProcessed(*b)
+		auo.SetImageUploaded(*b)
 	}
 	return auo
 }
 
-// SetWeakRelated sets the "weak_related" field.
-func (auo *ArticleUpdateOne) SetWeakRelated(b bool) *ArticleUpdateOne {
-	auo.mutation.SetWeakRelated(b)
+// SetWeakKeywordProcessed sets the "weak_keyword_processed" field.
+func (auo *ArticleUpdateOne) SetWeakKeywordProcessed(b bool) *ArticleUpdateOne {
+	auo.mutation.SetWeakKeywordProcessed(b)
 	return auo
 }
 
-// SetNillableWeakRelated sets the "weak_related" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableWeakRelated(b *bool) *ArticleUpdateOne {
+// SetNillableWeakKeywordProcessed sets the "weak_keyword_processed" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableWeakKeywordProcessed(b *bool) *ArticleUpdateOne {
 	if b != nil {
-		auo.SetWeakRelated(*b)
+		auo.SetWeakKeywordProcessed(*b)
+	}
+	return auo
+}
+
+// SetWeakKeywordRelated sets the "weak_keyword_related" field.
+func (auo *ArticleUpdateOne) SetWeakKeywordRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetWeakKeywordRelated(b)
+	return auo
+}
+
+// SetNillableWeakKeywordRelated sets the "weak_keyword_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableWeakKeywordRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetWeakKeywordRelated(*b)
 	}
 	return auo
 }
@@ -545,30 +595,30 @@ func (auo *ArticleUpdateOne) AppendWeakKeywords(sk []schema.WeakKeyword) *Articl
 	return auo
 }
 
-// SetStrongProcessed sets the "strong_processed" field.
-func (auo *ArticleUpdateOne) SetStrongProcessed(b bool) *ArticleUpdateOne {
-	auo.mutation.SetStrongProcessed(b)
+// SetStrongKeywordProcessed sets the "strong_keyword_processed" field.
+func (auo *ArticleUpdateOne) SetStrongKeywordProcessed(b bool) *ArticleUpdateOne {
+	auo.mutation.SetStrongKeywordProcessed(b)
 	return auo
 }
 
-// SetNillableStrongProcessed sets the "strong_processed" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableStrongProcessed(b *bool) *ArticleUpdateOne {
+// SetNillableStrongKeywordProcessed sets the "strong_keyword_processed" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongKeywordProcessed(b *bool) *ArticleUpdateOne {
 	if b != nil {
-		auo.SetStrongProcessed(*b)
+		auo.SetStrongKeywordProcessed(*b)
 	}
 	return auo
 }
 
-// SetStrongRelated sets the "strong_related" field.
-func (auo *ArticleUpdateOne) SetStrongRelated(b bool) *ArticleUpdateOne {
-	auo.mutation.SetStrongRelated(b)
+// SetStrongKeywordRelated sets the "strong_keyword_related" field.
+func (auo *ArticleUpdateOne) SetStrongKeywordRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetStrongKeywordRelated(b)
 	return auo
 }
 
-// SetNillableStrongRelated sets the "strong_related" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableStrongRelated(b *bool) *ArticleUpdateOne {
+// SetNillableStrongKeywordRelated sets the "strong_keyword_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongKeywordRelated(b *bool) *ArticleUpdateOne {
 	if b != nil {
-		auo.SetStrongRelated(*b)
+		auo.SetStrongKeywordRelated(*b)
 	}
 	return auo
 }
@@ -593,16 +643,72 @@ func (auo *ArticleUpdateOne) ClearStrongKeyword() *ArticleUpdateOne {
 	return auo
 }
 
-// SetStrongRelatedCategory sets the "strong_related_category" field.
-func (auo *ArticleUpdateOne) SetStrongRelatedCategory(s string) *ArticleUpdateOne {
-	auo.mutation.SetStrongRelatedCategory(s)
+// SetAiStrongRelatedProcessed sets the "ai_strong_related_processed" field.
+func (auo *ArticleUpdateOne) SetAiStrongRelatedProcessed(b bool) *ArticleUpdateOne {
+	auo.mutation.SetAiStrongRelatedProcessed(b)
 	return auo
 }
 
-// SetNillableStrongRelatedCategory sets the "strong_related_category" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableStrongRelatedCategory(s *string) *ArticleUpdateOne {
+// SetNillableAiStrongRelatedProcessed sets the "ai_strong_related_processed" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableAiStrongRelatedProcessed(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetAiStrongRelatedProcessed(*b)
+	}
+	return auo
+}
+
+// SetAiStrongRelated sets the "ai_strong_related" field.
+func (auo *ArticleUpdateOne) SetAiStrongRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetAiStrongRelated(b)
+	return auo
+}
+
+// SetNillableAiStrongRelated sets the "ai_strong_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableAiStrongRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetAiStrongRelated(*b)
+	}
+	return auo
+}
+
+// SetAiStrongRelatedCategory sets the "ai_strong_related_category" field.
+func (auo *ArticleUpdateOne) SetAiStrongRelatedCategory(s string) *ArticleUpdateOne {
+	auo.mutation.SetAiStrongRelatedCategory(s)
+	return auo
+}
+
+// SetNillableAiStrongRelatedCategory sets the "ai_strong_related_category" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableAiStrongRelatedCategory(s *string) *ArticleUpdateOne {
 	if s != nil {
-		auo.SetStrongRelatedCategory(*s)
+		auo.SetAiStrongRelatedCategory(*s)
+	}
+	return auo
+}
+
+// SetAdminStrongRelated sets the "admin_strong_related" field.
+func (auo *ArticleUpdateOne) SetAdminStrongRelated(b bool) *ArticleUpdateOne {
+	auo.mutation.SetAdminStrongRelated(b)
+	return auo
+}
+
+// SetNillableAdminStrongRelated sets the "admin_strong_related" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableAdminStrongRelated(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetAdminStrongRelated(*b)
+	}
+	return auo
+}
+
+// SetAdminStrongRelatedCategory sets the "admin_strong_related_category" field.
+func (auo *ArticleUpdateOne) SetAdminStrongRelatedCategory(s string) *ArticleUpdateOne {
+	auo.mutation.SetAdminStrongRelatedCategory(s)
+	return auo
+}
+
+// SetNillableAdminStrongRelatedCategory sets the "admin_strong_related_category" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableAdminStrongRelatedCategory(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetAdminStrongRelatedCategory(*s)
 	}
 	return auo
 }
@@ -617,20 +723,6 @@ func (auo *ArticleUpdateOne) SetSummaryChinese(s string) *ArticleUpdateOne {
 func (auo *ArticleUpdateOne) SetNillableSummaryChinese(s *string) *ArticleUpdateOne {
 	if s != nil {
 		auo.SetSummaryChinese(*s)
-	}
-	return auo
-}
-
-// SetImageUploaded sets the "image_uploaded" field.
-func (auo *ArticleUpdateOne) SetImageUploaded(b bool) *ArticleUpdateOne {
-	auo.mutation.SetImageUploaded(b)
-	return auo
-}
-
-// SetNillableImageUploaded sets the "image_uploaded" field if the given value is not nil.
-func (auo *ArticleUpdateOne) SetNillableImageUploaded(b *bool) *ArticleUpdateOne {
-	if b != nil {
-		auo.SetImageUploaded(*b)
 	}
 	return auo
 }
@@ -712,14 +804,6 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	if value, ok := auo.mutation.TitleEnglish(); ok {
 		_spec.SetField(article.FieldTitleEnglish, field.TypeString, value)
 	}
-	if value, ok := auo.mutation.Author(); ok {
-		_spec.SetField(article.FieldAuthor, field.TypeJSON, value)
-	}
-	if value, ok := auo.mutation.AppendedAuthor(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, article.FieldAuthor, value)
-		})
-	}
 	if value, ok := auo.mutation.HTMLChinese(); ok {
 		_spec.SetField(article.FieldHTMLChinese, field.TypeString, value)
 	}
@@ -740,11 +824,14 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			sqljson.Append(u, article.FieldImages, value)
 		})
 	}
-	if value, ok := auo.mutation.WeakProcessed(); ok {
-		_spec.SetField(article.FieldWeakProcessed, field.TypeBool, value)
+	if value, ok := auo.mutation.ImageUploaded(); ok {
+		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
 	}
-	if value, ok := auo.mutation.WeakRelated(); ok {
-		_spec.SetField(article.FieldWeakRelated, field.TypeBool, value)
+	if value, ok := auo.mutation.WeakKeywordProcessed(); ok {
+		_spec.SetField(article.FieldWeakKeywordProcessed, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.WeakKeywordRelated(); ok {
+		_spec.SetField(article.FieldWeakKeywordRelated, field.TypeBool, value)
 	}
 	if value, ok := auo.mutation.WeakKeywords(); ok {
 		_spec.SetField(article.FieldWeakKeywords, field.TypeJSON, value)
@@ -754,11 +841,11 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 			sqljson.Append(u, article.FieldWeakKeywords, value)
 		})
 	}
-	if value, ok := auo.mutation.StrongProcessed(); ok {
-		_spec.SetField(article.FieldStrongProcessed, field.TypeBool, value)
+	if value, ok := auo.mutation.StrongKeywordProcessed(); ok {
+		_spec.SetField(article.FieldStrongKeywordProcessed, field.TypeBool, value)
 	}
-	if value, ok := auo.mutation.StrongRelated(); ok {
-		_spec.SetField(article.FieldStrongRelated, field.TypeBool, value)
+	if value, ok := auo.mutation.StrongKeywordRelated(); ok {
+		_spec.SetField(article.FieldStrongKeywordRelated, field.TypeBool, value)
 	}
 	if value, ok := auo.mutation.StrongKeyword(); ok {
 		_spec.SetField(article.FieldStrongKeyword, field.TypeJSON, value)
@@ -766,14 +853,23 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	if auo.mutation.StrongKeywordCleared() {
 		_spec.ClearField(article.FieldStrongKeyword, field.TypeJSON)
 	}
-	if value, ok := auo.mutation.StrongRelatedCategory(); ok {
-		_spec.SetField(article.FieldStrongRelatedCategory, field.TypeString, value)
+	if value, ok := auo.mutation.AiStrongRelatedProcessed(); ok {
+		_spec.SetField(article.FieldAiStrongRelatedProcessed, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.AiStrongRelated(); ok {
+		_spec.SetField(article.FieldAiStrongRelated, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.AiStrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldAiStrongRelatedCategory, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.AdminStrongRelated(); ok {
+		_spec.SetField(article.FieldAdminStrongRelated, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.AdminStrongRelatedCategory(); ok {
+		_spec.SetField(article.FieldAdminStrongRelatedCategory, field.TypeString, value)
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
-	}
-	if value, ok := auo.mutation.ImageUploaded(); ok {
-		_spec.SetField(article.FieldImageUploaded, field.TypeBool, value)
 	}
 	_node = &Article{config: auo.config}
 	_spec.Assign = _node.assignValues
