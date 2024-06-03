@@ -30,11 +30,10 @@ var (
 		{Name: "strong_keyword_processed", Type: field.TypeBool, Default: false},
 		{Name: "strong_keyword_related", Type: field.TypeBool, Default: false},
 		{Name: "strong_keyword", Type: field.TypeJSON, Nullable: true},
-		{Name: "ai_strong_related_processed", Type: field.TypeBool, Default: false},
-		{Name: "ai_strong_related", Type: field.TypeBool, Default: false},
-		{Name: "ai_strong_related_category", Type: field.TypeString, Default: ""},
-		{Name: "admin_strong_related", Type: field.TypeBool, Default: false},
-		{Name: "admin_strong_related_category", Type: field.TypeString, Default: ""},
+		{Name: "strong_related_processed", Type: field.TypeBool, Default: false},
+		{Name: "strong_related", Type: field.TypeBool, Default: false},
+		{Name: "strong_related_category_processed", Type: field.TypeBool, Default: false},
+		{Name: "strong_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
@@ -89,29 +88,24 @@ var (
 				Columns: []*schema.Column{TArticleColumns[17]},
 			},
 			{
-				Name:    "article_ai_strong_related_processed",
+				Name:    "article_strong_related_processed",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[19]},
 			},
 			{
-				Name:    "article_ai_strong_related",
+				Name:    "article_strong_related",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[20]},
 			},
 			{
-				Name:    "article_ai_strong_related_category",
+				Name:    "article_strong_related_category_processed",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[21]},
 			},
 			{
-				Name:    "article_admin_strong_related",
+				Name:    "article_strong_related_category",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[22]},
-			},
-			{
-				Name:    "article_admin_strong_related_category",
-				Unique:  false,
-				Columns: []*schema.Column{TArticleColumns[23]},
 			},
 		},
 	}

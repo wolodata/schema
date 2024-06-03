@@ -48,16 +48,14 @@ const (
 	FieldStrongKeywordRelated = "strong_keyword_related"
 	// FieldStrongKeyword holds the string denoting the strong_keyword field in the database.
 	FieldStrongKeyword = "strong_keyword"
-	// FieldAiStrongRelatedProcessed holds the string denoting the ai_strong_related_processed field in the database.
-	FieldAiStrongRelatedProcessed = "ai_strong_related_processed"
-	// FieldAiStrongRelated holds the string denoting the ai_strong_related field in the database.
-	FieldAiStrongRelated = "ai_strong_related"
-	// FieldAiStrongRelatedCategory holds the string denoting the ai_strong_related_category field in the database.
-	FieldAiStrongRelatedCategory = "ai_strong_related_category"
-	// FieldAdminStrongRelated holds the string denoting the admin_strong_related field in the database.
-	FieldAdminStrongRelated = "admin_strong_related"
-	// FieldAdminStrongRelatedCategory holds the string denoting the admin_strong_related_category field in the database.
-	FieldAdminStrongRelatedCategory = "admin_strong_related_category"
+	// FieldStrongRelatedProcessed holds the string denoting the strong_related_processed field in the database.
+	FieldStrongRelatedProcessed = "strong_related_processed"
+	// FieldStrongRelated holds the string denoting the strong_related field in the database.
+	FieldStrongRelated = "strong_related"
+	// FieldStrongRelatedCategoryProcessed holds the string denoting the strong_related_category_processed field in the database.
+	FieldStrongRelatedCategoryProcessed = "strong_related_category_processed"
+	// FieldStrongRelatedCategory holds the string denoting the strong_related_category field in the database.
+	FieldStrongRelatedCategory = "strong_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
 	// Table holds the table name of the article in the database.
@@ -85,11 +83,10 @@ var Columns = []string{
 	FieldStrongKeywordProcessed,
 	FieldStrongKeywordRelated,
 	FieldStrongKeyword,
-	FieldAiStrongRelatedProcessed,
-	FieldAiStrongRelated,
-	FieldAiStrongRelatedCategory,
-	FieldAdminStrongRelated,
-	FieldAdminStrongRelatedCategory,
+	FieldStrongRelatedProcessed,
+	FieldStrongRelated,
+	FieldStrongRelatedCategoryProcessed,
+	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
 }
 
@@ -136,16 +133,14 @@ var (
 	DefaultStrongKeywordProcessed bool
 	// DefaultStrongKeywordRelated holds the default value on creation for the "strong_keyword_related" field.
 	DefaultStrongKeywordRelated bool
-	// DefaultAiStrongRelatedProcessed holds the default value on creation for the "ai_strong_related_processed" field.
-	DefaultAiStrongRelatedProcessed bool
-	// DefaultAiStrongRelated holds the default value on creation for the "ai_strong_related" field.
-	DefaultAiStrongRelated bool
-	// DefaultAiStrongRelatedCategory holds the default value on creation for the "ai_strong_related_category" field.
-	DefaultAiStrongRelatedCategory string
-	// DefaultAdminStrongRelated holds the default value on creation for the "admin_strong_related" field.
-	DefaultAdminStrongRelated bool
-	// DefaultAdminStrongRelatedCategory holds the default value on creation for the "admin_strong_related_category" field.
-	DefaultAdminStrongRelatedCategory string
+	// DefaultStrongRelatedProcessed holds the default value on creation for the "strong_related_processed" field.
+	DefaultStrongRelatedProcessed bool
+	// DefaultStrongRelated holds the default value on creation for the "strong_related" field.
+	DefaultStrongRelated bool
+	// DefaultStrongRelatedCategoryProcessed holds the default value on creation for the "strong_related_category_processed" field.
+	DefaultStrongRelatedCategoryProcessed bool
+	// DefaultStrongRelatedCategory holds the default value on creation for the "strong_related_category" field.
+	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
 )
@@ -233,29 +228,24 @@ func ByStrongKeywordRelated(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStrongKeywordRelated, opts...).ToFunc()
 }
 
-// ByAiStrongRelatedProcessed orders the results by the ai_strong_related_processed field.
-func ByAiStrongRelatedProcessed(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAiStrongRelatedProcessed, opts...).ToFunc()
+// ByStrongRelatedProcessed orders the results by the strong_related_processed field.
+func ByStrongRelatedProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedProcessed, opts...).ToFunc()
 }
 
-// ByAiStrongRelated orders the results by the ai_strong_related field.
-func ByAiStrongRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAiStrongRelated, opts...).ToFunc()
+// ByStrongRelated orders the results by the strong_related field.
+func ByStrongRelated(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelated, opts...).ToFunc()
 }
 
-// ByAiStrongRelatedCategory orders the results by the ai_strong_related_category field.
-func ByAiStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAiStrongRelatedCategory, opts...).ToFunc()
+// ByStrongRelatedCategoryProcessed orders the results by the strong_related_category_processed field.
+func ByStrongRelatedCategoryProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedCategoryProcessed, opts...).ToFunc()
 }
 
-// ByAdminStrongRelated orders the results by the admin_strong_related field.
-func ByAdminStrongRelated(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAdminStrongRelated, opts...).ToFunc()
-}
-
-// ByAdminStrongRelatedCategory orders the results by the admin_strong_related_category field.
-func ByAdminStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAdminStrongRelatedCategory, opts...).ToFunc()
+// ByStrongRelatedCategory orders the results by the strong_related_category field.
+func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedCategory, opts...).ToFunc()
 }
 
 // BySummaryChinese orders the results by the summary_chinese field.

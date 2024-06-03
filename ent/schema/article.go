@@ -41,17 +41,15 @@ func (Article) Fields() []ent.Field {
 		field.Bool("strong_keyword_related").Default(false),
 		field.JSON("strong_keyword", StrongKeyword{}).Optional(),
 
-		// 是否由AI判定过强相关
-		field.Bool("ai_strong_related_processed").Default(false),
-		// 是否AI强相关
-		field.Bool("ai_strong_related").Default(false),
-		// 所属范畴 AI判定
-		field.String("ai_strong_related_category").Default(""),
+		// 是否处理过强相关
+		field.Bool("strong_related_processed").Default(false),
+		// 是否强相关
+		field.Bool("strong_related").Default(false),
 
-		// 是否人工指定强相关
-		field.Bool("admin_strong_related").Default(false),
-		// 所属范畴 人工指定
-		field.String("admin_strong_related_category").Default(""),
+		// 是否处理过所属范畴
+		field.Bool("strong_related_category_processed").Default(false),
+		// 所属范畴
+		field.String("strong_related_category").Default(""),
 
 		// 中文总结
 		field.Text("summary_chinese").Default(""),
@@ -81,11 +79,14 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("weak_keyword_related"),
 		index.Fields("strong_keyword_processed"),
 		index.Fields("strong_keyword_related"),
-		index.Fields("ai_strong_related_processed"),
-		index.Fields("ai_strong_related"),
-		index.Fields("ai_strong_related_category"),
-		index.Fields("admin_strong_related"),
-		index.Fields("admin_strong_related_category"),
+		// 是否处理过强相关
+		index.Fields("strong_related_processed"),
+		// 是否强相关
+		index.Fields("strong_related"),
+		// 是否处理过所属范畴
+		index.Fields("strong_related_category_processed"),
+		// 所属范畴
+		index.Fields("strong_related_category"),
 	}
 }
 

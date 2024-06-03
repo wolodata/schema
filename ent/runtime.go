@@ -100,28 +100,24 @@ func init() {
 	articleDescStrongKeywordRelated := articleFields[17].Descriptor()
 	// article.DefaultStrongKeywordRelated holds the default value on creation for the strong_keyword_related field.
 	article.DefaultStrongKeywordRelated = articleDescStrongKeywordRelated.Default.(bool)
-	// articleDescAiStrongRelatedProcessed is the schema descriptor for ai_strong_related_processed field.
-	articleDescAiStrongRelatedProcessed := articleFields[19].Descriptor()
-	// article.DefaultAiStrongRelatedProcessed holds the default value on creation for the ai_strong_related_processed field.
-	article.DefaultAiStrongRelatedProcessed = articleDescAiStrongRelatedProcessed.Default.(bool)
-	// articleDescAiStrongRelated is the schema descriptor for ai_strong_related field.
-	articleDescAiStrongRelated := articleFields[20].Descriptor()
-	// article.DefaultAiStrongRelated holds the default value on creation for the ai_strong_related field.
-	article.DefaultAiStrongRelated = articleDescAiStrongRelated.Default.(bool)
-	// articleDescAiStrongRelatedCategory is the schema descriptor for ai_strong_related_category field.
-	articleDescAiStrongRelatedCategory := articleFields[21].Descriptor()
-	// article.DefaultAiStrongRelatedCategory holds the default value on creation for the ai_strong_related_category field.
-	article.DefaultAiStrongRelatedCategory = articleDescAiStrongRelatedCategory.Default.(string)
-	// articleDescAdminStrongRelated is the schema descriptor for admin_strong_related field.
-	articleDescAdminStrongRelated := articleFields[22].Descriptor()
-	// article.DefaultAdminStrongRelated holds the default value on creation for the admin_strong_related field.
-	article.DefaultAdminStrongRelated = articleDescAdminStrongRelated.Default.(bool)
-	// articleDescAdminStrongRelatedCategory is the schema descriptor for admin_strong_related_category field.
-	articleDescAdminStrongRelatedCategory := articleFields[23].Descriptor()
-	// article.DefaultAdminStrongRelatedCategory holds the default value on creation for the admin_strong_related_category field.
-	article.DefaultAdminStrongRelatedCategory = articleDescAdminStrongRelatedCategory.Default.(string)
+	// articleDescStrongRelatedProcessed is the schema descriptor for strong_related_processed field.
+	articleDescStrongRelatedProcessed := articleFields[19].Descriptor()
+	// article.DefaultStrongRelatedProcessed holds the default value on creation for the strong_related_processed field.
+	article.DefaultStrongRelatedProcessed = articleDescStrongRelatedProcessed.Default.(bool)
+	// articleDescStrongRelated is the schema descriptor for strong_related field.
+	articleDescStrongRelated := articleFields[20].Descriptor()
+	// article.DefaultStrongRelated holds the default value on creation for the strong_related field.
+	article.DefaultStrongRelated = articleDescStrongRelated.Default.(bool)
+	// articleDescStrongRelatedCategoryProcessed is the schema descriptor for strong_related_category_processed field.
+	articleDescStrongRelatedCategoryProcessed := articleFields[21].Descriptor()
+	// article.DefaultStrongRelatedCategoryProcessed holds the default value on creation for the strong_related_category_processed field.
+	article.DefaultStrongRelatedCategoryProcessed = articleDescStrongRelatedCategoryProcessed.Default.(bool)
+	// articleDescStrongRelatedCategory is the schema descriptor for strong_related_category field.
+	articleDescStrongRelatedCategory := articleFields[22].Descriptor()
+	// article.DefaultStrongRelatedCategory holds the default value on creation for the strong_related_category field.
+	article.DefaultStrongRelatedCategory = articleDescStrongRelatedCategory.Default.(string)
 	// articleDescSummaryChinese is the schema descriptor for summary_chinese field.
-	articleDescSummaryChinese := articleFields[24].Descriptor()
+	articleDescSummaryChinese := articleFields[23].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
 	htmlFields := schema.Html{}.Fields()

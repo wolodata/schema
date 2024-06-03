@@ -139,29 +139,24 @@ func StrongKeywordRelated(v bool) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldStrongKeywordRelated, v))
 }
 
-// AiStrongRelatedProcessed applies equality check predicate on the "ai_strong_related_processed" field. It's identical to AiStrongRelatedProcessedEQ.
-func AiStrongRelatedProcessed(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAiStrongRelatedProcessed, v))
+// StrongRelatedProcessed applies equality check predicate on the "strong_related_processed" field. It's identical to StrongRelatedProcessedEQ.
+func StrongRelatedProcessed(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedProcessed, v))
 }
 
-// AiStrongRelated applies equality check predicate on the "ai_strong_related" field. It's identical to AiStrongRelatedEQ.
-func AiStrongRelated(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAiStrongRelated, v))
+// StrongRelated applies equality check predicate on the "strong_related" field. It's identical to StrongRelatedEQ.
+func StrongRelated(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelated, v))
 }
 
-// AiStrongRelatedCategory applies equality check predicate on the "ai_strong_related_category" field. It's identical to AiStrongRelatedCategoryEQ.
-func AiStrongRelatedCategory(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryProcessed applies equality check predicate on the "strong_related_category_processed" field. It's identical to StrongRelatedCategoryProcessedEQ.
+func StrongRelatedCategoryProcessed(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategoryProcessed, v))
 }
 
-// AdminStrongRelated applies equality check predicate on the "admin_strong_related" field. It's identical to AdminStrongRelatedEQ.
-func AdminStrongRelated(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAdminStrongRelated, v))
-}
-
-// AdminStrongRelatedCategory applies equality check predicate on the "admin_strong_related_category" field. It's identical to AdminStrongRelatedCategoryEQ.
-func AdminStrongRelatedCategory(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAdminStrongRelatedCategory, v))
+// StrongRelatedCategory applies equality check predicate on the "strong_related_category" field. It's identical to StrongRelatedCategoryEQ.
+func StrongRelatedCategory(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategory, v))
 }
 
 // SummaryChinese applies equality check predicate on the "summary_chinese" field. It's identical to SummaryChineseEQ.
@@ -799,164 +794,99 @@ func StrongKeywordNotNil() predicate.Article {
 	return predicate.Article(sql.FieldNotNull(FieldStrongKeyword))
 }
 
-// AiStrongRelatedProcessedEQ applies the EQ predicate on the "ai_strong_related_processed" field.
-func AiStrongRelatedProcessedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAiStrongRelatedProcessed, v))
+// StrongRelatedProcessedEQ applies the EQ predicate on the "strong_related_processed" field.
+func StrongRelatedProcessedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedProcessed, v))
 }
 
-// AiStrongRelatedProcessedNEQ applies the NEQ predicate on the "ai_strong_related_processed" field.
-func AiStrongRelatedProcessedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldAiStrongRelatedProcessed, v))
+// StrongRelatedProcessedNEQ applies the NEQ predicate on the "strong_related_processed" field.
+func StrongRelatedProcessedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelatedProcessed, v))
 }
 
-// AiStrongRelatedEQ applies the EQ predicate on the "ai_strong_related" field.
-func AiStrongRelatedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAiStrongRelated, v))
+// StrongRelatedEQ applies the EQ predicate on the "strong_related" field.
+func StrongRelatedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelated, v))
 }
 
-// AiStrongRelatedNEQ applies the NEQ predicate on the "ai_strong_related" field.
-func AiStrongRelatedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldAiStrongRelated, v))
+// StrongRelatedNEQ applies the NEQ predicate on the "strong_related" field.
+func StrongRelatedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelated, v))
 }
 
-// AiStrongRelatedCategoryEQ applies the EQ predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryProcessedEQ applies the EQ predicate on the "strong_related_category_processed" field.
+func StrongRelatedCategoryProcessedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategoryProcessed, v))
 }
 
-// AiStrongRelatedCategoryNEQ applies the NEQ predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryProcessedNEQ applies the NEQ predicate on the "strong_related_category_processed" field.
+func StrongRelatedCategoryProcessedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelatedCategoryProcessed, v))
 }
 
-// AiStrongRelatedCategoryIn applies the In predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldAiStrongRelatedCategory, vs...))
+// StrongRelatedCategoryEQ applies the EQ predicate on the "strong_related_category" field.
+func StrongRelatedCategoryEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryNotIn applies the NotIn predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldAiStrongRelatedCategory, vs...))
+// StrongRelatedCategoryNEQ applies the NEQ predicate on the "strong_related_category" field.
+func StrongRelatedCategoryNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryGT applies the GT predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryIn applies the In predicate on the "strong_related_category" field.
+func StrongRelatedCategoryIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldStrongRelatedCategory, vs...))
 }
 
-// AiStrongRelatedCategoryGTE applies the GTE predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryNotIn applies the NotIn predicate on the "strong_related_category" field.
+func StrongRelatedCategoryNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldStrongRelatedCategory, vs...))
 }
 
-// AiStrongRelatedCategoryLT applies the LT predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryGT applies the GT predicate on the "strong_related_category" field.
+func StrongRelatedCategoryGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryLTE applies the LTE predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryGTE applies the GTE predicate on the "strong_related_category" field.
+func StrongRelatedCategoryGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryContains applies the Contains predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryLT applies the LT predicate on the "strong_related_category" field.
+func StrongRelatedCategoryLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryHasPrefix applies the HasPrefix predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryLTE applies the LTE predicate on the "strong_related_category" field.
+func StrongRelatedCategoryLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryHasSuffix applies the HasSuffix predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryContains applies the Contains predicate on the "strong_related_category" field.
+func StrongRelatedCategoryContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryEqualFold applies the EqualFold predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryHasPrefix applies the HasPrefix predicate on the "strong_related_category" field.
+func StrongRelatedCategoryHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldStrongRelatedCategory, v))
 }
 
-// AiStrongRelatedCategoryContainsFold applies the ContainsFold predicate on the "ai_strong_related_category" field.
-func AiStrongRelatedCategoryContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldAiStrongRelatedCategory, v))
+// StrongRelatedCategoryHasSuffix applies the HasSuffix predicate on the "strong_related_category" field.
+func StrongRelatedCategoryHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldStrongRelatedCategory, v))
 }
 
-// AdminStrongRelatedEQ applies the EQ predicate on the "admin_strong_related" field.
-func AdminStrongRelatedEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAdminStrongRelated, v))
+// StrongRelatedCategoryEqualFold applies the EqualFold predicate on the "strong_related_category" field.
+func StrongRelatedCategoryEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldStrongRelatedCategory, v))
 }
 
-// AdminStrongRelatedNEQ applies the NEQ predicate on the "admin_strong_related" field.
-func AdminStrongRelatedNEQ(v bool) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldAdminStrongRelated, v))
-}
-
-// AdminStrongRelatedCategoryEQ applies the EQ predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldEQ(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryNEQ applies the NEQ predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryNEQ(v string) predicate.Article {
-	return predicate.Article(sql.FieldNEQ(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryIn applies the In predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldIn(FieldAdminStrongRelatedCategory, vs...))
-}
-
-// AdminStrongRelatedCategoryNotIn applies the NotIn predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryNotIn(vs ...string) predicate.Article {
-	return predicate.Article(sql.FieldNotIn(FieldAdminStrongRelatedCategory, vs...))
-}
-
-// AdminStrongRelatedCategoryGT applies the GT predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryGT(v string) predicate.Article {
-	return predicate.Article(sql.FieldGT(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryGTE applies the GTE predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryGTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldGTE(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryLT applies the LT predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryLT(v string) predicate.Article {
-	return predicate.Article(sql.FieldLT(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryLTE applies the LTE predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryLTE(v string) predicate.Article {
-	return predicate.Article(sql.FieldLTE(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryContains applies the Contains predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryContains(v string) predicate.Article {
-	return predicate.Article(sql.FieldContains(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryHasPrefix applies the HasPrefix predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryHasPrefix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasPrefix(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryHasSuffix applies the HasSuffix predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryHasSuffix(v string) predicate.Article {
-	return predicate.Article(sql.FieldHasSuffix(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryEqualFold applies the EqualFold predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryEqualFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldEqualFold(FieldAdminStrongRelatedCategory, v))
-}
-
-// AdminStrongRelatedCategoryContainsFold applies the ContainsFold predicate on the "admin_strong_related_category" field.
-func AdminStrongRelatedCategoryContainsFold(v string) predicate.Article {
-	return predicate.Article(sql.FieldContainsFold(FieldAdminStrongRelatedCategory, v))
+// StrongRelatedCategoryContainsFold applies the ContainsFold predicate on the "strong_related_category" field.
+func StrongRelatedCategoryContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldStrongRelatedCategory, v))
 }
 
 // SummaryChineseEQ applies the EQ predicate on the "summary_chinese" field.
