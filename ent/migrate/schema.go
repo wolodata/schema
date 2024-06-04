@@ -35,6 +35,8 @@ var (
 		{Name: "strong_related_category_processed", Type: field.TypeBool, Default: false},
 		{Name: "strong_related_category", Type: field.TypeString, Default: ""},
 		{Name: "summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
+		{Name: "strong_related_summary_chinese_processed", Type: field.TypeBool, Default: false},
+		{Name: "strong_related_summary_chinese", Type: field.TypeString, Size: 2147483647, Default: ""},
 	}
 	// TArticleTable holds the schema information for the "t_article" table.
 	TArticleTable = &schema.Table{
@@ -106,6 +108,11 @@ var (
 				Name:    "article_strong_related_category",
 				Unique:  false,
 				Columns: []*schema.Column{TArticleColumns[22]},
+			},
+			{
+				Name:    "article_strong_related_summary_chinese_processed",
+				Unique:  false,
+				Columns: []*schema.Column{TArticleColumns[24]},
 			},
 		},
 	}

@@ -164,6 +164,16 @@ func SummaryChinese(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldSummaryChinese, v))
 }
 
+// StrongRelatedSummaryChineseProcessed applies equality check predicate on the "strong_related_summary_chinese_processed" field. It's identical to StrongRelatedSummaryChineseProcessedEQ.
+func StrongRelatedSummaryChineseProcessed(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedSummaryChineseProcessed, v))
+}
+
+// StrongRelatedSummaryChinese applies equality check predicate on the "strong_related_summary_chinese" field. It's identical to StrongRelatedSummaryChineseEQ.
+func StrongRelatedSummaryChinese(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedSummaryChinese, v))
+}
+
 // OriginShortIDEQ applies the EQ predicate on the "origin_short_id" field.
 func OriginShortIDEQ(v string) predicate.Article {
 	return predicate.Article(sql.FieldEQ(FieldOriginShortID, v))
@@ -952,6 +962,81 @@ func SummaryChineseEqualFold(v string) predicate.Article {
 // SummaryChineseContainsFold applies the ContainsFold predicate on the "summary_chinese" field.
 func SummaryChineseContainsFold(v string) predicate.Article {
 	return predicate.Article(sql.FieldContainsFold(FieldSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseProcessedEQ applies the EQ predicate on the "strong_related_summary_chinese_processed" field.
+func StrongRelatedSummaryChineseProcessedEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedSummaryChineseProcessed, v))
+}
+
+// StrongRelatedSummaryChineseProcessedNEQ applies the NEQ predicate on the "strong_related_summary_chinese_processed" field.
+func StrongRelatedSummaryChineseProcessedNEQ(v bool) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelatedSummaryChineseProcessed, v))
+}
+
+// StrongRelatedSummaryChineseEQ applies the EQ predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldEQ(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseNEQ applies the NEQ predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseNEQ(v string) predicate.Article {
+	return predicate.Article(sql.FieldNEQ(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseIn applies the In predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldIn(FieldStrongRelatedSummaryChinese, vs...))
+}
+
+// StrongRelatedSummaryChineseNotIn applies the NotIn predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseNotIn(vs ...string) predicate.Article {
+	return predicate.Article(sql.FieldNotIn(FieldStrongRelatedSummaryChinese, vs...))
+}
+
+// StrongRelatedSummaryChineseGT applies the GT predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseGT(v string) predicate.Article {
+	return predicate.Article(sql.FieldGT(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseGTE applies the GTE predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseGTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldGTE(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseLT applies the LT predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseLT(v string) predicate.Article {
+	return predicate.Article(sql.FieldLT(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseLTE applies the LTE predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseLTE(v string) predicate.Article {
+	return predicate.Article(sql.FieldLTE(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseContains applies the Contains predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseContains(v string) predicate.Article {
+	return predicate.Article(sql.FieldContains(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseHasPrefix applies the HasPrefix predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseHasPrefix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasPrefix(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseHasSuffix applies the HasSuffix predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseHasSuffix(v string) predicate.Article {
+	return predicate.Article(sql.FieldHasSuffix(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseEqualFold applies the EqualFold predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseEqualFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldEqualFold(FieldStrongRelatedSummaryChinese, v))
+}
+
+// StrongRelatedSummaryChineseContainsFold applies the ContainsFold predicate on the "strong_related_summary_chinese" field.
+func StrongRelatedSummaryChineseContainsFold(v string) predicate.Article {
+	return predicate.Article(sql.FieldContainsFold(FieldStrongRelatedSummaryChinese, v))
 }
 
 // And groups predicates with the AND operator between them.

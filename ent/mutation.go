@@ -49,38 +49,40 @@ const (
 // ArticleMutation represents an operation that mutates the Article nodes in the graph.
 type ArticleMutation struct {
 	config
-	op                                Op
-	typ                               string
-	id                                *string
-	origin_short_id                   *string
-	is_chinese                        *bool
-	url                               *string
-	title_chinese                     *string
-	title_english                     *string
-	published_at                      *time.Time
-	html_chinese                      *string
-	html_english                      *string
-	text_chinese                      *string
-	text_english                      *string
-	images                            *[]string
-	appendimages                      []string
-	image_uploaded                    *bool
-	weak_keyword_processed            *bool
-	weak_keyword_related              *bool
-	weak_keywords                     *[]schema.WeakKeyword
-	appendweak_keywords               []schema.WeakKeyword
-	strong_keyword_processed          *bool
-	strong_keyword_related            *bool
-	strong_keyword                    *schema.StrongKeyword
-	strong_related_processed          *bool
-	strong_related                    *bool
-	strong_related_category_processed *bool
-	strong_related_category           *string
-	summary_chinese                   *string
-	clearedFields                     map[string]struct{}
-	done                              bool
-	oldValue                          func(context.Context) (*Article, error)
-	predicates                        []predicate.Article
+	op                                       Op
+	typ                                      string
+	id                                       *string
+	origin_short_id                          *string
+	is_chinese                               *bool
+	url                                      *string
+	title_chinese                            *string
+	title_english                            *string
+	published_at                             *time.Time
+	html_chinese                             *string
+	html_english                             *string
+	text_chinese                             *string
+	text_english                             *string
+	images                                   *[]string
+	appendimages                             []string
+	image_uploaded                           *bool
+	weak_keyword_processed                   *bool
+	weak_keyword_related                     *bool
+	weak_keywords                            *[]schema.WeakKeyword
+	appendweak_keywords                      []schema.WeakKeyword
+	strong_keyword_processed                 *bool
+	strong_keyword_related                   *bool
+	strong_keyword                           *schema.StrongKeyword
+	strong_related_processed                 *bool
+	strong_related                           *bool
+	strong_related_category_processed        *bool
+	strong_related_category                  *string
+	summary_chinese                          *string
+	strong_related_summary_chinese_processed *bool
+	strong_related_summary_chinese           *string
+	clearedFields                            map[string]struct{}
+	done                                     bool
+	oldValue                                 func(context.Context) (*Article, error)
+	predicates                               []predicate.Article
 }
 
 var _ ent.Mutation = (*ArticleMutation)(nil)
@@ -1058,6 +1060,78 @@ func (m *ArticleMutation) ResetSummaryChinese() {
 	m.summary_chinese = nil
 }
 
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (m *ArticleMutation) SetStrongRelatedSummaryChineseProcessed(b bool) {
+	m.strong_related_summary_chinese_processed = &b
+}
+
+// StrongRelatedSummaryChineseProcessed returns the value of the "strong_related_summary_chinese_processed" field in the mutation.
+func (m *ArticleMutation) StrongRelatedSummaryChineseProcessed() (r bool, exists bool) {
+	v := m.strong_related_summary_chinese_processed
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStrongRelatedSummaryChineseProcessed returns the old "strong_related_summary_chinese_processed" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldStrongRelatedSummaryChineseProcessed(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStrongRelatedSummaryChineseProcessed is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStrongRelatedSummaryChineseProcessed requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStrongRelatedSummaryChineseProcessed: %w", err)
+	}
+	return oldValue.StrongRelatedSummaryChineseProcessed, nil
+}
+
+// ResetStrongRelatedSummaryChineseProcessed resets all changes to the "strong_related_summary_chinese_processed" field.
+func (m *ArticleMutation) ResetStrongRelatedSummaryChineseProcessed() {
+	m.strong_related_summary_chinese_processed = nil
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (m *ArticleMutation) SetStrongRelatedSummaryChinese(s string) {
+	m.strong_related_summary_chinese = &s
+}
+
+// StrongRelatedSummaryChinese returns the value of the "strong_related_summary_chinese" field in the mutation.
+func (m *ArticleMutation) StrongRelatedSummaryChinese() (r string, exists bool) {
+	v := m.strong_related_summary_chinese
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStrongRelatedSummaryChinese returns the old "strong_related_summary_chinese" field's value of the Article entity.
+// If the Article object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ArticleMutation) OldStrongRelatedSummaryChinese(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStrongRelatedSummaryChinese is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStrongRelatedSummaryChinese requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStrongRelatedSummaryChinese: %w", err)
+	}
+	return oldValue.StrongRelatedSummaryChinese, nil
+}
+
+// ResetStrongRelatedSummaryChinese resets all changes to the "strong_related_summary_chinese" field.
+func (m *ArticleMutation) ResetStrongRelatedSummaryChinese() {
+	m.strong_related_summary_chinese = nil
+}
+
 // Where appends a list predicates to the ArticleMutation builder.
 func (m *ArticleMutation) Where(ps ...predicate.Article) {
 	m.predicates = append(m.predicates, ps...)
@@ -1092,7 +1166,7 @@ func (m *ArticleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ArticleMutation) Fields() []string {
-	fields := make([]string, 0, 23)
+	fields := make([]string, 0, 25)
 	if m.origin_short_id != nil {
 		fields = append(fields, article.FieldOriginShortID)
 	}
@@ -1162,6 +1236,12 @@ func (m *ArticleMutation) Fields() []string {
 	if m.summary_chinese != nil {
 		fields = append(fields, article.FieldSummaryChinese)
 	}
+	if m.strong_related_summary_chinese_processed != nil {
+		fields = append(fields, article.FieldStrongRelatedSummaryChineseProcessed)
+	}
+	if m.strong_related_summary_chinese != nil {
+		fields = append(fields, article.FieldStrongRelatedSummaryChinese)
+	}
 	return fields
 }
 
@@ -1216,6 +1296,10 @@ func (m *ArticleMutation) Field(name string) (ent.Value, bool) {
 		return m.StrongRelatedCategory()
 	case article.FieldSummaryChinese:
 		return m.SummaryChinese()
+	case article.FieldStrongRelatedSummaryChineseProcessed:
+		return m.StrongRelatedSummaryChineseProcessed()
+	case article.FieldStrongRelatedSummaryChinese:
+		return m.StrongRelatedSummaryChinese()
 	}
 	return nil, false
 }
@@ -1271,6 +1355,10 @@ func (m *ArticleMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldStrongRelatedCategory(ctx)
 	case article.FieldSummaryChinese:
 		return m.OldSummaryChinese(ctx)
+	case article.FieldStrongRelatedSummaryChineseProcessed:
+		return m.OldStrongRelatedSummaryChineseProcessed(ctx)
+	case article.FieldStrongRelatedSummaryChinese:
+		return m.OldStrongRelatedSummaryChinese(ctx)
 	}
 	return nil, fmt.Errorf("unknown Article field %s", name)
 }
@@ -1441,6 +1529,20 @@ func (m *ArticleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetSummaryChinese(v)
 		return nil
+	case article.FieldStrongRelatedSummaryChineseProcessed:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStrongRelatedSummaryChineseProcessed(v)
+		return nil
+	case article.FieldStrongRelatedSummaryChinese:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStrongRelatedSummaryChinese(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)
 }
@@ -1567,6 +1669,12 @@ func (m *ArticleMutation) ResetField(name string) error {
 		return nil
 	case article.FieldSummaryChinese:
 		m.ResetSummaryChinese()
+		return nil
+	case article.FieldStrongRelatedSummaryChineseProcessed:
+		m.ResetStrongRelatedSummaryChineseProcessed()
+		return nil
+	case article.FieldStrongRelatedSummaryChinese:
+		m.ResetStrongRelatedSummaryChinese()
 		return nil
 	}
 	return fmt.Errorf("unknown Article field %s", name)

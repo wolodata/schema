@@ -297,6 +297,34 @@ func (au *ArticleUpdate) SetNillableSummaryChinese(s *string) *ArticleUpdate {
 	return au
 }
 
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (au *ArticleUpdate) SetStrongRelatedSummaryChineseProcessed(b bool) *ArticleUpdate {
+	au.mutation.SetStrongRelatedSummaryChineseProcessed(b)
+	return au
+}
+
+// SetNillableStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongRelatedSummaryChineseProcessed(b *bool) *ArticleUpdate {
+	if b != nil {
+		au.SetStrongRelatedSummaryChineseProcessed(*b)
+	}
+	return au
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (au *ArticleUpdate) SetStrongRelatedSummaryChinese(s string) *ArticleUpdate {
+	au.mutation.SetStrongRelatedSummaryChinese(s)
+	return au
+}
+
+// SetNillableStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field if the given value is not nil.
+func (au *ArticleUpdate) SetNillableStrongRelatedSummaryChinese(s *string) *ArticleUpdate {
+	if s != nil {
+		au.SetStrongRelatedSummaryChinese(*s)
+	}
+	return au
+}
+
 // Mutation returns the ArticleMutation object of the builder.
 func (au *ArticleUpdate) Mutation() *ArticleMutation {
 	return au.mutation
@@ -407,6 +435,12 @@ func (au *ArticleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := au.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	}
+	if value, ok := au.mutation.StrongRelatedSummaryChineseProcessed(); ok {
+		_spec.SetField(article.FieldStrongRelatedSummaryChineseProcessed, field.TypeBool, value)
+	}
+	if value, ok := au.mutation.StrongRelatedSummaryChinese(); ok {
+		_spec.SetField(article.FieldStrongRelatedSummaryChinese, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -696,6 +730,34 @@ func (auo *ArticleUpdateOne) SetNillableSummaryChinese(s *string) *ArticleUpdate
 	return auo
 }
 
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (auo *ArticleUpdateOne) SetStrongRelatedSummaryChineseProcessed(b bool) *ArticleUpdateOne {
+	auo.mutation.SetStrongRelatedSummaryChineseProcessed(b)
+	return auo
+}
+
+// SetNillableStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongRelatedSummaryChineseProcessed(b *bool) *ArticleUpdateOne {
+	if b != nil {
+		auo.SetStrongRelatedSummaryChineseProcessed(*b)
+	}
+	return auo
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (auo *ArticleUpdateOne) SetStrongRelatedSummaryChinese(s string) *ArticleUpdateOne {
+	auo.mutation.SetStrongRelatedSummaryChinese(s)
+	return auo
+}
+
+// SetNillableStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field if the given value is not nil.
+func (auo *ArticleUpdateOne) SetNillableStrongRelatedSummaryChinese(s *string) *ArticleUpdateOne {
+	if s != nil {
+		auo.SetStrongRelatedSummaryChinese(*s)
+	}
+	return auo
+}
+
 // Mutation returns the ArticleMutation object of the builder.
 func (auo *ArticleUpdateOne) Mutation() *ArticleMutation {
 	return auo.mutation
@@ -836,6 +898,12 @@ func (auo *ArticleUpdateOne) sqlSave(ctx context.Context) (_node *Article, err e
 	}
 	if value, ok := auo.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.StrongRelatedSummaryChineseProcessed(); ok {
+		_spec.SetField(article.FieldStrongRelatedSummaryChineseProcessed, field.TypeBool, value)
+	}
+	if value, ok := auo.mutation.StrongRelatedSummaryChinese(); ok {
+		_spec.SetField(article.FieldStrongRelatedSummaryChinese, field.TypeString, value)
 	}
 	_node = &Article{config: auo.config}
 	_spec.Assign = _node.assignValues

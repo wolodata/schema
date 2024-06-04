@@ -58,6 +58,10 @@ const (
 	FieldStrongRelatedCategory = "strong_related_category"
 	// FieldSummaryChinese holds the string denoting the summary_chinese field in the database.
 	FieldSummaryChinese = "summary_chinese"
+	// FieldStrongRelatedSummaryChineseProcessed holds the string denoting the strong_related_summary_chinese_processed field in the database.
+	FieldStrongRelatedSummaryChineseProcessed = "strong_related_summary_chinese_processed"
+	// FieldStrongRelatedSummaryChinese holds the string denoting the strong_related_summary_chinese field in the database.
+	FieldStrongRelatedSummaryChinese = "strong_related_summary_chinese"
 	// Table holds the table name of the article in the database.
 	Table = "t_article"
 )
@@ -88,6 +92,8 @@ var Columns = []string{
 	FieldStrongRelatedCategoryProcessed,
 	FieldStrongRelatedCategory,
 	FieldSummaryChinese,
+	FieldStrongRelatedSummaryChineseProcessed,
+	FieldStrongRelatedSummaryChinese,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -143,6 +149,10 @@ var (
 	DefaultStrongRelatedCategory string
 	// DefaultSummaryChinese holds the default value on creation for the "summary_chinese" field.
 	DefaultSummaryChinese string
+	// DefaultStrongRelatedSummaryChineseProcessed holds the default value on creation for the "strong_related_summary_chinese_processed" field.
+	DefaultStrongRelatedSummaryChineseProcessed bool
+	// DefaultStrongRelatedSummaryChinese holds the default value on creation for the "strong_related_summary_chinese" field.
+	DefaultStrongRelatedSummaryChinese string
 )
 
 // OrderOption defines the ordering options for the Article queries.
@@ -251,4 +261,14 @@ func ByStrongRelatedCategory(opts ...sql.OrderTermOption) OrderOption {
 // BySummaryChinese orders the results by the summary_chinese field.
 func BySummaryChinese(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSummaryChinese, opts...).ToFunc()
+}
+
+// ByStrongRelatedSummaryChineseProcessed orders the results by the strong_related_summary_chinese_processed field.
+func ByStrongRelatedSummaryChineseProcessed(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedSummaryChineseProcessed, opts...).ToFunc()
+}
+
+// ByStrongRelatedSummaryChinese orders the results by the strong_related_summary_chinese field.
+func ByStrongRelatedSummaryChinese(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStrongRelatedSummaryChinese, opts...).ToFunc()
 }

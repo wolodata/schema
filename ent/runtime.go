@@ -120,6 +120,14 @@ func init() {
 	articleDescSummaryChinese := articleFields[23].Descriptor()
 	// article.DefaultSummaryChinese holds the default value on creation for the summary_chinese field.
 	article.DefaultSummaryChinese = articleDescSummaryChinese.Default.(string)
+	// articleDescStrongRelatedSummaryChineseProcessed is the schema descriptor for strong_related_summary_chinese_processed field.
+	articleDescStrongRelatedSummaryChineseProcessed := articleFields[24].Descriptor()
+	// article.DefaultStrongRelatedSummaryChineseProcessed holds the default value on creation for the strong_related_summary_chinese_processed field.
+	article.DefaultStrongRelatedSummaryChineseProcessed = articleDescStrongRelatedSummaryChineseProcessed.Default.(bool)
+	// articleDescStrongRelatedSummaryChinese is the schema descriptor for strong_related_summary_chinese field.
+	articleDescStrongRelatedSummaryChinese := articleFields[25].Descriptor()
+	// article.DefaultStrongRelatedSummaryChinese holds the default value on creation for the strong_related_summary_chinese field.
+	article.DefaultStrongRelatedSummaryChinese = articleDescStrongRelatedSummaryChinese.Default.(string)
 	htmlFields := schema.Html{}.Fields()
 	_ = htmlFields
 	// htmlDescOriginShortID is the schema descriptor for origin_short_id field.

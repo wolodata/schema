@@ -53,6 +53,11 @@ func (Article) Fields() []ent.Field {
 
 		// 中文总结
 		field.Text("summary_chinese").Default(""),
+
+		// 是否处理过强相关内容的中文总结
+		field.Bool("strong_related_summary_chinese_processed").Default(false),
+		// 强相关内容的中文总结
+		field.Text("strong_related_summary_chinese").Default(""),
 	}
 }
 
@@ -87,6 +92,8 @@ func (Article) Indexes() []ent.Index {
 		index.Fields("strong_related_category_processed"),
 		// 所属范畴
 		index.Fields("strong_related_category"),
+		// 是否处理过强相关内容的中文总结
+		index.Fields("strong_related_summary_chinese_processed"),
 	}
 }
 

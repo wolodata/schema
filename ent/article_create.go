@@ -306,6 +306,34 @@ func (ac *ArticleCreate) SetNillableSummaryChinese(s *string) *ArticleCreate {
 	return ac
 }
 
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (ac *ArticleCreate) SetStrongRelatedSummaryChineseProcessed(b bool) *ArticleCreate {
+	ac.mutation.SetStrongRelatedSummaryChineseProcessed(b)
+	return ac
+}
+
+// SetNillableStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongRelatedSummaryChineseProcessed(b *bool) *ArticleCreate {
+	if b != nil {
+		ac.SetStrongRelatedSummaryChineseProcessed(*b)
+	}
+	return ac
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (ac *ArticleCreate) SetStrongRelatedSummaryChinese(s string) *ArticleCreate {
+	ac.mutation.SetStrongRelatedSummaryChinese(s)
+	return ac
+}
+
+// SetNillableStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field if the given value is not nil.
+func (ac *ArticleCreate) SetNillableStrongRelatedSummaryChinese(s *string) *ArticleCreate {
+	if s != nil {
+		ac.SetStrongRelatedSummaryChinese(*s)
+	}
+	return ac
+}
+
 // SetID sets the "id" field.
 func (ac *ArticleCreate) SetID(s string) *ArticleCreate {
 	ac.mutation.SetID(s)
@@ -423,6 +451,14 @@ func (ac *ArticleCreate) defaults() {
 		v := article.DefaultSummaryChinese
 		ac.mutation.SetSummaryChinese(v)
 	}
+	if _, ok := ac.mutation.StrongRelatedSummaryChineseProcessed(); !ok {
+		v := article.DefaultStrongRelatedSummaryChineseProcessed
+		ac.mutation.SetStrongRelatedSummaryChineseProcessed(v)
+	}
+	if _, ok := ac.mutation.StrongRelatedSummaryChinese(); !ok {
+		v := article.DefaultStrongRelatedSummaryChinese
+		ac.mutation.SetStrongRelatedSummaryChinese(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -502,6 +538,12 @@ func (ac *ArticleCreate) check() error {
 	}
 	if _, ok := ac.mutation.SummaryChinese(); !ok {
 		return &ValidationError{Name: "summary_chinese", err: errors.New(`ent: missing required field "Article.summary_chinese"`)}
+	}
+	if _, ok := ac.mutation.StrongRelatedSummaryChineseProcessed(); !ok {
+		return &ValidationError{Name: "strong_related_summary_chinese_processed", err: errors.New(`ent: missing required field "Article.strong_related_summary_chinese_processed"`)}
+	}
+	if _, ok := ac.mutation.StrongRelatedSummaryChinese(); !ok {
+		return &ValidationError{Name: "strong_related_summary_chinese", err: errors.New(`ent: missing required field "Article.strong_related_summary_chinese"`)}
 	}
 	return nil
 }
@@ -630,6 +672,14 @@ func (ac *ArticleCreate) createSpec() (*Article, *sqlgraph.CreateSpec) {
 	if value, ok := ac.mutation.SummaryChinese(); ok {
 		_spec.SetField(article.FieldSummaryChinese, field.TypeString, value)
 		_node.SummaryChinese = value
+	}
+	if value, ok := ac.mutation.StrongRelatedSummaryChineseProcessed(); ok {
+		_spec.SetField(article.FieldStrongRelatedSummaryChineseProcessed, field.TypeBool, value)
+		_node.StrongRelatedSummaryChineseProcessed = value
+	}
+	if value, ok := ac.mutation.StrongRelatedSummaryChinese(); ok {
+		_spec.SetField(article.FieldStrongRelatedSummaryChinese, field.TypeString, value)
+		_node.StrongRelatedSummaryChinese = value
 	}
 	return _node, _spec
 }
@@ -914,6 +964,30 @@ func (u *ArticleUpsert) SetSummaryChinese(v string) *ArticleUpsert {
 // UpdateSummaryChinese sets the "summary_chinese" field to the value that was provided on create.
 func (u *ArticleUpsert) UpdateSummaryChinese() *ArticleUpsert {
 	u.SetExcluded(article.FieldSummaryChinese)
+	return u
+}
+
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (u *ArticleUpsert) SetStrongRelatedSummaryChineseProcessed(v bool) *ArticleUpsert {
+	u.Set(article.FieldStrongRelatedSummaryChineseProcessed, v)
+	return u
+}
+
+// UpdateStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongRelatedSummaryChineseProcessed() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongRelatedSummaryChineseProcessed)
+	return u
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (u *ArticleUpsert) SetStrongRelatedSummaryChinese(v string) *ArticleUpsert {
+	u.Set(article.FieldStrongRelatedSummaryChinese, v)
+	return u
+}
+
+// UpdateStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field to the value that was provided on create.
+func (u *ArticleUpsert) UpdateStrongRelatedSummaryChinese() *ArticleUpsert {
+	u.SetExcluded(article.FieldStrongRelatedSummaryChinese)
 	return u
 }
 
@@ -1247,6 +1321,34 @@ func (u *ArticleUpsertOne) SetSummaryChinese(v string) *ArticleUpsertOne {
 func (u *ArticleUpsertOne) UpdateSummaryChinese() *ArticleUpsertOne {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
+	})
+}
+
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (u *ArticleUpsertOne) SetStrongRelatedSummaryChineseProcessed(v bool) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelatedSummaryChineseProcessed(v)
+	})
+}
+
+// UpdateStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongRelatedSummaryChineseProcessed() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelatedSummaryChineseProcessed()
+	})
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (u *ArticleUpsertOne) SetStrongRelatedSummaryChinese(v string) *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelatedSummaryChinese(v)
+	})
+}
+
+// UpdateStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertOne) UpdateStrongRelatedSummaryChinese() *ArticleUpsertOne {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelatedSummaryChinese()
 	})
 }
 
@@ -1747,6 +1849,34 @@ func (u *ArticleUpsertBulk) SetSummaryChinese(v string) *ArticleUpsertBulk {
 func (u *ArticleUpsertBulk) UpdateSummaryChinese() *ArticleUpsertBulk {
 	return u.Update(func(s *ArticleUpsert) {
 		s.UpdateSummaryChinese()
+	})
+}
+
+// SetStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field.
+func (u *ArticleUpsertBulk) SetStrongRelatedSummaryChineseProcessed(v bool) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelatedSummaryChineseProcessed(v)
+	})
+}
+
+// UpdateStrongRelatedSummaryChineseProcessed sets the "strong_related_summary_chinese_processed" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongRelatedSummaryChineseProcessed() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelatedSummaryChineseProcessed()
+	})
+}
+
+// SetStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field.
+func (u *ArticleUpsertBulk) SetStrongRelatedSummaryChinese(v string) *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.SetStrongRelatedSummaryChinese(v)
+	})
+}
+
+// UpdateStrongRelatedSummaryChinese sets the "strong_related_summary_chinese" field to the value that was provided on create.
+func (u *ArticleUpsertBulk) UpdateStrongRelatedSummaryChinese() *ArticleUpsertBulk {
+	return u.Update(func(s *ArticleUpsert) {
+		s.UpdateStrongRelatedSummaryChinese()
 	})
 }
 
