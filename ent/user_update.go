@@ -27,6 +27,62 @@ func (uu *UserUpdate) Where(ps ...predicate.User) *UserUpdate {
 	return uu
 }
 
+// SetLevel sets the "level" field.
+func (uu *UserUpdate) SetLevel(u user.Level) *UserUpdate {
+	uu.mutation.SetLevel(u)
+	return uu
+}
+
+// SetNillableLevel sets the "level" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableLevel(u *user.Level) *UserUpdate {
+	if u != nil {
+		uu.SetLevel(*u)
+	}
+	return uu
+}
+
+// SetEnabled sets the "enabled" field.
+func (uu *UserUpdate) SetEnabled(b bool) *UserUpdate {
+	uu.mutation.SetEnabled(b)
+	return uu
+}
+
+// SetNillableEnabled sets the "enabled" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableEnabled(b *bool) *UserUpdate {
+	if b != nil {
+		uu.SetEnabled(*b)
+	}
+	return uu
+}
+
+// SetNickname sets the "nickname" field.
+func (uu *UserUpdate) SetNickname(s string) *UserUpdate {
+	uu.mutation.SetNickname(s)
+	return uu
+}
+
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableNickname(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetNickname(*s)
+	}
+	return uu
+}
+
+// SetDescription sets the "description" field.
+func (uu *UserUpdate) SetDescription(s string) *UserUpdate {
+	uu.mutation.SetDescription(s)
+	return uu
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableDescription(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetDescription(*s)
+	}
+	return uu
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uu *UserUpdate) Mutation() *UserMutation {
 	return uu.mutation
@@ -59,7 +115,20 @@ func (uu *UserUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (uu *UserUpdate) check() error {
+	if v, ok := uu.mutation.Level(); ok {
+		if err := user.LevelValidator(v); err != nil {
+			return &ValidationError{Name: "level", err: fmt.Errorf(`ent: validator failed for field "User.level": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
+	if err := uu.check(); err != nil {
+		return n, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeString))
 	if ps := uu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -67,6 +136,18 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := uu.mutation.Level(); ok {
+		_spec.SetField(user.FieldLevel, field.TypeEnum, value)
+	}
+	if value, ok := uu.mutation.Enabled(); ok {
+		_spec.SetField(user.FieldEnabled, field.TypeBool, value)
+	}
+	if value, ok := uu.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
+	}
+	if value, ok := uu.mutation.Description(); ok {
+		_spec.SetField(user.FieldDescription, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -86,6 +167,62 @@ type UserUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *UserMutation
+}
+
+// SetLevel sets the "level" field.
+func (uuo *UserUpdateOne) SetLevel(u user.Level) *UserUpdateOne {
+	uuo.mutation.SetLevel(u)
+	return uuo
+}
+
+// SetNillableLevel sets the "level" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableLevel(u *user.Level) *UserUpdateOne {
+	if u != nil {
+		uuo.SetLevel(*u)
+	}
+	return uuo
+}
+
+// SetEnabled sets the "enabled" field.
+func (uuo *UserUpdateOne) SetEnabled(b bool) *UserUpdateOne {
+	uuo.mutation.SetEnabled(b)
+	return uuo
+}
+
+// SetNillableEnabled sets the "enabled" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableEnabled(b *bool) *UserUpdateOne {
+	if b != nil {
+		uuo.SetEnabled(*b)
+	}
+	return uuo
+}
+
+// SetNickname sets the "nickname" field.
+func (uuo *UserUpdateOne) SetNickname(s string) *UserUpdateOne {
+	uuo.mutation.SetNickname(s)
+	return uuo
+}
+
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableNickname(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetNickname(*s)
+	}
+	return uuo
+}
+
+// SetDescription sets the "description" field.
+func (uuo *UserUpdateOne) SetDescription(s string) *UserUpdateOne {
+	uuo.mutation.SetDescription(s)
+	return uuo
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableDescription(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetDescription(*s)
+	}
+	return uuo
 }
 
 // Mutation returns the UserMutation object of the builder.
@@ -133,7 +270,20 @@ func (uuo *UserUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (uuo *UserUpdateOne) check() error {
+	if v, ok := uuo.mutation.Level(); ok {
+		if err := user.LevelValidator(v); err != nil {
+			return &ValidationError{Name: "level", err: fmt.Errorf(`ent: validator failed for field "User.level": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) {
+	if err := uuo.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(user.Table, user.Columns, sqlgraph.NewFieldSpec(user.FieldID, field.TypeString))
 	id, ok := uuo.mutation.ID()
 	if !ok {
@@ -158,6 +308,18 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := uuo.mutation.Level(); ok {
+		_spec.SetField(user.FieldLevel, field.TypeEnum, value)
+	}
+	if value, ok := uuo.mutation.Enabled(); ok {
+		_spec.SetField(user.FieldEnabled, field.TypeBool, value)
+	}
+	if value, ok := uuo.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
+	}
+	if value, ok := uuo.mutation.Description(); ok {
+		_spec.SetField(user.FieldDescription, field.TypeString, value)
 	}
 	_node = &User{config: uuo.config}
 	_spec.Assign = _node.assignValues

@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -44,6 +45,68 @@ func (uc *UserCreate) SetIsAdmin(b bool) *UserCreate {
 func (uc *UserCreate) SetNillableIsAdmin(b *bool) *UserCreate {
 	if b != nil {
 		uc.SetIsAdmin(*b)
+	}
+	return uc
+}
+
+// SetLevel sets the "level" field.
+func (uc *UserCreate) SetLevel(u user.Level) *UserCreate {
+	uc.mutation.SetLevel(u)
+	return uc
+}
+
+// SetNillableLevel sets the "level" field if the given value is not nil.
+func (uc *UserCreate) SetNillableLevel(u *user.Level) *UserCreate {
+	if u != nil {
+		uc.SetLevel(*u)
+	}
+	return uc
+}
+
+// SetEnabled sets the "enabled" field.
+func (uc *UserCreate) SetEnabled(b bool) *UserCreate {
+	uc.mutation.SetEnabled(b)
+	return uc
+}
+
+// SetNillableEnabled sets the "enabled" field if the given value is not nil.
+func (uc *UserCreate) SetNillableEnabled(b *bool) *UserCreate {
+	if b != nil {
+		uc.SetEnabled(*b)
+	}
+	return uc
+}
+
+// SetNickname sets the "nickname" field.
+func (uc *UserCreate) SetNickname(s string) *UserCreate {
+	uc.mutation.SetNickname(s)
+	return uc
+}
+
+// SetDescription sets the "description" field.
+func (uc *UserCreate) SetDescription(s string) *UserCreate {
+	uc.mutation.SetDescription(s)
+	return uc
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (uc *UserCreate) SetNillableDescription(s *string) *UserCreate {
+	if s != nil {
+		uc.SetDescription(*s)
+	}
+	return uc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (uc *UserCreate) SetCreatedAt(t time.Time) *UserCreate {
+	uc.mutation.SetCreatedAt(t)
+	return uc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (uc *UserCreate) SetNillableCreatedAt(t *time.Time) *UserCreate {
+	if t != nil {
+		uc.SetCreatedAt(*t)
 	}
 	return uc
 }
@@ -93,6 +156,22 @@ func (uc *UserCreate) defaults() {
 		v := user.DefaultIsAdmin
 		uc.mutation.SetIsAdmin(v)
 	}
+	if _, ok := uc.mutation.Level(); !ok {
+		v := user.DefaultLevel
+		uc.mutation.SetLevel(v)
+	}
+	if _, ok := uc.mutation.Enabled(); !ok {
+		v := user.DefaultEnabled
+		uc.mutation.SetEnabled(v)
+	}
+	if _, ok := uc.mutation.Description(); !ok {
+		v := user.DefaultDescription
+		uc.mutation.SetDescription(v)
+	}
+	if _, ok := uc.mutation.CreatedAt(); !ok {
+		v := user.DefaultCreatedAt()
+		uc.mutation.SetCreatedAt(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -105,6 +184,26 @@ func (uc *UserCreate) check() error {
 	}
 	if _, ok := uc.mutation.IsAdmin(); !ok {
 		return &ValidationError{Name: "is_admin", err: errors.New(`ent: missing required field "User.is_admin"`)}
+	}
+	if _, ok := uc.mutation.Level(); !ok {
+		return &ValidationError{Name: "level", err: errors.New(`ent: missing required field "User.level"`)}
+	}
+	if v, ok := uc.mutation.Level(); ok {
+		if err := user.LevelValidator(v); err != nil {
+			return &ValidationError{Name: "level", err: fmt.Errorf(`ent: validator failed for field "User.level": %w`, err)}
+		}
+	}
+	if _, ok := uc.mutation.Enabled(); !ok {
+		return &ValidationError{Name: "enabled", err: errors.New(`ent: missing required field "User.enabled"`)}
+	}
+	if _, ok := uc.mutation.Nickname(); !ok {
+		return &ValidationError{Name: "nickname", err: errors.New(`ent: missing required field "User.nickname"`)}
+	}
+	if _, ok := uc.mutation.Description(); !ok {
+		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "User.description"`)}
+	}
+	if _, ok := uc.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "User.created_at"`)}
 	}
 	return nil
 }
@@ -153,6 +252,26 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.IsAdmin(); ok {
 		_spec.SetField(user.FieldIsAdmin, field.TypeBool, value)
 		_node.IsAdmin = value
+	}
+	if value, ok := uc.mutation.Level(); ok {
+		_spec.SetField(user.FieldLevel, field.TypeEnum, value)
+		_node.Level = value
+	}
+	if value, ok := uc.mutation.Enabled(); ok {
+		_spec.SetField(user.FieldEnabled, field.TypeBool, value)
+		_node.Enabled = value
+	}
+	if value, ok := uc.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
+		_node.Nickname = value
+	}
+	if value, ok := uc.mutation.Description(); ok {
+		_spec.SetField(user.FieldDescription, field.TypeString, value)
+		_node.Description = value
+	}
+	if value, ok := uc.mutation.CreatedAt(); ok {
+		_spec.SetField(user.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = value
 	}
 	return _node, _spec
 }
@@ -206,6 +325,54 @@ type (
 	}
 )
 
+// SetLevel sets the "level" field.
+func (u *UserUpsert) SetLevel(v user.Level) *UserUpsert {
+	u.Set(user.FieldLevel, v)
+	return u
+}
+
+// UpdateLevel sets the "level" field to the value that was provided on create.
+func (u *UserUpsert) UpdateLevel() *UserUpsert {
+	u.SetExcluded(user.FieldLevel)
+	return u
+}
+
+// SetEnabled sets the "enabled" field.
+func (u *UserUpsert) SetEnabled(v bool) *UserUpsert {
+	u.Set(user.FieldEnabled, v)
+	return u
+}
+
+// UpdateEnabled sets the "enabled" field to the value that was provided on create.
+func (u *UserUpsert) UpdateEnabled() *UserUpsert {
+	u.SetExcluded(user.FieldEnabled)
+	return u
+}
+
+// SetNickname sets the "nickname" field.
+func (u *UserUpsert) SetNickname(v string) *UserUpsert {
+	u.Set(user.FieldNickname, v)
+	return u
+}
+
+// UpdateNickname sets the "nickname" field to the value that was provided on create.
+func (u *UserUpsert) UpdateNickname() *UserUpsert {
+	u.SetExcluded(user.FieldNickname)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *UserUpsert) SetDescription(v string) *UserUpsert {
+	u.Set(user.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *UserUpsert) UpdateDescription() *UserUpsert {
+	u.SetExcluded(user.FieldDescription)
+	return u
+}
+
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -231,6 +398,9 @@ func (u *UserUpsertOne) UpdateNewValues() *UserUpsertOne {
 		}
 		if _, exists := u.create.mutation.IsAdmin(); exists {
 			s.SetIgnore(user.FieldIsAdmin)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(user.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -261,6 +431,62 @@ func (u *UserUpsertOne) Update(set func(*UserUpsert)) *UserUpsertOne {
 		set(&UserUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetLevel sets the "level" field.
+func (u *UserUpsertOne) SetLevel(v user.Level) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetLevel(v)
+	})
+}
+
+// UpdateLevel sets the "level" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateLevel() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateLevel()
+	})
+}
+
+// SetEnabled sets the "enabled" field.
+func (u *UserUpsertOne) SetEnabled(v bool) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetEnabled(v)
+	})
+}
+
+// UpdateEnabled sets the "enabled" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateEnabled() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateEnabled()
+	})
+}
+
+// SetNickname sets the "nickname" field.
+func (u *UserUpsertOne) SetNickname(v string) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetNickname(v)
+	})
+}
+
+// UpdateNickname sets the "nickname" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateNickname() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateNickname()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *UserUpsertOne) SetDescription(v string) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateDescription() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateDescription()
+	})
 }
 
 // Exec executes the query.
@@ -455,6 +681,9 @@ func (u *UserUpsertBulk) UpdateNewValues() *UserUpsertBulk {
 			if _, exists := b.mutation.IsAdmin(); exists {
 				s.SetIgnore(user.FieldIsAdmin)
 			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(user.FieldCreatedAt)
+			}
 		}
 	}))
 	return u
@@ -485,6 +714,62 @@ func (u *UserUpsertBulk) Update(set func(*UserUpsert)) *UserUpsertBulk {
 		set(&UserUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetLevel sets the "level" field.
+func (u *UserUpsertBulk) SetLevel(v user.Level) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetLevel(v)
+	})
+}
+
+// UpdateLevel sets the "level" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateLevel() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateLevel()
+	})
+}
+
+// SetEnabled sets the "enabled" field.
+func (u *UserUpsertBulk) SetEnabled(v bool) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetEnabled(v)
+	})
+}
+
+// UpdateEnabled sets the "enabled" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateEnabled() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateEnabled()
+	})
+}
+
+// SetNickname sets the "nickname" field.
+func (u *UserUpsertBulk) SetNickname(v string) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetNickname(v)
+	})
+}
+
+// UpdateNickname sets the "nickname" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateNickname() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateNickname()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *UserUpsertBulk) SetDescription(v string) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateDescription() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateDescription()
+	})
 }
 
 // Exec executes the query.

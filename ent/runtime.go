@@ -260,4 +260,16 @@ func init() {
 	userDescIsAdmin := userFields[3].Descriptor()
 	// user.DefaultIsAdmin holds the default value on creation for the is_admin field.
 	user.DefaultIsAdmin = userDescIsAdmin.Default.(bool)
+	// userDescEnabled is the schema descriptor for enabled field.
+	userDescEnabled := userFields[5].Descriptor()
+	// user.DefaultEnabled holds the default value on creation for the enabled field.
+	user.DefaultEnabled = userDescEnabled.Default.(bool)
+	// userDescDescription is the schema descriptor for description field.
+	userDescDescription := userFields[7].Descriptor()
+	// user.DefaultDescription holds the default value on creation for the description field.
+	user.DefaultDescription = userDescDescription.Default.(string)
+	// userDescCreatedAt is the schema descriptor for created_at field.
+	userDescCreatedAt := userFields[8].Descriptor()
+	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
+	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
 }

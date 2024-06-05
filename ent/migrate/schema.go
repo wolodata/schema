@@ -336,6 +336,11 @@ var (
 		{Name: "username", Type: field.TypeString, Unique: true},
 		{Name: "password", Type: field.TypeString},
 		{Name: "is_admin", Type: field.TypeBool, Default: false},
+		{Name: "level", Type: field.TypeEnum, Enums: []string{"Air", "Pro", "Max"}, Default: "Air"},
+		{Name: "enabled", Type: field.TypeBool, Default: true},
+		{Name: "nickname", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Default: ""},
+		{Name: "created_at", Type: field.TypeTime, Default: "CURRENT_TIMESTAMP", SchemaType: map[string]string{"mysql": "datetime"}},
 	}
 	// TUserTable holds the schema information for the "t_user" table.
 	TUserTable = &schema.Table{
@@ -352,6 +357,21 @@ var (
 				Name:    "user_is_admin",
 				Unique:  false,
 				Columns: []*schema.Column{TUserColumns[3]},
+			},
+			{
+				Name:    "user_level",
+				Unique:  false,
+				Columns: []*schema.Column{TUserColumns[4]},
+			},
+			{
+				Name:    "user_enabled",
+				Unique:  false,
+				Columns: []*schema.Column{TUserColumns[5]},
+			},
+			{
+				Name:    "user_created_at",
+				Unique:  false,
+				Columns: []*schema.Column{TUserColumns[8]},
 			},
 		},
 	}
